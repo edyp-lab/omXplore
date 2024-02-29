@@ -22,7 +22,7 @@ NULL
 
 
 #' @import shiny
-#' @import DT
+#' @importFrom DT DTOutput
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
 #'
@@ -61,7 +61,7 @@ omXplore_tabExplorer_ui <- function(id) {
 
 
 #' @return NA
-#' @import DT
+#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
 #' @importFrom tibble as_tibble
 #' @importFrom stats setNames
 #'

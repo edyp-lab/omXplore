@@ -1,7 +1,6 @@
 Package: omXplore
 Type: Package
-Title: Vizualization tools for the Differential Analysis of 'omics' datasets 
-    with R
+Title: Vizualization tools for 'omics' datasets with R
 Version: 0.99.0
 Authors@R: 
   c(person(given = "Samuel", 

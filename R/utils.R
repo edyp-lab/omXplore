@@ -88,6 +88,7 @@ customChart <- function(
 #' @noRd
 #' @export
 #' @return NA
+#' @importFrom DT JS
 #' 
 .initComplete <- function() {
   return(DT::JS(

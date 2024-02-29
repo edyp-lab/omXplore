@@ -149,6 +149,7 @@ omXplore_corrmatrix_server <- function(
 #'
 #' @import tidyr
 #' @import dplyr
+#' @importFrom DT JS
 #'
 corrMatrix <- function(
     data,

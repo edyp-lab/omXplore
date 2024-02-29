@@ -156,7 +156,7 @@ VizData <- setClass(
 
 ##' @exportMethod show
 ##' @rdname VizData-class
-##' @import crayon
+##' @importFrom crayon green 
 ##' @return NA
 ##'
 setMethod(

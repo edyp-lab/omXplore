@@ -39,7 +39,7 @@ NULL
 
 
 #' @importFrom shiny NS tagList
-#' @import DT
+#' @importFrom  DT dataTableOutput
 #' @import shinyjs
 #'
 #' @rdname format_DT
@@ -61,7 +61,8 @@ formatDT_ui <- function(id) {
 
 
 #' @importFrom htmlwidgets JS
-#' @import DT
+#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual
 #' @rdname format_DT
 #' @return NA
 #'

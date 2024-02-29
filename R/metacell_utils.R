@@ -203,7 +203,7 @@ metacell.def <- function(level) {
 #' Parent('protein', c('Missing POV', 'Missing MEC'))
 #' Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))
 #'
-#'
+#' @rdname q_metadata
 #' @export
 #'
 #' @return A vector
@@ -229,7 +229,7 @@ Parent <- function(level, node = NULL) {
 #' @description xxx
 #' @param level xxx
 #' @param parent xxx
-#'
+#' @rdname q_metadata
 #' @examples
 #' Children("protein", "Missing")
 #' Children("protein", "Missing POV")
@@ -266,7 +266,7 @@ Children <- function(level, parent = NULL) {
 #' NULL
 #'
 #' @export
-#'
+#' @rdname q_metadata
 #' @author Samuel Wieczorek
 #'
 #' @return A vector

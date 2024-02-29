@@ -40,10 +40,10 @@ NULL
 #' @rdname omXplore_heatmap
 #' @export
 #' @return A heatmap
-#' @import stats
+#' @importFrom stats hclust as.dendrogram
 #' @import dendextend
 #' @import gplots
-#' @import grDevices
+#' @importFrom grDevices colorRampPalette
 #' @import RColorBrewer
 #'
 heatmapD <- function(
@@ -118,7 +118,8 @@ heatmapD <- function(
 #' @export
 #'
 #' @importFrom grDevices heat.colors
-#' @import graphics
+#' @importFrom graphics par layout image title mtext 
+#' strheight strwidth axis text plot.new
 #'
 #' @rdname omXplore_heatmap
 #' @return A heatmap
