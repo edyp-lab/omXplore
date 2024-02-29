@@ -1,0 +1,109 @@
+Package: omXplore
+Type: Package
+Title: Vizualization tools for the Differential Analysis of 'omics' datasets 
+    with R
+Version: 0.99.0
+Authors@R: 
+  c(person(given = "Samuel", 
+      family = "Wieczorek",
+      email = "samuel.wieczorek@cea.fr", 
+      role = c("aut","cre"),
+      comment = c(ORCID="0000-0002-5016-1203")),
+  person(given = "Thomas", 
+      family ="Burger",
+      email = "thomas.burger@cea.fr",
+      role = c("aut")),
+  person(given = "Enora", 
+    family = "Fremy",
+    email = "enora.fremy@cea.fr", 
+    role = c("ctb"))
+    )
+Description: This package contains a collection of functions (shiny modules) 
+    for the visualisation and the statistical analysis of proteomic data. These
+    plots can be displayed individually or embedded in a global Shiny module.
+    Additionaly, it is possible to integrate external shimu modules to the main
+    interface of DpaarViz (function `view_dataset()`).
+License: Artistic-2.0
+Depends:
+    R (>= 4.4.0), methods
+Imports:
+    shiny, 
+    MSnbase,
+    PSMatch,
+    QFeatures,
+    SummarizedExperiment,
+    MultiAssayExperiment,
+    shinyBS,
+    shinyjs,
+    shinyjqui,
+    DT,
+    RColorBrewer,
+    gplots,
+    highcharter,
+    visNetwork,
+    tibble,
+    grDevices,
+    stats,
+    utils,
+    htmlwidgets,
+    vioplot,
+    graphics,
+    FactoMineR,
+    crayon,
+    dendextend,
+    dplyr,
+    factoextra,
+    tidyr
+Suggests: 
+    knitr,
+    rmarkdown,
+    BiocStyle,
+    testthat,
+    Matrix,
+    graph
+biocViews: 
+    Software,
+    Proteomics,
+    MassSpectrometry,
+    QualityControl
+NeedsCompilation: no
+Collate:
+    convert.R
+    build_datasets.R
+    VizData-class.R
+    VizList-class.R
+    omXplore_cc.R
+    omXplore_corrmatrix.R
+    omXplore_density.R
+    omXplore_format_DT.R
+    omXplore_heatmap.R
+    omXplore_intensity.R
+    omXplore_pca.R
+    omXplore_plots_tracking.R
+    omXplore_tabExplorer.R
+    omXplore_variance.R
+    omXplore_view_dataset.R
+    external_apps_examples.R
+    VizData_accessors.R
+    get_pep_prot_CC.R
+    global.R
+    Infos_adjacencyMatrix.R
+    metacell_utils.R
+    mod_colorLegend.R
+    mod_explore_graphs.R
+    modules.R
+    palette.R
+    plot_boxplot.R
+    plot_heatmap.R
+    plot_pca.R
+    plot_violin.R
+    utils.R
+    zzz.R
+RoxygenNote: 7.3.1
+Packaged: 2017-10-13 11:13:04 UTC; sw175264
+Encoding: UTF-8
+LazyData: false
+URL: https://github.com/prostarproteomics/omXplore
+BugReports: https://github.com/prostarproteomics/omXplore/issues
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
