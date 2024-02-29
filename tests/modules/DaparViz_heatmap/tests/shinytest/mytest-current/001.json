@@ -1,0 +1,21 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "plot-omXplore_PlotHeatmap": {
+      "html": "<div class=\"shiny-plot-output html-fill-item\" id=\"plot-heatmap_ui\" style=\"width:900px;height:600px;\"><\/div>",
+      "deps": [
+
+      ]
+    },
+    "plot-heatmap_ui": {
+      "message": "l'argument est de longueur nulle",
+      "call": "if (!is.na(pmatch(method, \"euclidian\"))) method <- \"euclidean\"",
+      "type": null
+    }
+  },
+  "export": {
+
+  }
+}

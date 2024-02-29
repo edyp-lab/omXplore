@@ -1,0 +1,319 @@
+{
+  "input": {
+    "iplot-choosePlot": "box",
+    "tracker-randSelect": "",
+    "tracker-reset": 0
+  },
+  "output": {
+    "iplot-box": {
+      "x": {
+        "hc_opts": {
+          "chart": {
+            "reflow": true,
+            "type": "boxplot",
+            "inverted": false
+          },
+          "title": {
+            "text": ""
+          },
+          "yAxis": {
+            "title": {
+              "text": "Log (intensity)"
+            }
+          },
+          "credits": {
+            "enabled": false
+          },
+          "exporting": {
+            "enabled": true
+          },
+          "boost": {
+            "enabled": false
+          },
+          "plotOptions": {
+            "series": {
+              "label": {
+                "enabled": false
+              },
+              "turboThreshold": 0,
+              "marker": {
+                "symbol": "circle"
+              },
+              "grouping": false
+            },
+            "treemap": {
+              "layoutAlgorithm": "squarified"
+            }
+          },
+          "legend": {
+            "enabled": false
+          },
+          "xAxis": {
+            "type": "category",
+            "categories": [
+              "Intensity_C_R1",
+              "Intensity_C_R2",
+              "Intensity_C_R3",
+              "Intensity_D_R1",
+              "Intensity_D_R2",
+              "Intensity_D_R3"
+            ],
+            "title": {
+              "text": "Samples"
+            }
+          },
+          "series": [
+            {
+              "name": "Intensity_C_R1",
+              "data": [
+                [
+                  0,
+                  2733300,
+                  19141000,
+                  29642000,
+                  109020000,
+                  232200000
+                ]
+              ],
+              "fillColor": "#E41A1C"
+            },
+            {
+              "name": "Intensity_C_R2",
+              "data": [
+                [
+                  1,
+                  1868600,
+                  19753000,
+                  30828500,
+                  108790000,
+                  209560000
+                ]
+              ],
+              "fillColor": "#E41A1C"
+            },
+            {
+              "name": "Intensity_C_R3",
+              "data": [
+                [
+                  2,
+                  3803800,
+                  14343100,
+                  26506000,
+                  105497000,
+                  195960000
+                ]
+              ],
+              "fillColor": "#E41A1C"
+            },
+            {
+              "name": "Intensity_D_R1",
+              "data": [
+                [
+                  3,
+                  2553700,
+                  15039750,
+                  30718000,
+                  98732000,
+                  128750000
+                ]
+              ],
+              "fillColor": "#377EB8"
+            },
+            {
+              "name": "Intensity_D_R2",
+              "data": [
+                [
+                  4,
+                  1664900,
+                  20516500,
+                  27553000,
+                  101871000,
+                  121130000
+                ]
+              ],
+              "fillColor": "#377EB8"
+            },
+            {
+              "name": "Intensity_D_R3",
+              "data": [
+                [
+                  5,
+                  2778100,
+                  19533000,
+                  30719500,
+                  117310000,
+                  124160000
+                ]
+              ],
+              "fillColor": "#377EB8"
+            },
+            {
+              "data": [
+                [
+                  0,
+                  331090000
+                ],
+                [
+                  1,
+                  323570000
+                ],
+                [
+                  2,
+                  329980000
+                ],
+                [
+                  3,
+                  312540000
+                ],
+                [
+                  4,
+                  225920000
+                ],
+                [
+                  5,
+                  283860000
+                ]
+              ],
+              "type": "scatter",
+              "name": "Outliers",
+              "colorByPoint": true
+            }
+          ],
+          "colors": [
+            "black"
+          ]
+        },
+        "theme": {
+          "chart": {
+            "backgroundColor": "transparent"
+          },
+          "colors": [
+            "#7cb5ec",
+            "#434348",
+            "#90ed7d",
+            "#f7a35c",
+            "#8085e9",
+            "#f15c80",
+            "#e4d354",
+            "#2b908f",
+            "#f45b5b",
+            "#91e8e1"
+          ]
+        },
+        "conf_opts": {
+          "global": {
+            "Date": null,
+            "VMLRadialGradientURL": "http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png",
+            "canvasToolsURL": "http =//code.highcharts.com/list(version)/modules/canvas-tools.js",
+            "getTimezoneOffset": null,
+            "timezoneOffset": 0,
+            "useUTC": true
+          },
+          "lang": {
+            "contextButtonTitle": "Chart context menu",
+            "decimalPoint": ".",
+            "downloadCSV": "Download CSV",
+            "downloadJPEG": "Download JPEG image",
+            "downloadPDF": "Download PDF document",
+            "downloadPNG": "Download PNG image",
+            "downloadSVG": "Download SVG vector image",
+            "downloadXLS": "Download XLS",
+            "drillUpText": "◁ Back to {series.name}",
+            "exitFullscreen": "Exit from full screen",
+            "exportData": {
+              "annotationHeader": "Annotations",
+              "categoryDatetimeHeader": "DateTime",
+              "categoryHeader": "Category"
+            },
+            "hideData": "Hide data table",
+            "invalidDate": null,
+            "loading": "Loading...",
+            "months": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ],
+            "noData": "No data to display",
+            "numericSymbolMagnitude": 1000,
+            "numericSymbols": [
+              "k",
+              "M",
+              "G",
+              "T",
+              "P",
+              "E"
+            ],
+            "printChart": "Print chart",
+            "resetZoom": "Reset zoom",
+            "resetZoomTitle": "Reset zoom level 1:1",
+            "shortMonths": [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ],
+            "shortWeekdays": [
+              "Sat",
+              "Sun",
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "thousandsSep": " ",
+            "viewData": "View data table",
+            "viewFullscreen": "View in full screen",
+            "weekdays": [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ]
+          }
+        },
+        "type": "chart",
+        "fonts": [
+
+        ],
+        "debug": false
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+
+      ]
+    },
+    "iplot-violin": {
+      "src": "[image data sha1: a594a715df5fca94750345d7bc2ab373087e9064]",
+      "alt": "This is alternate text"
+    }
+  },
+  "export": {
+
+  }
+}

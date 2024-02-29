@@ -1,0 +1,160 @@
+#' @title Displays a correlation matrix of the quantitative data of a
+#' numeric matrix.
+#'
+#' @description
+#' xxxx
+#'
+#' @name external_app
+#'
+#' @param id A `character(1)` which is the id of the shiny module.
+#' @param obj An object of instance compliant with formats in
+#' `FormatAvailables()`.
+#'
+#'
+#' @examples
+#' if (interactive()) {
+#'   data(vData_ft)
+#'   extFoo1(vData_ft[[1]])
+#' }
+#' 
+#' @return NA
+#'
+NULL
+
+#' @importFrom shiny NS tagList
+#' @rdname external_app
+#' @export
+#' @return NA
+#'
+extFoo1_ui <- function(id) {
+  ns <- NS(id)
+  tagList(
+    shinyjs::useShinyjs(),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    plotOutput(ns("plot"))
+  )
+}
+
+#' @rdname external_app
+#' @export
+#' @return NA
+#'
+extFoo1_server <- function(
+    id,
+    obj = reactive({NULL})) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    rv <- reactiveValues(
+      data = NULL
+    )
+
+    observe(
+      {
+        req(obj())
+        obj.cond <- inherits(obj(), "VizData")
+        if (obj.cond) {
+          rv$data <- obj()
+        } else {
+          shinyjs::toggle("badFormatMsg", condition = !obj.cond)
+        }
+      },
+      priority = 1000
+    )
+
+    output$plot <- renderPlot({
+      req(rv$data)
+      plot(rv$data@qdata)
+    })
+  })
+}
+
+
+
+
+#' @export
+#' @rdname external_app
+#' @return A shiny app
+#'
+extFoo1 <- function(obj) {
+  ui <- extFoo1_ui("plot")
+
+  server <- function(input, output, session) {
+    extFoo1_server("plot", reactive({
+      obj
+    }))
+  }
+
+  shinyApp(ui = ui, server = server)
+}
+
+
+
+
+#' @importFrom shiny NS tagList
+#' @rdname external_app
+#' @export
+#' @return NA
+#'
+extFoo2_ui <- function(id) {
+  ns <- NS(id)
+  tagList(
+    shinyjs::useShinyjs(),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    plotOutput(ns("plot"))
+  )
+}
+
+#' @rdname external_app
+#' @export
+#' @return NA
+#'
+extFoo2_server <- function(
+    id,
+    obj = reactive({
+      NULL
+    })) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    rv <- reactiveValues(
+      data = NULL
+    )
+
+    observe(
+      {
+        req(obj())
+        obj.cond <- inherits(obj(), "VizData")
+        if (obj.cond) {
+          rv$data <- obj()
+        } else {
+          shinyjs::toggle("badFormatMsg", condition = !obj.cond)
+        }
+      },
+      priority = 1000
+    )
+
+    output$plot <- renderPlot({
+      req(rv$data)
+      plot(rv$data@qdata)
+    })
+  })
+}
+
+
+
+#' @export
+#' @rdname external_app
+#' @return A shiny app
+#'
+extFoo2 <- function(obj) {
+  ui <- extFoo2_ui("plot")
+
+  server <- function(input, output, session) {
+    extFoo2_server("plot", reactive({
+      obj
+    }))
+  }
+
+  shinyApp(ui = ui, server = server)
+}

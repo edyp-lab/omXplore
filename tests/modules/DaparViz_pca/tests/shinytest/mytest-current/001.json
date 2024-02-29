@@ -1,0 +1,172 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "plot-pcaOptions": {
+      "html": "<div>\n  <div style=\"display:inline-block; vertical-align: middle; padding-right: 20px;\">\n    <div class=\"form-group shiny-input-container\" style=\"width:100px;\">\n      <label class=\"control-label\" id=\"plot-pca_axe1-label\" for=\"plot-pca_axe1\">Dimension 1<\/label>\n      <input id=\"plot-pca_axe1\" type=\"number\" class=\"shiny-input-number form-control\" value=\"1\" min=\"1\" max=\"6\"/>\n    <\/div>\n  <\/div>\n  <div style=\"display:inline-block; vertical-align: middle;\">\n    <div class=\"form-group shiny-input-container\" style=\"width:100px;\">\n      <label class=\"control-label\" id=\"plot-pca_axe2-label\" for=\"plot-pca_axe2\">Dimension 2<\/label>\n      <input id=\"plot-pca_axe2\" type=\"number\" class=\"shiny-input-number form-control\" value=\"2\" min=\"1\" max=\"6\"/>\n    <\/div>\n  <\/div>\n  <div style=\"display:inline-block; vertical-align: middle; padding-right: 20px;\">\n    <div class=\"form-group shiny-input-container\">\n      <div class=\"checkbox\">\n        <label>\n          <input id=\"plot-varScale_PCA\" type=\"checkbox\" class=\"shiny-input-checkbox\" checked=\"checked\"/>\n          <span>Variance scaling<\/span>\n        <\/label>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+
+      ]
+    },
+    "plot-pcaPlots": {
+      "html": "<div class=\"shiny-plot-output html-fill-item\" id=\"plot-pcaPlotVar\" style=\"width:100%;height:400px;\"><\/div>\n<div class=\"shiny-plot-output html-fill-item\" id=\"plot-pcaPlotInd\" style=\"width:100%;height:400px;\"><\/div>\n<div class=\"row\">\n  <div class=\"col-sm-12\">\n    <div class=\"datatables html-widget html-widget-output shiny-report-size html-fill-item\" id=\"plot-PCAvarCoord-StaticDataTable\" style=\"width:100%;height:auto;\"><\/div>\n  <\/div>\n<\/div>\n<div class=\"highchart html-widget html-widget-output shiny-report-size html-fill-item\" id=\"plot-pcaPlotEigen\" style=\"width:100%;height:400px;\"><\/div>",
+      "deps": [
+        {
+          "name": "htmlwidgets",
+          "version": "1.6.4",
+          "src": {
+            "href": "htmlwidgets-1.6.4"
+          },
+          "meta": null,
+          "script": "htmlwidgets.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "datatables-css",
+          "version": "0.0.0",
+          "src": {
+            "href": "datatables-css-0.0.0"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "datatables-crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "datatables-binding",
+          "version": "0.31",
+          "src": {
+            "href": "datatables-binding-0.31"
+          },
+          "meta": null,
+          "script": "datatables.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "3.5.1",
+          "src": {
+            "href": "jquery-3.5.1"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.2.1",
+          "src": {
+            "href": "crosstalk-1.2.1"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "proj4js",
+          "version": "2.3.15",
+          "src": {
+            "href": "proj4js-2.3.15"
+          },
+          "meta": null,
+          "script": "proj4.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "highcharts",
+          "version": "9.3.1",
+          "src": {
+            "href": "highcharts-9.3.1"
+          },
+          "meta": null,
+          "script": [
+            "highcharts.js",
+            "highcharts-3d.js",
+            "highcharts-more.js",
+            "modules/stock.js",
+            "modules/map.js",
+            "modules/data.js",
+            "modules/exporting.js",
+            "modules/offline-exporting.js",
+            "modules/drilldown.js",
+            "modules/item-series.js",
+            "modules/overlapping-datalabels.js",
+            "modules/annotations.js",
+            "modules/export-data.js",
+            "modules/funnel.js",
+            "modules/heatmap.js",
+            "modules/treemap.js",
+            "modules/sankey.js",
+            "modules/dependency-wheel.js",
+            "modules/organization.js",
+            "modules/solid-gauge.js",
+            "modules/streamgraph.js",
+            "modules/sunburst.js",
+            "modules/vector.js",
+            "modules/wordcloud.js",
+            "modules/xrange.js",
+            "modules/tilemap.js",
+            "modules/venn.js",
+            "modules/gantt.js",
+            "modules/timeline.js",
+            "modules/parallel-coordinates.js",
+            "modules/bullet.js",
+            "modules/coloraxis.js",
+            "modules/dumbbell.js",
+            "modules/lollipop.js",
+            "modules/series-label.js",
+            "plugins/motion.js",
+            "custom/reset.js",
+            "modules/boost.js"
+          ],
+          "stylesheet": "css/motion.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "highchart-binding",
+          "version": "0.9.4",
+          "src": {
+            "href": "highchart-binding-0.9.4"
+          },
+          "meta": null,
+          "script": "highchart.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "plot-WarningNA_PCA": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

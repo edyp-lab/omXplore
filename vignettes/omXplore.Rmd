@@ -1,0 +1,211 @@
+---
+title: "DaparViz user manual"
+author: 
+- name: Samuel Wieczorek
+- name: Thomas Burger
+package: DaparViz
+abstract: >
+    The package DaparViz is a R package which provides functions to vizualize quantitative data from label-free proteomics experiments. It can deal with several data formats such as MSnSet, QFeatures or event simple lists. This document covers the functionalities available in `r BiocStyle::pkg_ver('DaparViz')`.
+date: "`r Sys.Date()`"
+output:
+    BiocStyle::html_document:
+        highlight: tango
+        number_sections: yes
+        toc: true
+        toc_depth: 2
+vignette: >
+    %\VignetteIndexEntry{DaparViz user Manual}
+    %\VignetteEngine{knitr::rmarkdown}
+    %%\VignetteKeywords{Softmware, Mass Spectrometry, Quantitative }
+    %\VignetteEncoding{UTF-8}
+---
+
+\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}}
+
+\newcommand{\Rcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}}
+
+\newcommand{\bordurefigure}[1]{\fbox{\includegraphics{#1}}}
+
+
+
+# Introduction
+
+The `DaparViz` package is a Shiny app which is a standalone hub for plots
+dedicated to the analysis of proteomics data. It is compliant with two data 
+formats: `MSnSet` and `QFeatures`. 
+
+`DaparViz` a series of built-in plots and can easily integrate other plots that 
+comes from other packages or directly developed in R.
+
+It contains:
+* several built-in plots,
+* one main UI which gives easily access to the individual plots.
+
+All the plots in this package are based on Shiny technology 
+(\url{http://shiny.rstudio.com/}) and are implemented as modules modules
+(\url{https://rviews.rstudio.com/2021/10/20/a-beginner-s-guide-to-shiny-modules/}). Thus, each plot can be run standalone or easily inserted in another Shiny app.
+In that sense, the plots in `DaparViz` can be used alone or as a complement to 
+the numerous packages on Bioconductor (\url{https://www.bioconductor.org/}) it is compliant with. For example, it is well used in `Prostar` (Proteomics statistical analysis with R) which is a 
+web interface based on Shiny technology (\url{http://shiny.rstudio.com/}) which
+provides GUI (Graphical User Interfaces).
+The datasets contained in the experiment packages `DAPARdata` and `DaparToolshedData` can be used as toy examples.
+
+`DaparViz` contains built-in plots but have the capability to show plots developed by other developer (as a Shiny app).
+
+```{r loagPkg, warning = FALSE, message = FALSE, echo = TRUE}
+library(DaparViz)
+```
+
+# DaparViz data format
+
+`DaparViz` is based on its own data format (a S4 class named `DaparViz`) which is a 
+simplification of the formats it can deal with. The main data structure in the
+package `DaparViz` is a list of instances of `DaparViz` class.
+To see which data formats `DaparViz` can manage, run 
+
+```{r FormatAvailables,  message = FALSE, warning = FALSE, echo = TRUE}
+DaparViz::FormatAvailables()
+```
+
+To convert datasets to the class DaparViz-class, run
+
+```{r convert2Viz, message = FALSE, warning = FALSE, echo = TRUE}
+#data(sub_Exp1_R2_prot_qf)
+#convert2VizList(sub_Exp1_R2_prot_qf)
+```
+
+
+## DaparViz class
+
+The internal data structures in DaparViz reproduce the same logics as for
+the class MultiAssayExperiment. For simplicity and genericity, it is not
+an derivated classes but new classes but using common ideas.
+Thus, DpaarViz consist in two classes:
+
+* the class DaparViz which contains. This class is similar to the class 
+'SummarizedExperiment'
+
+
+* the class VizList which contains a list of instances of DaparViz classes. This class is similar to the class 'MultiAssayExperiment'.
+
+
+
+The slots of the class 'DaparViz' are:
+* xxx
+* xxx
+* xxx
+* xxx
+* xxx
+* xxx
+* xxx
+
+However, all the plots functions in `DaparViz` integrate a convert feature 
+so as to pass directly datasets in other format to the plot functions. They
+also have a check function to ensure that the parameters are in the correct
+format.
+
+
+
+# Using DaparViz
+
+`DaparViz` is a collection of standard plots which are available as Shiny applications. Thus, each plot has its own application.
+
+The main feature in `DaparViz` is a Shiny app which combine all the different Shiny app.
+
+## Main UI
+
+The Shiny app called view_dataset() is the main application of the package
+`DaparViz`. It can be lauched as follows:
+
+
+```{r view_dataset, eval=FALSE, fig.show='hide', message = FALSE, warning = FALSE, echo = TRUE}
+#data(vData_ft)
+#view_dataset(vData_ft)
+```
+
+It is composed of two parts :
+* a selection widget to select the dataset to show in the plots,
+* a graphical part with clickable vignettes which represent the plots 
+available. When the user clicks on one of those vignettes, the corresponding 
+plot is showed below.
+
+When a plot is displayed, it shows the data corresponding to the dataset 
+selected in the widget. If this dataset is changed, the plot update 
+automatically to the new dataset.
+
+
+The list of vignettes is composed of :
+* built-in shiny apps in the package `DaparViz`. See details with 
+`listPlotsModules()`.
+* external apps which are exported by other packages. For more details on the
+development of an external app, see section xxx.
+
+
+
+
+
+
+## Individual plots
+
+Each of the built-in plots can be run in a standalone mode rather than embedded 
+in the main UI.
+
+It is possible simply by running its name. The list of all shiny apps which are 
+available via DaparViz can be seen using
+
+```{r listShinyApps, eval = TRUE, message = FALSE, warning = FALSE, echo = TRUE}
+listShinyApps()
+```
+See the help page of this function fore more details.
+
+
+```{r ex_modules, eval = FALSE, fig.show='hide', message = FALSE, warning = FALSE, echo = TRUE}
+#data(vData_ft)
+#obj <- vData_ft[[1]]
+#listPlotModules()
+#DaparViz_pca(obj)
+#DaparViz_density(obj)
+```
+
+# Adding external plots
+
+DaparViz can plot builtin plots as external shiny app. For that purpose, there 
+are only two points to consider:
+* make a shiny app available in the global R environment
+* ensure that the name of the two functions `ui()` and `server()` of the app 
+respect a predefined syntax. More specifically, the name of the shiny app is 
+composed by the prefix 'mod_ds_' (which stands for 'descriptive statistics') and 
+a user-defined name. As for each Shiny app, there must be two functions (one 
+for the ui part and the second one for the server part.).
+Thus, in this example, the shiny app called `foo` must provide the functions 
+`foo_ui()` and `foo_server()`. 
+
+
+The use of those external apps is devoted to its developer, the interface of 
+DaparViz is only a shell that presents apps in a user-friendly interface.
+
+To add external app to DaparViz, please use the global function `view_dataset()`
+as follows. In the example below, one want to add the app called `extFoo1` and 
+`extFoo2` from the package `DaparViz`. It is only for the example, this app 
+contains a simple plot just to demonstrate how it works
+
+```
+#data(vData_ft)
+#addons <- list(DaparViz = c("extFoo1", "extFoo2"))
+#view_dataset(vData_ft, addons)
+```
+
+
+If there are icons to display within DaparViz, the png images must be stored in
+the 'images' directory of the corresponding package.
+
+
+## Technical point of view
+
+
+
+# Session information
+
+```{r}
+sessionInfo()
+```
