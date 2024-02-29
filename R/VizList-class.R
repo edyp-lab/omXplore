@@ -121,19 +121,38 @@ setMethod(
     .Object,
     ll.VizData = list()) {
 
+    .Object@ll.VizData <- list()
+    
+    if (inherits(ll.VizData, "MSnSet"))
+      .Object@ll.VizData <- list(MsnSet2VizData(ll.VizData))
+    
+    if (inherits(ll.VizData, "QFeatures")){}
+    .Object@ll.VizData <- QFeatures2VizDataList(ll.VizData)
+    
+    if (inherits(ll.VizData, "Summarizedexperiment")){}
+    .Object@ll.VizData <- list(SE2VizData(ll.VizData))
+    
+    if (inherits(ll.VizData, "MultiAssayExperiment")){}
+    .Object@ll.VizData <- MAEs2VizDataList(ll.VizData)
     
     if (inherits(ll.VizData, "VizData"))
       .Object@ll.VizData <- list(ll.VizData)
-    else if (is.listOf(ll.VizData, 'VizData'))
-      .Object@ll.VizData <- ll.VizData
-    else if (inherits(ll.VizData, "list") && is.listOf(ll.VizData, "list")){
-      .Object@ll.VizData <- convert2VizDataList(ll.VizData)
-    } else {
-    message("Bad parameter 'll.VizData'. 
-        Initialization with an empty object...")
-    .Object@ll.VizData <- list()
     
-        }
+    
+    if (inherits(ll.VizData, "list")){
+      
+      if (is.listOf(ll.VizData, 'VizData'))
+        .Object@ll.VizData <- ll.VizData
+      
+      if (is.listOf(ll.VizData, "MSnSet")) {}
+      
+      
+      if (is.listOf(ll.VizData, "Summarizedexperiment")){}
+      
+      if (is.listOf(ll.VizData, "list"))
+        .Object@ll.VizData <- convert2VizDataList(ll.VizData)
+    
+    }
     return(.Object)
   }
 )

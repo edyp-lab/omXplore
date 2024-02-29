@@ -35,20 +35,6 @@
 
 \item{i}{\code{character()}, \code{integer()}, \code{logical()} or \code{GRanges()}
 object for subsetting by rows.}
-
-\item{j}{\code{character()}, \code{logical()}, or \code{numeric()} vector for
-subsetting by \code{colData} rows.}
-
-\item{k}{\code{character()}, \code{logical()}, or \code{numeric()} vector for
-subsetting by assays}
-
-\item{l}{\code{character()}, \code{logical()}, or \code{numeric()} vector for
-subsetting by assays}
-
-\item{...}{Additional parameters}
-
-\item{drop}{logical (default \code{TRUE}) whether to drop empty assay
-elements in the \code{ExperimentList}.}
 }
 \value{
 See individual method description for the return value.

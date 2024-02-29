@@ -48,14 +48,12 @@ convert2VizDataList <- function(obj){
   if (inherits(obj, 'list')){
     ll.vizData <- list()
     for (i in seq(length(obj))){
-      args <- obj[[i]]
-      
       if(!is.null(names(obj)[i]))
         .name <- names(obj)[i]
       else
         .name <- paste0('object_', i)
       
-      ll.vizData[[.name]] <- do.call(VizData, args)
+      ll.vizData[[.name]] <- do.call(VizData, obj[[i]])
     }
   }
   
@@ -66,8 +64,57 @@ is.listOf <- function(object, obj.class)
   all(unlist(lapply(object, function(x) inherits(x, obj.class)), 
     use.names=FALSE))
 
+#' @rdname VizList-class-converter
+#' @export
+#'
+MsnSet2VizData <- function(obj){
+  stopifnot(inherits(obj, 'MSnSet'))
+  
+  new.obj <- VizData()
+  
+  
+  return(new.obj)
+}
 
 
+#' @rdname VizList-class-converter
+#' @export
+#'
+QFeatures2VizDataList <- function(obj){
+  stopifnot(inherits(obj, 'QFeatures'))
+  
+  new.obj <- list()
+  
+  
+  return(new.obj)
+  
+}
+
+
+#' @rdname VizList-class-converter
+#' @export
+#'
+SE2VizData <- function(obj){
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
+  new.obj <- VizData()
+  
+  
+  return(new.obj)
+}
+
+
+#' @rdname VizList-class-converter
+#' @export
+#'
+MAEs2VizDataList <- function(obj){
+  stopifnot(inherits(obj, 'MultiAssayExperiment'))
+  
+  new.obj <- list()
+  
+  
+  return(new.obj)
+}
 
 
   # convert2VizList <- function(obj){

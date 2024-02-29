@@ -20,7 +20,7 @@ omXplore_variance(obj)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{VizData}}
 
 \item{pal.name}{xxx}
 }
@@ -38,8 +38,8 @@ xxxx
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_variance(vData_ft[[1]])
+  vData <- build_VizData_example()
+  omXplore_variance(vData)
 }
 
 }

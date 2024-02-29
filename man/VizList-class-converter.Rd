@@ -2,12 +2,27 @@
 % Please edit documentation in R/convert.R
 \name{convert2VizList}
 \alias{convert2VizList}
+\alias{convert2VizDataList}
+\alias{MsnSet2VizData}
+\alias{QFeatures2VizDataList}
+\alias{SE2VizData}
+\alias{MAEs2VizDataList}
 \title{Convert lists of data to \code{VizList} class}
 \usage{
 convert2VizList(obj)
+
+convert2VizDataList(obj)
+
+MsnSet2VizData(obj)
+
+QFeatures2VizDataList(obj)
+
+SE2VizData(obj)
+
+MAEs2VizDataList(obj)
 }
 \arguments{
-\item{obj}{A list of lists.}
+\item{obj}{A list of lists or a list of VizData items}
 }
 \value{
 An instance of class \code{VizList}
@@ -20,7 +35,7 @@ in the package \code{omXplore}.
 \examples{
 ll.data1 <- build_toylist_example('data1')
 .ll.data2 <- build_toylist_example('data2')
-data <- convert2VizList(list(ll.data1))
+data <- convert2VizDataList(list(ll.data1))
 data <- convert2VizList(list(ll.data1, ll.data2))
 
 }

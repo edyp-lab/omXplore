@@ -4,11 +4,17 @@
 \alias{build_example_datasets}
 \alias{build_toylist_example}
 \alias{build_VizData_example}
+\alias{build_VizList_example}
+\alias{build_VizList_example_from_VizData}
 \title{Build toy datasets for omXplore modules}
 \usage{
 build_toylist_example(name)
 
 build_VizData_example(name = "obj")
+
+build_VizList_example(name = "obj")
+
+build_VizList_example_from_VizData(name = "obj")
 }
 \arguments{
 \item{name}{The name of the dataset}
