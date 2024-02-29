@@ -22,20 +22,6 @@
 ##' @param i `character()`, `integer()`, `logical()` or `GRanges()`
 ##'     object for subsetting by rows.
 ##'
-##' @param j `character()`, `logical()`, or `numeric()` vector for
-##'     subsetting by `colData` rows.
-##'
-##' @param k `character()`, `logical()`, or `numeric()` vector for
-##'     subsetting by assays
-##'
-##' @param l `character()`, `logical()`, or `numeric()` vector for
-##'     subsetting by assays
-##'
-##' @param ... Additional parameters
-##'
-##' @param drop logical (default `TRUE`) whether to drop empty assay
-##'     elements in the `ExperimentList`.
-##'
 ##' @return See individual method description for the return value.
 ##'
 ##' @seealso
@@ -135,30 +121,19 @@ setMethod(
     .Object,
     ll.VizData = list()) {
 
+    
+    if (inherits(ll.VizData, "VizData"))
+      .Object@ll.VizData <- list(ll.VizData)
+    else if (is.listOf(ll.VizData, 'VizData'))
+      .Object@ll.VizData <- ll.VizData
+    else if (inherits(ll.VizData, "list") && is.listOf(ll.VizData, "list")){
+      .Object@ll.VizData <- convert2VizDataList(ll.VizData)
+    } else {
+    message("Bad parameter 'll.VizData'. 
+        Initialization with an empty object...")
     .Object@ll.VizData <- list()
     
-    if (is.null(ll.VizData)){
-      message("The parameter 'object' is NULL")
-      message("Initialization with an empty class")
-    } else if (!inherits(ll.VizData, "list")){
-      message("The parameter 'object' is not a list")
-      message("Initialization with an empty class")
-    } else if (is.listOf(ll.VizData, 'VizData')){
-      message("The parameter 'object' is not a list of VizData objects")
-      message("Initialization with an empty class")
-      } else if (!inherits(ll.VizData, "VizData")){
-        message("The parameter 'object' is not a VizData object")
-        message("Initialization with an empty class")
-        } else {
-          if (inherits(ll.VizData, "VizData"))
-            .Object@ll.VizData <- list(ll.VizData)
-          else if (is.listOf(ll.VizData, 'VizData'))
-            .Object@ll.VizData <- ll.VizData
-          else if (inherits(ll.VizData, "list") && 
-              is.listOf(ll.VizData, "list"))
-            .Object <- convert2VizList(ll.VizData)
-          }
-
+        }
     return(.Object)
   }
 )

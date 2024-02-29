@@ -7,7 +7,7 @@
 #' @name plot-variance
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj xxx
+#' @param obj An instance of the class `VizData`
 #' @param pal.name A `character(1)` which is the name of the palette from the
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
@@ -15,8 +15,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_variance(vData_ft[[1]])
+#'   vData <- build_VizData_example()
+#'   omXplore_variance(vData)
 #' }
 #'
 NULL
@@ -94,7 +94,7 @@ omXplore_variance_server <- function(
 #'
 #' @export
 #'
-#' @param obj xxx
+#' @param obj An instance of the class `VizData`
 #' @param pal.name xxx
 #'
 #' @rdname plot-variance
@@ -107,12 +107,13 @@ CVDist <- function(
   stopifnot(inherits(obj, "VizData"))
 
 
-  if (is.null(obj@conds)) {
-    stop("'obj@conds' is NULL")
+  conds <- GetSlotConds(obj)
+  
+  if (is.null(conds) || length(conds)==0) {
+    stop("obj contains no conds.")
   }
 
-  u_conds <- unique(obj@conds)
-
+  u_conds <- unique(conds)
   myColors <- SampleColors(u_conds)
 
   h1 <- highcharter::highchart() %>%
@@ -142,9 +143,9 @@ CVDist <- function(
   minX <- maxX <- 0
   maxY <- 0
   for (i in seq_len(length(u_conds))) {
-    if (length(which(obj@conds == u_conds[i])) > 1) {
+    if (length(which(conds == u_conds[i])) > 1) {
       t <- apply(
-        obj@qdata[, which(obj@conds == u_conds[i])], 1,
+        obj@qdata[, which(conds == u_conds[i])], 1,
         function(x) {
           100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
         }

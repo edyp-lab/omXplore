@@ -40,7 +40,7 @@ NULL
 
 #' @importFrom shiny NS tagList
 #' @importFrom  DT dataTableOutput
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs
 #'
 #' @rdname format_DT
 #' @return NA
@@ -67,23 +67,15 @@ formatDT_ui <- function(id) {
 #' @return NA
 #'
 formatDT_server <- function(id,
-                                     data = reactive({
-                                       NULL
-                                     }),
-                                     data_nostyle = reactive({
-                                       NULL
-                                     }),
-                                     withDLBtns = FALSE,
-                                     showRownames = FALSE,
-                                     dom = "Bt",
-                                     dt_style = reactive({
-                                       NULL
-                                     }),
-                                     filename = "Prostar_export",
-                                     hideCols = reactive({
-                                       NULL
-                                     }),
-                                     selection = "single") {
+  data = reactive({NULL}),
+  data_nostyle = reactive({NULL}),
+  withDLBtns = FALSE,
+  showRownames = FALSE,
+  dom = "Bt",
+  dt_style = reactive({NULL}),
+  filename = "Prostar_export",
+  hideCols = reactive({NULL}),
+  selection = "single") {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -118,32 +110,9 @@ formatDT_server <- function(id,
 
     observe({
       req(data())
-
       rv$data <- data()
-
-      # if(is.null(dt_style()))
-      #   rv$data <- data()
-      # else {
-      #
-      #   if(checkValidity()){
-      #     # Check validity of dataForStyling
-      #     rv$data <- cbind(data(), dt_style()$data)
-      #   }
-      # }
-      #
       DT::replaceData(proxy, rv$data, resetPaging = FALSE)
     })
-
-    # observe({
-    #   shinyjs::toggle("dl_div", condition = isTRUE(withDLBtns))
-    # })
-
-    # dl_server(id = "DL_btns",
-    #           dataIn = reactive({rv$data}),
-    #           name = reactive({filename}),
-    #           excel.style = reactive({xls_style()})
-    #           )
-
 
     observeEvent(input$StaticDataTable_rows_selected, {
       rv$dataOut <- input$StaticDataTable_rows_selected

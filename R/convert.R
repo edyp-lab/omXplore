@@ -5,12 +5,12 @@
 #'
 #' @rdname VizList-class-converter
 #'
-#' @param obj A list of lists.
+#' @param obj A list of lists or a list of VizData items
 #'
 #' @examples
 #' ll.data1 <- build_toylist_example('data1')
 #'.ll.data2 <- build_toylist_example('data2')
-#' data <- convert2VizList(list(ll.data1))
+#' data <- convert2VizDataList(list(ll.data1))
 #' data <- convert2VizList(list(ll.data1, ll.data2))
 #' 
 #' @aliases convert2VizList
@@ -20,21 +20,33 @@
 #' @export
 #'
 convert2VizList <- function(obj){
+
+  stopifnot(inherits(obj, 'list'))
   
+  VizList(convert2VizDataList(obj))
+}
+
+
+
+
+#' @rdname VizList-class-converter
+#' @export
+#'
+convert2VizDataList <- function(obj){
   
   stopifnot(inherits(obj, 'list'))
   stopifnot(is.listOf(obj, 'list'))
   
   
-  convert.obj <- VizList()
+  ll.vizData <- list()
   
   # Create an empty VizList object
   if(is.null(obj))
-    convert.obj <- VizList()
+    ll.vizData <- list()
   
   # Convert a list of MSnSet
   if (inherits(obj, 'list')){
-    convert.obj <- VizList()
+    ll.vizData <- list()
     for (i in seq(length(obj))){
       args <- obj[[i]]
       
@@ -43,14 +55,12 @@ convert2VizList <- function(obj){
       else
         .name <- paste0('object_', i)
       
-      convert.obj@ll.VizData[[.name]] <- do.call(VizData, args)
+      ll.vizData[[.name]] <- do.call(VizData, args)
     }
   }
   
-  return(convert.obj)
+  return(ll.vizData)
 }
-
-
 
 is.listOf <- function(object, obj.class)
   all(unlist(lapply(object, function(x) inherits(x, obj.class)), 

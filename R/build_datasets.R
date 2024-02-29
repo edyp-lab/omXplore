@@ -64,7 +64,26 @@ build_VizData_example <- function(name = 'obj'){
 }
 
 
+#' @rdname build_example_datasets
+#' @export
+#' 
+build_VizList_example <- function(name = 'obj'){
+  ll1 <- build_toylist_example('obj1')
+  ll2 <- build_toylist_example('obj2')
+  ll3 <- build_toylist_example('obj3')
+  VizList(list(ll1, ll2, ll3))
+}
 
+
+#' @rdname build_example_datasets
+#' @export
+#' 
+build_VizList_example_from_VizData <- function(name = 'obj'){
+  ll1 <- build_VizData_example('obj1')
+  ll2 <- build_VizData_example('obj2')
+  ll3 <- build_VizData_example('obj3')
+  VizList(list(ll1, ll2, ll3))
+}
 
 # # Convert simple QFeatures
 # data("feat1", package = 'QFeatures')
