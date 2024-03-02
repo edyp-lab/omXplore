@@ -116,41 +116,42 @@ setMethod(
 setMethod(
   "initialize", "VizList",
   ##' @param .Object xxx
-  ##' @param ll.VizData xxx
+  ##' @param dataset xxx
   function(
     .Object,
-    ll.VizData = list()) {
+    dataset = list()) {
 
     .Object@ll.VizData <- list()
     
-    if (inherits(ll.VizData, "MSnSet"))
-      .Object@ll.VizData <- list(MsnSet2VizData(ll.VizData))
+
+    if (inherits(dataset, "MSnSet"))
+      .Object@ll.VizData <- list(MsnSet2VizData(dataset))
     
-    if (inherits(ll.VizData, "QFeatures")){}
-    .Object@ll.VizData <- QFeatures2VizDataList(ll.VizData)
+    if (inherits(dataset, "QFeatures"))
+    .Object@ll.VizData <- QFeatures2VizDataList(dataset)
     
-    if (inherits(ll.VizData, "Summarizedexperiment")){}
-    .Object@ll.VizData <- list(SE2VizData(ll.VizData))
+    if (inherits(dataset, "Summarizedexperiment"))
+    .Object@ll.VizData <- list(SE2VizData(dataset))
     
-    if (inherits(ll.VizData, "MultiAssayExperiment")){}
-    .Object@ll.VizData <- MAEs2VizDataList(ll.VizData)
+    if (inherits(dataset, "MultiAssayExperiment"))
+    .Object@ll.VizData <- MAEs2VizDataList(dataset)
     
-    if (inherits(ll.VizData, "VizData"))
-      .Object@ll.VizData <- list(ll.VizData)
+    if (inherits(dataset, "VizData"))
+      .Object@ll.VizData <- list(dataset)
     
     
-    if (inherits(ll.VizData, "list")){
+    if (inherits(dataset, "list")){
       
-      if (is.listOf(ll.VizData, 'VizData'))
-        .Object@ll.VizData <- ll.VizData
+      if (is.listOf(dataset, 'VizData'))
+        .Object@ll.VizData <- dataset
       
-      if (is.listOf(ll.VizData, "MSnSet")) {}
+      if (is.listOf(dataset, "MSnSet")) {}
       
       
-      if (is.listOf(ll.VizData, "Summarizedexperiment")){}
+      if (is.listOf(dataset, "Summarizedexperiment")){}
       
-      if (is.listOf(ll.VizData, "list"))
-        .Object@ll.VizData <- convert2VizDataList(ll.VizData)
+      if (is.listOf(dataset, "list"))
+        .Object@ll.VizData <- convert2VizDataList(dataset)
     
     }
     return(.Object)

@@ -31,8 +31,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_heatmap(vData_ft[[1]])
+#'   data(vdata)
+#'   omXplore_heatmap(vdata[[1]])
 #' }
 #'
 NULL

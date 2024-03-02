@@ -15,8 +15,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_corrmatrix(vData_ft[[1]])
+#'   data(vdata)
+#'   omXplore_corrmatrix(vdata[[1]])
 #' }
 #'
 NULL
@@ -139,8 +139,8 @@ omXplore_corrmatrix_server <- function(
 #' @export
 #'
 #' @examples
-#' data(vData_ft)
-#' qdata <- GetSlotQdata(vData_ft[[1]])
+#' data(vdata)
+#' qdata <- GetSlotQdata(vdata[[1]])
 #' corrMatrix(qdata)
 #'
 #' @return A plot

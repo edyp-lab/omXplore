@@ -1,3 +1,21 @@
+#' @title Package version
+#' @description Gets the version number of a package
+#' @export
+#' @examples
+#' GetPkgVersion('omXplore')
+#' 
+GetPkgVersion <- function(pkg){
+  tryCatch({
+    ind <- which(installed.packages()[, 'Package'] == pkg)
+    version <- installed.packages()[ind, 'Version']
+    version
+  },
+    warning = function(w) cat(w),
+    error = function(e) cat(e)
+  )
+}
+
+
 
 
 #' #' @title Customised contextual menu of highcharts plots
@@ -110,7 +128,7 @@ customChart <- function(
 #' module formatDT. It creates additional columns to be used to style the table.
 #' to colors cells.
 #'
-#' @param vizData An instance of the class `DaparViz`
+#' @param vizData An instance of the class `omXplore`
 #' @param digits An 'integer(1)' to specify the number of digits to display
 #' in the tables for numerical values. Default is 2.
 #'
@@ -171,8 +189,8 @@ BuildColorStyles <- function(type) {
 #' several (shared) peptides.
 #'
 #' @examples
-#' data(vData_ft)
-#' GetCCInfos(GetSlotCc(vData_ft[[1]]))
+#' data(vdata)
+#' GetCCInfos(GetSlotCc(vdata[[1]]))
 #'
 #' @export
 #'

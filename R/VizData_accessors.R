@@ -15,82 +15,104 @@
 #' ## -----------------------------------
 #' ## Accessing slots from a MSnSet dataset
 #' ## -----------------------------------
-#' toydata <- build_VizData_example()
-#' metadata <- GetSlotMetadata(toydata)
-#' qdata <- GetSlotQdata(toydata)
-#' metacell <- GetSlotMetacell(toydata)
-#' id <- GetSlotColID(toydata)
-#' type <- GetSlotType(toydata)
-#' proteinID <- GetSlotProteinID(toydata)
-#' conds <- GetSlotConds(toydata)
+#' data(vdata)
+#' metadata <- GetSlotMetadata(vdata[[1]])
+#' qdata <- GetSlotQdata(vdata[[1]])
+#' metacell <- GetSlotMetacell(vdata[[1]])
+#' id <- GetSlotColID(vdata[[1]])
+#' type <- GetSlotType(vdata[[1]])
+#' proteinID <- GetSlotProteinID(vdata[[1]])
+#' conds <- GetSlotConds(vdata[[1]])
 #'
 NULL
 
 
-#' @rdname accessors
-#' @exportMethod GetSlotMetadata
-setGeneric(
-  "GetSlotMetadata",
-  function(object, ...) standardGeneric("GetSlotMetadata")
+# -------------------------------------------------------------------
+#          Methods to get Sample Map
+#--------------------------------------------------------------------
+setMethod("GetSlotSampleMap", signature = "ANY",
+  function(object) 
+    NULL
 )
 
-#' @rdname accessors
-#' @exportMethod GetSlotMetacell
-setGeneric(
-  "GetSlotMetacell",
-  function(object, ...) standardGeneric("GetSlotMetacell")
+setMethod("GetSlotSampleMap", signature = "MSnSet",
+  function(object) 
+    pData(object)
 )
 
-#' @rdname accessors
-#' @exportMethod GetSlotQdata
-setGeneric(
-  "GetSlotQdata",
-  function(object, ...) standardGeneric("GetSlotQdata")
-)
-
-#' @rdname accessors
-#' @exportMethod GetSlotProteinID
-setGeneric(
-  "GetSlotProteinID",
-  function(object, ...) standardGeneric("GetSlotProteinID")
+setMethod("GetSlotSampleMap", signature = "SummarizedExperiment",
+  function(object) 
+    NULL
 )
 
 
-#' @rdname accessors
-#' @exportMethod GetSlotColID
-setGeneric(
-  "GetSlotColID",
-  function(object, ...) standardGeneric("GetSlotColID")
+setMethod("GetSlotSampleMap", signature = "MultiAssayExperiment",
+  function(object) 
+    colData(object)
 )
 
-#' @rdname accessors
-#' @exportMethod GetSlotConds
-setGeneric(
-  "GetSlotConds",
-  function(object, ...) standardGeneric("GetSlotConds")
+setMethod("GetSlotSampleMap", signature = "QFeatures",
+  function(object) 
+    colData(object)
 )
 
 
-#' @rdname accessors
-#' @exportMethod GetSlotType
-setGeneric(
-  "GetSlotType",
-  function(object, ...) standardGeneric("GetSlotType")
+
+
+
+
+# -------------------------------------------------------------------
+#          Methods to get Metadata
+#--------------------------------------------------------------------
+setMethod("GetSlotSampleMap", signature = "ANY",
+  function(object) NULL
 )
 
-#' @rdname accessors
-#' @exportMethod GetSlotAdjMat
-setGeneric(
-  "GetSlotAdjMat",
-  function(object, ...) standardGeneric("GetSlotAdjMat")
+setMethod("GetSlotSampleMap", signature = "MSnSet",
+  function(object) object@metadata
 )
 
-#' @rdname accessors
-#' @exportMethod GetSlotCc
-setGeneric(
-  "GetSlotCc",
-  function(object, ...) standardGeneric("GetSlotCc")
+setMethod("GetSlotSampleMap", signature = "SummarizedExperiment",
+  function(object) object@metadata
 )
+
+setMethod("GetSlotSampleMap", signature = "MultiAssayExperiment",
+  function(object) object@metadata
+)
+
+setMethod("GetSlotSampleMap", signature = "QFeatures",
+  function(object) object@metadata
+)
+
+
+
+# -------------------------------------------------------------------
+#          Methods to get Experiment Data
+#--------------------------------------------------------------------
+setMethod("GetSlotSampleMap", signature = "ANY",
+  function(object) NULL
+)
+
+setMethod("GetSlotSampleMap", signature = "MSnSet",
+  function(object) object@metadata
+)
+
+setMethod("GetSlotSampleMap", signature = "SummarizedExperiment",
+  function(object) object@metadata
+)
+
+setMethod("GetSlotSampleMap", signature = "MultiAssayExperiment",
+  function(object) object@metadata
+)
+
+setMethod("GetSlotSampleMap", signature = "QFeatures",
+  function(object) object@metadata
+)
+
+
+
+
+
 
 
 

@@ -29,8 +29,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   obj <- vData_ft[[1]]
+#'   data(vdata)
+#'   obj <- vdata[[1]]
 #'   # Replace missing values for the example
 #'   qdata <- GetSlotQdata(obj)
 #'   qdata[which(is.na(qdata))] <- 0

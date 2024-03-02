@@ -10,8 +10,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_cc(vData_ft[[1]])
+#'   data(vdata)
+#'   omXplore_cc(vdata[[1]])
 #' }
 #'
 #' @name ds-cc

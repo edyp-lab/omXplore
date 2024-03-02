@@ -30,8 +30,8 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(vData_ft)
-#' heatmapD(vData_ft[[1]])
+#' data(vdata)
+#' heatmapD(vdata[[1]])
 #'
 NULL
 

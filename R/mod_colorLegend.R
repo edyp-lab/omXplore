@@ -13,8 +13,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   colorLegend(vData_ft[[1]])
+#'   data(vdata)
+#'   colorLegend(vdata[[1]])
 #' }
 #'
 NULL

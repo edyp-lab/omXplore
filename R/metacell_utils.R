@@ -74,14 +74,12 @@
 #' # A shiny app to view color legends
 #' #-----------------------------------------------
 #' if (interactive()) {
-#'   data(ft)
+#'   data(vdata)
 #'   ui <- qMetacellLegend_ui("legend")
 #'
 #'   server <- function(input, output, session) {
 #'     qMetacellLegend_server("legend",
-#'       object = reactive({
-#'         ft[[1]]
-#'       })
+#'       object = reactive({vdata[[1]]})
 #'     )
 #'   }
 #'

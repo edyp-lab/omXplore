@@ -68,6 +68,7 @@ biocViews:
 NeedsCompilation: no
 Collate:
     convert.R
+    doc-data.R
     build_datasets.R
     VizData-class.R
     VizList-class.R

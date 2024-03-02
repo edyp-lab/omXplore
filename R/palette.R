@@ -40,8 +40,8 @@
 #' ExtendPalette(12)
 #'
 #'
-#' data(vData_ft)
-#' conds <- GetSlotConds(vData_ft[[1]])
+#' data(vdata)
+#' conds <- GetSlotConds(vdata[[1]])
 #' GetColorsForConditions(conds, ExtendPalette(2))
 #'
 NULL

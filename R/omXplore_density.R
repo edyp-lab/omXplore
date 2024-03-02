@@ -13,8 +13,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_density(vData_ft[[1]])
+#'   data(vdata)
+#'   omXplore_density(vdata[[1]])
 #' }
 #'
 NULL
@@ -47,12 +47,8 @@ omXplore_density_ui <- function(id) {
 #'
 omXplore_density_server <- function(
     id,
-    obj = reactive({
-      NULL
-    }),
-    pal.name = reactive({
-      NULL
-    })) {
+    obj = reactive({NULL}),
+    pal.name = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -115,9 +111,9 @@ omXplore_density_server <- function(
 #' @return A plot
 #'
 #' @examples
-#' data(vData_ft)
-#' qdata <- GetSlotQdata(vData_ft[[1]])
-#' conds <- GetSlotConds(vData_ft[[1]])
+#' data(vdata)
+#' qdata <- GetSlotQdata(vdata[[1]])
+#' conds <- GetSlotConds(vdata[[1]])
 #' densityPlot(qdata, conds)
 #'
 densityPlot <- function(

@@ -13,8 +13,9 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   extFoo1(vData_ft[[1]])
+#'   data(vdata)
+#'   extFoo1(vdata[[1]])
+#'   extFoo2(vdata[[1]])
 #' }
 #' 
 #' @return NA

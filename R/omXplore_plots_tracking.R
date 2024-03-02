@@ -10,8 +10,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   plots_tracking(vData_ft[[1]])
+#'   data(vdata)
+#'   plots_tracking(vdata[[1]])
 #' }
 #'
 #' @name plots_tracking

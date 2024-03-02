@@ -38,4 +38,26 @@ ll.data1 <- build_toylist_example('data1')
 data <- convert2VizDataList(list(ll.data1))
 data <- convert2VizList(list(ll.data1, ll.data2))
 
+#--------------------------------------------
+# Example from QFeatures datasets
+#--------------------------------------------
+
+#--------------------------------------------
+# Example from MSnSet datasets
+#--------------------------------------------
+data(Exp1_R25_prot, package = 'DAPARdata')
+MsnSet2VizData(Exp1_R25_prot)
+
+#--------------------------------------------
+# Example from SummarizedExperiment datasets
+#--------------------------------------------
+data(miniACC)
+SE2VizData(miniACC[[1]])
+
+#--------------------------------------------
+# Example from MultiAssayExperiment datasets
+#--------------------------------------------
+data(miniACC)
+MAEs2VizDataList(miniACC)
+
 }

@@ -28,8 +28,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   formatDT(GetSlotQdata(vData_ft[[1]]))
+#'   data(vdata)
+#'   formatDT(GetSlotQdata(vdata[[1]]))
 #' }
 #'
 #' @return NA

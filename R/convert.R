@@ -13,16 +13,35 @@
 #' data <- convert2VizDataList(list(ll.data1))
 #' data <- convert2VizList(list(ll.data1, ll.data2))
 #' 
-#' @aliases convert2VizList
+#' #--------------------------------------------
+#' # Example from QFeatures datasets
+#' #--------------------------------------------
+#' 
+#' #--------------------------------------------
+#' # Example from MSnSet datasets
+#' #--------------------------------------------
+#' data(Exp1_R25_prot, package = 'DAPARdata')
+#' MsnSet2VizData(Exp1_R25_prot)
+#' 
+#' #--------------------------------------------
+#' # Example from SummarizedExperiment datasets
+#' #--------------------------------------------
+#' data(miniACC)
+#' SE2VizData(miniACC[[1]])
+#' 
+#' #--------------------------------------------
+#' # Example from MultiAssayExperiment datasets
+#' #--------------------------------------------
+#' data(miniACC)
+#' MAEs2VizDataList(miniACC)
+#' 
 #'
 #' @return An instance of class `VizList`
 #' 
 #' @export
 #'
 convert2VizList <- function(obj){
-
   stopifnot(inherits(obj, 'list'))
-  
   VizList(convert2VizDataList(obj))
 }
 
@@ -33,10 +52,8 @@ convert2VizList <- function(obj){
 #' @export
 #'
 convert2VizDataList <- function(obj){
-  
   stopifnot(inherits(obj, 'list'))
   stopifnot(is.listOf(obj, 'list'))
-  
   
   ll.vizData <- list()
   
@@ -60,60 +77,126 @@ convert2VizDataList <- function(obj){
   return(ll.vizData)
 }
 
+
+#' @export
 is.listOf <- function(object, obj.class)
   all(unlist(lapply(object, function(x) inherits(x, obj.class)), 
     use.names=FALSE))
 
 #' @rdname VizList-class-converter
 #' @export
+#' @import MSnbase
 #'
 MsnSet2VizData <- function(obj){
   stopifnot(inherits(obj, 'MSnSet'))
   
-  new.obj <- VizData()
+  args <- list(
+    qdata = exprs(obj),
+    metacell = NULL,
+    metadata = fData(obj),
+    colID = NULL,
+    proteinID = NULL,
+    conds = pData(obj)$Condition,
+    type = NULL,
+    adjMat = matrix(),
+    cc = list()
+  )
   
-  
+  new.obj <- do.call(VizData, args)
   return(new.obj)
 }
 
 
 #' @rdname VizList-class-converter
+#' @import QFeatures
 #' @export
 #'
 QFeatures2VizDataList <- function(obj){
   stopifnot(inherits(obj, 'QFeatures'))
   
   new.obj <- list()
-  
-  
-  return(new.obj)
-  
+  ll.se <- list()
+  for (i in seq(length(obj))){
+    args.se <- list(
+      qdata = assay(obj[[i]]),
+      metacell = NULL,
+      metadata = colData(obj),
+      colID = NULL,
+      proteinID = NULL,
+      conds = NULL,
+      type = NULL,
+      adjMat = matrix(),
+      cc = list()
+    )
+    
+    if(!is.null(names(obj)[i]))
+      .name <- names(obj)[i]
+    else
+      .name <- paste0('object_', i)
+    
+    ll.se[[.name]] <- do.call(VizData, args.se)
+    
+  }
+  ll.se
 }
 
 
 #' @rdname VizList-class-converter
+#' @import SummarizedExperiment
 #' @export
 #'
 SE2VizData <- function(obj){
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
-  new.obj <- VizData()
+  args <- list(
+    qdata = assay(obj),
+    metacell = NULL,
+    metadata = colData(obj),
+    colID = NULL,
+    proteinID = NULL,
+    conds = NULL,
+    type = NULL,
+    adjMat = matrix(),
+    cc = list()
+  )
   
-  
+  new.obj <- do.call(VizData, args)
   return(new.obj)
 }
 
 
 #' @rdname VizList-class-converter
 #' @export
-#'
+#' @import MultiAssayExperiment
+#' 
 MAEs2VizDataList <- function(obj){
   stopifnot(inherits(obj, 'MultiAssayExperiment'))
   
   new.obj <- list()
-  
-  
-  return(new.obj)
+  ll.se <- list()
+  for (i in seq(length(obj))){
+    args.se <- list(
+      qdata = assay(obj[[i]]),
+      metacell = NULL,
+      metadata = colData(obj),
+      colID = NULL,
+      proteinID = NULL,
+      conds = NULL,
+      type = NULL,
+      adjMat = matrix(),
+      cc = list()
+    )
+    
+    if(!is.null(names(obj)[i]))
+      .name <- names(obj)[i]
+    else
+      .name <- paste0('object_', i)
+    
+    ll.se[[.name]] <- do.call(VizData, args.se)
+    
+  }
+
+  return(ll.se)
 }
 
 

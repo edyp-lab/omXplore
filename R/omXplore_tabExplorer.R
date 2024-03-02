@@ -11,8 +11,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   omXplore_tabExplorer(vData_ft[[1]])
+#'   data(vdata)
+#'   omXplore_tabExplorer(vdata[[1]])
 #' }
 #' 
 #' @return NA

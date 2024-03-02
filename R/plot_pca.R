@@ -11,8 +11,8 @@
 #' @name ds-pca
 #'
 #' @examples
-#' data(vData_ft)
-#' obj <- vData_ft[[1]]
+#' data(vdata)
+#' obj <- vdata[[1]]
 #' res.pca <- wrapper_pca(obj)
 #' plotPCA_Eigen(res.pca)
 #' plotPCA_Var(res.pca)

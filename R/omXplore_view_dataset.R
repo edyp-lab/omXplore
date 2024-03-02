@@ -62,15 +62,13 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
+#'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"), 
 #'               DaparToolshed = c("mod_ds_metacell"))
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   view_dataset(vData_ft, addons)
+#'   view_dataset(vdata, addons)
 #'   
-#'   
-#'   data(sub_Exp1_R2_prot_MSnSet)
-#'   view_dataset(sub_Exp1_R2_prot_MSnSet)
+#'   view_dataset(vdata)
 #' }
 #' 
 #' @return NA
@@ -297,8 +295,8 @@ view_dataset_server <- function(
 #'
 #' @examples
 #' if (interactive()) {
-#'   data(vData_ft)
-#'   view_dataset(vData_ft)
+#'   data(vdata)
+#'   view_dataset(vdata)
 #' }
 #'
 view_dataset <- function(
