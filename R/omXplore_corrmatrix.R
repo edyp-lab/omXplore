@@ -7,7 +7,8 @@
 #' @name corrmatrix
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `VizData`
+#' @param obj An instance of the class `SummarizedExperiment`
+#' @param i xxx
 #' @param rate xxx. Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
@@ -16,7 +17,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_corrmatrix(vdata[[1]])
+#'   omXplore_corrmatrix(vdata, 1)
 #' }
 #'
 NULL
@@ -46,71 +47,43 @@ omXplore_corrmatrix_ui <- function(id) {
 omXplore_corrmatrix_server <- function(
     id,
     obj = reactive({ NULL}),
-    rate = reactive({0.5}),
-    showValues = reactive({FALSE})) {
+  i = reactive({1})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        rv.corr <- reactiveValues(
-            data = NULL,
-            rate = NULL,
-           showValues = NULL
-        )
-
-    observeEvent(id, {
-        rv.corr$rate <- rate()
-        rv.corr$showValues <- showValues()
-    })
-
-
     observe({
-        if (inherits(obj(), "VizData")) {rv.corr$data <- obj()}
-
         shinyjs::toggle("badFormatMsg",
-            condition = !inherits(obj(), "VizData")
+            condition = !inherits(obj(), "MultiAssayExperiment")
         )
       }, priority = 1000)
 
     output$rate_ui <- renderUI({
-        req(rv.corr$rate)
+      req(inherits(obj(), "MultiAssayExperiment"))
         sliderInput(ns("rate"),
             "Tune to modify the color gradient",
             min = 0,
             max = 1,
-            value = rv.corr$rate,
+            value = 0.5,
             step = 0.01
         )
     })
 
 
     output$showValues_ui <- renderUI({
-      req(rv.corr$data)
-      rv.corr$showValues
+      req(inherits(obj(), "MultiAssayExperiment"))
       checkboxInput(ns("showLabels"), "Show labels",
-        value = rv.corr$showValues
+        value = FALSE
       )
     })
 
-
-    observeEvent(req(input$showLabels), {
-      input$showLabels
-      rv.corr$showValues <- input$showLabels
-    })
-
-    observeEvent(req(input$rate), {
-      rv.corr$rate <- input$rate
-    })
-
     output$plot <- renderHighchart({
-      req(rv.corr$data)
-      rv.corr$rate
-      rv.corr$showValues
+      req(obj())
 
       withProgress(message = "Making plot", value = 100, {
         tmp <- corrMatrix(
-          data = rv.corr$data@qdata,
-          rate = rv.corr$rate,
-          showValues = rv.corr$showValues
+          data = assay(obj()[[i()]]),
+          rate = input$rate,
+          showValues = isTRUE(input$showLabels)
         )
       })
 
@@ -234,13 +207,13 @@ corrMatrix <- function(
 #' @rdname corrmatrix
 #' @return A shiny app
 #'
-omXplore_corrmatrix <- function(obj) {
+omXplore_corrmatrix <- function(obj, i) {
   ui <- omXplore_corrmatrix_ui("plot")
 
   server <- function(input, output, session) {
-    omXplore_corrmatrix_server("plot", reactive({
-      obj
-    }))
+    omXplore_corrmatrix_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i}))
   }
 
   shinyApp(ui = ui, server = server)

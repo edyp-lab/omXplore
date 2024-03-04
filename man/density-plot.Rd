@@ -14,7 +14,10 @@ omXplore_density_ui(id)
 
 omXplore_density_server(
   id,
-  obj = reactive({
+  se = reactive({
+     NULL
+ }),
+  conds = reactive({
      NULL
  }),
   pal.name = reactive({
@@ -22,16 +25,19 @@ omXplore_density_server(
  })
 )
 
-densityPlot(data, conds, pal.name = NULL)
+densityPlot(data, conds = NULL, pal.name = NULL)
 
 omXplore_density(obj)
 
 formatDT(obj)
 }
 \arguments{
-\item{id}{A \code{character(1)} which is the id of the shiny module.}
+\item{id}{xxx}
 
-\item{obj}{An instance of the class \code{VizData}.}
+\item{se}{An instance of the class \code{SummarizedExperiment}}
+
+\item{conds}{A \code{character()} of condition name for each sample. The
+length of 'conds' must be equal to the number of columns of 'data'.}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from
 the package \link{RColorBrewer} from which the colors are taken. Default
@@ -39,9 +45,6 @@ value is 'Set1'.}
 
 \item{data}{A \code{data.frame} or \code{matrix} of \code{numeric()} which is the
 quantitative data to plot.}
-
-\item{conds}{A \code{character()} of condition name for each sample. The
-length of 'conds' must be equal to the number of columns of 'data'.}
 }
 \value{
 NA
@@ -59,13 +62,13 @@ xxxx
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_density(vData_ft[[1]])
+  data(vdata)
+  omXplore_density(vdata[[1]])
 }
 
-data(vData_ft)
-qdata <- GetSlotQdata(vData_ft[[1]])
-conds <- GetSlotConds(vData_ft[[1]])
+data(vdata)
+qdata <- GetSlotQdata(vdata[[1]])
+conds <- GetSlotConds(vdata[[1]])
 densityPlot(qdata, conds)
 
 }

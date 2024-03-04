@@ -8,7 +8,7 @@ GetPkgVersion <- function(pkg){
   tryCatch({
     ind <- which(installed.packages()[, 'Package'] == pkg)
     version <- installed.packages()[ind, 'Version']
-    version
+    paste0(pkg, "_", version)
   },
     warning = function(w) cat(w),
     error = function(e) cat(e)
@@ -137,11 +137,13 @@ customChart <- function(
 #' @export
 #'
 FormatDataForDT <- function(
-    vizData,
+    se,
     digits = 2) {
-  test.table <- as.data.frame(round(vizData@qdata))
-  if (!is.null(names(vizData@metacell))) {
-    test.table <- cbind(round(vizData@qdata, digits = digits), vizData@metacell)
+  stopifnot(inherits(se, 'SummarizedExperiment')
+    )
+  test.table <- as.data.frame(round(assay(se)))
+  if (!is.null(names(get_metacell(se)))) {
+    test.table <- cbind(round(assay(se), digits = digits), get_metacell(se))
   } else {
     test.table <- cbind(
       test.table,

@@ -16,7 +16,7 @@ omXplore_cc(obj)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of \code{VizData} class}
+\item{obj}{An instance of \code{SummarizedExperiment} class}
 }
 \value{
 A shiny plot
@@ -30,8 +30,8 @@ A shiny Module.
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_cc(vData_ft[[1]])
+  data(vdata)
+  omXplore_cc(vdata[[1]])
 }
 
 }

@@ -7,7 +7,7 @@
 #' @param presentTags A vector of `character()` which correspond to the tags.
 #' @param hide.white  A `boolean()` to indicate whether the white cells must be
 #' hidden or not.
-#' @param obj An instance of the class `VizData`.
+#' @param obj An instance of the class `SummarizedExperiment`.
 #'
 #' @name color-legend
 #'
@@ -51,15 +51,7 @@ custom_metacell_colors <- function() {
 colorLegend_ui <- function(id) {
   ns <- NS(id)
 
-  shinyBS::bsCollapse(
-    id = "collapseExample",
-    open = "",
-    shinyBS::bsCollapsePanel(
-      title = "Legend of colors",
-      uiOutput(ns("legend")),
-      style = ""
-    )
-  )
+  uiOutput(ns('legend_UI'))
 }
 
 
@@ -69,14 +61,27 @@ colorLegend_ui <- function(id) {
 #' @return NA
 #'
 colorLegend_server <- function(id,
-                               presentTags = reactive({
-                                 NULL
-                               }),
+                               presentTags = reactive({NULL}),
                                hide.white = TRUE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
 
+    output$legend_UI <- renderUI({
+      req(presentTags)
+      
+      shinyBS::bsCollapse(
+        id = "collapseExample",
+        open = "",
+        shinyBS::bsCollapsePanel(
+          title = "Legend of colors",
+          uiOutput(ns("legend")),
+          style = ""
+        )
+      )
+    })
+    
+    
     output$legend <- renderUI({
       req(presentTags)
       mc <- custom_metacell_colors()
@@ -107,11 +112,15 @@ colorLegend_server <- function(id,
 
 
 
+#' @import shiny
 #' @export
 #' @rdname color-legend
 #' @return A shiny app
 #'
-colorLegend <- function(obj) {
+colorLegend <- function(obj = SummarizedExperiment()) {
+
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
   ui <- fluidPage(
     tagList(
       colorLegend_ui("plot1"),
@@ -121,8 +130,9 @@ colorLegend <- function(obj) {
   )
 
   server <- function(input, output, session) {
-    tags <- GetMetacellTags(obj@metacell,
-      level = obj@type,
+    tags <- GetMetacellTags(
+      get_metacell(obj),
+      level = get_type(obj),
       onlyPresent = TRUE
     )
 

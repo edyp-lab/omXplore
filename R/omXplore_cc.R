@@ -3,7 +3,7 @@
 #' @description  A shiny Module.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of `VizData` class
+#' @param obj An instance of `SummarizedExperiment` class
 #'
 #' @keywords internal
 #'
@@ -145,8 +145,8 @@ omXplore_cc_server <- function(id, obj) {
     observeEvent(obj(),
       ignoreInit = FALSE,
       {
-        obj.valid <- inherits(obj(), "VizData")
-        cc.exists <- length(obj()@cc) > 0
+        obj.valid <- inherits(obj(), "SummarizedExperiment")
+        cc.exists <- length(get_cc(obj())) > 0
 
         if (obj.valid && cc.exists) {
           rv$data <- obj()
@@ -203,7 +203,7 @@ omXplore_cc_server <- function(id, obj) {
 
     output$pepInfo_ui <- renderUI({
       selectInput(ns("pepInfo"), "Peptide Info",
-        choices = colnames(rv$data@metadata),
+        choices = colnames(get_metadata(rv$data)),
         multiple = TRUE
       )
     })
@@ -238,12 +238,12 @@ omXplore_cc_server <- function(id, obj) {
     output$visNetCC <- visNetwork::renderVisNetwork({
       req(rvCC$selectedCC)
       input$pepInfo
-      local <- (GetCCInfos(rv$data@cc))$Multi_Multi
+      local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
       # m <- local[[rvCC$selectedCC]]
 
       rvCC$selectedCCgraph <- buildGraph(
         cc = local[[rvCC$selectedCC]],
-        metadata = rv$data@metadata
+        metadata = metadata(rv$data)
       )
 
       display.CC.visNet(rvCC$selectedCCgraph) %>%
@@ -268,7 +268,7 @@ omXplore_cc_server <- function(id, obj) {
       # tooltip <- 'Sequence'
 
       isolate({
-        local <- (GetCCInfos(rv$data@cc))$Multi_Multi
+        local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
         n.prot <- unlist(lapply(local, function(x) {ncol(x)}))
         n.pept <- unlist(lapply(local, function(x) {nrow(x)}))
         df <- tibble::tibble(
@@ -289,9 +289,9 @@ omXplore_cc_server <- function(id, obj) {
 
 
     GetDataFor_CCMultiMulti <- reactive({
-      req(length((GetCCInfos(rv$data@cc))$Multi_Multi) > 0)
+      req(length((GetCCInfos(get_cc(rv$data)))$Multi_Multi) > 0)
 
-      ll <- (GetCCInfos(rv$data@cc))$Multi_Multi
+      ll <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
 
       ll.pep <- cbind(
         lapply(
@@ -364,7 +364,7 @@ omXplore_cc_server <- function(id, obj) {
       input$node_selected,
       rvCC$selectedCCgraph
     ), {
-      local <- (GetCCInfos(rv$data@cc))$Multi_Multi
+      local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
       rvCC$selectedNeighbors
 
       nodes <- rvCC$selectedCCgraph$nodes
@@ -469,15 +469,15 @@ omXplore_cc_server <- function(id, obj) {
       req(rvCC$detailedselectedNode$sharedPepLabels)
       pepLine <- rvCC$detailedselectedNode$sharedPepLabels
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(rv$data@qdata) == x)
+        which(rownames(assay(rv$data)) == x)
       }))
 
-      qdata <- convert2df(rv$data@qdata[indices, ])
-      qmetacell <- convert2df(rv$data@metacell[indices, ])
+      qdata <- convert2df(assay(rv$data)[indices, ])
+      qmetacell <- convert2df(get_metacell(rv$data)[indices, ])
 
       data_nostyle <- NULL
       if (!is.null(input$pepInfo)) {
-        .arg <- (rv$data@metadata)[pepLine, input$pepInfo]
+        .arg <- (get_metadata(rv$data))[pepLine, input$pepInfo]
         data_nostyle <- as.data.frame(.arg)
         colnames(data_nostyle) <- input$pepInfo
       }
@@ -496,7 +496,7 @@ omXplore_cc_server <- function(id, obj) {
 
       dt_style <- list(
         data = ll$qmetacell,
-        colors = BuildColorStyles(rv$data@type)
+        colors = BuildColorStyles(get_type(rv$data))
       )
 
       formatDT_server("CCDetailedSharedPep",
@@ -524,15 +524,15 @@ omXplore_cc_server <- function(id, obj) {
 
       pepLine <- rvCC$detailedselectedNode$specPepLabels
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(rv$data@qdata) == x)
+        which(rownames(assay(rv$data)) == x)
       }))
 
-      qdata <- convert2df(rv$data@qdata[indices, ])
-      qmetacell <- convert2df(rv$data@metacell[indices, ])
+      qdata <- convert2df(assay(rv$data)[indices, ])
+      qmetacell <- convert2df(get_metacell(rv$data)[indices, ])
 
       data_nostyle <- NULL
       if (!is.null(input$pepInfo)) {
-        .arg <- (rv$data@metadata)[pepLine, input$pepInfo]
+        .arg <- (get_metadata(rv$data))[pepLine, input$pepInfo]
         data_nostyle <- as.data.frame(.arg)
         colnames(data_nostyle) <- input$pepInfo
       }
@@ -550,7 +550,7 @@ omXplore_cc_server <- function(id, obj) {
 
       dt_style <- list(
         data = ll$qmetacell,
-        colors = BuildColorStyles(rv$data@type)
+        colors = BuildColorStyles(get_type(rv$data))
       )
 
       formatDT_server("CCDetailedSpecPep",
@@ -572,8 +572,8 @@ omXplore_cc_server <- function(id, obj) {
 
 
     BuildOne2OneTab <- reactive({
-      # rv$data@cc
-      ll <- (GetCCInfos(rv$data@cc))$One_One
+      # get_cc(rv$data)
+      ll <- (GetCCInfos(get_cc(rv$data)))$One_One
 
       df <- cbind(
         cbind(lapply(ll, function(x) {colnames(x)})),
@@ -584,8 +584,8 @@ omXplore_cc_server <- function(id, obj) {
     })
 
     BuildOne2MultiTab <- reactive({
-      # rv$data@cc
-      ll <- (GetCCInfos(rv$data@cc))$One_Multi
+      # get_cc(rv$data)
+      ll <- (GetCCInfos(get_cc(rv$data)))$One_Multi
       df <- cbind(
         proteins = cbind(lapply(ll, function(x) {colnames(x)})),
         nPep = cbind(lapply(ll, function(x) {nrow(x)})),
@@ -600,9 +600,9 @@ omXplore_cc_server <- function(id, obj) {
 
 
     BuildMulti2AnyTab <- reactive({
-      # rv$data@cc
+      # get_cc(rv$data)
 
-      ll <- (GetCCInfos(rv$data@cc))$Multi_Multi
+      ll <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
 
       df <- cbind(
         id = seq_len(ll),
@@ -665,11 +665,11 @@ omXplore_cc_server <- function(id, obj) {
       ), split = ","))
 
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(rv$data@qdata) == x)
+        which(rownames(assay(rv$data)) == x)
       }))
 
-      qdata <- rv$data@qdata[indices, ]
-      qmetacell <- rv$data@metacell[indices, ]
+      qdata <- assay(rv$data)[indices, ]
+      qmetacell <- get_metacell(rv$data)[indices, ]
 
       list(
         qdata = convert2df(qdata),
@@ -686,7 +686,7 @@ omXplore_cc_server <- function(id, obj) {
 
       dt_style <- list(
         data = ll$qmetacell,
-        colors = BuildColorStyles(rv$data@type)
+        colors = BuildColorStyles(get_type(rv$data))
       )
 
       formatDT_server("OneMultiDTDetailed",
@@ -740,10 +740,10 @@ omXplore_cc_server <- function(id, obj) {
       pepLine <- BuildOne2OneTab()[line, "peptides"]
 
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(rv$data@qdata) == x)
+        which(rownames(assay(rv$data)) == x)
       }))
-      qdata <- rv$data@qdata[indices, ]
-      qmetacell <- rv$data@metacell[indices, ]
+      qdata <- assay(rv$data)[indices, ]
+      qmetacell <- get_metacell(rv$data)[indices, ]
 
       list(
         qdata = convert2df(qdata),
@@ -766,7 +766,7 @@ omXplore_cc_server <- function(id, obj) {
 
       dt_style <- list(
         data = ll$qmetacell,
-        colors = BuildColorStyles(rv$data@type)
+        colors = BuildColorStyles(get_type(rv$data))
       )
       formatDT_server("OneOneDTDetailed",
         data = reactive({

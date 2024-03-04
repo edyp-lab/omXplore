@@ -67,11 +67,12 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
-    convert.R
+    All_generics.R
+    Prostar_1x.R
+    convert_to_mae.R
+    funcs_accessors.R
     doc-data.R
     build_datasets.R
-    VizData-class.R
-    VizList-class.R
     omXplore_cc.R
     omXplore_corrmatrix.R
     omXplore_density.R
@@ -84,7 +85,6 @@ Collate:
     omXplore_variance.R
     omXplore_view_dataset.R
     external_apps_examples.R
-    VizData_accessors.R
     get_pep_prot_CC.R
     global.R
     Infos_adjacencyMatrix.R

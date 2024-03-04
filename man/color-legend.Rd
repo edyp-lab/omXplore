@@ -20,7 +20,7 @@ colorLegend_server(
   hide.white = TRUE
 )
 
-colorLegend(obj)
+colorLegend(obj = SummarizedExperiment())
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
@@ -30,7 +30,7 @@ colorLegend(obj)
 \item{hide.white}{A \code{boolean()} to indicate whether the white cells must be
 hidden or not.}
 
-\item{obj}{An instance of the class \code{VizData}.}
+\item{obj}{An instance of the class \code{SummarizedExperiment}.}
 }
 \value{
 A vector
@@ -46,8 +46,8 @@ Shows xxx based on the tags in the package 'DaparToolshed'
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  colorLegend(vData_ft[[1]])
+  data(vdata)
+  colorLegend(vdata[[1]])
 }
 
 }

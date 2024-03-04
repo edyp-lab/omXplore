@@ -256,9 +256,9 @@ Children <- function(level, parent = NULL) {
 #'
 #' @description xxx
 #'
-#' @param object xxx
-#' @param level xxx
-#' @param onlyPresent xxx
+#' @param object A DataFrame() representing the cell metadata
+#' @param level A string corresponding to the type of object
+#' @param onlyPresent A `boolean(1)`
 #'
 #' @examples
 #' NULL
@@ -273,20 +273,24 @@ GetMetacellTags <- function(
     object = NULL,
     level = NULL,
     onlyPresent = FALSE) {
-  if (is.null(object)) {
-    stop("object in NULL")
-  }
-
-  if (is.null(level)) {
-    stop("level in NULL")
-  }
-
-  if (is.null(level) && all) {
-    stop("level must be defined is 'onlyPresent' equals to FALSE")
-  }
-
-
+  
   ll <- NULL
+  
+  
+  if(is.null(object) || !inherits(object, 'DataFrame')){
+    message('Object is NULL. Abort...')
+    return(invisible(NULL))
+  }
+    
+
+  if (is.null(level) && onlyPresent == TRUE) {
+    stop("level must be defined if 'onlyPresent' equals to FALSE")
+  } else {
+    return(invisible(NULL))
+  }
+
+
+  
   if (onlyPresent) {
     # Compute unique tags
     tmp <- lapply(colnames(object), function(x) unique(object[, x]))

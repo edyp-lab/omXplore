@@ -4,9 +4,14 @@
 #' @description
 #' xxxx
 #'
-#' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `VizData`.
-#' @param pal.name It is a reactive value.
+#' @param id xxx
+#' @param obj An instance of the class `SummarizedExperiment`
+#' 
+#'
+#' @param pal.name A `character(1)` which is the name of the palette from
+#' the package [RColorBrewer] from which the colors are taken. Default
+#' value is 'Set1'.
+#'
 #'
 #' @name density-plot
 #'
@@ -14,7 +19,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_density(vdata[[1]])
+#'   omXplore_density(vdata, 1)
 #' }
 #'
 NULL
@@ -48,22 +53,23 @@ omXplore_density_ui <- function(id) {
 omXplore_density_server <- function(
     id,
     obj = reactive({NULL}),
+    i = reactive({NULL}),
     pal.name = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    rv <- reactiveValues(
-      data = NULL
-    )
+    # rv <- reactiveValues(
+    #   data = NULL
+    # )
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
-          rv$data <- obj()
-        }
+        # if (inherits(obj(), "SummarizedExperiment")) {
+        #   rv$data <- obj()
+        # }
 
         shinyjs::toggle("badFormatMsg",
-          condition = !inherits(obj(), "VizData")
+          condition = !inherits(obj(), "MultiAssayExperiment")
         )
       },
       priority = 1000
@@ -71,13 +77,13 @@ omXplore_density_server <- function(
 
 
     output$plot_ui <- renderHighchart({
-      req(rv$data)
+      req(obj())
       tmp <- NULL
       isolate({
         withProgress(message = "Making plot", value = 100, {
           tmp <- densityPlot(
-            data = rv$data@qdata,
-            conds = rv$data@conds,
+            data = assay(obj()[[i()]]),
+            conds = get_group(obj()),
             pal.name = pal.name()
           )
         })
@@ -91,16 +97,7 @@ omXplore_density_server <- function(
 
 
 
-#' @param data A `data.frame` or `matrix` of `numeric()` which is the
-#' quantitative data to plot.
-#'
-#' @param conds A `character()` of condition name for each sample. The
-#' length of 'conds' must be equal to the number of columns of 'data'.
-#'
-#' @param pal.name A `character(1)` which is the name of the palette from
-#' the package [RColorBrewer] from which the colors are taken. Default
-#' value is 'Set1'.
-#'
+
 #' @import highcharter
 #' @importFrom stats density
 #'
@@ -118,21 +115,26 @@ omXplore_density_server <- function(
 #'
 densityPlot <- function(
     data,
-    conds,
+    conds = NULL,
     pal.name = NULL) {
+  
   if (missing(data)) {
     stop("'data' is missing.")
   }
 
-  if (missing(conds)) {
-    stop("'conds' is missing.")
-  }
+  # if (missing(conds)) {
+  #   stop("'conds' is missing.")
+  # }
 
-  if (length(conds) != ncol(data)) {
-    stop("data and conds must have the same number of samples.")
-  }
+  # if (length(conds) != ncol(data)) {
+  #   stop("data and conds must have the same number of samples.")
+  # }
 
-  myColors <- SampleColors(conds, pal.name)
+  myColors <- NULL
+  if (length(conds) > 0)
+    myColors <- SampleColors(conds, pal.name)
+  else
+    myColors <- SampleColors(seq(ncol(data)), pal.name)
 
 
   h1 <- highcharter::highchart() %>%
@@ -188,13 +190,15 @@ densityPlot <- function(
 #' @rdname density-plot
 #' @return A shiny app
 #'
-omXplore_density <- function(obj) {
+omXplore_density <- function(obj, i) {
   ui <- omXplore_density_ui("plot")
 
   server <- function(input, output, session) {
-    omXplore_density_server("plot", obj = reactive({
-      obj
-    }))
+    omXplore_density_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i})
+    )
+    
   }
 
   shinyApp(ui, server)

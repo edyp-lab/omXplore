@@ -15,12 +15,6 @@ omXplore_corrmatrix_server(
   id,
   obj = reactive({
      NULL
- }),
-  rate = reactive({
-     0.5
- }),
-  showValues = reactive({
-     FALSE
  })
 )
 
@@ -31,14 +25,14 @@ omXplore_corrmatrix(obj)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of the class \code{VizData}}
+\item{obj}{An instance of the class \code{SummarizedExperiment}}
+
+\item{data}{An object of class 'matrix'}
 
 \item{rate}{The rate parameter to control the exponential law for
 the gradient of colors}
 
 \item{showValues}{xxx}
-
-\item{data}{An object of class 'matrix'}
 }
 \value{
 NA
@@ -54,12 +48,12 @@ xxxx
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_corrmatrix(vData_ft[[1]])
+  data(vdata)
+  omXplore_corrmatrix(vdata[[1]])
 }
 
-data(vData_ft)
-qdata <- GetSlotQdata(vData_ft[[1]])
+data(vdata)
+qdata <- GetSlotQdata(vdata[[1]])
 corrMatrix(qdata)
 
 }

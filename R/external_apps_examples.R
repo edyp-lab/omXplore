@@ -53,7 +53,7 @@ extFoo1_server <- function(
     observe(
       {
         req(obj())
-        obj.cond <- inherits(obj(), "VizData")
+        obj.cond <- inherits(obj(), "SummarizedExperiment")
         if (obj.cond) {
           rv$data <- obj()
         } else {
@@ -125,7 +125,7 @@ extFoo2_server <- function(
     observe(
       {
         req(obj())
-        obj.cond <- inherits(obj(), "VizData")
+        obj.cond <- inherits(obj(), "SummarizedExperiment")
         if (obj.cond) {
           rv$data <- obj()
         } else {

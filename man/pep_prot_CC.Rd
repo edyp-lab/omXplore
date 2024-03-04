@@ -49,29 +49,16 @@ A plot
 Display a CC
 }
 \examples{
-data(vData_ms)
-obj <- vData_ms[[1]]
-g <- buildGraph(GetSlotCc(obj)[[1]])
-
-
-data(vData_ft)
-cc <- GetSlotCc(vData_ft[[1]])[[1]]
-g <- buildGraph(cc)
+data(vdata)
+g <- buildGraph(GetSlotCc(vdata[[1]]))
 display.CC.visNet(g)
 
-data(vData_ft)
-obj <- vData_ft[[1]]
-
-n.prot <- unlist(lapply(GetSlotCc(obj), function(x) {
-  ncol(x)
-}))
-n.pept <- unlist(lapply(GetSlotCc(obj), function(x) {
-  nrow(x)
-}))
+n.prot <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {ncol(x)}))
+n.pept <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {nrow(x)}))
 df <- tibble::tibble(
   x = jitter(n.pept),
   y = jitter(n.prot),
-  index = seq_len(length(GetSlotCc(obj)))
+  index = seq_len(length(GetSlotCc(vdata[[1]])))
 )
 plotCCJitter(df)
 

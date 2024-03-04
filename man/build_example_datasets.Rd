@@ -25,5 +25,7 @@ xxxxx
 \examples{
 build_toylist_example('myData')
 build_VizData_example()
+build_VizList_example()
+build_VizList_example_from_VizData()
 
 }

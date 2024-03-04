@@ -4,13 +4,13 @@
 \alias{FormatDataForDT}
 \title{Constructs a dataset suitable to use with the module format_DT.}
 \usage{
-FormatDataForDT(vizData, digits = 2)
+FormatDataForDT(se, digits = 2)
 }
 \arguments{
-\item{vizData}{An instance of the class \code{DaparViz}}
-
 \item{digits}{An 'integer(1)' to specify the number of digits to display
 in the tables for numerical values. Default is 2.}
+
+\item{vizData}{An instance of the class \code{omXplore}}
 }
 \value{
 A data.frame

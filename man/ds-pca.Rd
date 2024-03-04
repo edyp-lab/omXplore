@@ -74,16 +74,16 @@ xxx
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  obj <- vData_ft[[1]]
+  data(vdata)
+  obj <- vdata[[1]]
   # Replace missing values for the example
   qdata <- GetSlotQdata(obj)
   qdata[which(is.na(qdata))] <- 0
   omXplore_pca(obj)
 }
 
-data(vData_ft)
-obj <- vData_ft[[1]]
+data(vdata)
+obj <- vdata[[1]]
 res.pca <- wrapper_pca(obj)
 plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)

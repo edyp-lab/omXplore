@@ -17,7 +17,7 @@ Children(level, parent = NULL)
 GetMetacellTags(object = NULL, level = NULL, onlyPresent = FALSE)
 }
 \arguments{
-\item{level}{xxx}
+\item{level}{A string corresponding to the type of object}
 
 \item{node}{xxx
 
@@ -29,9 +29,9 @@ Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
 
 \item{parent}{xxx}
 
-\item{object}{xxx}
+\item{object}{A DataFrame() representing the cell metadata}
 
-\item{onlyPresent}{xxx}
+\item{onlyPresent}{A \code{boolean(1)}}
 }
 \value{
 A data.frame containing the different tags and corresponding colors
@@ -123,14 +123,12 @@ metacell.def("peptide")
 # A shiny app to view color legends
 #-----------------------------------------------
 if (interactive()) {
-  data(ft)
+  data(vdata)
   ui <- qMetacellLegend_ui("legend")
 
   server <- function(input, output, session) {
     qMetacellLegend_server("legend",
-      object = reactive({
-        ft[[1]]
-      })
+      object = reactive({vdata[[1]]})
     )
   }
 

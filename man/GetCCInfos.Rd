@@ -22,7 +22,7 @@ several (shared) peptides.
 xxxx
 }
 \examples{
-data(vData_ft)
-GetCCInfos(GetSlotCc(vData_ft[[1]]))
+data(vdata)
+GetCCInfos(GetSlotCc(vdata[[1]]))
 
 }

@@ -38,8 +38,8 @@ xxxx
 }
 \examples{
 if (interactive()) {
-  vData <- build_VizData_example()
-  omXplore_variance(vData)
+  data(vdata)
+  omXplore_variance(vdata[[1]])
 }
 
 }

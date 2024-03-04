@@ -60,7 +60,7 @@ convert_to_mae <- function(obj){
   } else {
     # Obj is a single MSnSet
   if (inherits(obj, "MSnSet"))
-    converted.obj <- MsnSet_to_mae(obj)
+    converted.obj <- MSnSet_to_mae(obj)
   else if (inherits(obj, "QFeatures"))
     converted.obj <- QFeatures_to_mae(obj) 
   else if (inherits(obj, "SummarizedExperiment"))
@@ -78,13 +78,23 @@ convert_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' 
-MsnSet_to_mae <- function(obj){
+MSnSet_to_mae <- function(obj){
 
-   MultiAssayExperiment(
+  .colData <- DataFrame(group = seq(ncol(exprs(obj))), 
+    row.names = colnames(exprs(obj)))
+  
+  
+  mae <- MultiAssayExperiment(
     experiments = ExperimentList(original = MSnSet_to_se(obj)),
-    colData = pData(obj),
+    colData = .colData,
     metadata = list(other = list())
-    )
+  )
+  
+  mae <- MAE_Compatibility_with_Prostar_1x(obj, mae)
+  
+  
+  mae
+   
 }
 
 
@@ -149,21 +159,6 @@ MAE_to_mae <- function(obj){
 
 
 
-
-
-#' @export
-#' @rdname converters
-#' 
-listOfLists_to_mae <- function(obj){
-  
-  
-  
-  mae <- MultiAssayExperiment()
-  
-  return(mae)
-}
-
-
 #' @export
 #' @rdname converters
 #' 
@@ -171,8 +166,7 @@ Check_se_Consistency <- function(obj){
   stopifnot(is.listOf(obj, 'MSnSet'))
   
   passed <- TRUE
-  
-  
+
   return(passed)
 }
 
@@ -231,7 +225,7 @@ return(passed)
 }
 
 
-
+#' @export
 MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))
   
@@ -258,7 +252,7 @@ stopifnot(inherits(obj, 'MSnSet'))
   
   
   .pkg_version <- tryCatch({
-    experimentData(obj[[1]])@other$Prostar_Version
+    experimentData(obj)@other$Prostar_Version
   }, warning = function(w) NA,
     error = function(e) NA
   )
@@ -269,16 +263,27 @@ stopifnot(inherits(obj, 'MSnSet'))
     type = .type,
     colID = .colID,
     proteinID = .proteinID,
-    cc = list()
+    cc = list(),
+    conds = pData(obj)[,'Condition']
   )
   
+  
   # Builds the SE corresponding to MSnSet 
-  SummarizedExperiment(
+  se <- SummarizedExperiment(
     assays = exprs(obj),
     metadata = se.meta,
     rowData = fData(obj)
   )
+  
+  # If the MSnSet has been created with Prostar_1.x
+  se <- SE_Compatibility_with_Prostar_1.x(obj, se)
+
+  se
+  
 }
+
+
+
 
 #' @export
 #' @rdname converters
@@ -292,9 +297,12 @@ listOfMSnSet_to_mae <- function(obj){
   
   names(ll.se) <- names(obj)
 
+  .colData <- DataFrame(group = seq(ncol(exprs(obj[[1]]))), 
+    row.names = colnames(exprs(obj[[1]])))
+  
   MultiAssayExperiment(
     experiments = ExperimentList(ll.se),
-    colData = pData(obj[[1]]),
+    colData = .colData,
     metadata = list(other = list())
   )
   

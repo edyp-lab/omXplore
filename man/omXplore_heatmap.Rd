@@ -107,12 +107,12 @@ of the heatmap.2 function.
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_heatmap(vData_ft[[1]])
+  data(vdata)
+  omXplore_heatmap(vdata[[1]])
 }
 
-data(vData_ft)
-heatmapD(vData_ft[[1]])
+data(vdata)
+heatmapD(vdata[[1]])
 
 }
 \author{

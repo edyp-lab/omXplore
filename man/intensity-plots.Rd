@@ -65,13 +65,13 @@ xxxx
 }
 \examples{
 if (interactive()) {
-  data(vData_ft)
-  omXplore_intensity(vData_ft[[1]])
+  data(vdata)
+  omXplore_intensity(vdata[[1]])
 }
 
-data(vData_ft)
-qdata <- GetSlotQdata(vData_ft[[1]])
-conds <- GetSlotConds(vData_ft[[1]])
+data(vdata)
+qdata <- GetSlotQdata(vdata[[1]])
+conds <- GetSlotConds(vdata[[1]])
 boxPlot(qdata, conds)
 
 }
