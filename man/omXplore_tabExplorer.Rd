@@ -4,7 +4,7 @@
 \alias{omXplore_tabExplorer}
 \alias{omXplore_tabExplorer_ui}
 \alias{omXplore_tabExplorer_server}
-\title{Explore \code{VizData} objects.}
+\title{Explore \code{MultiAssayExperiment} objects.}
 \usage{
 omXplore_tabExplorer_ui(id)
 
@@ -13,17 +13,22 @@ omXplore_tabExplorer_server(
   obj = reactive({
      NULL
  }),
+  i = reactive({
+     NULL
+ }),
   digits = reactive({
      3
  })
 )
 
-omXplore_tabExplorer(obj)
+omXplore_tabExplorer(obj, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of the class \code{VizData}}
+\item{obj}{An instance of the class \code{MultiAssayExperiment}}
+
+\item{i}{xxx}
 
 \item{digits}{xxx}
 }
@@ -42,7 +47,7 @@ xxx
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_tabExplorer(vdata[[1]])
+  omXplore_tabExplorer(vdata, 1)
 }
 
 }

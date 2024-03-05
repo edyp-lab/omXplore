@@ -7,7 +7,8 @@
 #' @name plot-variance
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `VizData`
+#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param i xxx
 #' @param pal.name A `character(1)` which is the name of the palette from the
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
@@ -16,7 +17,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_variance(vdata[[1]])
+#'   omXplore_variance(vdata, 1)
 #' }
 #'
 NULL
@@ -48,6 +49,7 @@ omXplore_variance_ui <- function(id) {
 omXplore_variance_server <- function(
     id,
     obj,
+    i,
     pal.name = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -56,11 +58,12 @@ omXplore_variance_server <- function(
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
+        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        if(is.mae) {
           rv$data <- obj()
         }
 
-        shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
+        shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
       },
       priority = 1000
     )
@@ -68,7 +71,9 @@ omXplore_variance_server <- function(
     output$viewDistCV <- renderHighchart({
       req(rv$data)
       withProgress(message = "Making plot", value = 100, {
-        varDist <- CVDist(rv$data, pal.name)
+        varDist <- CVDist(obj = assay(rv$data, i()),
+          conds = get_group(obj()),
+          pal.name)
       })
     })
 
@@ -103,12 +108,11 @@ omXplore_variance_server <- function(
 #'
 CVDist <- function(
     obj,
+  conds,
     pal.name = NULL) {
-  stopifnot(inherits(obj, "VizData"))
+  stopifnot(inherits(obj, "matrix"))
 
 
-  conds <- GetSlotConds(obj)
-  
   if (is.null(conds) || length(conds)==0) {
     stop("obj contains no conds.")
   }
@@ -145,7 +149,7 @@ CVDist <- function(
   for (i in seq_len(length(u_conds))) {
     if (length(which(conds == u_conds[i])) > 1) {
       t <- apply(
-        obj@qdata[, which(conds == u_conds[i])], 1,
+        obj[, which(conds == u_conds[i])], 1,
         function(x) {
           100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
         }
@@ -185,14 +189,16 @@ CVDist <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_variance <- function(obj) {
+omXplore_variance <- function(obj, i) {
   ui <- fluidPage(
     omXplore_variance_ui("plot")
     )
 
   server <- function(input, output, session) {
     omXplore_variance_server("plot", 
-      obj = reactive({obj}))
+      obj = reactive({obj}),
+      i = reactive({i})
+      )
   }
 
   shinyApp(ui, server)

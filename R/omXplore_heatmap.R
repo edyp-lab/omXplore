@@ -8,7 +8,7 @@
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param width xxx
-#' @param obj An instance of a class `VizData`.
+#' @param obj An instance of a class `MultiAssayExperiment`.
 #' @param distance The distance used by the clustering algorithm to compute
 #' the dendrogram.
 #' @param cluster the clustering algorithm used to build the dendrogram.
@@ -24,7 +24,7 @@
 #' @param ylab xxxx
 #'
 #'
-#' @author Florence Combes, Samuel Wieczorek, Enor Fremy
+#' @author Florence Combes, Samuel Wieczorek, Enora Fremy
 #'
 #' @name omXplore_heatmap
 #'
@@ -32,7 +32,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_heatmap(vdata[[1]])
+#'   omXplore_heatmap(vdata, 1)
 #' }
 #'
 NULL
@@ -81,29 +81,28 @@ omXplore_heatmap_ui <- function(id) {
 #'
 omXplore_heatmap_server <- function(
     id,
-    obj = reactive({
-      NULL
-    }),
+    obj = reactive({NULL}),
+    i = reactive({NULL}),
     width = 900) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    rv <- reactiveValues(data = NULL)
+    #rv <- reactiveValues(data = NULL)
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
-          rv$data <- obj()
-        }
+        # if (inherits(obj(), "MultiAssayExperiment")) {
+        #   rv$data <- obj()
+        # }
 
         shinyjs::toggle("badFormatMsg",
-          condition = !inherits(obj(), "VizData")
+          condition = !inherits(obj(), "MultiAssayExperiment")
         )
         shinyjs::toggle("linkage",
-          condition = !inherits(obj(), "VizData")
+          condition = !inherits(obj(), "MultiAssayExperiment")
         )
         shinyjs::toggle("distance",
-          condition = !inherits(obj(), "VizData")
+          condition = !inherits(obj(), "MultiAssayExperiment")
         )
       },
       priority = 1000
@@ -115,8 +114,8 @@ omXplore_heatmap_server <- function(
     width <- paste0(width, "px")
 
     output$omXplore_PlotHeatmap <- renderUI({
-      req(rv$data)
-      if (nrow(rv$data@qdata) > limitHeatmap) {
+      req(obj())
+      if (nrow(assay(obj(), i())) > limitHeatmap) {
         tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
       } else {
@@ -127,13 +126,14 @@ omXplore_heatmap_server <- function(
 
 
     output$heatmap_ui <- renderPlot({
-      req(rv$data)
+      req(obj())
       input$linkage
       input$distance
 
       withProgress(message = "Making plot", value = 100, {
         heatmapD(
-          obj = rv$data,
+          qdata = assay(obj(), i()),
+          conds = get_group(obj()),
           distance = input$distance,
           cluster = input$linkage
         )
@@ -149,15 +149,15 @@ omXplore_heatmap_server <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_heatmap <- function(obj) {
+omXplore_heatmap <- function(obj, i) {
   ui <- fluidPage(
     omXplore_heatmap_ui("plot")
   )
 
   server <- function(input, output, session) {
-    omXplore_heatmap_server("plot", reactive({
-      obj
-    }))
+    omXplore_heatmap_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i}))
   }
 
   shinyApp(ui = ui, server = server)

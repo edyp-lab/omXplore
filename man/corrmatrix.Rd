@@ -15,17 +15,22 @@ omXplore_corrmatrix_server(
   id,
   obj = reactive({
      NULL
+ }),
+  i = reactive({
+     1
  })
 )
 
 corrMatrix(data, rate = 0.5, showValues = FALSE)
 
-omXplore_corrmatrix(obj)
+omXplore_corrmatrix(obj, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
 \item{obj}{An instance of the class \code{SummarizedExperiment}}
+
+\item{i}{xxx}
 
 \item{data}{An object of class 'matrix'}
 
@@ -49,7 +54,7 @@ xxxx
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_corrmatrix(vdata[[1]])
+  omXplore_corrmatrix(vdata, 1)
 }
 
 data(vdata)

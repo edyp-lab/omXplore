@@ -11,16 +11,18 @@ numeric matrix.}
 \usage{
 omXplore_variance_ui(id)
 
-omXplore_variance_server(id, obj, pal.name = NULL)
+omXplore_variance_server(id, obj, i, pal.name = NULL)
 
-CVDist(obj, pal.name = NULL)
+CVDist(obj, conds, pal.name = NULL)
 
-omXplore_variance(obj)
+omXplore_variance(obj, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
 \item{obj}{An instance of the class \code{VizData}}
+
+\item{i}{xxx}
 
 \item{pal.name}{xxx}
 }
@@ -39,7 +41,7 @@ xxxx
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_variance(vdata[[1]])
+  omXplore_variance(vdata, 1)
 }
 
 }

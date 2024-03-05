@@ -188,10 +188,10 @@ view_dataset_server <- function(
     observe({
       req(obj())
         
-        inherits_VizList <- inherits(obj(), "VizList")
+        inherits_VizList <- inherits(obj(), "MultiAssayExperiment")
         if (inherits_VizList) {
           rv$data <- obj()
-          conds <- GetSlotConds(rv$data[1])
+          conds <- get_group(rv$data[1])
 
           # Load external modules
           addModules(addons)
@@ -207,7 +207,9 @@ view_dataset_server <- function(
     
 
     output$ShowPlots_ui <- renderUI({
-      req(c(rv$data, rv$ll.mods))
+      req(rv$data)
+      req(rv$ll.mods)
+
       lapply(rv$ll.mods, function(x) {
         jqui_resizable(paste0("#", ns(paste0("window_", x)), " .modal-content"))
         
@@ -242,7 +244,7 @@ view_dataset_server <- function(
 
     
     observe({
-      req(rv$current.se)
+      req(input$chooseDataset)
       req(rv$ll.mods)
 
       for (x in rv$ll.mods) {
@@ -251,9 +253,8 @@ view_dataset_server <- function(
           paste0(x, "_server"),
           list(
             id = paste0(x, "_large"),
-            obj = reactive({
-              rv$current.se
-            })
+            obj = reactive({rv$data}),
+            i = reactive({input$chooseDataset})
           )
         )
       }
@@ -261,10 +262,10 @@ view_dataset_server <- function(
 
    
 
-    # Update current.se variable
-    observeEvent(req(rv$data, input$chooseDataset), ignoreNULL = TRUE, {
-      rv$current.se <- rv$data[[input$chooseDataset]]
-    })
+    # # Update current.se variable
+    # observeEvent(req(rv$data, input$chooseDataset), ignoreNULL = TRUE, {
+    #   rv$current.se <- rv$data[[input$chooseDataset]]
+    # })
 
     output$chooseDataset_ui <- renderUI({
       req(rv$data)
@@ -303,8 +304,8 @@ view_dataset <- function(
     obj = NULL,
     addons = NULL) {
   
-  if (!inherits(obj, "VizList"))
-    obj <- convert2VizList(obj)
+  if (!inherits(obj, "MultiAssayExperiment"))
+    obj <- convert_to_mae(obj)
   
   ui <- fluidPage(
     view_dataset_ui("dataset")

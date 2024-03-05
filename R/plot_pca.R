@@ -3,7 +3,8 @@
 #' @importFrom stats na.omit
 #'
 #' @param res.pca xxx
-#' @param obj xxx
+#' @param qdata xxx
+#' @param group xxx
 #' @param var.scaling xxx
 #' @param ncp xxx
 #' @param chosen.axes xxx
@@ -29,16 +30,18 @@ NULL
 #' @import FactoMineR
 #'
 wrapper_pca <- function(
-    obj,
+    qdata,
+  group,
     var.scaling = TRUE,
     ncp = NULL) {
-  stopifnot(inherits(obj, "VizData"))
+  
 
-
-  if (missing(obj)) {
-    stop("'obj' is missing.")
+  if (missing(qdata)) {
+    stop("'qdata' is missing.")
   }
 
+  stopifnot(inherits(qdata, "matrix"))
+  
 
   if (is.null(var.scaling)) {
     var.scaling <- TRUE
@@ -49,18 +52,18 @@ wrapper_pca <- function(
   # if (length(which(is.na(obj@qdata))) > 0) {
   if (is.null(ncp)) {
     nmax <- 12
-    y <- obj@qdata
+    y <- qdata
     nprot <- dim(y)[1]
     n <- dim(y)[2] # If too big, take the number of conditions.
 
     if (n > nmax) {
-      n <- length(unique(obj@conds))
+      n <- length(unique(group))
     }
 
     ncp <- min(n, nmax)
   }
 
-  res.pca <- FactoMineR::PCA(obj@qdata,
+  res.pca <- FactoMineR::PCA(qdata,
     scale.unit = var.scaling,
     ncp = ncp,
     graph = FALSE

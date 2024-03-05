@@ -3,7 +3,7 @@
 #' @description This shiny module provides a tool to select
 #'
 #' @param id shiny id
-#' @param obj An instance of the class `VizData`
+#' @param obj An instance of the class `MultiAssayExperiment`
 #' @param resetBtn A `boolean(1)` which indicates whether to show the 'Reset'
 #' button or not.
 #'
@@ -11,7 +11,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   plots_tracking(vdata[[1]])
+#'   plots_tracking(vdata, 1)
 #' }
 #'
 #' @name plots_tracking
@@ -66,9 +66,8 @@ plots_tracking_ui <- function(id) {
 #'
 plots_tracking_server <- function(
     id,
-    obj = reactive({
-      NULL
-    }),
+    obj = reactive({NULL}),
+  i = reactive({1}),
     resetBtn = reactive({
       FALSE
     })) {
@@ -88,7 +87,7 @@ plots_tracking_server <- function(
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
+        if (inherits(obj(), "MultiAssayExperiment")) {
           rv.track$data <- obj()
         }
 
@@ -131,10 +130,11 @@ plots_tracking_server <- function(
         )
       }
 
-      if (!is.null(rv.track$data@colID) &&
-        rv.track$data@colID != "" &&
-        length(rv.track$data@colID) > 0) {
-        .choices <- (rv.track$data@metadata)[, rv.track$data@colID]
+      
+      .colID <- get_colID(rv.track$data[[i()]])
+      .row <- rowData(rv.track$data[[i()]])
+      if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
+        .choices <- .row[, .colID]
         updateSelectizeInput(session, "listSelect",
           choices = .choices,
           selected = character(0),
@@ -156,10 +156,12 @@ plots_tracking_server <- function(
 
 
     Get_LogicalCols_in_Dataset <- reactive({
+      .row <- rowData(rv.track$data[[i()]])
+      
       logical.cols <- lapply(
-        colnames(rv.track$data@metadata),
+        colnames(.row),
         function(x) {
-          is.logical((rv.track$data@metadata)[, x])
+          is.logical(.row[, x])
         }
       )
       logical.cols <- which(unlist(logical.cols))
@@ -200,17 +202,17 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(length(input$listSelect) > 0), ignoreNULL = FALSE, {
-      dataOut$indices <- match(
-        input$listSelect,
-        (rv.track$data@metadata)[, rv.track$data@colID]
-      )
+      .row <- rowData(assay(rv.track$data[[i()]]))
+      .id <- get_colID(rv.track$data[[i()]])
+      dataOut$indices <- match(input$listSelect, .row[, .id])
     })
 
 
     observeEvent(req(!is.null(input$randSelect) && input$randSelect != ""),
       ignoreNULL = FALSE,
       {
-        dataOut$indices <- sample(seq_len(nrow(rv.track$data@metadata)),
+        .row <- rowData(rv.track$data[[i()]])
+        dataOut$indices <- sample(seq_len(nrow(.row)),
           as.numeric(input$randSelect),
           replace = FALSE
         )
@@ -221,7 +223,8 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(input$colSelect), {
-      .arg <- (rv.track$data@metadata)[, input$colSelect]
+      .row <- rowData(rv.track$data[[i()]])
+      .arg <- .row[, input$colSelect]
       dataOut$indices <- which(.arg == TRUE)
     })
 
@@ -239,15 +242,16 @@ plots_tracking_server <- function(
 #' @rdname plots_tracking
 #' @return A shiny app
 #'
-plots_tracking <- function(obj) {
+plots_tracking <- function(obj, i) {
   ui <- fluidPage(
     plots_tracking_ui("tracker")
   )
 
   server <- function(input, output, session) {
-    indices <- plots_tracking_server("tracker", obj = reactive({
-      obj
-    }))
+    indices <- plots_tracking_server("tracker", 
+      obj = reactive({obj}),
+      i = reactive({i})
+    )
   }
 
   shinyApp(ui, server)

@@ -17,12 +17,21 @@ omXplore_heatmap_server(
   obj = reactive({
      NULL
  }),
+  i = reactive({
+     NULL
+ }),
   width = 900
 )
 
-omXplore_heatmap(obj)
+omXplore_heatmap(obj, i)
 
-heatmapD(obj, distance = "euclidean", cluster = "complete", dendro = FALSE)
+heatmapD(
+  qdata,
+  conds,
+  distance = "euclidean",
+  cluster = "complete",
+  dendro = FALSE
+)
 
 mv.heatmap(
   x,
@@ -51,7 +60,7 @@ heatmapForMissingValues(
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of a class \code{VizData}.}
+\item{obj}{An instance of a class \code{MultiAssayExperiment}.}
 
 \item{width}{xxx}
 
@@ -108,15 +117,15 @@ of the heatmap.2 function.
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_heatmap(vdata[[1]])
+  omXplore_heatmap(vdata, 1)
 }
 
 data(vdata)
-heatmapD(vdata[[1]])
+heatmapD(vdata, 1)
 
 }
 \author{
-Florence Combes, Samuel Wieczorek, Enor Fremy
+Florence Combes, Samuel Wieczorek, Enora Fremy
 
 Samuel Wieczorek
 }

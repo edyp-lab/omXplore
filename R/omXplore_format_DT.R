@@ -29,7 +29,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   formatDT(GetSlotQdata(vdata[[1]]))
+#'   formatDT(assay(vdata, 1))
 #' }
 #'
 #' @return NA
@@ -91,18 +91,21 @@ formatDT_server <- function(id,
     checkValidity <- reactive({
       passed <- TRUE
 
-      passed <- passed && !is.null(dt_style()$data)
+      #passed <- passed && !is.null(dt_style()$data)
 
       passed <- passed &&
         (inherits(data(), "data.frame") ||
           inherits(data(), "matrix"))
 
-      passed <- passed &&
+      if(!is.null(dt_style())){
+        passed <- passed &&
         (inherits(dt_style()$data, "data.frame") ||
-          inherits(dt_style()$data, "matrix"))
+          inherits(dt_style()$data, "matrix")||
+            inherits(dt_style()$data, "DataFrame"))
 
       passed <- passed &&
         nrow(data()) == nrow(dt_style()$data)
+      }
 
       passed
     })
@@ -123,9 +126,10 @@ formatDT_server <- function(id,
     prepareDataset <- reactive({
       df <- data()
 
+      .data <- as.data.frame(dt_style()$data)
       if (!is.null(dt_style()) && checkValidity()) {
-        df <- cbind(df, dt_style()$data)
-        rv$tgt2hide <- ncol(data()) - 1 + seq_len(ncol(dt_style()$data))
+        df <- cbind(df, .data)
+        rv$tgt2hide <- ncol(data()) - 1 + seq(ncol(.data))
       }
 
       if (!is.null(data_nostyle())) {

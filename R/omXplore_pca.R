@@ -13,7 +13,8 @@
 #' * `plotPCA_Ind()`:
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `VizData`.
+#' @param obj An instance of the class `MultiAssayExperiment`.
+#' @param i xxxx
 #' @param var.scaling The dimensions to plot
 #' @param ncp A `integer(1)` which represents the umber of dimensions kept in
 #' the results.
@@ -30,11 +31,10 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   obj <- vdata[[1]]
 #'   # Replace missing values for the example
-#'   qdata <- GetSlotQdata(obj)
-#'   qdata[which(is.na(qdata))] <- 0
-#'   omXplore_pca(obj)
+#'   sel <- is.na(assay(vdata, 1))
+#'   assay(vdata[[1]])[sel] <- 0
+#'   omXplore_pca(vdata, 1)
 #' }
 #'
 NULL
@@ -68,7 +68,8 @@ omXplore_pca_ui <- function(id) {
 #'
 omXplore_pca_server <- function(
     id,
-    obj) {
+    obj,
+    i) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -82,12 +83,14 @@ omXplore_pca_server <- function(
 
     observe(
       {
-        is.VizData <- inherits(obj(), "VizData")
-        if (is.VizData) {
-          rv.pca$data <- as.matrix(obj()@qdata)
-        }
+        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        stopifnot(is.mae)
+        
+         if (is.mae) {
+           rv.pca$data <- assay(obj(), i())
+         }
 
-        shinyjs::toggle("badFormatMsg", condition = !is.VizData)
+        shinyjs::toggle("badFormatMsg", condition = !is.mae)
       },
       priority = 1000
     )
@@ -151,7 +154,8 @@ omXplore_pca_server <- function(
     observeEvent(input$varScale_PCA, ignoreInit = FALSE, {
       rv.pca$PCA_varScale <- input$varScale_PCA
       rv.pca$res.pca <- wrapper_pca(
-        obj = obj(),
+        qdata = assay(obj(), i()),
+        group = get_group(obj()),
         var.scaling = rv.pca$PCA_varScale,
         ncp = Compute_PCA_dim()
       )
@@ -161,7 +165,8 @@ omXplore_pca_server <- function(
       req(length(which(is.na(rv.pca$data))) == 0)
 
       rv.pca$res.pca <- wrapper_pca(
-        obj = obj(),
+        qdata = assay(obj(), i()),
+        group = get_group(obj()),
         var.scaling = rv.pca$PCA_varScale,
         ncp = Compute_PCA_dim()
       )
@@ -184,9 +189,7 @@ omXplore_pca_server <- function(
     observe({
       df <- as.data.frame(rv.pca$res.pca$var$coord)
       formatDT_server("PCAvarCoord",
-        data = reactive({
-          round(df, digits = 2)
-        }),
+        data = reactive({round(df, digits = 2)}),
         showRownames = TRUE
       )
     })
@@ -236,7 +239,7 @@ omXplore_pca_server <- function(
       n <- dim(y)[2] # If too big, take the number of conditions.
 
       if (n > nmax) {
-        n <- length(unique(obj()@conds))
+        n <- length(unique(get_group(obj())))
       }
 
       ncp <- min(n, nmax)
@@ -251,13 +254,13 @@ omXplore_pca_server <- function(
 #' @rdname ds-pca
 #' @return A shiny app
 #'
-omXplore_pca <- function(obj) {
+omXplore_pca <- function(obj, i) {
   ui <- omXplore_pca_ui("plot")
 
   server <- function(input, output, session) {
-    omXplore_pca_server("plot", obj = reactive({
-      obj
-    }))
+    omXplore_pca_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i}))
   }
   shinyApp(ui = ui, server = server)
 }

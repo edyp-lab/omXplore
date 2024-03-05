@@ -197,7 +197,7 @@ BuildColorStyles <- function(type) {
 #' @export
 #'
 GetCCInfos <- function(cc) {
-  stopifnot(inherits(cc, "list"))
+  #stopifnot(inherits(cc, "list"))
   cc.infos <- list(
     One_One = list(),
     One_Multi = list(),
@@ -205,12 +205,8 @@ GetCCInfos <- function(cc) {
   )
 
 
-  ll.prot <- lapply(cc, function(x) {
-    ncol(x)
-  })
-  ll.pept <- lapply(cc, function(x) {
-    nrow(x)
-  })
+  ll.prot <- lapply(cc, function(x) { ncol(x)})
+  ll.pept <- lapply(cc, function(x) {nrow(x) })
   ll.prot.one2one <- intersect(which(ll.prot == 1), which(ll.pept == 1))
   ll.prot.one2multi <- intersect(which(ll.prot == 1), which(ll.pept > 1))
   ll.prot.multi2any <- which(ll.prot > 1)

@@ -256,6 +256,7 @@ stopifnot(inherits(obj, 'MSnSet'))
   }, warning = function(w) NA,
     error = function(e) NA
   )
+
   
   # Prebuild metadata info for SE
   se.meta <- list(
@@ -267,7 +268,6 @@ stopifnot(inherits(obj, 'MSnSet'))
     conds = pData(obj)[,'Condition']
   )
   
-  
   # Builds the SE corresponding to MSnSet 
   se <- SummarizedExperiment(
     assays = exprs(obj),
@@ -278,12 +278,34 @@ stopifnot(inherits(obj, 'MSnSet'))
   # If the MSnSet has been created with Prostar_1.x
   se <- SE_Compatibility_with_Prostar_1.x(obj, se)
 
+  
+  se <- Build_X_CC(se)
+  
   se
   
 }
 
 
 
+#' @export
+#' @rdname converters
+#' 
+Build_X_CC <- function(se){
+  
+  original.se <- se
+  tryCatch({
+    X <- PSMatch::makeAdjacencyMatrix((rowData(se))[, get_proteinID(se)])
+    rownames(X) <- rownames(rowData(se))
+    cc <- PSMatch::ConnectedComponents(X)@adjMatrices
+    rowData(se)[['adjacencyMatrix']] <- X
+    
+    metadata(se)[['cc']] <- cc
+    se
+  }, warning = function(w) original.se,
+    error = function(e) original.se
+  )
+  
+}
 
 #' @export
 #' @rdname converters

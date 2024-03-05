@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' data(vdata)
-#' g <- buildGraph(GetSlotCc(vdata[[1]]))
+#' g <- buildGraph(get_cc(vdata[[1]]))
 #' display.CC.visNet(g)
 #'
 #' n.prot <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {ncol(x)}))
@@ -38,11 +38,14 @@ NULL
 buildGraph <- function(
     cc,
     metadata = NULL) {
+  
+  
   nb.prot <- ncol(cc)
-  nb.pep <- nrow(cc)
   subX <- cc
-  colnames(subX) <- colnames(cc)
+  #colnames(subX) <- colnames(cc)
   subX <- as.matrix(subX)
+  
+  nb.pep <- nrow(cc)
   nb.pep.shared <- length(which(rowSums(subX) > 1))
   nb.pep.spec <- length(which(rowSums(subX) == 1))
   nb.total <- nb.prot + nb.pep
@@ -51,17 +54,19 @@ buildGraph <- function(
   def.grp <- c(rep("shared.peptide", nb.pep), rep("protein", nb.prot))
   def.grp[which(rowSums(subX) == 1)] <- "spec.peptide"
 
-  buildNodesInfos <- function(metadata) {
+  buildNodesInfos <- function(cc, metadata, info.indice = 1) {
+    
     nodes_infos <- NULL
     if (!is.null(metadata)) {
-      nodes_infos <- rep("", nb.total)
-
+      #nodes_infos <- rep("", nrow(cc)+ncol(cc))
+      nodes_infos <- vector()
       # We add infos only on peptides nodes
-      for (i in seq_len(nb.pep)) {
+      for (i in seq(nrow(cc))) {
         ind <- which(rownames(metadata) == rownames(cc)[i])
-        nodes_infos[i] <- paste0(
-          "<p>", colnames(metadata)[i], ":",
-          metadata[ind, ], "</p>"
+        nodes_infos <- c(nodes_infos, 
+          paste0(
+          "<p>", colnames(metadata)[info.indice], ":",
+          metadata[ind, info.indice], "</p>")
         )
       }
     }
@@ -69,17 +74,18 @@ buildGraph <- function(
   }
 
   nodes <- data.frame(
-    id = seq_len(nb.total),
+    id = seq(nb.total),
     group = def.grp,
     label = c(rownames(subX), colnames(subX)),
     size = c(rep(10, nb.pep), rep(20, nb.prot)),
     stringsAsFactors = FALSE
   )
 
-  title <- buildNodesInfos(metadata)
-  if (!is.null(title)) {
-    nodes <- cbind(nodes, title)
-  }
+  #browser()
+  title <- buildNodesInfos(cc, metadata)
+  #if (!is.null(title)) {
+  #  nodes <- cbind(nodes, title)
+  #}
 
   edges <- data.frame(
     from = c(edge.list$row),

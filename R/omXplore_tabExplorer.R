@@ -1,9 +1,10 @@
-#' @title Explore `VizData` objects.
+#' @title Explore `MultiAssayExperiment` objects.
 #'
 #' @description xxx
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `VizData`
+#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param i xxx
 #' @param digits xxx
 #'
 #'
@@ -12,7 +13,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_tabExplorer(vdata[[1]])
+#'   omXplore_tabExplorer(vdata, 1)
 #' }
 #' 
 #' @return NA
@@ -41,15 +42,15 @@ omXplore_tabExplorer_ui <- function(id) {
         id = ns("div_infos"),
         shinyBS::bsCollapse(
           id = "infos", open = "", multiple = TRUE,
-          shinyBS::bsCollapsePanel("Quantitative data",
+          shinyBS::bsCollapsePanel("Assays",
             DT::DTOutput(ns("qdata_ui")),
             style = "info"
           ),
-          shinyBS::bsCollapsePanel("Metadata",
+          shinyBS::bsCollapsePanel("Row data",
             DT::DTOutput(ns("metadata_ui")),
             style = "info"
           ),
-          shinyBS::bsCollapsePanel("quantitative Metadata",
+          shinyBS::bsCollapsePanel("Metacell",
             DT::DTOutput(ns("qMetacell_ui")),
             style = "info"
           )
@@ -70,12 +71,9 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @export
 omXplore_tabExplorer_server <- function(
     id,
-    obj = reactive({
-      NULL
-    }),
-    digits = reactive({
-      3
-    })) {
+    obj = reactive({NULL}),
+    i = reactive({NULL}),
+    digits = reactive({3})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -83,18 +81,21 @@ omXplore_tabExplorer_server <- function(
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
+        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        
+        if (isTRUE(is.mae)){
           rv$data <- obj()
 
-          tags <- GetMetacellTags(rv$data@metacell,
-            level = rv$data@type,
+          tags <- GetMetacellTags(
+            get_metacell(rv$data[[i()]]),
+            level = get_type(rv$data[[i()]]),
             onlyPresent = TRUE
           )
 
           colorLegend_server("legend", tags)
         }
 
-        shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
+        shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
         shinyjs::toggle("div_infos", condition = !is.null(rv$data))
         shinyjs::toggle("div_legend", condition = !is.null(rv$data))
       },
@@ -139,7 +140,17 @@ omXplore_tabExplorer_server <- function(
     output$metadata_ui <- DT::renderDT({
       req(rv$data)
 
-      dat <- DT::datatable(tibble::as_tibble(rv$data@metadata),
+      .row <- rowData(rv$data[[i()]])
+      
+      tryCatch({# remove columns that are instances of DataFrame
+      .row <- .row[, -match('adjacencyMatrix', colnames(.row))]
+      .row <- .row[, -match('metacell', colnames(.row))]
+      },
+        warning = function(w) NULL,
+        error = function(e) NULL
+        )
+      
+      dat <- DT::datatable(as.data.frame(.row),
         rownames = TRUE,
         extensions = c("Scroller", "Buttons", "FixedColumns"),
         options = list(
@@ -166,7 +177,7 @@ omXplore_tabExplorer_server <- function(
         )
       )
 
-      if ("Significant" %in% colnames(rv$data@metadata)) {
+      if ("Significant" %in% colnames(.row)) {
         dat <- dat %>%
           DT::formatStyle(
             columns = "Significant",
@@ -181,16 +192,18 @@ omXplore_tabExplorer_server <- function(
 
     output$qdata_ui <- DT::renderDataTable(server = TRUE, {
       req(rv$data)
+      .row <- rowData(rv$data[[i()]])
+      
 
       df <- cbind(
-        keyId = (rv$data@metadata)[, rv$data@colID],
-        round(rv$data@qdata, digits = digits()),
-        rv$data@metacell
+        keyId = (.row)[, get_colID(rv$data[[i()]])],
+        round(assay(rv$data, i()), digits = digits()),
+        get_metacell(rv$data[[i()]])
       )
 
       colors <- custom_metacell_colors()
 
-      DT::datatable(df,
+      DT::datatable(as.data.frame(df),
         extensions = c("Scroller"),
         options = list(
           initComplete = .initComplete(),
@@ -225,10 +238,10 @@ omXplore_tabExplorer_server <- function(
 
     output$qMetacell_ui <- DT::renderDataTable(server = TRUE, {
       req(rv$data)
-      df <- rv$data@metacell
+      df <- get_metacell(rv$data[[i()]])
       colors <- custom_metacell_colors()
 
-      DT::datatable(df,
+      DT::datatable(as.data.frame(df),
         extensions = c("Scroller"),
         options = list(
           initComplete = .initComplete(),
@@ -263,13 +276,13 @@ omXplore_tabExplorer_server <- function(
 #' @import shiny
 #' @return A shiny app
 #'
-omXplore_tabExplorer <- function(obj) {
+omXplore_tabExplorer <- function(obj, i) {
   ui <- fluidPage(omXplore_tabExplorer_ui("plot"))
 
   server <- function(input, output, session) {
-    omXplore_tabExplorer_server("plot", reactive({
-      obj
-    }))
+    omXplore_tabExplorer_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i}))
   }
 
   shinyApp(ui = ui, server = server)

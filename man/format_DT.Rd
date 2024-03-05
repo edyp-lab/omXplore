@@ -73,7 +73,7 @@ must contain the correct columns )
 \examples{
 if (interactive()) {
   data(vdata)
-  formatDT(GetSlotQdata(vdata[[1]]))
+  formatDT(assay(vdata, 1))
 }
 
 }

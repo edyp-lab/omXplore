@@ -14,11 +14,11 @@
 \usage{
 omXplore_pca_ui(id)
 
-omXplore_pca_server(id, obj)
+omXplore_pca_server(id, obj, i)
 
-omXplore_pca(obj)
+omXplore_pca(obj, i)
 
-wrapper_pca(obj, var.scaling = TRUE, ncp = NULL)
+wrapper_pca(qdata, group, var.scaling = TRUE, ncp = NULL)
 
 plotPCA_Eigen(res.pca)
 
@@ -31,7 +31,13 @@ plotPCA_Eigen_hc(res.pca)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{MultiAssayExperiment}.}
+
+\item{i}{xxxx}
+
+\item{qdata}{xxx}
+
+\item{group}{xxx}
 
 \item{var.scaling}{xxx}
 
@@ -75,11 +81,10 @@ xxx
 \examples{
 if (interactive()) {
   data(vdata)
-  obj <- vdata[[1]]
   # Replace missing values for the example
-  qdata <- GetSlotQdata(obj)
-  qdata[which(is.na(qdata))] <- 0
-  omXplore_pca(obj)
+  sel <- is.na(assay(vdata, 1))
+  assay(vdata[[1]])[sel] <- 0
+  omXplore_pca(vdata, 1)
 }
 
 data(vdata)

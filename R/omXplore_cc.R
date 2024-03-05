@@ -4,6 +4,7 @@
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of `SummarizedExperiment` class
+#' @param i xxx
 #'
 #' @keywords internal
 #'
@@ -11,7 +12,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_cc(vdata[[1]])
+#'   omXplore_cc(vdata, 1)
 #' }
 #'
 #' @name ds-cc
@@ -131,25 +132,27 @@ omXplore_cc_ui <- function(id) {
 #' @import visNetwork
 #' @import highcharter
 #'
-omXplore_cc_server <- function(id, obj) {
+omXplore_cc_server <- function(id, 
+  obj = reactive({NULL}), 
+  i = reactive({1})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     rv <- reactiveValues(
       data = NULL,
+      cc = list(),
       isValid = FALSE
     )
 
 
 
-    observeEvent(obj(),
-      ignoreInit = FALSE,
-      {
-        obj.valid <- inherits(obj(), "SummarizedExperiment")
-        cc.exists <- length(get_cc(obj())) > 0
+    observeEvent(obj(), ignoreInit = FALSE,{
+        obj.valid <- inherits(obj(), "MultiAssayExperiment")
+        cc.exists <- length(get_cc(obj()[[i()]])) > 0
 
         if (obj.valid && cc.exists) {
-          rv$data <- obj()
+          rv$data <- obj()[[i()]]
+          rv$cc <- GetCCInfos(get_cc(rv$data))
         }
 
         shinyjs::toggle("mainUI", condition = obj.valid && cc.exists)
@@ -174,15 +177,9 @@ omXplore_cc_server <- function(id, obj) {
         specPepLabels = NULL,
         protLabels = NULL
       ),
-      OneOneDT_rows_selected = reactive({
-        NULL
-      }),
-      OneMultiDT_rows_selected = reactive({
-        NULL
-      }),
-      CCMultiMulti_rows_selected = reactive({
-        NULL
-      })
+      OneOneDT_rows_selected = reactive({NULL}),
+      OneMultiDT_rows_selected = reactive({NULL}),
+      CCMultiMulti_rows_selected = reactive({NULL})
     )
 
 
@@ -192,18 +189,14 @@ omXplore_cc_server <- function(id, obj) {
     ##
     ## //////////////////////////////////////////////////////////////////
     observeEvent(req(input$searchCC), {
-      shinyjs::toggle("jiji",
-        condition = input$searchCC == "graphical"
-      )
-      shinyjs::toggle("CCMultiMulti_UI",
-        condition = input$searchCC == "tabular"
-      )
+      shinyjs::toggle("jiji", condition = input$searchCC == "graphical")
+      shinyjs::toggle("CCMultiMulti_UI", condition = input$searchCC == "tabular")
     })
 
 
     output$pepInfo_ui <- renderUI({
       selectInput(ns("pepInfo"), "Peptide Info",
-        choices = colnames(get_metadata(rv$data)),
+        choices = colnames(rowData(rv$data)),
         multiple = TRUE
       )
     })
@@ -238,12 +231,15 @@ omXplore_cc_server <- function(id, obj) {
     output$visNetCC <- visNetwork::renderVisNetwork({
       req(rvCC$selectedCC)
       input$pepInfo
-      local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
+      
+      
+      local <- as.list(rv$cc$Multi_Multi)
       # m <- local[[rvCC$selectedCC]]
 
       rvCC$selectedCCgraph <- buildGraph(
         cc = local[[rvCC$selectedCC]],
-        metadata = metadata(rv$data)
+        metadata = rowData(rv$data)
+        #metadata = NULL
       )
 
       display.CC.visNet(rvCC$selectedCCgraph) %>%
@@ -268,13 +264,13 @@ omXplore_cc_server <- function(id, obj) {
       # tooltip <- 'Sequence'
 
       isolate({
-        local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
+        local <- rv$cc$Multi_Multi
         n.prot <- unlist(lapply(local, function(x) {ncol(x)}))
         n.pept <- unlist(lapply(local, function(x) {nrow(x)}))
         df <- tibble::tibble(
           x = jitter(n.pept),
           y = jitter(n.prot),
-          index = seq_len(local)
+          index = seq(local)
         )
         colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 
@@ -289,9 +285,9 @@ omXplore_cc_server <- function(id, obj) {
 
 
     GetDataFor_CCMultiMulti <- reactive({
-      req(length((GetCCInfos(get_cc(rv$data)))$Multi_Multi) > 0)
-
-      ll <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
+      req(length(rv$cc$Multi_Multi) > 0)
+      
+      ll <- rv$cc$Multi_Multi
 
       ll.pep <- cbind(
         lapply(
@@ -311,14 +307,11 @@ omXplore_cc_server <- function(id, obj) {
         )
       )
 
+    
       df <- cbind(
-        id = seq_len(ll),
-        nProt = cbind(lapply(ll, function(x) {
-          ncol(x)
-        })),
-        nPep = cbind(lapply(ll, function(x) {
-          nrow(x)
-        })),
+        id = seq(ll),
+        nProt = cbind(lapply(ll, function(x) {ncol(x)})),
+        nPep = cbind(lapply(ll, function(x) {nrow(x)})),
         proteins = ll.prot,
         peptides = ll.pep
       )
@@ -343,9 +336,7 @@ omXplore_cc_server <- function(id, obj) {
     # Show the DT data table ans gets the selected items from it
     output$CCMultiMulti_UI <- renderUI({
       rvCC$CCMultiMulti_rows_selected <- formatDT_server("CCMultiMulti",
-        data = reactive({
-          GetDataFor_CCMultiMulti()
-        })
+        data = reactive({GetDataFor_CCMultiMulti()})
       )
 
       formatDT_ui(ns("CCMultiMulti"))
@@ -364,7 +355,7 @@ omXplore_cc_server <- function(id, obj) {
       input$node_selected,
       rvCC$selectedCCgraph
     ), {
-      local <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
+      local <- rv$cc$Multi_Multi
       rvCC$selectedNeighbors
 
       nodes <- rvCC$selectedCCgraph$nodes
@@ -451,9 +442,7 @@ omXplore_cc_server <- function(id, obj) {
       df <- data.frame(proteinId = unlist(.protLabels))
       colnames(df) <- c("Proteins Ids")
 
-      formatDT_server("CCDetailedProt", data = reactive({
-        df
-      }))
+      formatDT_server("CCDetailedProt", data = reactive({df}))
       formatDT_ui(ns("CCDetailedProt"))
     })
 
@@ -472,12 +461,15 @@ omXplore_cc_server <- function(id, obj) {
         which(rownames(assay(rv$data)) == x)
       }))
 
-      qdata <- convert2df(assay(rv$data)[indices, ])
-      qmetacell <- convert2df(get_metacell(rv$data)[indices, ])
+      qdata <- assay(rv$data)
+      qdata <- convert2df(qdata[indices, ])
+      
+      qmetacell <- get_metacell(rv$data)
+      qmetacell <- convert2df(qmetacell[indices, ])
 
       data_nostyle <- NULL
       if (!is.null(input$pepInfo)) {
-        .arg <- (get_metadata(rv$data))[pepLine, input$pepInfo]
+        .arg <- (rowData(rv$data))[pepLine, input$pepInfo]
         data_nostyle <- as.data.frame(.arg)
         colnames(data_nostyle) <- input$pepInfo
       }
@@ -494,21 +486,20 @@ omXplore_cc_server <- function(id, obj) {
       req(c(rvCC$CCMultiMulti_rows_selected(), rvCC$detailedselectedNode))
       ll <- GetDataFor_CCDetailedSharedPep_UI()
 
+      dt_style <- NULL
+      
+      if (!is.null(ll$qmetacell)){
+        
       dt_style <- list(
-        data = ll$qmetacell,
+        data = as.data.frame(ll$qmetacell),
         colors = BuildColorStyles(get_type(rv$data))
       )
+      }
 
       formatDT_server("CCDetailedSharedPep",
-        data = reactive({
-          ll$qdata
-        }),
-        data_nostyle = reactive({
-          ll$data_nostyle
-        }),
-        dt_style = reactive({
-          dt_style
-        })
+        data = reactive({ll$qdata}),
+        data_nostyle = reactive({ll$data_nostyle}),
+        dt_style = reactive({dt_style})
       )
 
       formatDT_ui(ns("CCDetailedSharedPep"))
@@ -521,18 +512,20 @@ omXplore_cc_server <- function(id, obj) {
       input$pepInfo
 
       req(rvCC$detailedselectedNode$specPepLabels)
-
+      qdata <- assay(rv$data)
+      qmetacell <- get_metacell(rv$data)
+      
       pepLine <- rvCC$detailedselectedNode$specPepLabels
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(assay(rv$data)) == x)
+        which(rownames(qdata) == x)
       }))
 
-      qdata <- convert2df(assay(rv$data)[indices, ])
-      qmetacell <- convert2df(get_metacell(rv$data)[indices, ])
+      qdata <- convert2df(qdata[indices, ])
+      qmetacell <- convert2df(qmetacell[indices, ])
 
       data_nostyle <- NULL
       if (!is.null(input$pepInfo)) {
-        .arg <- (get_metadata(rv$data))[pepLine, input$pepInfo]
+        .arg <- (rowData(rv$data))[pepLine, input$pepInfo]
         data_nostyle <- as.data.frame(.arg)
         colnames(data_nostyle) <- input$pepInfo
       }
@@ -548,21 +541,19 @@ omXplore_cc_server <- function(id, obj) {
       req(rvCC$CCMultiMulti_rows_selected())
       ll <- GetDataFor_CCDetailedSpecPep_UI()
 
+      dt_style <- NULL
+      
+      if (!is.null(ll$qmetacell)){
       dt_style <- list(
-        data = ll$qmetacell,
+        data = as.data.frame(ll$qmetacell),
         colors = BuildColorStyles(get_type(rv$data))
       )
+      }
 
       formatDT_server("CCDetailedSpecPep",
-        data = reactive({
-          ll$qdata
-        }),
-        data_nostyle = reactive({
-          ll$data_nostyle
-        }),
-        dt_style = reactive({
-          dt_style
-        })
+        data = reactive({ll$qdata}),
+        data_nostyle = reactive({ll$data_nostyle}),
+        dt_style = reactive({dt_style})
       )
 
       formatDT_ui(ns("CCDetailedSpecPep"))
@@ -573,7 +564,7 @@ omXplore_cc_server <- function(id, obj) {
 
     BuildOne2OneTab <- reactive({
       # get_cc(rv$data)
-      ll <- (GetCCInfos(get_cc(rv$data)))$One_One
+      ll <- rv$cc$One_One
 
       df <- cbind(
         cbind(lapply(ll, function(x) {colnames(x)})),
@@ -585,7 +576,7 @@ omXplore_cc_server <- function(id, obj) {
 
     BuildOne2MultiTab <- reactive({
       # get_cc(rv$data)
-      ll <- (GetCCInfos(get_cc(rv$data)))$One_Multi
+      ll <- rv$cc$One_Multi
       df <- cbind(
         proteins = cbind(lapply(ll, function(x) {colnames(x)})),
         nPep = cbind(lapply(ll, function(x) {nrow(x)})),
@@ -602,19 +593,13 @@ omXplore_cc_server <- function(id, obj) {
     BuildMulti2AnyTab <- reactive({
       # get_cc(rv$data)
 
-      ll <- (GetCCInfos(get_cc(rv$data)))$Multi_Multi
+      ll <- rv$cc$Multi_Multi
 
       df <- cbind(
-        id = seq_len(ll),
-        proteins = cbind(lapply(ll, function(x) {
-          colnames(x)
-        })),
-        nProt = cbind(lapply(ll, function(x) {
-          ncol(x)
-        })),
-        nPep = cbind(lapply(ll, function(x) {
-          nrow(x)
-        })),
+        id = seq(ll),
+        proteins = cbind(lapply(ll, function(x) {colnames(x)})),
+        nProt = cbind(lapply(ll, function(x) {ncol(x)})),
+        nPep = cbind(lapply(ll, function(x) {nrow(x)})),
         peptides = cbind(lapply(ll, function(x) {
           paste(rownames(x), collapse = ",")
         }))
@@ -646,9 +631,7 @@ omXplore_cc_server <- function(id, obj) {
 
 
       rvCC$OneMultiDT_rows_selected <- formatDT_server("OneMultiDT",
-        data = reactive({
-          df
-        })
+        data = reactive({df})
       )
       formatDT_ui(ns("OneMultiDT"))
     })
@@ -664,12 +647,13 @@ omXplore_cc_server <- function(id, obj) {
         BuildOne2MultiTab()[line, "peptides"]
       ), split = ","))
 
+      qdata <- assay(rv$data)
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(assay(rv$data)) == x)
+        which(rownames(qdata) == x)
       }))
 
-      qdata <- assay(rv$data)[indices, ]
-      qmetacell <- get_metacell(rv$data)[indices, ]
+      qdata <- qdata[indices, ]
+      qmetacell <- (get_metacell(rv$data))[indices, ]
 
       list(
         qdata = convert2df(qdata),
@@ -684,18 +668,18 @@ omXplore_cc_server <- function(id, obj) {
 
       ll <- GetDataFor_OneMultiDTDetailed()
 
+      dt_style <- NULL
+      
+      if (!is.null(ll$qmetacell)){
       dt_style <- list(
-        data = ll$qmetacell,
+        data = as.data.frame(ll$qmetacell),
         colors = BuildColorStyles(get_type(rv$data))
       )
+      }
 
       formatDT_server("OneMultiDTDetailed",
-        data = reactive({
-          ll$qdata
-        }),
-        dt_style = reactive({
-          dt_style
-        })
+        data = reactive({ll$qdata}),
+        dt_style = reactive({dt_style})
       )
 
       formatDT_ui(ns("OneMultiDTDetailed"))
@@ -722,9 +706,7 @@ omXplore_cc_server <- function(id, obj) {
       df <- BuildOne2OneTab()
       colnames(df) <- c("Proteins Ids", "Peptides Ids")
       rvCC$OneOneDT_rows_selected <- formatDT_server("OneOneDT",
-        data = reactive({
-          df
-        })
+        data = reactive({df})
       )
 
       formatDT_ui(ns("OneOneDT"))
@@ -739,10 +721,12 @@ omXplore_cc_server <- function(id, obj) {
       line <- rvCC$OneOneDT_rows_selected()
       pepLine <- BuildOne2OneTab()[line, "peptides"]
 
+      qdata <- assay(rv$data)
       indices <- unlist(lapply(pepLine, function(x) {
-        which(rownames(assay(rv$data)) == x)
+        which(rownames(qdata) == x)
       }))
-      qdata <- assay(rv$data)[indices, ]
+      
+      qdata <- qdata[indices, ]
       qmetacell <- get_metacell(rv$data)[indices, ]
 
       list(
@@ -750,6 +734,8 @@ omXplore_cc_server <- function(id, obj) {
         qmetacell = convert2df(qmetacell)
       )
     })
+    
+    
 
     convert2df <- function(obj) {
       if (is.vector(obj)) {
@@ -758,23 +744,27 @@ omXplore_cc_server <- function(id, obj) {
         obj
       }
     }
+    
+    
     output$OneOneDTDetailed_UI <- renderUI({
       # req(rv$isValid)
       req(rvCC$OneOneDT_rows_selected())
 
       ll <- GetDataFor_OneOneDTDetailed()
 
-      dt_style <- list(
-        data = ll$qmetacell,
-        colors = BuildColorStyles(get_type(rv$data))
-      )
+      dt_style <- NULL
+      
+      if (!is.null(ll$qmetacell)){
+        dt_style <- list(
+          data = as.data.frame(ll$qmetacell),
+          colors = BuildColorStyles(get_type(rv$data))
+        )
+      }
+
+      
       formatDT_server("OneOneDTDetailed",
-        data = reactive({
-          ll$qdata
-        }),
-        dt_style = reactive({
-          dt_style
-        })
+        data = reactive({ll$qdata}),
+        dt_style = reactive({dt_style})
       )
 
       formatDT_ui(ns("OneOneDTDetailed"))
@@ -790,13 +780,13 @@ omXplore_cc_server <- function(id, obj) {
 #' @export
 #' @return A shiny app
 #'
-omXplore_cc <- function(obj) {
+omXplore_cc <- function(obj, i) {
   ui <- omXplore_cc_ui("plot")
 
   server <- function(input, output, session) {
-    omXplore_cc_server("plot", reactive({
-      obj
-    }))
+    omXplore_cc_server("plot", 
+      obj = reactive({obj}),
+      i = reactive({i}))
   }
 
   shinyApp(ui = ui, server = server)

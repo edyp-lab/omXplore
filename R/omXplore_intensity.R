@@ -5,13 +5,10 @@
 #' xxxx
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj A instance of the class `VizData`
+#' @param obj A instance of the class `MultiAssayExperiment`
+#' @param i xxx
 #' @param track.indices xxx
 #' @param withTracking xxx
-#' @param data Numeric matrix
-#' @param conds A `character()` of the name of conditions
-#' (one condition per sample). The number of conditions must be equal to
-#' the number of samples (number of columns) of the parameter 'data'.
 #' @param pal.name A `character(1)` which is the name of the palette from the
 #' package [RColorBrewer] from which the colors are taken. Default value
 #' is 'Set1'.
@@ -23,12 +20,12 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_intensity(vdata[[1]])
+#'   omXplore_intensity(vdata, 1)
 #' }
 #'
 #' data(vdata)
-#' qdata <- GetSlotQdata(vdata[[1]])
-#' conds <- GetSlotConds(vdata[[1]])
+#' qdata <- GetSlotQdata(vdata, 1)
+#' conds <- GetSlotConds(vdata, 1)
 #' boxPlot(qdata, conds)
 #'
 NULL
@@ -68,9 +65,8 @@ omXplore_intensity_ui <- function(id) {
 omXplore_intensity_server <- function(
     id,
     obj,
-    track.indices = reactive({
-      NULL
-    })) {
+  i,
+    track.indices = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -78,7 +74,7 @@ omXplore_intensity_server <- function(
 
     observe(
       {
-        if (inherits(obj(), "VizData")) {
+        if (inherits(obj(), "MultiAssayExperiment")) {
           rv$data <- obj()
         }
 
@@ -99,8 +95,8 @@ omXplore_intensity_server <- function(
       req(rv$data)
       # withProgress(message = "Making plot", value = 100, {
       boxPlot(
-        data = rv$data@qdata,
-        conds = rv$data@conds,
+        data = assay(rv$data, i()),
+        conds = get_group(rv$data),
         subset = track.indices()
       )
 
@@ -118,8 +114,8 @@ omXplore_intensity_server <- function(
           png(outfile)
           pattern <- paste0("test", ".violinplot")
           tmp <- violinPlot(
-            data = as.matrix(rv$data@qdata),
-            conds = rv$data@conds,
+            data = as.matrix(assay(rv$data, i())),
+            conds = get_group(rv$data),
             subset = track.indices()
           )
           # future(createPNGFromWidget(tmp,pattern))
@@ -145,6 +141,7 @@ omXplore_intensity_server <- function(
 #'
 omXplore_intensity <- function(
     obj,
+  i,
     withTracking = FALSE) {
   ui <- fluidPage(
     tagList(
@@ -155,11 +152,13 @@ omXplore_intensity <- function(
 
   server <- function(input, output, session) {
     indices <- plots_tracking_server("tracker",
-      obj = reactive({obj})
+      obj = reactive({obj}),
+      i = reactive({i})
     )
 
     omXplore_intensity_server("iplot",
       obj = reactive({obj}),
+      i = reactive({i}),
       track.indices = reactive({indices()})
     )
   }

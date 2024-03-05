@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' data(vdata)
-#' heatmapD(vdata[[1]])
+#' heatmapD(vdata, 1)
 #'
 NULL
 
@@ -47,12 +47,11 @@ NULL
 #' @import RColorBrewer
 #'
 heatmapD <- function(
-    obj,
+    qdata,
+  conds,
     distance = "euclidean",
     cluster = "complete",
     dendro = FALSE) {
-  qdata <- obj@qdata
-  conds <- obj@conds
 
   .data <- matrix(qdata,
     ncol = ncol(qdata),
