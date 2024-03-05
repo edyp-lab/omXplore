@@ -16,12 +16,13 @@ omXplore_intensity_ui(id)
 omXplore_intensity_server(
   id,
   obj,
+  i,
   track.indices = reactive({
      NULL
  })
 )
 
-omXplore_intensity(obj, withTracking = FALSE)
+omXplore_intensity(obj, i, withTracking = FALSE)
 
 boxPlot(data, conds, subset = NULL, pal.name = NULL)
 
@@ -30,17 +31,13 @@ violinPlot(data, conds, subset = NULL, pal.name)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{A instance of the class \code{VizData}}
+\item{obj}{A instance of the class \code{MultiAssayExperiment}}
+
+\item{i}{xxx}
 
 \item{track.indices}{xxx}
 
 \item{withTracking}{xxx}
-
-\item{data}{Numeric matrix}
-
-\item{conds}{A \code{character()} of the name of conditions
-(one condition per sample). The number of conditions must be equal to
-the number of samples (number of columns) of the parameter 'data'.}
 
 \item{subset}{A \code{integer()} vector of index indicating the indices
 of rows in the dataset to highlight}
@@ -66,12 +63,12 @@ xxxx
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_intensity(vdata[[1]])
+  omXplore_intensity(vdata, 1)
 }
 
 data(vdata)
-qdata <- GetSlotQdata(vdata[[1]])
-conds <- GetSlotConds(vdata[[1]])
+qdata <- GetSlotQdata(vdata, 1)
+conds <- GetSlotConds(vdata, 1)
 boxPlot(qdata, conds)
 
 }

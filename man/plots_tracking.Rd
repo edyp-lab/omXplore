@@ -13,17 +13,20 @@ plots_tracking_server(
   obj = reactive({
      NULL
  }),
+  i = reactive({
+     1
+ }),
   resetBtn = reactive({
      FALSE
  })
 )
 
-plots_tracking(obj)
+plots_tracking(obj, i)
 }
 \arguments{
 \item{id}{shiny id}
 
-\item{obj}{An instance of the class \code{VizData}}
+\item{obj}{An instance of the class \code{MultiAssayExperiment}}
 
 \item{resetBtn}{A \code{boolean(1)} which indicates whether to show the 'Reset'
 button or not.}
@@ -41,7 +44,7 @@ This shiny module provides a tool to select
 \examples{
 if (interactive()) {
   data(vdata)
-  plots_tracking(vdata[[1]])
+  plots_tracking(vdata, 1)
 }
 
 }

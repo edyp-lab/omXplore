@@ -8,8 +8,10 @@
 \alias{SE_to_mae}
 \alias{MAE_to_mae}
 \alias{Check_se_Consistency}
+\alias{listOfLists_to_mae}
 \alias{listOfSE_to_mae}
 \alias{Check_MSnSet_Consistency}
+\alias{Build_X_CC}
 \alias{listOfMSnSet_to_mae}
 \title{xxx}
 \usage{
@@ -25,9 +27,13 @@ MAE_to_mae(obj)
 
 Check_se_Consistency(obj)
 
+listOfLists_to_mae(obj, colData = NULL)
+
 listOfSE_to_mae(obj)
 
 Check_MSnSet_Consistency(obj)
+
+Build_X_CC(se)
 
 listOfMSnSet_to_mae(obj)
 }

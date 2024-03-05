@@ -9,14 +9,24 @@
 \usage{
 omXplore_cc_ui(id)
 
-omXplore_cc_server(id, obj)
+omXplore_cc_server(
+  id,
+  obj = reactive({
+     NULL
+ }),
+  i = reactive({
+     1
+ })
+)
 
-omXplore_cc(obj)
+omXplore_cc(obj, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
 \item{obj}{An instance of \code{SummarizedExperiment} class}
+
+\item{i}{xxx}
 }
 \value{
 A shiny plot
@@ -31,7 +41,7 @@ A shiny Module.
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_cc(vdata[[1]])
+  omXplore_cc(vdata, 1)
 }
 
 }

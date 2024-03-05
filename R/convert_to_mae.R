@@ -171,6 +171,141 @@ Check_se_Consistency <- function(obj){
 }
 
 
+#' @export
+#' 
+list_to_se <- function(ll){
+  
+  .proteinID <- tryCatch({
+    ll$proteinID
+  }, warning = function(w) NA,
+    error = function(e) NA
+  )
+  
+  .metacell <- tryCatch({
+    ll$metacell
+  }, warning = function(w) NA,
+    error = function(e) NA
+  )
+  
+  
+  .colID <- tryCatch({
+    ll$keyid
+  }, warning = function(w) NA,
+    error = function(e) NA
+  )
+  
+  
+  # If exists, extracts type of dataset info
+  .type <- tryCatch({
+    ll$typeOfData
+  }, warning = function(w) NA,
+    error = function(e) NA
+  )
+  
+  
+  .pkg_version <- tryCatch({
+    ll$pkg_Version
+  }, warning = function(w) NA,
+    error = function(e) NA
+  )
+  
+  
+  .assay <- tryCatch({
+    ll$assay
+  }, warning = function(w) matrix(),
+    error = function(e) matrix()
+  )
+  
+  
+  .rowData<- tryCatch({
+    ll$rowData
+  }, warning = function(w) DataFrame(),
+    error = function(e) DataFrame()
+  )
+  
+  
+  
+  
+  # Prebuild metadata info for SE
+  se.meta <- list(
+    pkg_version = .pkg_version,
+    type = .type,
+    colID = .colID,
+    proteinID = .proteinID,
+    metacell = .metacell,
+    rowData = .rowData,
+    cc = list()
+  )
+  
+  # Builds the SE corresponding to MSnSet 
+  se <- SummarizedExperiment(
+    assays = .assay,
+    metadata = se.meta,
+    rowData = .rowData
+  )
+  
+  
+  se <- Build_X_CC(se)
+  
+  se
+}
+
+
+
+Check_List_consistency <- function(ll){
+  passed <- TRUE
+  
+  for (i in seq(length(ll)-1)){
+    test1 <- ll[[i]]
+    test2 <- ll[[i+1]]
+    
+    passed <- passed && identical(colnames(test1$assay), colnames(test2$assay))
+    passed <- passed && identical(rownames(test1$assay), rownames(test2$assay))
+    
+    passed <- passed && identical(colnames(test1$metacell), colnames(test2$metacell))
+    passed <- passed && identical(rownames(test1$metacell), rownames(test2$metacell))
+    
+    passed <- passed && identical(rownames(test1$metacell), rownames(test1$assay))
+    
+  }
+
+  passed
+}
+
+
+
+#' @export
+#' @rdname converters
+#' 
+listOfLists_to_mae <- function(obj, colData = NULL){
+  #stopifnot(is.listOf(obj, "list"))
+  
+  # Checks structure of each item of the list
+  stopifnot(Check_List_consistency(obj))
+
+  # Check if all items are named
+  if(length(names(obj)) != length(obj))
+    names(obj) <- paste0('original_', seq.int(length(obj)))
+  
+  ll.se <- lapply(obj, function(x){list_to_se(x)})
+  
+  names(ll.se) <- names(obj)
+  
+  .assay1 <- assay(ll.se[[1]])
+  if(is.null(colData)){
+    colData <- DataFrame(group = seq(ncol(.assay1)), 
+    row.names = colnames(.assay1))
+  }
+  
+  MultiAssayExperiment(
+    experiments = ExperimentList(ll.se),
+    colData = colData,
+    metadata = list(other = list())
+  )
+
+  
+}
+
 
 
 #' @export

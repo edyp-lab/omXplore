@@ -8,13 +8,17 @@
 \alias{feat2}
 \title{Feature example data}
 \format{
-An object of class \code{VizList} of length 1.
+An object of class \code{MultiAssayExperiment} of length 3.
+}
+\source{
+\code{vdata} was built from the source code available in
+\href{https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R}{\code{inst/scripts/build_datasets.R}}
 }
 \usage{
 vdata
 }
 \description{
-\code{vdata} is a small test \code{VizList} object for testing and
+\code{vdata} is a small test \code{MultiAssayExperiment} object for testing and
 demonstration.  \code{vdata_na}
 is a tiny test set that contains missing values used to
 demonstrate and test the impact of missing values on data

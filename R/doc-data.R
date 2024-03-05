@@ -80,12 +80,18 @@
 
 ##' Feature example data
 ##'
-##' `vdata` is a small test `VizList` object for testing and
+##' `vdata` is a small test `MultiAssayExperiment` object for testing and
 ##' demonstration.  `vdata_na`
 ##' is a tiny test set that contains missing values used to
 ##' demonstrate and test the impact of missing values on data
 ##' processing.
 ##'
+##'
+##' @source
+##'
+##' `vdata` was built from the source code available in
+##' [`inst/scripts/build_datasets.R`](https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R)
+##' 
 ##' @aliases ft_na se_na2 feat2
 ##'
 "vdata"

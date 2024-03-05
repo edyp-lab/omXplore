@@ -89,7 +89,7 @@ The calls to the function plots are generated dynamically from functions availab
 in the R Global environment. One need to pass the same argument to these functions,
 thus this argument should contain all the information needed for all plots.
 
-the disadvantage of this approach is the existence of redundant information betwween
+the disadvantage of this approach is the existence of redundant information between
 the different VizData objects in an instance of VizList.
 
 However, if one has used formats like MultiAssayExperiment, one might have been
@@ -98,9 +98,6 @@ parameters needed (e.g. the names of the conditions for each sample).
 
 To see which data formats `omXplore` can manage, run 
 
-```{r FormatAvailables,  message = FALSE, warning = FALSE, echo = TRUE}
-omXplore::FormatAvailables()
-```
 
 To convert datasets to the class omXplore-class, run
 

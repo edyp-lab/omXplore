@@ -50,7 +50,7 @@ Display a CC
 }
 \examples{
 data(vdata)
-g <- buildGraph(GetSlotCc(vdata[[1]]))
+g <- buildGraph(get_cc(vdata[[1]]))
 display.CC.visNet(g)
 
 n.prot <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {ncol(x)}))
