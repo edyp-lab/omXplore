@@ -61,10 +61,29 @@ library(omXplore)
 simplification of the formats it can deal with. The main data structure in the
 package `omXplore` is a list of instances of `VizData` objects called `VizList`.
 
-The classes `VizList` and `VizData` have both common features with structures datasets
-such as `MultiArrayExperiment`, `QFeatures` or `MSnSet`.
-One could ask why do not use one of these existing classes? There is one main reason 
-to this. 
+
+Some items are added to the metadata of the instance of MultiAssayExperiment and to each
+of the instances of SummarizedExpriemt.
+
+## Additional info in MultiAssayExperiment
+
+The metadata of the mae contains the following additional items:
+* xxx
+* xxxx
+
+## Additional info in SummarizedExperiment
+
+The adjacencyMatrix (when exists) is stored as a DataFrame in the rowData() of the se.
+
+
+The metadata of each se coontains the following items:
+* proteinID: The name of the column which contains xxx
+* colID: The name of the column which serves as unique index 
+* cc: The list of Connected Components, based on the adjacency matrix
+* type: The type of data contains in this object (e.g. peptide, protein, ...)
+* pkg_version: The name and version number which has been used to create this object
+
+
 
 The calls to the function plots are generated dynamically from functions available
 in the R Global environment. One need to pass the same argument to these functions,
