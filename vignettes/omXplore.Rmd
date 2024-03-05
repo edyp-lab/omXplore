@@ -5,7 +5,7 @@ author:
 - name: Thomas Burger
 package: omXplore
 abstract: >
-    The package omXplore is a R package which provides functions to vizualize quantitative data from label-free proteomics experiments. It can deal with several data formats such as MSnSet, QFeatures or event simple lists. This document covers the functionalities available in `r BiocStyle::pkg_ver('omXplore')`.
+    The package omXplore is a R package which provides functions to vizualize quantitative data from label-free proteomics experiments. It can deal with common data formats in Bioconductor such as MSnSet, MultiAssayEperiments, QFeatures or even simple lists. This document covers the functionalities available in `r BiocStyle::pkg_ver('omXplore')`.
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
@@ -31,19 +31,18 @@ vignette: >
 # Introduction
 
 The `omXplore` package is a Shiny app which is a standalone hub for plots
-dedicated to the analysis of proteomics data. It is compliant with two data 
-formats: `MSnSet` and `QFeatures`. 
+dedicated to the analysis of proteomics data. It is compliant with common data 
+structures in Bioconductor such as : `MSnSet` and `QFeatures`, `MultiAssayExperiments`. 
 
-`omXplore` a series of built-in plots and can easily integrate other plots that 
-comes from other packages or directly developed in R.
+`omXplore` has a user-firendly Shiny inteface which has a series of built-in plots. ith less effort, t can also easly integrate other plots (written as Shiny modules) from other packages or directly developed in R.
 
 It contains:
 * several built-in plots,
 * one main UI which gives easily access to the individual plots.
 
 All the plots in this package are based on Shiny technology 
-(\url{http://shiny.rstudio.com/}) and are implemented as modules modules
-(\url{https://rviews.rstudio.com/2021/10/20/a-beginner-s-guide-to-shiny-modules/}). Thus, each plot can be run standalone or easily inserted in another Shiny app.
+(\url{http://shiny.rstudio.com/}) and are implemented as modules. Thus, they can be run standalone or easily inserted in another Shiny app.
+
 In that sense, the plots in `omXplore` can be used alone or as a complement to 
 the numerous packages on Bioconductor (\url{https://www.bioconductor.org/}) it is compliant with. For example, it is well used in `Prostar` (Proteomics statistical analysis with R) which is a 
 web interface based on Shiny technology (\url{http://shiny.rstudio.com/}) which
@@ -58,7 +57,7 @@ library(omXplore)
 
 # omXplore data format
 
-`omXplore` is based on its own data format (a S4 class named `VizData`) which is a 
+`omXplore` is based on the class `MultiAssayExperiments` (\url{https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html}) which is a 
 simplification of the formats it can deal with. The main data structure in the
 package `omXplore` is a list of instances of `VizData` objects called `VizList`.
 
