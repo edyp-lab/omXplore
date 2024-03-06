@@ -1,38 +1,5 @@
 library(omXplore)
 
-## ---------------------------------------------------------
-## Create the vdata dataset
-## ---------------------------------------------------------
-test <- list(
-  data1 = build_toylist_example(), 
-  data2 = build_toylist_example(), 
-  data3 = build_toylist_example())
-
-colData <- DataFrame(
-  group = c('A', 'A', 'A', 'B', 'B', 'B'), 
-  row.names = colnames(test$data1$assay)
-  )
-
-vdata <- listOfLists_to_mae(test, colData)
-save(vdata, file = 'data/vdata.rda')
-
-
-
-
-
-
-#' @title Build toy datasets for omXplore modules
-#' @description
-#' xxxxx
-#' 
-#' @param name The name of the dataset
-#' 
-#' @name build_example_datasets
-#' @examples
-#' build_toylist_example('myData')
-#' 
-NULL
-
 
 
 #' @title Build an example list
@@ -79,3 +46,45 @@ build_toylist_example <- function(name = 'original'){
     cc = cc
   )
 }
+
+
+## ---------------------------------------------------------
+## Create the vdata dataset
+## ---------------------------------------------------------
+test <- list(
+  data1 = build_toylist_example(), 
+  data2 = build_toylist_example(), 
+  data3 = build_toylist_example())
+
+colData <- DataFrame(
+  group = c('A', 'A', 'A', 'B', 'B', 'B'), 
+  row.names = colnames(test$data1$assay)
+  )
+
+vdata <- listOfLists_to_mae(test, colData)
+save(vdata, file = 'data/vdata.rda')
+
+
+
+## ---------------------------------------------------------
+## Create the *_feat datasets from `QFeatures` package
+## ---------------------------------------------------------
+# # Convert simple QFeatures
+data("feat1", package = 'QFeatures')
+mae_feat1 <- convert_to_mae(mae_feat1)
+save(mae_feat1, file = 'data/mae_feat1.rda')
+
+data("feat2", package = 'QFeatures')
+mae_feat2 <- convert_to_mae(mae_feat2)
+save(mae_feat2, file = 'data/mae_feat2.rda')
+
+## ---------------------------------------------------------
+## Create small datasets based on `DAPARdata` package
+## ---------------------------------------------------------
+data("Exp1_R2_pept", package = 'DAPARdata')
+sub_R2_pept <- convert_to_mae(Exp1_R2_pept[1:100])
+save(sub_R2_pept, file = 'data/sub_R2_pept.rda')
+
+data("Exp1_R2_prot", package = 'DAPARdata')
+sub_R2_prot <- convert_to_mae(Exp1_R2_prot[1:100])
+save(sub_R2_prot, file = 'data/sub_R2_prot.rda')
