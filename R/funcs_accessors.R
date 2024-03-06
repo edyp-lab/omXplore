@@ -29,7 +29,7 @@ NULL
 
 
 #' @rdname accessors
-#' @exportMethod get_metacell
+#' @exportMethod get_adjacencyMatrix
 setGeneric(
   "get_adjacencyMatrix",
   function(object, ...) standardGeneric("get_adjacencyMatrix")
@@ -55,7 +55,7 @@ setMethod("get_adjacencyMatrix", signature = "SummarizedExperiment",
 
 
 #' @rdname accessors
-#' @exportMethod get_metacell
+#' @exportMethod get_group
 setGeneric(
   "get_group",
   function(object, ...) standardGeneric("get_group")

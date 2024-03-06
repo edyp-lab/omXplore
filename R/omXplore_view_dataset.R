@@ -56,8 +56,12 @@
 #' foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 #' @param width xxx
 #' @param height xxx
+#' @param use/modal A `boolean(1)` that indicates whether to open plot modules 
+#' in a modal window or not. Default is TRUE.
 #'
 #'
+#' @include global.R
+#' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
@@ -84,6 +88,7 @@ NULL
 #' @rdname ds-view
 #' @export
 #' @return NA
+#' @include global.R
 #'
 view_dataset_ui <- function(id) {
   ns <- NS(id)
@@ -91,7 +96,7 @@ view_dataset_ui <- function(id) {
     shinyjs::useShinyjs(),
     fluidPage(
       shinyjs::hidden(
-        div(id = ns("badFormatMsg"), p(bad_format_txt))
+        div(id = ns("badFormatMsg"), p("Dataset in not in correct format."))
       ),
       fluidRow(
         column(3, div(
@@ -100,7 +105,10 @@ view_dataset_ui <- function(id) {
         )),
         column(9, div(
           style = general_style,
-          uiOutput(ns("ShowPlots_ui"))
+          shinyjs::hidden(uiOutput(ns("ShowPlots_ui"))),
+          shinyjs::hidden(uiOutput(ns("ShowVignettes_ui"))),
+          shinyjs::hidden(uiOutput(ns("ShowPlots2_ui")))
+          
         ))
       )
       # br(), br(), br(),
@@ -118,13 +126,15 @@ view_dataset_ui <- function(id) {
 #' @rdname ds-view
 #' @export
 #' @return NA
+#' @include global.R
 #'
 view_dataset_server <- function(
     id,
     obj = reactive({NULL}),
     addons = list(),
     width = 40,
-    height = 40) {
+    height = 40,
+    use.modal = TRUE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -196,7 +206,12 @@ view_dataset_server <- function(
           # Load external modules
           addModules(addons)
           
-          rv$ll.mods <- listPlotModules() 
+          rv$ll.mods <- listPlotModules()
+          
+          shinyjs::toggle("ShowPlots_ui", condition = use.modal)
+          shinyjs::toggle("ShowPlots2_ui", condition = !use.modal)
+          shinyjs::toggle("ShowVignettes_ui", condition = !use.modal)
+          
         } else {
           shinyjs::toggle("badFormatMsg", condition = !inherits_VizList)
         }
@@ -205,12 +220,68 @@ view_dataset_server <- function(
     )
 
     
+    
+    observeEvent(GetVignettesBtns(), ignoreInit = TRUE, {
+      req(rv$ll.mods)
+      req(!use.modal)
+      clicked <- which(rv$btns.history != GetVignettesBtns())
+      shinyjs::show(paste0("div_", rv$ll.mods[clicked], "_large"))
+      lapply(rv$ll.mods[-clicked], function(y) {
+        shinyjs::hide(paste0("div_", y, "_large"))
+        })
+      rv$btns.history <- GetVignettesBtns()
+      })
+    
+    GetVignettesBtns <- reactive({
+      req(rv$ll.mods)
+      req(!use.modal)
+      unlist(lapply(rv$ll.mods, function(x) input[[x]]))
+      })
+
+
+
+    output$ShowPlots2_ui <- renderUI({
+      req(rv$data)
+      req(rv$ll.mods)
+      req(!use.modal)
+      
+      lapply(rv$ll.mods, function(x) {
+        shinyjs::hidden(
+          div(id = ns(paste0("div_", x, "_large")),
+            do.call(paste0(x, "_ui"), list(ns(paste0(x, "_large"))))
+            )
+          )
+        })
+      })
+    
+    output$ShowVignettes_ui <- renderUI({
+      req(rv$data)
+      req(rv$ll.mods)
+      req(!use.modal)
+      
+      wellPanel(style = "height: 120px; overflow-y: scroll;",
+      lapply(rv$ll.mods, function(x) {
+        actionButton(ns(x),
+          label = tagList(
+            p(Name2show(x)),
+            tags$img(src = FindImgSrc(x), height = "50px")
+            ),
+            style = "padding: 0px; border: none;
+          background-size: cover; background-position: center;"
+          )
+        })
+      )
+      })
+
+
 
     output$ShowPlots_ui <- renderUI({
       req(rv$data)
       req(rv$ll.mods)
+      req(use.modal)
 
-      lapply(rv$ll.mods, function(x) {
+      wellPanel(style = "height: 120px; overflow-y: scroll;",
+        lapply(rv$ll.mods, function(x) {
         jqui_resizable(paste0("#", ns(paste0("window_", x)), " .modal-content"))
         
         tagList(
@@ -239,6 +310,7 @@ view_dataset_server <- function(
           )
         )
       })
+      )
     })
 
 
@@ -293,6 +365,8 @@ view_dataset_server <- function(
 #'
 #' @return A shiny application which wraps the functions view_dataset_ui()
 #' and the view_dataset_server()
+#' 
+#' @include global.R
 #'
 #' @examples
 #' if (interactive()) {
@@ -302,7 +376,8 @@ view_dataset_server <- function(
 #'
 view_dataset <- function(
     obj = NULL,
-    addons = NULL) {
+    addons = NULL,
+  use.modal = TRUE) {
   
   if (!inherits(obj, "MultiAssayExperiment"))
     obj <- convert_to_mae(obj)
@@ -314,7 +389,8 @@ view_dataset <- function(
   server <- function(input, output, session) {
     view_dataset_server("dataset",
       obj = reactive({obj}),
-      addons = addons
+      addons = addons,
+      use.modal = use.modal
     )
   }
 

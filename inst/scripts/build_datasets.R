@@ -17,7 +17,7 @@ build_toylist_example <- function(name = 'original'){
   colnames(qdata) <- c(paste0(name, '_C1_R', 1:3), 
     paste0(name, '_C2_R', 1:3))
   
-  metacell <- data.frame(matrix(rep('Missing POV', 30), ncol = 6), 
+  metacell <- DataFrame(matrix(rep('Missing POV', 30), ncol = 6), 
     row.names = paste0('prot_', 1:5))
   colnames(metacell) <- c(paste0(name, '_metacell_C1_R', 1:3), 
     paste0(name, '_metacell_C2_R', 1:3))
@@ -70,21 +70,21 @@ save(vdata, file = 'data/vdata.rda')
 ## Create the *_feat datasets from `QFeatures` package
 ## ---------------------------------------------------------
 # # Convert simple QFeatures
-data("feat1", package = 'QFeatures')
-mae_feat1 <- convert_to_mae(mae_feat1)
-save(mae_feat1, file = 'data/mae_feat1.rda')
-
-data("feat2", package = 'QFeatures')
-mae_feat2 <- convert_to_mae(mae_feat2)
-save(mae_feat2, file = 'data/mae_feat2.rda')
+# data("feat1", package = 'QFeatures')
+# mae_feat1 <- convert_to_mae(mae_feat1)
+# save(mae_feat1, file = 'data/mae_feat1.rda')
+# 
+# data("feat2", package = 'QFeatures')
+# mae_feat2 <- convert_to_mae(mae_feat2)
+# save(mae_feat2, file = 'data/mae_feat2.rda')
 
 ## ---------------------------------------------------------
 ## Create small datasets based on `DAPARdata` package
 ## ---------------------------------------------------------
-data("Exp1_R2_pept", package = 'DAPARdata')
-sub_R2_pept <- convert_to_mae(Exp1_R2_pept[1:100])
-save(sub_R2_pept, file = 'data/sub_R2_pept.rda')
+data("Exp1_R25_pept", package = 'DAPARdata')
+sub_R25_pept <- convert_to_mae(Exp1_R25_pept[150:170])
+save(sub_R25_pept, file = 'data/sub_R25_pept.rda')
 
-data("Exp1_R2_prot", package = 'DAPARdata')
-sub_R2_prot <- convert_to_mae(Exp1_R2_prot[1:100])
-save(sub_R2_prot, file = 'data/sub_R2_prot.rda')
+data("Exp1_R25_prot", package = 'DAPARdata')
+sub_R25_prot <- convert_to_mae(Exp1_R25_prot[1:21])
+save(sub_R25_prot, file = 'data/sub_R25_prot.rda')

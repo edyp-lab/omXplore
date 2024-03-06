@@ -16,10 +16,11 @@ view_dataset_server(
  }),
   addons = list(),
   width = 40,
-  height = 40
+  height = 40,
+  use.modal = TRUE
 )
 
-view_dataset(obj = NULL, addons = NULL)
+view_dataset(obj = NULL, addons = NULL, use.modal = TRUE)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
@@ -42,6 +43,9 @@ foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 \item{width}{xxx}
 
 \item{height}{xxx}
+
+\item{use/modal}{A \code{boolean(1)} that indicates whether to open plot modules
+in a modal window or not. Default is TRUE.}
 }
 \value{
 NA

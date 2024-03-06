@@ -18,7 +18,7 @@ An object of class \code{MultiAssayExperiment} of length 3.
 vdata
 }
 \description{
-\code{vdata} is a small test \code{MultiAssayExperiment} object for testing and
+\code{vdata} is a small object for testing and
 demonstration.  \code{vdata_na}
 is a tiny test set that contains missing values used to
 demonstrate and test the impact of missing values on data

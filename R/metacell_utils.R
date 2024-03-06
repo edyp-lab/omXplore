@@ -278,7 +278,6 @@ GetMetacellTags <- function(
   
   
   if(is.null(object) || !inherits(object, 'DataFrame')){
-    message('Object is NULL. Abort...')
     return(invisible(NULL))
   }
     

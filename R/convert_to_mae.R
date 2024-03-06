@@ -197,7 +197,7 @@ list_to_se <- function(ll){
   
   # If exists, extracts type of dataset info
   .type <- tryCatch({
-    ll$typeOfData
+    ll$type
   }, warning = function(w) NA,
     error = function(e) NA
   )
@@ -218,7 +218,9 @@ list_to_se <- function(ll){
   
   
   .rowData<- tryCatch({
-    ll$rowData
+    df <- DataFrame(ll$metadata)
+    df[['metacell']] <- ll$metacell
+    df
   }, warning = function(w) DataFrame(),
     error = function(e) DataFrame()
   )
@@ -232,8 +234,6 @@ list_to_se <- function(ll){
     type = .type,
     colID = .colID,
     proteinID = .proteinID,
-    metacell = .metacell,
-    rowData = .rowData,
     cc = list()
   )
   
