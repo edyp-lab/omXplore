@@ -4,13 +4,17 @@
 \alias{converters}
 \alias{convert_to_mae}
 \alias{MSnSet_to_mae}
+\alias{Compute_CC}
 \alias{QFeatures_to_mae}
 \alias{SE_to_mae}
 \alias{MAE_to_mae}
 \alias{Check_se_Consistency}
+\alias{list_to_se}
+\alias{Check_List_consistency}
 \alias{listOfLists_to_mae}
 \alias{listOfSE_to_mae}
 \alias{Check_MSnSet_Consistency}
+\alias{MSnSet_to_se}
 \alias{Build_X_CC}
 \alias{listOfMSnSet_to_mae}
 \title{xxx}
@@ -18,6 +22,8 @@
 convert_to_mae(obj)
 
 MSnSet_to_mae(obj)
+
+Compute_CC(obj)
 
 QFeatures_to_mae(obj)
 
@@ -27,11 +33,17 @@ MAE_to_mae(obj)
 
 Check_se_Consistency(obj)
 
+list_to_se(ll)
+
+Check_List_consistency(ll)
+
 listOfLists_to_mae(obj, colData = NULL)
 
 listOfSE_to_mae(obj)
 
 Check_MSnSet_Consistency(obj)
+
+MSnSet_to_se(obj)
 
 Build_X_CC(se)
 
@@ -39,6 +51,45 @@ listOfMSnSet_to_mae(obj)
 }
 \arguments{
 \item{obj}{An object compliant with formats xxxx}
+
+\item{ll}{A list}
+
+\item{colData}{xxxx}
+
+\item{se}{xxxx}
+}
+\value{
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An instance of \code{SimpleList}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+A \code{boolean(1)}
+
+An enriched instance of the class \code{SummarizedExperiment}
+
+A \code{boolean(1)}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+A \code{boolean(1)}
+
+An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
 }
 \description{
 The resulting object is an instance of the  MultiAssayExperiment class.

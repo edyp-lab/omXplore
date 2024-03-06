@@ -44,7 +44,7 @@ foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 
 \item{height}{xxx}
 
-\item{use/modal}{A \code{boolean(1)} that indicates whether to open plot modules
+\item{use.modal}{A \code{boolean(1)} that indicates whether to open plot modules
 in a modal window or not. Default is TRUE.}
 }
 \value{

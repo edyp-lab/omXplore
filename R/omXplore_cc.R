@@ -16,6 +16,8 @@
 #' }
 #'
 #' @name ds-cc
+#' 
+#' @return A shiny module
 #'
 NULL
 
@@ -33,6 +35,8 @@ NULL
 #' @import shinyBS
 #' @import shinyjs
 #' @import highcharter
+#' 
+#' @return A shiny module
 #'
 omXplore_cc_ui <- function(id) {
     ns <- NS(id)

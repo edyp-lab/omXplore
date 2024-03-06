@@ -7,6 +7,11 @@
 #' @export
 #'
 #' @rdname intensity-plots
+#' 
+#' @param data xxx
+#' @param conds xxx
+#' @param subset xxx
+#' @param pal.name xxx
 #'
 #' @import vioplot
 #' @import graphics

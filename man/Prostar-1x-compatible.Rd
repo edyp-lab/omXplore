@@ -17,11 +17,17 @@ MAE_Compatibility_with_Prostar_1x(obj, mae)
 
 \item{mae}{An instance of the class \code{MultiAssayExperiment}}
 }
+\value{
+An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+`
+}
 \description{
 xxx
 }
 \examples{
-NULL
+data(sub_R25_prot)
 
 
 

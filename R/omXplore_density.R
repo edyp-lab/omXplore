@@ -6,8 +6,9 @@
 #'
 #' @param id xxx
 #' @param obj An instance of the class `SummarizedExperiment`
-#' 
-#'
+#' @param i xxx
+#' @param data xxx
+#' @param conds xxx
 #' @param pal.name A `character(1)` which is the name of the palette from
 #' the package [RColorBrewer] from which the colors are taken. Default
 #' value is 'Set1'.

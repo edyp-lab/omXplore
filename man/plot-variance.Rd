@@ -20,11 +20,13 @@ omXplore_variance(obj, i)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of the class \code{VizData}}
+\item{obj}{An matrix}
 
 \item{i}{xxx}
 
 \item{pal.name}{xxx}
+
+\item{conds}{xxx}
 }
 \value{
 NA

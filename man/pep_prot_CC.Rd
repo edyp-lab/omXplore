@@ -5,6 +5,7 @@
 \alias{buildGraph}
 \alias{display.CC.visNet}
 \alias{plotCCJitter}
+\alias{GetCCInfos}
 \title{Display a CC}
 \usage{
 buildGraph(cc, metadata = NULL)
@@ -18,9 +19,11 @@ display.CC.visNet(
 )
 
 plotCCJitter(df, clickFunction = NULL)
+
+GetCCInfos(cc)
 }
 \arguments{
-\item{cc}{A cc (a list)}
+\item{cc}{xxx}
 
 \item{metadata}{xxx}
 
@@ -44,23 +47,27 @@ A list
 A plot
 
 A plot
+
+A \code{list} of three items:
+\itemize{
+\item \code{One_One}: the number of cc composed of one protein and one peptide
+\item \code{One_Multi}: the number of cc composed of one protein and several peptides
+\item \code{Multi_Multi}: the number of cc composed of several proteins and
+several (shared) peptides.
+}
 }
 \description{
-Display a CC
+xxxx
 }
 \examples{
-data(vdata)
-g <- buildGraph(get_cc(vdata[[1]]))
+data(sub_R25_pept)
+se1 <- sub_R25_pept[[1]]
+g <- buildGraph(get_cc(se1)[[11]])
 display.CC.visNet(g)
 
-n.prot <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {ncol(x)}))
-n.pept <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {nrow(x)}))
-df <- tibble::tibble(
-  x = jitter(n.pept),
-  y = jitter(n.prot),
-  index = seq_len(length(GetSlotCc(vdata[[1]])))
-)
-plotCCJitter(df)
+
+data(sub_R25_pept)
+GetCCInfos(get_cc(vdata[[1]]))
 
 }
 \author{

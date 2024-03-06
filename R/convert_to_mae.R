@@ -4,8 +4,12 @@
 #' F
 #' 
 #' @param obj An object compliant with formats xxxx
+#' @param colData xxxx
+#' @param se xxxx
+#' @param ll A list
 #' @name converters
 #' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
 #' 
@@ -45,6 +49,7 @@ NULL
 
 #' @export
 #' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 convert_to_mae <- function(obj){
   
@@ -77,7 +82,9 @@ convert_to_mae <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' @import MSnbase
+#' @import MultiAssayExperiment
 MSnSet_to_mae <- function(obj){
 
   .colData <- DataFrame(group = seq(ncol(exprs(obj))), 
@@ -98,6 +105,10 @@ MSnSet_to_mae <- function(obj){
 }
 
 
+
+#' @rdname converters
+#' @return An instance of `SimpleList`
+#' @importFrom PSMatch ConnectedComponents
 Compute_CC <- function(obj){
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
@@ -123,7 +134,7 @@ Compute_CC <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 QFeatures_to_mae <- function(obj){
   
   stopifnot(inherits(obj, 'QFeatures'))
@@ -136,7 +147,7 @@ QFeatures_to_mae <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 SE_to_mae <- function(obj){
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
@@ -150,7 +161,7 @@ SE_to_mae <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 MAE_to_mae <- function(obj){
   stopifnot(inherits(obj, 'MultiAssayExperiment'))
   
@@ -161,7 +172,7 @@ MAE_to_mae <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return A `boolean(1)`
 Check_se_Consistency <- function(obj){
   stopifnot(is.listOf(obj, 'MSnSet'))
   
@@ -171,8 +182,10 @@ Check_se_Consistency <- function(obj){
 }
 
 
+#' @rdname converters
 #' @export
-#' 
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' @import SummarizedExperiment
 list_to_se <- function(ll){
   
   .proteinID <- tryCatch({
@@ -251,7 +264,8 @@ list_to_se <- function(ll){
 }
 
 
-
+#' @rdname converters
+#' @return A `boolean(1)`
 Check_List_consistency <- function(ll){
   passed <- TRUE
   
@@ -276,7 +290,7 @@ Check_List_consistency <- function(ll){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 listOfLists_to_mae <- function(obj, colData = NULL){
   #stopifnot(is.listOf(obj, "list"))
   
@@ -310,7 +324,7 @@ listOfLists_to_mae <- function(obj, colData = NULL){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `MultiAssayExperiment`
 listOfSE_to_mae <- function(obj){
   
   stopifnot(is.listOf(obj, "SummarizedExperiment"))
@@ -329,7 +343,8 @@ listOfSE_to_mae <- function(obj){
 
 #' @export
 #' @rdname converters
-#' 
+#' @return A `boolean(1)`
+#' @import MSnbase
 Check_MSnSet_Consistency <- function(obj){
   stopifnot(is.listOf(obj, 'MSnSet'))
   
@@ -360,7 +375,11 @@ return(passed)
 }
 
 
+#' @rdname converters
 #' @export
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' @import MSnbase
+#' @import SummarizedExperiment
 MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))
   
@@ -424,7 +443,8 @@ stopifnot(inherits(obj, 'MSnSet'))
 
 #' @export
 #' @rdname converters
-#' 
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' @importFrom PSMatch ConnectedComponents makeAdjacencyMatrix
 Build_X_CC <- function(se){
   
   original.se <- se
@@ -444,6 +464,8 @@ Build_X_CC <- function(se){
 
 #' @export
 #' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' @import MSnbase
 #' 
 listOfMSnSet_to_mae <- function(obj){
   stopifnot(is.listOf(obj, "MSnSet"))

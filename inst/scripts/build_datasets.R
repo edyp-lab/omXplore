@@ -65,19 +65,6 @@ vdata <- listOfLists_to_mae(test, colData)
 save(vdata, file = 'data/vdata.rda')
 
 
-
-## ---------------------------------------------------------
-## Create the *_feat datasets from `QFeatures` package
-## ---------------------------------------------------------
-# # Convert simple QFeatures
-# data("feat1", package = 'QFeatures')
-# mae_feat1 <- convert_to_mae(mae_feat1)
-# save(mae_feat1, file = 'data/mae_feat1.rda')
-# 
-# data("feat2", package = 'QFeatures')
-# mae_feat2 <- convert_to_mae(mae_feat2)
-# save(mae_feat2, file = 'data/mae_feat2.rda')
-
 ## ---------------------------------------------------------
 ## Create small datasets based on `DAPARdata` package
 ## ---------------------------------------------------------

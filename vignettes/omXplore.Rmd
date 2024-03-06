@@ -153,8 +153,8 @@ The Shiny app called view_dataset() is the main application of the package
 
 
 ```{r view_dataset, eval=FALSE, fig.show='hide', message = FALSE, warning = FALSE, echo = TRUE}
-#data(vData_ft)
-#view_dataset(vData_ft)
+#data(vdata)
+#view_dataset(vdata)
 ```
 
 It is composed of two parts :
@@ -194,8 +194,8 @@ See the help page of this function fore more details.
 
 
 ```{r ex_modules, eval = FALSE, fig.show='hide', message = FALSE, warning = FALSE, echo = TRUE}
-#data(vData_ft)
-#obj <- vData_ft[[1]]
+#data(vdata)
+#obj <- vdata[[1]]
 #listPlotModules()
 #omXplore_pca(obj)
 #omXplore_density(obj)
@@ -224,9 +224,9 @@ as follows. In the example below, one want to add the app called `extFoo1` and
 contains a simple plot just to demonstrate how it works
 
 ```
-#data(vData_ft)
+#data(vdata)
 #addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#view_dataset(vData_ft, addons)
+#view_dataset(vdata, addons)
 ```
 
 

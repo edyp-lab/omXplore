@@ -39,12 +39,13 @@ violinPlot(data, conds, subset = NULL, pal.name)
 
 \item{withTracking}{xxx}
 
-\item{subset}{A \code{integer()} vector of index indicating the indices
-of rows in the dataset to highlight}
+\item{data}{xxx}
 
-\item{pal.name}{A \code{character(1)} which is the name of the palette from the
-package \link{RColorBrewer} from which the colors are taken. Default value
-is 'Set1'.}
+\item{conds}{xxx}
+
+\item{subset}{xxx}
+
+\item{pal.name}{xxx}
 }
 \value{
 NA

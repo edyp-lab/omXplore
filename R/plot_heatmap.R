@@ -1,9 +1,5 @@
 #' @title xxx
 #' @description #' This function is inspired from the function \code{heatmap.2}
-#' that displays quantitative data in the \code{MSnbase::exprs()} table of an
-#' object of
-#' class \code{MSnSet}. For more information, please refer to the help
-#' of the heatmap.2 function.
 #' @name omXplore_heatmap
 #'
 #' @param x A `matrix` or `array` containing the quantitative data.

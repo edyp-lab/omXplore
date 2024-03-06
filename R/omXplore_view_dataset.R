@@ -56,7 +56,7 @@
 #' foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 #' @param width xxx
 #' @param height xxx
-#' @param use/modal A `boolean(1)` that indicates whether to open plot modules 
+#' @param use.modal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
 #'
 #'

@@ -7,10 +7,10 @@
 FormatDataForDT(se, digits = 2)
 }
 \arguments{
+\item{se}{An instance of the class \code{SummarizedExperiment}}
+
 \item{digits}{An 'integer(1)' to specify the number of digits to display
 in the tables for numerical values. Default is 2.}
-
-\item{vizData}{An instance of the class \code{omXplore}}
 }
 \value{
 A data.frame

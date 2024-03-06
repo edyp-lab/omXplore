@@ -3,9 +3,6 @@
 \docType{data}
 \name{vdata}
 \alias{vdata}
-\alias{ft_na}
-\alias{se_na2}
-\alias{feat2}
 \title{Feature example data}
 \format{
 An object of class \code{MultiAssayExperiment} of length 3.
@@ -17,6 +14,9 @@ An object of class \code{MultiAssayExperiment} of length 3.
 \usage{
 vdata
 }
+\value{
+An enriched instance of the class \code{MultiAssayExperiment}
+}
 \description{
 \code{vdata} is a small object for testing and
 demonstration.  \code{vdata_na}
@@ -24,4 +24,5 @@ is a tiny test set that contains missing values used to
 demonstrate and test the impact of missing values on data
 processing.
 }
+\keyword{data}
 \keyword{datasets}

@@ -29,7 +29,11 @@ omXplore_cc(obj, i)
 \item{i}{xxx}
 }
 \value{
+A shiny module
+
 A shiny plot
+
+A shiny module
 
 A shiny app
 

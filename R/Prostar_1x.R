@@ -8,7 +8,7 @@
 #' @param mae An instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' NULL
+#' data(sub_R25_prot)
 #' 
 #' 
 #' 
@@ -17,6 +17,8 @@ NULL
 
 #' @rdname Prostar-1x-compatible
 #' @export
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' 
 SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
   stopifnot(inherits(obj, 'MSnSet') && inherits(se, 'SummarizedExperiment'))
@@ -109,6 +111,8 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
 
 #' @rdname Prostar-1x-compatible
 #' @export
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' `
 MAE_Compatibility_with_Prostar_1x <- function(obj, mae){
   
   stopifnot(inherits(obj, 'MSnSet') && 

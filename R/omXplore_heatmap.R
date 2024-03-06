@@ -3,12 +3,15 @@
 #'
 #' @description
 #' This function is a wrapper to `heatmap.2()` that displays
-#' quantitative data in an object of #' class `VizData`. For
+#' assay data in an instance of `SummarizedExperiment`. For
 #' more details, see `heatmap.2()`.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param width xxx
 #' @param obj An instance of a class `MultiAssayExperiment`.
+#' @param i xxx
+#' @param qdata xxx
+#' @param conds xx
 #' @param distance The distance used by the clustering algorithm to compute
 #' the dendrogram.
 #' @param cluster the clustering algorithm used to build the dendrogram.

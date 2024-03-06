@@ -4,6 +4,7 @@
 \alias{format_DT}
 \alias{formatDT_ui}
 \alias{formatDT_server}
+\alias{formatDT}
 \title{formatDT_ui and formatDT_server}
 \usage{
 formatDT_ui(id)
@@ -28,6 +29,8 @@ formatDT_server(
  }),
   selection = "single"
 )
+
+formatDT(obj)
 }
 \arguments{
 \item{id}{shiny id}
@@ -54,8 +57,12 @@ buttons or not.}
 \item{hideCols}{xxx}
 
 \item{selection}{xxx}
+
+\item{obj}{xxx}
 }
 \value{
+NA
+
 NA
 
 NA

@@ -62,7 +62,13 @@ heatmapForMissingValues(
 
 \item{obj}{An instance of a class \code{MultiAssayExperiment}.}
 
+\item{i}{xxx}
+
 \item{width}{xxx}
+
+\item{qdata}{xxx}
+
+\item{conds}{xx}
 
 \item{distance}{The distance used by the clustering algorithm to compute
 the dendrogram.}
@@ -105,14 +111,10 @@ A heatmap
 }
 \description{
 This function is a wrapper to \code{heatmap.2()} that displays
-quantitative data in an object of #' class \code{VizData}. For
+assay data in an instance of \code{SummarizedExperiment}. For
 more details, see \code{heatmap.2()}.
 
 #' This function is inspired from the function \code{heatmap.2}
-that displays quantitative data in the \code{MSnbase::exprs()} table of an
-object of
-class \code{MSnSet}. For more information, please refer to the help
-of the heatmap.2 function.
 }
 \examples{
 if (interactive()) {

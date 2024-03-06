@@ -11,6 +11,7 @@
 #'
 #'
 #' @param id shiny id
+#' @param obj xxx
 #' @param data A `data.frame`
 #' @param data_nostyle xxx
 #' @param withDLBtns A boolean to indicate whether to display download
@@ -215,7 +216,7 @@ formatDT_server <- function(id,
 
 #' @import shiny
 #' @export
-#' @rdname density-plot
+#' @rdname format_DT
 #' @return NA
 #'
 formatDT <- function(obj) {

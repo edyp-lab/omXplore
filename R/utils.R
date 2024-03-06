@@ -1,9 +1,12 @@
 #' @title Package version
 #' @description Gets the version number of a package
 #' @export
+#' @param pkg The name of the package
 #' @examples
 #' GetPkgVersion('omXplore')
-#' 
+#'
+#' @return A `character(1)` with the name of the package and its version number.
+#'
 GetPkgVersion <- function(pkg){
   tryCatch({
     ind <- which(installed.packages()[, 'Package'] == pkg)
@@ -107,7 +110,7 @@ customChart <- function(
 #' @export
 #' @return NA
 #' @importFrom DT JS
-#' 
+#'
 .initComplete <- function() {
   return(DT::JS(
     "function(settings, json) {",
@@ -128,7 +131,7 @@ customChart <- function(
 #' module formatDT. It creates additional columns to be used to style the table.
 #' to colors cells.
 #'
-#' @param vizData An instance of the class `omXplore`
+#' @param se An instance of the class `SummarizedExperiment`
 #' @param digits An 'integer(1)' to specify the number of digits to display
 #' in the tables for numerical values. Default is 2.
 #'
@@ -179,41 +182,3 @@ BuildColorStyles <- function(type) {
   colors
 }
 
-
-
-#' @title xxx
-#' @description xxxx
-#' @param cc xxx
-#' @return A `list` of three items:
-#' * `One_One`: the number of cc composed of one protein and one peptide
-#' * `One_Multi`: the number of cc composed of one protein and several peptides
-#' * `Multi_Multi`: the number of cc composed of several proteins and
-#' several (shared) peptides.
-#'
-#' @examples
-#' data(vdata)
-#' GetCCInfos(GetSlotCc(vdata[[1]]))
-#'
-#' @export
-#'
-GetCCInfos <- function(cc) {
-  #stopifnot(inherits(cc, "list"))
-  cc.infos <- list(
-    One_One = list(),
-    One_Multi = list(),
-    Multi_Multi = list()
-  )
-
-
-  ll.prot <- lapply(cc, function(x) { ncol(x)})
-  ll.pept <- lapply(cc, function(x) {nrow(x) })
-  ll.prot.one2one <- intersect(which(ll.prot == 1), which(ll.pept == 1))
-  ll.prot.one2multi <- intersect(which(ll.prot == 1), which(ll.pept > 1))
-  ll.prot.multi2any <- which(ll.prot > 1)
-
-  cc.infos[["One_One"]] <- cc[ll.prot.one2one]
-  cc.infos[["One_Multi"]] <- cc[ll.prot.one2multi]
-  cc.infos[["Multi_Multi"]] <- cc[ll.prot.multi2any]
-
-  cc.infos
-}

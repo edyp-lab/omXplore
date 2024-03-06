@@ -29,7 +29,6 @@ Imports:
     shiny, 
     MSnbase,
     PSMatch,
-    QFeatures,
     SummarizedExperiment,
     MultiAssayExperiment,
     shinyBS,
@@ -48,7 +47,6 @@ Imports:
     vioplot,
     graphics,
     FactoMineR,
-    crayon,
     dendextend,
     dplyr,
     factoextra,
@@ -67,16 +65,14 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
-    'All_generics.R'
     'Infos_adjacencyMatrix.R'
     'Prostar_1x.R'
-    'build_datasets.R'
     'convert_to_mae.R'
     'doc-data.R'
     'external_apps_examples.R'
-    'funcs_accessors.R'
     'get_pep_prot_CC.R'
     'global.R'
+    'mae_accessors.R'
     'metacell_utils.R'
     'mod_colorLegend.R'
     'mod_explore_graphs.R'
@@ -92,7 +88,6 @@ Collate:
     'omXplore_tabExplorer.R'
     'omXplore_variance.R'
     'omXplore_view_dataset.R'
-    'omXplore_view_dataset2.R'
     'palette.R'
     'plot_boxplot.R'
     'plot_heatmap.R'

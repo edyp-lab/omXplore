@@ -2,6 +2,11 @@
 #' @return A boxplot
 #'
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
+#' 
+#' @param data xxx
+#' @param conds xxx
+#' @param subset xxx
+#' @param pal.name xxx
 #'
 #' @import highcharter
 #' @importFrom grDevices colorRampPalette boxplot.stats

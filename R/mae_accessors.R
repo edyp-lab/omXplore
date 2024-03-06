@@ -15,15 +15,13 @@
 #' ## -----------------------------------
 #' ## Accessing slots from a MSnSet dataset
 #' ## -----------------------------------
-#' data(sub_Exp1_R2_prot_MSnSet)
-#' obj <- sub_Exp1_R2_prot_MSnSet
-#' metadata <- GetSlotMetadata(obj)
-#' qdata <- GetSlotQdata(obj)
-#' metacell <- GetSlotMetacell(obj)
-#' id <- GetSlotColID(obj)
-#' type <- GetSlotType(obj)
-#' proteinID <- GetSlotProteinID(obj)
-#' conds <- GetSlotConds(obj)
+#' data(sub_R25_prot)
+#' se1 <- sub_R25_prot[[1]]
+#' proteinID <- get_proteinID(se1)
+#' colID <- get_colID(se1)
+#' type <- get_type(se1)
+#' metacell <- get_metacell(se1)
+#' conds <- get_group(sub_R25_prot)
 #'
 NULL
 
@@ -39,7 +37,7 @@ setGeneric(
 
 #' @param object An instance of class `SummarizedExperiment`.
 #' @rdname accessors
-#' @return A data.frame containing the metadata of the dataset
+#' @return A DataFrame containing the adjacency matrix of the dataset
 #'
 setMethod("get_adjacencyMatrix", signature = "SummarizedExperiment",
   function(object) {

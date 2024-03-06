@@ -14,18 +14,11 @@
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(vdata)
-#' g <- buildGraph(get_cc(vdata[[1]]))
+#' data(sub_R25_pept)
+#' se1 <- sub_R25_pept[[1]]
+#' g <- buildGraph(get_cc(se1)[[11]])
 #' display.CC.visNet(g)
 #'
-#' n.prot <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {ncol(x)}))
-#' n.pept <- unlist(lapply(GetSlotCc(vdata[[1]]), function(x) {nrow(x)}))
-#' df <- tibble::tibble(
-#'   x = jitter(n.pept),
-#'   y = jitter(n.prot),
-#'   index = seq_len(length(GetSlotCc(vdata[[1]])))
-#' )
-#' plotCCJitter(df)
 #'
 #' @name pep_prot_CC
 #'
@@ -189,3 +182,46 @@ plotCCJitter <- function(
     )) %>%
     customExportMenu(fname = "plotCC")
 }
+
+
+
+
+
+#' @title xxx
+#' @description xxxx
+#' @param cc xxx
+#' @return A `list` of three items:
+#' * `One_One`: the number of cc composed of one protein and one peptide
+#' * `One_Multi`: the number of cc composed of one protein and several peptides
+#' * `Multi_Multi`: the number of cc composed of several proteins and
+#' several (shared) peptides.
+#'
+#' @examples
+#' data(sub_R25_pept)
+#' GetCCInfos(get_cc(vdata[[1]]))
+#'
+#' @export
+#' @rdname pep_prot_CC
+#'
+GetCCInfos <- function(cc) {
+  #stopifnot(inherits(cc, "list"))
+  cc.infos <- list(
+    One_One = list(),
+    One_Multi = list(),
+    Multi_Multi = list()
+  )
+  
+  
+  ll.prot <- lapply(cc, function(x) { ncol(x)})
+  ll.pept <- lapply(cc, function(x) {nrow(x) })
+  ll.prot.one2one <- intersect(which(ll.prot == 1), which(ll.pept == 1))
+  ll.prot.one2multi <- intersect(which(ll.prot == 1), which(ll.pept > 1))
+  ll.prot.multi2any <- which(ll.prot > 1)
+  
+  cc.infos[["One_One"]] <- cc[ll.prot.one2one]
+  cc.infos[["One_Multi"]] <- cc[ll.prot.one2multi]
+  cc.infos[["Multi_Multi"]] <- cc[ll.prot.multi2any]
+  
+  cc.infos
+}
+
