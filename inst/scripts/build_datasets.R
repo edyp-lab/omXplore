@@ -1,7 +1,7 @@
 library(omXplore)
 
 ## ---------------------------------------------------------
-## Creating vdata dataset
+## Create the vdata dataset
 ## ---------------------------------------------------------
 test <- list(
   data1 = build_toylist_example(), 
@@ -35,14 +35,15 @@ NULL
 
 
 
+#' @title Build an example list
+#' @description Creates a list which contains example info to be
+#' used to create instances of `MultiAssayExperiment` 
 #' @export
 #' @rdname build_example_datasets
+#' @return A list
 #' 
-build_toylist_example <- function(name = NULL){
-  
-  if (is.null(name))
-    name <- 'original'
-  
+build_toylist_example <- function(name = 'original'){
+
   qdata <- matrix(1:30, ncol = 6, 
     dimnames = list(paste0('prot_', 1:5), 
       c(paste0('C1_R', 1:3), paste0('C2_R', 1:3))))
