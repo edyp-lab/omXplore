@@ -99,7 +99,7 @@ items:
 
 
 The **adjacencyMatrix** (when exists) is stored as a DataFrame in the
-rowData() of the se.
+rowData() of a SUmmarizedexperiment item.
 
 Thus, while the class used in common, it is necessary to "convert" the datasets to
 the format used in `omXplore`. This process simply tries to find and extract information to
@@ -136,30 +136,27 @@ The resulting UI is the following:
 knitr::include_graphics("./figs/view_dataset.png", error = FALSE)
 ```
 
-The UI is divided in two parts. On the left side, there is a simple interface to select one of the SummarizedExperiment data contained in the dataset.The right part is dedicated to the display of data. The selection of the plot to show
+The UI is divided in two parts. 
+On the left side, a selection widget to select one of the SummarizedExperiment data contained in the dataset.
+On the top of the right, a series of clickable vignettes which represent the different plots available. When the user clicks on one of those vignettes, the corresponding plot is showed below. is dedicated to the display of data. The selection of the plot to show
 is possible by clicking one of the vignettes shown at the top of the window. The plot is then displayed with
 two possible ways, whether the option used to launch the function `view_dataset()`: the plot can be shown in the same window as the UI (below the vignettes) or in a modal window.
 
-```{r view_dataset_modal_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
+```{r view_dataset_modal_png, results='markup', fig.cap="`omXplore` interactive interface with modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
 knitr::include_graphics("./figs/view_dataset_modal.png", error = FALSE)
 ```
 
-```{r view_dataset_nomodal_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
+```{r view_dataset_nomodal_png, results='markup', fig.cap="`omXplore` interactive interface without modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
 knitr::include_graphics("./figs/view_dataset_nomodal.png", error = FALSE)
 ```
 
-It is composed of two parts : \* a selection widget to select the
-dataset to show in the plots, \* a graphical part with clickable
-vignettes which represent the plots available. When the user clicks on
-one of those vignettes, the corresponding plot is showed below.
-
 When a plot is displayed, it shows the data corresponding to the dataset
-selected in the widget. If this dataset is changed, the plot update
-automatically to the new dataset.
+selected in the widget (of the left side). If this dataset is changed, the plot is 
+automatically updated with the data of the new dataset.
 
-The list of vignettes is composed of : \* built-in shiny apps in the
-package `omXplore`. See details with `listPlotsModules()`. \* external
-apps which are exported by other packages. For more details on the
+The list of vignettes is composed of:
+- built-in shiny apps in the package `omXplore`. See details with `listPlotsModules()`,
+- external apps which are exported by other packages. For more details on the
 development of an external app, see section xxx.
 
 ## Individual plots
@@ -181,15 +178,12 @@ See the help page of this function fore more details.
 #data(vdata)
 #obj <- vdata[[1]]
 #listPlotModules()
-#omXplore_pca(obj)
 #omXplore_density(obj)
 ```
 
 # Adding external plots
 
-omXplore can plot builtin plots as external shiny app.
-
-For that purpose, two points may be considered:
+omXplore can plot plots coming from third packages. For that purpose, two points may be considered:
 
 -   make a shiny app available in the global R environment
 
@@ -201,6 +195,9 @@ For that purpose, two points may be considered:
     one for the server part.). Thus, in this example, the shiny app
     called `foo` must provide the functions `foo_ui()` and
     `foo_server()`.
+
+In this case, a clickable button is added to the series of vignettes (at the top of the right side
+of the UI). If an image has been correctly configured, it is shown in this button.
 
 The use of those external apps is devoted to its developer, the
 interface of `omXplore` is only a shell that presents apps in a
