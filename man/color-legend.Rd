@@ -20,7 +20,7 @@ colorLegend_server(
   hide.white = TRUE
 )
 
-colorLegend(obj = SummarizedExperiment())
+colorLegend(obj = SummarizedExperiment::SummarizedExperiment())
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
@@ -45,11 +45,8 @@ A shiny app
 Shows xxx based on the tags in the package 'DaparToolshed'
 }
 \examples{
-
 if (interactive()) {
   data(vdata)
   colorLegend(vdata[[1]])
-}
-
-
+  }
 }

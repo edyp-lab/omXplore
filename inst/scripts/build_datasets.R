@@ -69,9 +69,13 @@ save(vdata, file = 'data/vdata.rda')
 ## Create small datasets based on `DAPARdata` package
 ## ---------------------------------------------------------
 data("Exp1_R25_pept", package = 'DAPARdata')
-sub_R25_pept <- convert_to_mae(Exp1_R25_pept[150:170])
-save(sub_R25_pept, file = 'data/sub_R25_pept.rda')
-
 data("Exp1_R25_prot", package = 'DAPARdata')
-sub_R25_prot <- convert_to_mae(Exp1_R25_prot[1:21])
-save(sub_R25_prot, file = 'data/sub_R25_prot.rda')
+
+sub_R25 <- convert_to_mae(
+  list(
+    peptide = Exp1_R25_pept[150:170],
+    protein = Exp1_R25_prot[1:21]
+  )
+)
+
+save(sub_R25, file = 'data/sub_R25.rda')

@@ -11,12 +11,8 @@
 #'
 #' @name color-legend
 #'
-#' @examples
-#' 
-#' if (interactive()) {
-#'   data(vdata)
-#'   colorLegend(vdata[[1]])
-#' }
+#' @example
+#' inst/examples/ex_mod_colorLegend.R
 #' 
 #'
 NULL
@@ -119,7 +115,7 @@ colorLegend_server <- function(id,
 #' @rdname color-legend
 #' @return A shiny app
 #'
-colorLegend <- function(obj = SummarizedExperiment()) {
+colorLegend <- function(obj = SummarizedExperiment::SummarizedExperiment()) {
 
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   

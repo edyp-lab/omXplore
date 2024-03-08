@@ -93,8 +93,6 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 \examples{
 if (interactive()) {
   data(vdata)
-  addons <- list(omXplore = c("extFoo1", "extFoo2"), 
-              DaparToolshed = c("mod_ds_metacell"))
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
   view_dataset(vdata, addons)
   

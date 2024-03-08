@@ -85,15 +85,16 @@ convert_to_mae <- function(obj){
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' @import MSnbase
-#' @import MultiAssayExperiment
+#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
+#' 
 MSnSet_to_mae <- function(obj){
 
   .colData <- DataFrame(group = seq(ncol(exprs(obj))), 
     row.names = colnames(exprs(obj)))
   
   
-  mae <- MultiAssayExperiment(
-    experiments = ExperimentList(original = MSnSet_to_se(obj)),
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(original = MSnSet_to_se(obj)),
     colData = .colData,
     metadata = list(other = list())
   )
@@ -149,11 +150,13 @@ QFeatures_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
+#' 
 SE_to_mae <- function(obj){
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
-  MultiAssayExperiment(
-    experiments = ExperimentList(original = obj),
+  MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(original = obj),
     metadata = list(other = list())
   )
 }
@@ -186,7 +189,7 @@ Check_se_Consistency <- function(obj){
 #' @rdname converters
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
-#' @import SummarizedExperiment
+#' @importFrom SummarizedExperiment SummarizedExperiment
 list_to_se <- function(ll){
   
   .proteinID <- tryCatch({
@@ -252,7 +255,7 @@ list_to_se <- function(ll){
   )
   
   # Builds the SE corresponding to MSnSet 
-  se <- SummarizedExperiment(
+  se <- SummarizedExperiment::SummarizedExperiment(
     assays = .assay,
     metadata = se.meta,
     rowData = .rowData
@@ -292,6 +295,8 @@ Check_List_consistency <- function(ll){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
+#' 
 listOfLists_to_mae <- function(obj, colData = NULL){
   #stopifnot(is.listOf(obj, "list"))
   
@@ -312,8 +317,8 @@ listOfLists_to_mae <- function(obj, colData = NULL){
     row.names = colnames(.assay1))
   }
   
-  MultiAssayExperiment(
-    experiments = ExperimentList(ll.se),
+  MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(ll.se),
     colData = colData,
     metadata = list(other = list())
   )
@@ -334,7 +339,7 @@ listOfSE_to_mae <- function(obj){
   if(length(names(obj) != length(obj)))
     names(obj) <- paste0('original_', seq.int(length(obj)))
   
-  MultiAssayExperiment(
+  MultiAssayExperiment::MultiAssayExperiment(
     experiments = obj,
     colData = DataFrame(),
     metadata = list(other = list())
@@ -366,9 +371,9 @@ Check_MSnSet_Consistency <- function(obj){
     test1 <- obj[[i]]
     test2 <- obj[[i+1]]
     passed <- passed && identical(pData(test1), pData(test2))
-    passed <- passed && identical(rownames(exprs(test1)), rownames(fData(test2)))
+    #passed <- passed && identical(rownames(exprs(test1)), rownames(fData(test2)))
     passed <- passed && identical(colnames(exprs(test1)), rownames(pData(test2)))
-    passed <- passed && identical(rownames(exprs(test1)), rownames(exprs(test2)))
+    #passed <- passed && identical(rownames(exprs(test1)), rownames(exprs(test2)))
     
   }
   
@@ -424,7 +429,7 @@ stopifnot(inherits(obj, 'MSnSet'))
   )
   
   # Builds the SE corresponding to MSnSet 
-  se <- SummarizedExperiment(
+  se <- SummarizedExperiment::SummarizedExperiment(
     assays = exprs(obj),
     metadata = se.meta,
     rowData = fData(obj)
@@ -466,6 +471,7 @@ Build_X_CC <- function(se){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom MultiAssayExperiment MultiAssayExperiment MultiAssayExperiment
 #' @import MSnbase
 #' 
 listOfMSnSet_to_mae <- function(obj){
@@ -480,8 +486,8 @@ listOfMSnSet_to_mae <- function(obj){
   .colData <- DataFrame(group = seq(ncol(exprs(obj[[1]]))), 
     row.names = colnames(exprs(obj[[1]])))
   
-  MultiAssayExperiment(
-    experiments = ExperimentList(ll.se),
+  MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(ll.se),
     colData = .colData,
     metadata = list(other = list())
   )

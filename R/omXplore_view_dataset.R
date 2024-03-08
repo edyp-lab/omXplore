@@ -66,8 +66,6 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   addons <- list(omXplore = c("extFoo1", "extFoo2"), 
-#'               DaparToolshed = c("mod_ds_metacell"))
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'   view_dataset(vdata, addons)
 #'   
