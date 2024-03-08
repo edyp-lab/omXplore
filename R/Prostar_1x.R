@@ -34,8 +34,8 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
       SummarizedExperiment::rowData(se)[['metacell']] <- .metacell
     }
   },
-    warning = function(w) DataFrame(),
-    error = function(e) DataFrame()
+    warning = function(w) MultiAssayExperiment::DataFrame(),
+    error = function(e) MultiAssayExperiment::DataFrame()
   )
   
   
@@ -99,8 +99,8 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   tryCatch({
     colData(se)['group'] <- pData(obj)$Condition
   },
-    warning = function(w) DataFrame(),
-    error = function(e) DataFrame()
+    warning = function(w) MultiAssayExperiment::DataFrame(),
+    error = function(e) MultiAssayExperiment::DataFrame()
   )
   
   

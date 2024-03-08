@@ -89,7 +89,7 @@ convert_to_mae <- function(obj){
 #' 
 MSnSet_to_mae <- function(obj){
 
-  .colData <- DataFrame(group = seq(ncol(exprs(obj))), 
+  .colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(exprs(obj))), 
     row.names = colnames(exprs(obj)))
   
   
@@ -235,11 +235,11 @@ list_to_se <- function(ll){
   
   
   .rowData<- tryCatch({
-    df <- DataFrame(ll$metadata)
+    df <- MultiAssayExperiment::DataFrame(ll$metadata)
     df[['metacell']] <- ll$metacell
     df
-  }, warning = function(w) DataFrame(),
-    error = function(e) DataFrame()
+  }, warning = function(w) MultiAssayExperiment::DataFrame(),
+    error = function(e) MultiAssayExperiment::DataFrame()
   )
   
   
@@ -313,7 +313,7 @@ listOfLists_to_mae <- function(obj, colData = NULL){
   
   .assay1 <- assay(ll.se[[1]])
   if(is.null(colData)){
-    colData <- DataFrame(group = seq(ncol(.assay1)), 
+    colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(.assay1)), 
     row.names = colnames(.assay1))
   }
   
@@ -341,7 +341,7 @@ listOfSE_to_mae <- function(obj){
   
   MultiAssayExperiment::MultiAssayExperiment(
     experiments = obj,
-    colData = DataFrame(),
+    colData = MultiAssayExperiment::DataFrame(),
     metadata = list(other = list())
   )
 }
@@ -483,7 +483,7 @@ listOfMSnSet_to_mae <- function(obj){
   
   names(ll.se) <- names(obj)
 
-  .colData <- DataFrame(group = seq(ncol(exprs(obj[[1]]))), 
+  .colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(exprs(obj[[1]]))), 
     row.names = colnames(exprs(obj[[1]])))
   
   MultiAssayExperiment::MultiAssayExperiment(
