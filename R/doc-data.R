@@ -21,7 +21,7 @@ NULL
 #' @title Feature example data
 #'
 #' @description
-#' `sub_R25` is a protein subset of the dataset 'sub_R25_pept' in the 
+#' `sub_R25` is a protein subset of the dataset 'Exp1_R25_pept' in the 
 #' package 'DAPARdata'. 
 #' @name sub_R25
 #' @source

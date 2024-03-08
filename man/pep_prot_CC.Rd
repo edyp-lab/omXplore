@@ -60,14 +60,14 @@ several (shared) peptides.
 xxxx
 }
 \examples{
-data(sub_R25_pept)
-se1 <- sub_R25_pept[[1]]
+data(sub_R25)
+se1 <- sub_R25[[1]]
 g <- buildGraph(get_cc(se1)[[11]])
 display.CC.visNet(g)
 
 
-data(sub_R25_pept)
-GetCCInfos(get_cc(sub_R25_pept[[1]]))
+data(sub_R25)
+GetCCInfos(get_cc(sub_R25[[1]]))
 
 }
 \author{

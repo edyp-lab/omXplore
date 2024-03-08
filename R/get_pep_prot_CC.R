@@ -14,8 +14,8 @@
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(sub_R25_pept)
-#' se1 <- sub_R25_pept[[1]]
+#' data(sub_R25)
+#' se1 <- sub_R25[[1]]
 #' g <- buildGraph(get_cc(se1)[[11]])
 #' display.CC.visNet(g)
 #'
@@ -197,8 +197,8 @@ plotCCJitter <- function(
 #' several (shared) peptides.
 #'
 #' @examples
-#' data(sub_R25_pept)
-#' GetCCInfos(get_cc(sub_R25_pept[[1]]))
+#' data(sub_R25)
+#' GetCCInfos(get_cc(sub_R25[[1]]))
 #'
 #' @export
 #' @rdname pep_prot_CC
