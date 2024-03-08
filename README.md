@@ -1,5 +1,3 @@
-## omXplore
-
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/prostarProteomics/omXplore/workflows/R-CMD-check/badge.svg)](https://github.com/prostarProteomics/omXplore/actions)
@@ -22,30 +20,27 @@
 `omXplore` is a [Bioconductor
 package](http://bioconductor.org/packages/omXplore) that provides
 functions for the visualization and the statistical analysis of proteomics data.
-It can deal with several formats as Msnset (used in the `MSnbase` package), 
-`QFeatures` (in the QFeatures package) and list of datasets.
+It can deal with common Bioconductor formats suwh as as Msnset, `QFeatures`, 
+`MultiAssayExperiment`.
 
 It is also possible to write your own plot modules so as to embed it into
 the GUI of `omXplore`.
 
-> Evolving `DAPAR` package towards Shiny modules
+> Evolving the `DAPAR` package plots towards Shiny modules.
 
 
 
 ### Getting started
 
-The `VizData` and `VizList` classes are used to provide and manage a unique common
-structure dataset within the package. See the
+See the
 [omXplore introduction](https://prostarproteomics.github.io/omXplore/articles/omXplore.html)
-to get started with the visualisation of quantitative
-mass spectrometry data.
+to get started with the visualization of data.
 
-The integration of an external plot module is illustrated in the [Add module](https://prostarproteomics.github.io/omXplore/articles/addModule.html)
-vignette.
+
 
 ### License
 
-The `QFeatures` code is provided under a permissive [Artistic 2.0
+The `omXplore` code is provided under a permissive [Artistic 2.0
 license](https://opensource.org/licenses/Artistic-2.0). The
 documentation, including the manual pages and the vignettes, are
 distributed under a [CC BY-SA
