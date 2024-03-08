@@ -10,6 +10,10 @@
 #' @param obj An object of instance compliant with formats in
 #' `FormatAvailables()`.
 #'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' @importFrom shinyjs useShinyjs hidden toggle show hide
 #'
 #' @examples
 #' if (interactive()) {
@@ -22,8 +26,7 @@
 #'
 NULL
 
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #' @rdname external_app
 #' @export
 #' @return NA
@@ -93,7 +96,6 @@ extFoo1 <- function(obj) {
 
 
 
-#' @importFrom shiny NS tagList
 #' @rdname external_app
 #' @export
 #' @return NA

@@ -27,7 +27,8 @@
 #' 
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList checkboxInput
+#' renderUI req selectInput isolate uiOutput tagList checkboxInput fluidPage div
+#'  p
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom highcharter renderHighchart

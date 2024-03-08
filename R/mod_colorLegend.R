@@ -13,7 +13,7 @@
 #' 
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @example
 #' inst/examples/ex_mod_colorLegend.R
