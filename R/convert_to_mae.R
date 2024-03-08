@@ -84,7 +84,7 @@ convert_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @import MSnbase
+#' @importFrom MSnbase exprs
 #' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
 #' 
 MSnSet_to_mae <- function(obj){
@@ -350,7 +350,7 @@ listOfSE_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return A `boolean(1)`
-#' @import MSnbase
+#' @importFrom MSnbase exprs pData
 Check_MSnSet_Consistency <- function(obj){
   stopifnot(is.listOf(obj, 'MSnSet'))
   
@@ -384,8 +384,9 @@ return(passed)
 #' @rdname converters
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
-#' @import MSnbase
+#' @importFrom MSnbase exprs fData pData
 #' @import SummarizedExperiment
+#' 
 MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))
   
@@ -472,7 +473,7 @@ Build_X_CC <- function(se){
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' @importFrom MultiAssayExperiment MultiAssayExperiment MultiAssayExperiment
-#' @import MSnbase
+#' @importFrom MSnbase exprs
 #' 
 listOfMSnSet_to_mae <- function(obj){
   stopifnot(is.listOf(obj, "MSnSet"))

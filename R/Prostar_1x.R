@@ -17,6 +17,7 @@ NULL
 
 #' @rdname Prostar-1x-compatible
 #' @importFrom SummarizedExperiment rowData
+#' @importFrom MSnbase fData pData
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
 #' 
@@ -113,7 +114,8 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
 #' @rdname Prostar-1x-compatible
 #' @export
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' `
+#' @importFrom MSnbase pData
+#' 
 MAE_Compatibility_with_Prostar_1x <- function(obj, mae){
   
   stopifnot(inherits(obj, 'MSnSet') && 

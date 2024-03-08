@@ -62,11 +62,12 @@ is.listOf <- function(object, obj.class=NULL){
 #'
 #' @return A `character(1)` with the name of the package and 
 #' its version number.
-#'
+#' @importFrom utils installed.packages
+#' 
 GetPkgVersion <- function(pkg){
   tryCatch({
-    ind <- which(installed.packages()[, 'Package'] == pkg)
-    version <- installed.packages()[ind, 'Version']
+    ind <- which(utils::installed.packages()[, 'Package'] == pkg)
+    version <- utils::installed.packages()[ind, 'Version']
     paste0(pkg, "_", version)
   },
     warning = function(w) cat(w),
