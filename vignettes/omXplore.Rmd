@@ -50,28 +50,24 @@ It contains:
 
 All the plots in this package are based on Shiny technology
 (\url{http://shiny.rstudio.com/}) and are implemented as modules. Thus,
-they can be run standalone or easily inserted in another Shiny app.
+they can also be run standalone or easily inserted in another Shiny app.
 
 In that sense, the plots in `omXplore` can be used alone or as a
 complement to the numerous packages on Bioconductor
 (\url{https://www.bioconductor.org/}) it is compliant with. For example,
-it is well used in `Prostar`
-(\url{https://www.bioconductor.org/packages/release/bioc/html/Prostar.html}).
-The datasets contained in the experiment packages `DAPARdata` and
-`DaparToolshedData` can be used as toy examples.
+it is well suited for the package `Prostar`
+(\url{https://www.bioconductor.org/packages/release/bioc/html/Prostar.html}) 
+in which it is used.
 
-The package `omXplore` contains built-in plots but have the capability
-to show plots developed by other developer (as a Shiny app).
-
-```{r loagPkg}
-library(omXplore)
-```
+One main feature is the capacity to insert plots (as shiny modules) from third party packages.
 
 # omXplore data format
 
 `omXplore` is based on the class `MultiAssayExperiments`
 (\url{https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html})
 and enrich it with specific slots needed to create built-in plots.
+The plots display statistical information about data contained in the SummarizedExperiment
+slots of a dataset.
 
 Some items are added to the metadata of the instance of
 MultiAssayExperiment and to each of the instances of
@@ -84,8 +80,6 @@ the following additional items:
 
 #### Additional info in SummarizedExperiment
 
-The **adjacencyMatrix** (when exists) is stored as a DataFrame in the
-rowData() of the se.
 
 The metadata of each SummarizedExperiment dataset contains the following
 items:
@@ -103,6 +97,14 @@ items:
 -   **pkg_version**: The name and version number which has been used to
     create this object
 
+
+The **adjacencyMatrix** (when exists) is stored as a DataFrame in the
+rowData() of the se.
+
+Thus, while the class used in common, it is necessary to "convert" the datasets to
+the format used in `omXplore`. This process simply tries to find and extract information to
+save them in the correct item of the slot metadata.
+
 To convert datasets to the enriched MultiAssayExperiment, run the
 function \`convert_to_mae()\` as follows:
 
@@ -110,35 +112,33 @@ function \`convert_to_mae()\` as follows:
 data("Exp1_R25_pept", package = 'DAPARdata')
 sub_R25_pept <- convert_to_mae(Exp1_R25_pept[150:170])
 ```
+If a plot function do not have all infos it needs, then it is not available on the GUI
 
 # Using omXplore
 
-`omXplore` is a collection of standard plots written as Shiny modules.
-The main app is also a Shiny module which displays the plots of each
+The package `omXplore` offers a collection of standard plots written as Shiny modules.
+The main app is a Shiny module itself which displays the plots of each
 module.
 
 ## Main UI
 
-The main shiny app called view_dataset() is the main application of the
-package `omXplore`. It can be launched as follows:
+The main shiny app is called view_dataset(). It is launched as follows:
 
 ```{r view_dataset_modal, include=FALSE}
-library(shiny)
 library(omXplore)
 data(sub_R25_prot)
 view_dataset(sub_R25_prot)
 ```
 
-\` The resulting UI is the following:
+The resulting UI is the following:
 
 ```{r view_dataset_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
 knitr::include_graphics("./figs/view_dataset.png", error = FALSE)
 ```
 
-The vignettes for the plots are buttons on which the user an click to
-display the corresponding plot Whether the use of modal window has been
-selected, the new plot is shown in the same window as the UI (below the
-vignettes) or in a modal window.
+The UI is divided in two parts. On the left side, there is a simple interface to select one of the SummarizedExperiment data contained in the dataset.The right part is dedicated to the display of data. The selection of the plot to show
+is possible by clicking one of the vignettes shown at the top of the window. The plot is then displayed with
+two possible ways, whether the option used to launch the function `view_dataset()`: the plot can be shown in the same window as the UI (below the vignettes) or in a modal window.
 
 ```{r view_dataset_modal_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
 knitr::include_graphics("./figs/view_dataset_modal.png", error = FALSE)
