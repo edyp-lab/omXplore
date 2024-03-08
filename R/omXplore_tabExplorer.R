@@ -7,7 +7,20 @@
 #' @param i xxx
 #' @param digits xxx
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom DT DTOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
+#' DTOutput
+#' @importFrom tibble as_tibble
+#' @importFrom stats setNames
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData colData assays
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
+#' 
+#' 
 #' @name omXplore_tabExplorer
 #'
 #' @examples
@@ -22,9 +35,7 @@ NULL
 
 
 
-#' @import shiny
-#' @importFrom DT DTOutput
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
 #'
@@ -64,11 +75,6 @@ omXplore_tabExplorer_ui <- function(id) {
 
 
 #' @return NA
-#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
-#' @importFrom tibble as_tibble
-#' @importFrom stats setNames
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom SummarizedExperiment rowData
 #'
 #' @rdname omXplore_tabExplorer
 #'
@@ -277,7 +283,6 @@ omXplore_tabExplorer_server <- function(
 
 #' @rdname omXplore_tabExplorer
 #' @export
-#' @import shiny
 #' @return A shiny app
 #'
 omXplore_tabExplorer <- function(obj, i) {

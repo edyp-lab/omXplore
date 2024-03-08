@@ -8,7 +8,16 @@
 #'
 #' @keywords internal
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom tibble tibble
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
+#' @importFrom SummarizedExperiment rowData colData assays 
+#' @import shinyBS
+#' 
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
@@ -23,17 +32,10 @@ NULL
 
 
 
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @import shinyBS
-#' @import highcharter
-#'
+
 #' @rdname ds-cc
 #' @export
 #' @return A shiny plot
-#' @import visNetwork
-#' @import shinyBS
-#' @import highcharter
 #' 
 #' @return A shiny module
 #'
@@ -124,16 +126,11 @@ omXplore_cc_ui <- function(id) {
 
 
 
-#' @importFrom tibble tibble
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+
 #' @rdname ds-cc
 #'
 #' @export
 #' @return A shiny app
-#'
-#' @import visNetwork
-#' @import highcharter
 #'
 omXplore_cc_server <- function(id, 
   obj = reactive({NULL}), 
@@ -777,7 +774,6 @@ omXplore_cc_server <- function(id,
 
 
 
-#' @import shiny
 #' @rdname ds-cc
 #'
 #' @export

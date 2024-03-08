@@ -12,8 +12,18 @@
 #' @param rate xxx. Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
-#'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom DT JS
+#' @importFrom tibble tibble as_tibble
+#' @importFrom stats cor
+#' @import tidyr
+#' @importFrom dplyr mutate left_join select
+#' 
+#' 
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
@@ -22,8 +32,6 @@
 #'
 NULL
 
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname corrmatrix
 #' @export
 #' @return NA
@@ -105,11 +113,6 @@ omXplore_corrmatrix_server <- function(
 #'
 #' @param showValues xxx
 #'
-#' @import highcharter
-#' @importFrom DT JS
-#' @importFrom tibble tibble as_tibble
-#' @importFrom stats cor
-#'
 #' @export
 #'
 #'
@@ -117,9 +120,6 @@ omXplore_corrmatrix_server <- function(
 #'
 #' @rdname corrmatrix
 #'
-#' @import tidyr
-#' @importFrom  dplyr mutate left_join select
-#' @importFrom DT JS
 #'
 corrMatrix <- function(
     data,

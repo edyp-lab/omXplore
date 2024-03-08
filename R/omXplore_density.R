@@ -13,7 +13,13 @@
 #' the package [RColorBrewer] from which the colors are taken. Default
 #' value is 'Set1'.
 #'
-#'
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom highcharter highchartOutput renderHighchart
+#' @importFrom stats density
+#' 
 #' @name density-plot
 #'
 #'
@@ -26,9 +32,6 @@
 NULL
 
 
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom shiny NS tagList
-#' @importFrom highcharter highchartOutput
 #' @rdname density-plot
 #' @export
 #' @return NA
@@ -48,7 +51,6 @@ omXplore_density_ui <- function(id) {
 
 #' @rdname density-plot
 #'
-#' @importFrom highcharter renderHighchart
 #'
 #' @export
 #' @return NA
@@ -101,8 +103,7 @@ omXplore_density_server <- function(
 
 
 
-#' @import highcharter
-#' @importFrom stats density
+
 #'
 #' @export
 #'
@@ -188,7 +189,6 @@ densityPlot <- function(
 
 
 
-#' @import shiny
 #' @export
 #' @rdname density-plot
 #' @return A shiny app

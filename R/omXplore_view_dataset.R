@@ -59,7 +59,14 @@
 #' @param use.modal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @import shinyBS
+#' @importFrom shinyjs useShinyjs hidden toggle show hide
+#' @import shinyjqui
+#' 
+#' 
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
@@ -79,9 +86,7 @@ NULL
 
 
 
-#' @import shiny
-#' @import shinyBS
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #' @rdname ds-view
 #' @export
 #' @return NA
@@ -111,11 +116,7 @@ view_dataset_ui <- function(id) {
   )
 }
 
-#'
-#' @importFrom shinyjs useShinyjs hidden toggle show hide
-#' @import shiny
-#' @import shinyBS
-#' @import shinyjqui
+
 #'
 #' @rdname ds-view
 #' @export
@@ -353,8 +354,6 @@ view_dataset_server <- function(
 
 #' @export
 #' @rdname ds-view
-#' @import shiny
-#' @import shinyBS
 #'
 #' @return A shiny application which wraps the functions view_dataset_ui()
 #' and the view_dataset_server()

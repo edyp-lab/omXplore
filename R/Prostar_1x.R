@@ -7,6 +7,10 @@
 #' @param se An instance of the class `SummarizedExperiment`
 #' @param mae An instance of the class `MultiAssayExperiment`
 #' 
+#' @importFrom SummarizedExperiment rowData colData assays
+#' @importFrom MSnbase fData pData
+#' @importFrom MSnbase pData
+#' 
 #' @examples
 #' data(sub_R25)
 #' 
@@ -16,8 +20,6 @@ NULL
 
 
 #' @rdname Prostar-1x-compatible
-#' @importFrom SummarizedExperiment rowData
-#' @importFrom MSnbase fData pData
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
 #' 
@@ -114,7 +116,6 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
 #' @rdname Prostar-1x-compatible
 #' @export
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @importFrom MSnbase pData
 #' 
 MAE_Compatibility_with_Prostar_1x <- function(obj, mae){
   

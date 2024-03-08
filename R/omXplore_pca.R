@@ -24,7 +24,14 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @name ds-pca
-#'
+#' 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList checkboxInput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom highcharter renderHighchart
+#' @importFrom shinyjs useShinyjs hidden toggle
 #'
 #' @author Samuel Wieczorek, Enora Fremy
 #'
@@ -41,8 +48,6 @@ NULL
 
 
 #' @rdname ds-pca
-#' @importFrom shiny NS tagList uiOutput
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @export
 #' @return NA
 #'
@@ -61,9 +66,6 @@ omXplore_pca_ui <- function(id) {
 #'
 #' @rdname ds-pca
 #'
-#' @importFrom RColorBrewer brewer.pal
-#' @importFrom highcharter renderHighchart
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @import factoextra
 #'
 #' @export
@@ -252,7 +254,6 @@ omXplore_pca_server <- function(
 }
 
 
-#' @import shiny
 #' @export
 #' @rdname ds-pca
 #' @return A shiny app

@@ -10,7 +10,11 @@
 #' @param obj An instance of the class `SummarizedExperiment`.
 #'
 #' @name color-legend
-#'
+#' 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @example
 #' inst/examples/ex_mod_colorLegend.R
 #' 
@@ -39,8 +43,8 @@ custom_metacell_colors <- function() {
   )
 }
 
-#' @import shiny
-#' @import shinyBS
+
+
 #' @rdname color-legend
 #' @export
 #'
@@ -51,6 +55,7 @@ colorLegend_ui <- function(id) {
 
   uiOutput(ns('legend_UI'))
 }
+
 
 
 
@@ -110,7 +115,7 @@ colorLegend_server <- function(id,
 
 
 
-#' @import shiny
+
 #' @export
 #' @rdname color-legend
 #' @return A shiny app

@@ -14,7 +14,15 @@
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom RColorBrewer brewer.pal
+#' @import highcharter
+#' @importFrom DT JS
+#' @importFrom stats var
+#' 
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
@@ -24,8 +32,7 @@
 NULL
 
 
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -43,9 +50,7 @@ omXplore_variance_ui <- function(id) {
 
 
 
-#'
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -96,10 +101,7 @@ omXplore_variance_server <- function(
 
 
 
-#' @importFrom RColorBrewer brewer.pal
-#' @import highcharter
-#' @importFrom DT JS
-#' @importFrom stats var
+
 #'
 #' @export
 #'
@@ -188,7 +190,6 @@ CVDist <- function(
 
 
 
-#' @import shiny
 #' @rdname plot-variance
 #' @export
 #' @return A shiny app

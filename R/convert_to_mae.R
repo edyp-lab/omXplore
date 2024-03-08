@@ -9,6 +9,10 @@
 #' @param ll A list
 #' @name converters
 #' 
+#' @importFrom SummarizedExperiment rowData colData assays SummarizedExperiment
+#' @importFrom MSnbase exprs fData pData
+#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
+#' 
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
@@ -84,8 +88,6 @@ convert_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @importFrom MSnbase exprs
-#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
 #' 
 MSnSet_to_mae <- function(obj){
 
@@ -189,7 +191,7 @@ Check_se_Consistency <- function(obj){
 #' @rdname converters
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
-#' @importFrom SummarizedExperiment SummarizedExperiment
+#' 
 list_to_se <- function(ll){
   
   .proteinID <- tryCatch({
@@ -295,7 +297,6 @@ Check_List_consistency <- function(ll){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
 #' 
 listOfLists_to_mae <- function(obj, colData = NULL){
   #stopifnot(is.listOf(obj, "list"))
@@ -384,8 +385,6 @@ return(passed)
 #' @rdname converters
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
-#' @importFrom MSnbase exprs fData pData
-#' @import SummarizedExperiment
 #' 
 MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))

@@ -16,6 +16,14 @@
 #' of rows in the dataset to highlight
 #'
 #' @name intensity-plots
+#' 
+#' @importFrom grDevices png dev.off
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom stats setNames
 #'
 #' @examples
 #' if (interactive()) {
@@ -26,9 +34,7 @@
 NULL
 
 
-#' @import shiny
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom stats setNames
+
 #' @export
 #' @rdname intensity-plots
 #' @return NA
@@ -52,9 +58,6 @@ omXplore_intensity_ui <- function(id) {
 #' @rdname intensity-plots
 #'
 #' @export
-#' @importFrom grDevices png dev.off
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
 #'
 #' @return NA
 #'
@@ -130,7 +133,7 @@ omXplore_intensity_server <- function(
 }
 
 
-#' @import shiny
+
 #' @rdname intensity-plots
 #' @export
 #' @return A shiny app

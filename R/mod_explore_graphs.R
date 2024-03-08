@@ -4,6 +4,7 @@
 #' #' @importFrom shiny NS tagList
 #' #' @importFrom DT renderDT DTOutput formatStyle %>% styleEqual datatable
 #' #' @importFrom shinyjs toggle hidden
+#' #' @importFrom SummarizedExperiment rowData colData assays 
 #' #'
 #' #' @rdname connected-components
 #' #' @export

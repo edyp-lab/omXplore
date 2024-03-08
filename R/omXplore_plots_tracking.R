@@ -7,7 +7,12 @@
 #' @param resetBtn A `boolean(1)` which indicates whether to show the 'Reset'
 #' button or not.
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData colData assays
+#' 
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
@@ -22,8 +27,6 @@ NULL
 
 #' @rdname plots_tracking
 #' @export
-#' @importFrom shiny NS tagList
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @return NA
 #'
 plots_tracking_ui <- function(id) {
@@ -62,7 +65,6 @@ plots_tracking_ui <- function(id) {
 #'
 #' @export
 #' @keywords internal
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @return A `list` (same structure as the parameter `params`)
 #'
 plots_tracking_server <- function(

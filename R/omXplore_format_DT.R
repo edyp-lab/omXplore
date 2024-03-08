@@ -26,7 +26,16 @@
 #' @param selection xxx
 #'
 #' @name format_DT
-#'
+#' 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom  DT dataTableOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom htmlwidgets JS
+#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual
+#' 
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
@@ -39,9 +48,7 @@ NULL
 
 
 
-#' @importFrom shiny NS tagList
-#' @importFrom  DT dataTableOutput
-#' @importFrom shinyjs useShinyjs hidden toggle
+
 #'
 #' @rdname format_DT
 #' @return NA
@@ -61,9 +68,7 @@ formatDT_ui <- function(id) {
 }
 
 
-#' @importFrom htmlwidgets JS
-#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
-#' formatStyle styleEqual
+
 #' @rdname format_DT
 #' @return NA
 #'
@@ -214,7 +219,6 @@ formatDT_server <- function(id,
 
 
 
-#' @import shiny
 #' @export
 #' @rdname format_DT
 #' @return NA

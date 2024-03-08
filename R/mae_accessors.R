@@ -5,6 +5,7 @@
 #' @param ... xxxx description
 #' @name accessors
 #'
+#' @importFrom SummarizedExperiment rowData colData assays 
 #'
 #' @return If exists, the slot value requested.
 #' @examples

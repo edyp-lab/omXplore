@@ -26,7 +26,16 @@
 #' @param main xxx
 #' @param ylab xxxx
 #'
-#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList 
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
 #' @author Florence Combes, Samuel Wieczorek, Enora Fremy
 #'
 #' @name omXplore_heatmap
@@ -42,8 +51,7 @@ NULL
 
 
 
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom shiny NS tagList
+
 #' @rdname omXplore_heatmap
 #' @export
 #' @return NA
@@ -80,7 +88,6 @@ omXplore_heatmap_ui <- function(id) {
 
 
 
-#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname omXplore_heatmap
 #' @export
 #' @return NA
@@ -150,7 +157,7 @@ omXplore_heatmap_server <- function(
 
 
 
-#' @import shiny
+
 #' @rdname omXplore_heatmap
 #' @export
 #' @return A shiny app
