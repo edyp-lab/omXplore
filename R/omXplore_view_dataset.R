@@ -60,12 +60,11 @@
 #' in a modal window or not. Default is TRUE.
 #'
 #'
-#' @include global.R
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"), 
 #'               DaparToolshed = c("mod_ds_metacell"))
@@ -88,7 +87,6 @@ NULL
 #' @rdname ds-view
 #' @export
 #' @return NA
-#' @include global.R
 #'
 view_dataset_ui <- function(id) {
   ns <- NS(id)
@@ -99,12 +97,10 @@ view_dataset_ui <- function(id) {
         div(id = ns("badFormatMsg"), p("Dataset in not in correct format."))
       ),
       fluidRow(
-        column(3, div(
-          style = general_style,
+        column(3, div(style = globals()$general_style,
           uiOutput(ns("chooseDataset_ui"))
         )),
-        column(9, div(
-          style = general_style,
+        column(9, div(style = globals()$general_style,
           shinyjs::hidden(uiOutput(ns("ShowPlots_ui"))),
           shinyjs::hidden(uiOutput(ns("ShowVignettes_ui"))),
           shinyjs::hidden(uiOutput(ns("ShowPlots2_ui")))
@@ -126,7 +122,6 @@ view_dataset_ui <- function(id) {
 #' @rdname ds-view
 #' @export
 #' @return NA
-#' @include global.R
 #'
 view_dataset_server <- function(
     id,
@@ -366,10 +361,9 @@ view_dataset_server <- function(
 #' @return A shiny application which wraps the functions view_dataset_ui()
 #' and the view_dataset_server()
 #' 
-#' @include global.R
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   view_dataset(vdata)
 #' }

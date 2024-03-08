@@ -33,7 +33,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_heatmap(vdata, 1)
 #' }
@@ -51,7 +51,8 @@ omXplore_heatmap_ui <- function(id) {
   ns <- NS(id)
   tagList(
     useShinyjs(),
-    hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     hidden(div(
       style = "display:inline-block; vertical-align: middle;
                   padding-right: 20px;",
@@ -153,6 +154,9 @@ omXplore_heatmap_server <- function(
 #' @return A shiny app
 #'
 omXplore_heatmap <- function(obj, i) {
+  
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- fluidPage(
     omXplore_heatmap_ui("plot")
   )

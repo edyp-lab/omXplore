@@ -58,7 +58,7 @@ A shiny app
 xxxx
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   extFoo1(vdata[[1]])
   extFoo2(vdata[[1]])

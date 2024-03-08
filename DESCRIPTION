@@ -31,6 +31,7 @@ Imports:
     PSMatch,
     SummarizedExperiment,
     MultiAssayExperiment,
+    DAPARdata,
     shinyBS,
     shinyjs,
     shinyjqui,
@@ -71,7 +72,6 @@ Collate:
     'doc-data.R'
     'external_apps_examples.R'
     'get_pep_prot_CC.R'
-    'global.R'
     'mae_accessors.R'
     'metacell_utils.R'
     'mod_colorLegend.R'

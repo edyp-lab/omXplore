@@ -29,7 +29,7 @@
 #' #####################################################
 #' # Integration of a module in the package 'mypackage'
 #' #####################################################
-#' \dontrun{
+#' \donttest{
 #' addons <- list(myPackage = c("shinyMod_1", "shinyMod_2"))
 #' addModules(addons)
 #' }

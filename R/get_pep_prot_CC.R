@@ -198,7 +198,7 @@ plotCCJitter <- function(
 #'
 #' @examples
 #' data(sub_R25_pept)
-#' GetCCInfos(get_cc(vdata[[1]]))
+#' GetCCInfos(get_cc(sub_R25_pept[[1]]))
 #'
 #' @export
 #' @rdname pep_prot_CC

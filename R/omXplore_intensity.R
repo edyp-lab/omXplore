@@ -18,15 +18,10 @@
 #' @name intensity-plots
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_intensity(vdata, 1)
 #' }
-#'
-#' data(vdata)
-#' qdata <- GetSlotQdata(vdata, 1)
-#' conds <- GetSlotConds(vdata, 1)
-#' boxPlot(qdata, conds)
 #'
 NULL
 
@@ -42,7 +37,8 @@ omXplore_intensity_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     hidden(radioButtons(ns("choosePlot"), "",
       choices = setNames(nm = c("violin", "box"))
     )),
@@ -143,6 +139,9 @@ omXplore_intensity <- function(
     obj,
   i,
     withTracking = FALSE) {
+  
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- fluidPage(
     tagList(
       plots_tracking_ui("tracker"),

@@ -14,7 +14,7 @@
 #' @examples
 #' data(vdata)
 #' obj <- vdata[[1]]
-#' res.pca <- wrapper_pca(obj)
+#' res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))
 #' plotPCA_Eigen(res.pca)
 #' plotPCA_Var(res.pca)
 #' plotPCA_Eigen_hc(res.pca)

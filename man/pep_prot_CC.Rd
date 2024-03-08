@@ -67,7 +67,7 @@ display.CC.visNet(g)
 
 
 data(sub_R25_pept)
-GetCCInfos(get_cc(vdata[[1]]))
+GetCCInfos(get_cc(sub_R25_pept[[1]]))
 
 }
 \author{

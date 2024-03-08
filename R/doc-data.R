@@ -3,10 +3,7 @@
 #'
 #' @description 
 #'`vdata` is a small object for testing and
-#' demonstration.  `vdata_na`
-#' is a tiny test set that contains missing values used to
-#' demonstrate and test the impact of missing values on data
-#' processing.
+#' demonstration.
 #'
 #' @docType data
 #' @keywords data
@@ -17,7 +14,7 @@
 #' `vdata` was built from the source code available in
 #' [`inst/scripts/build_datasets.R`](https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R)
 #' 
-#'
+#' 
 "vdata"
 
 
@@ -35,10 +32,6 @@
 #' The `DAPARdata` package: \url{https://github.com/prostarproteomics/DAPARdata}
 #'
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @examples
-#' 
-#' data(sub_R25_prot)
-#' view_dataset(sub_R25_prot)
 #' 
 "sub_R25_prot"
 
@@ -56,10 +49,5 @@
 #' The `DAPARdata` package: \url{https://github.com/prostarproteomics/DAPARdata}
 #'
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @examples
-#' 
-#' data(sub_R25_pept)
-#' view_dataset(sub_R25_pept)
-#' 
 #'
 "sub_R25_pept"

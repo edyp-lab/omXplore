@@ -45,7 +45,7 @@ A shiny app
 xxx
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_tabExplorer(vdata, 1)
 }

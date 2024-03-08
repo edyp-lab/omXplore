@@ -9,7 +9,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   plots_tracking(vdata, 1)
 #' }
@@ -30,7 +30,8 @@ plots_tracking_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     shinyjs::hidden(actionButton(ns("reset"), "Reset")),
     shinyjs::hidden(selectInput(ns("typeSelect"), "Type of selection",
       choices = character(0),
@@ -243,6 +244,8 @@ plots_tracking_server <- function(
 #' @return A shiny app
 #'
 plots_tracking <- function(obj, i) {
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- fluidPage(
     plots_tracking_ui("tracker")
   )

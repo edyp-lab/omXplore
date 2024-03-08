@@ -15,7 +15,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_corrmatrix(vdata, 1)
 #' }
@@ -32,7 +32,8 @@ omXplore_corrmatrix_ui <- function(id) {
     ns <- NS(id)
     tagList(
         shinyjs::useShinyjs(),
-        shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+        shinyjs::hidden(div(id = ns("badFormatMsg"), 
+          h3(globals()$bad_format_txt))),
         uiOutput(ns("showValues_ui")),
         uiOutput(ns("rate_ui")),
         highcharter::highchartOutput(ns("plot"),
@@ -111,10 +112,6 @@ omXplore_corrmatrix_server <- function(
 #'
 #' @export
 #'
-#' @examples
-#' data(vdata)
-#' qdata <- GetSlotQdata(vdata[[1]])
-#' corrMatrix(qdata)
 #'
 #' @return A plot
 #'
@@ -128,6 +125,8 @@ corrMatrix <- function(
     data,
     rate = 0.5,
     showValues = FALSE) {
+  
+
   stopifnot(inherits(data, "matrix"))
 
   res <- cor(data, use = "pairwise.complete.obs")
@@ -208,6 +207,9 @@ corrMatrix <- function(
 #' @return A shiny app
 #'
 omXplore_corrmatrix <- function(obj, i) {
+  
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- omXplore_corrmatrix_ui("plot")
 
   server <- function(input, output, session) {

@@ -73,7 +73,7 @@
 #' #-----------------------------------------------
 #' # A shiny app to view color legends
 #' #-----------------------------------------------
-#' if (interactive()) {
+#' if(!interactive()) {
 #'   data(vdata)
 #'   ui <- qMetacellLegend_ui("legend")
 #'
@@ -256,12 +256,15 @@ Children <- function(level, parent = NULL) {
 #'
 #' @description xxx
 #'
-#' @param object A DataFrame() representing the cell metadata
+#' @param metacells A data.frame() representing the cell metadata
 #' @param level A string corresponding to the type of object
 #' @param onlyPresent A `boolean(1)`
 #'
 #' @examples
-#' NULL
+#' data(vdata)
+#' metacells <- get_metacell(vdata[[1]])
+#' level <- get_type(vdata[[1]])
+#' GetMetacellTags(metacells, level)
 #'
 #' @export
 #' @rdname q_metadata
@@ -270,29 +273,28 @@ Children <- function(level, parent = NULL) {
 #' @return A vector
 #'
 GetMetacellTags <- function(
-    object = NULL,
+    metacells = NULL,
     level = NULL,
     onlyPresent = FALSE) {
   
   ll <- NULL
   
   
-  if(is.null(object) || !inherits(object, 'DataFrame')){
+  if(is.null(metacells) || !inherits(metacells, 'data.frame')){
     return(invisible(NULL))
   }
     
 
   if (is.null(level) && onlyPresent == TRUE) {
     stop("level must be defined if 'onlyPresent' equals to FALSE")
-  } else {
     return(invisible(NULL))
-  }
+    }
 
 
   
   if (onlyPresent) {
     # Compute unique tags
-    tmp <- lapply(colnames(object), function(x) unique(object[, x]))
+    tmp <- lapply(colnames(metacells), function(x) unique(metacells[, x]))
     ll <- unique(unlist(tmp))
 
     # Check if parent must be added

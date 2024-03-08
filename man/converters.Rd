@@ -100,13 +100,14 @@ F
 #-------------------------------------------
 # Conversion of a list of MSnSet instances
 #-------------------------------------------
-ll.msnset <- list(data1 = Exp1_R25_prot, data2 = Exp1_R25_prot, data3 = Exp1_R25_prot)
+data(Exp1_R2_pept, package = 'DAPARdata')
+ll.msnset <- list(data1 = Exp1_R2_pept, data2 = Exp1_R2_pept)
 convert_to_mae(ll.msnset)
 
 #-------------------------------------------
 # Conversion of a MSnSet instance
 #-------------------------------------------
-convert_to_mae(Exp1_R25_prot)
+convert_to_mae(Exp1_R2_pept)
 
 #-------------------------------------------
 # Conversion of a list of SummarizedExperiment instances
@@ -117,14 +118,14 @@ convert_to_mae(Exp1_R25_prot)
 #-------------------------------------------
 # Conversion of a SummarizedExperiment instance
 #-------------------------------------------
-mae <- convert_to_mae(Exp1_R25_prot)
+mae <- convert_to_mae(Exp1_R2_pept)
 convert_to_mae(mae[[1]])
 
 
 #-------------------------------------------
 # Conversion of a MultiAssayExperiment instance
 #-------------------------------------------
-mae <- convert_to_mae(Exp1_R25_prot)
-convert_to_mae(mae)
+data(miniACC, package = 'MultiAssayExperiment')
+convert_to_mae(miniACC)
 
 }

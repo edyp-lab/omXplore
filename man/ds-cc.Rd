@@ -43,7 +43,7 @@ A shiny app
 A shiny Module.
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_cc(vdata, 1)
 }

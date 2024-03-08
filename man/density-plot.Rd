@@ -56,14 +56,14 @@ A shiny app
 xxxx
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_density(vdata, 1)
 }
 
 data(vdata)
-qdata <- GetSlotQdata(vdata[[1]])
-conds <- GetSlotConds(vdata[[1]])
+qdata <- SummarizedExperiment::assay(vdata[[1]])
+conds <- get_group(vdata)
 densityPlot(qdata, conds)
 
 }

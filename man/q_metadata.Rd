@@ -14,7 +14,7 @@ Parent(level, node = NULL)
 
 Children(level, parent = NULL)
 
-GetMetacellTags(object = NULL, level = NULL, onlyPresent = FALSE)
+GetMetacellTags(metacells = NULL, level = NULL, onlyPresent = FALSE)
 }
 \arguments{
 \item{level}{A string corresponding to the type of object}
@@ -29,7 +29,7 @@ Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
 
 \item{parent}{xxx}
 
-\item{object}{A DataFrame() representing the cell metadata}
+\item{metacells}{A data.frame() representing the cell metadata}
 
 \item{onlyPresent}{A \code{boolean(1)}}
 }
@@ -122,7 +122,7 @@ metacell.def("peptide")
 #-----------------------------------------------
 # A shiny app to view color legends
 #-----------------------------------------------
-if (interactive()) {
+if(!interactive()) {
   data(vdata)
   ui <- qMetacellLegend_ui("legend")
 
@@ -139,7 +139,10 @@ Children("protein", "Missing")
 Children("protein", "Missing POV")
 Children("protein", c("Missing POV", "Missing MEC"))
 Children("protein", c("Missing", "Missing POV", "Missing MEC"))
-NULL
+data(vdata)
+metacells <- get_metacell(vdata[[1]])
+level <- get_type(vdata[[1]])
+GetMetacellTags(metacells, level)
 
 }
 \author{

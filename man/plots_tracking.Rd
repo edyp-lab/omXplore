@@ -42,7 +42,7 @@ A shiny app
 This shiny module provides a tool to select
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   plots_tracking(vdata, 1)
 }

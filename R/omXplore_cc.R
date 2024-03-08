@@ -10,7 +10,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_cc(vdata, 1)
 #' }
@@ -43,7 +43,7 @@ omXplore_cc_ui <- function(id) {
     tagList(
         shinyjs::useShinyjs(),
         shinyjs::hidden(
-          div(id = ns("badFormatMsg"), h3(bad_format_txt))
+          div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))
         ),
         shinyjs::hidden(
             div(id = ns("noCCMsg"), h3("The dataset contains no CC."))

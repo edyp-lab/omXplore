@@ -25,10 +25,6 @@
 #'
 #' @author Samuel Wieczorek
 #'
-#' @examples
-#' data(vdata)
-#' heatmapD(vdata, 1)
-#'
 NULL
 
 

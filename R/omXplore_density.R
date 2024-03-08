@@ -18,7 +18,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_density(vdata, 1)
 #' }
@@ -37,7 +37,8 @@ omXplore_density_ui <- function(id) {
   tagList(
     shinyjs::useShinyjs(),
     fluidPage(
-      shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+      shinyjs::hidden(div(id = ns("badFormatMsg"), 
+        h3(globals()$bad_format_txt))),
       highcharter::highchartOutput(ns("plot_ui"))
     )
   )
@@ -110,8 +111,8 @@ omXplore_density_server <- function(
 #'
 #' @examples
 #' data(vdata)
-#' qdata <- GetSlotQdata(vdata[[1]])
-#' conds <- GetSlotConds(vdata[[1]])
+#' qdata <- SummarizedExperiment::assay(vdata[[1]])
+#' conds <- get_group(vdata)
 #' densityPlot(qdata, conds)
 #'
 densityPlot <- function(
@@ -192,6 +193,8 @@ densityPlot <- function(
 #' @return A shiny app
 #'
 omXplore_density <- function(obj, i) {
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- omXplore_density_ui("plot")
 
   server <- function(input, output, session) {

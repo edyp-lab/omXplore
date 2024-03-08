@@ -11,7 +11,7 @@
 #' @name omXplore_tabExplorer
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_tabExplorer(vdata, 1)
 #' }
@@ -35,7 +35,8 @@ omXplore_tabExplorer_ui <- function(id) {
 
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     shinyjs::hidden(div(id = ns("div_legend"), colorLegend_ui(ns("legend")))),
     shinyjs::hidden(
       div(

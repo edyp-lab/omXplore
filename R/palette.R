@@ -41,7 +41,7 @@
 #'
 #'
 #' data(vdata)
-#' conds <- GetSlotConds(vdata[[1]])
+#' conds <- get_group(vdata)
 #' GetColorsForConditions(conds, ExtendPalette(2))
 #'
 NULL

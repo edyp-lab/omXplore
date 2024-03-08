@@ -52,13 +52,9 @@ A shiny app
 xxxx
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_corrmatrix(vdata, 1)
 }
-
-data(vdata)
-qdata <- GetSlotQdata(vdata[[1]])
-corrMatrix(qdata)
 
 }

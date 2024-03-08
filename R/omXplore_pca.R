@@ -29,11 +29,11 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   # Replace missing values for the example
-#'   sel <- is.na(assay(vdata, 1))
-#'   assay(vdata[[1]])[sel] <- 0
+#'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
+#'   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
 #'   omXplore_pca(vdata, 1)
 #' }
 #'
@@ -49,7 +49,8 @@ omXplore_pca_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     uiOutput(ns("WarningNA_PCA")),
     uiOutput(ns("pcaOptions")),
     uiOutput(ns("pcaPlots"))
@@ -255,6 +256,8 @@ omXplore_pca_server <- function(
 #' @return A shiny app
 #'
 omXplore_pca <- function(obj, i) {
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- omXplore_pca_ui("plot")
 
   server <- function(input, output, session) {

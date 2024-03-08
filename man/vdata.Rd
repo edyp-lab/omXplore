@@ -19,10 +19,7 @@ An enriched instance of the class \code{MultiAssayExperiment}
 }
 \description{
 \code{vdata} is a small object for testing and
-demonstration.  \code{vdata_na}
-is a tiny test set that contains missing values used to
-demonstrate and test the impact of missing values on data
-processing.
+demonstration.
 }
 \keyword{data}
 \keyword{datasets}

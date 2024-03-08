@@ -28,9 +28,9 @@
 #' @name format_DT
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
-#'   formatDT(assay(vdata, 1))
+#'   formatDT(SummarizedExperiment::assay(vdata, 1))
 #' }
 #'
 #' @return NA
@@ -220,6 +220,8 @@ formatDT_server <- function(id,
 #' @return NA
 #'
 formatDT <- function(obj) {
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- formatDT_ui("table")
 
   server <- function(input, output, session) {

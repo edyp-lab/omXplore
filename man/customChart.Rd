@@ -30,6 +30,7 @@ A highchart plot
 Customised resetZoom Button of highcharts plots
 }
 \examples{
+library(highcharter)
 if (interactive()) {
   hc <- highchart()
   hc_chart(hc, type = "line")

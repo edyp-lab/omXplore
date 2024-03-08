@@ -23,10 +23,4 @@ An enriched instance of the class \code{MultiAssayExperiment}
 \code{sub_R25_prot} is a protein subset of the dataset 'Exp1_R25_prot' in the
 package 'DAPARdata'.
 }
-\examples{
-
-data(sub_R25_prot)
-view_dataset(sub_R25_prot)
-
-}
 \keyword{datasets}

@@ -6,9 +6,6 @@
 #' @name accessors
 #'
 #'
-#' @aliases GetSlotMetadata, GetSlotMetacell, GetSlotQdata, GetSlotProteinID,
-#' GetSlotColID, GetSlotConds, GetSlotAdjMat, GetSlotCc
-#'
 #' @return If exists, the slot value requested.
 #' @examples
 #'
@@ -96,7 +93,7 @@ setMethod("get_metacell", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        rowData(object)[, 'metacell']
+        as.data.frame(rowData(object)[, 'metacell'])
       },
       warning = function(w) NULL,
       error = function(e) NULL

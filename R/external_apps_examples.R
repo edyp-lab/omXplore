@@ -12,7 +12,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   extFoo1(vdata[[1]])
 #'   extFoo2(vdata[[1]])
@@ -31,7 +31,7 @@ extFoo1_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))),
     plotOutput(ns("plot"))
   )
 }
@@ -101,7 +101,7 @@ extFoo2_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))),
     plotOutput(ns("plot"))
   )
 }

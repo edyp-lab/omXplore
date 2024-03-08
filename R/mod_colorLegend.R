@@ -12,10 +12,12 @@
 #' @name color-legend
 #'
 #' @examples
-#' if (interactive()) {
+#' 
+#' if (!interactive()) {
 #'   data(vdata)
 #'   colorLegend(vdata[[1]])
 #' }
+#' 
 #'
 NULL
 

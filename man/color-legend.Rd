@@ -45,9 +45,11 @@ A shiny app
 Shows xxx based on the tags in the package 'DaparToolshed'
 }
 \examples{
-if (interactive()) {
+
+if (!interactive()) {
   data(vdata)
   colorLegend(vdata[[1]])
 }
+
 
 }

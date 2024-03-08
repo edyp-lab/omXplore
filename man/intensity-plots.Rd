@@ -62,15 +62,10 @@ A violin plot
 xxxx
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_intensity(vdata, 1)
 }
-
-data(vdata)
-qdata <- GetSlotQdata(vdata, 1)
-conds <- GetSlotConds(vdata, 1)
-boxPlot(qdata, conds)
 
 }
 \author{

@@ -16,7 +16,7 @@
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' if (!interactive()) {
 #'   data(vdata)
 #'   omXplore_variance(vdata, 1)
 #' }
@@ -33,7 +33,8 @@ omXplore_variance_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), h3(bad_format_txt))),
+    shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      h3(globals()$bad_format_txt))),
     uiOutput(ns("helpTxt")),
     highcharter::highchartOutput(ns("viewDistCV"), width = 600, height = 600)
   )
@@ -191,6 +192,8 @@ CVDist <- function(
 #' @return A shiny app
 #'
 omXplore_variance <- function(obj, i) {
+  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  
   ui <- fluidPage(
     omXplore_variance_ui("plot")
     )

@@ -117,13 +117,10 @@ more details, see \code{heatmap.2()}.
 #' This function is inspired from the function \code{heatmap.2}
 }
 \examples{
-if (interactive()) {
+if (!interactive()) {
   data(vdata)
   omXplore_heatmap(vdata, 1)
 }
-
-data(vdata)
-heatmapD(vdata, 1)
 
 }
 \author{

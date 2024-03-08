@@ -59,7 +59,7 @@ ExtendPalette(12)
 
 
 data(vdata)
-conds <- GetSlotConds(vdata[[1]])
+conds <- get_group(vdata)
 GetColorsForConditions(conds, ExtendPalette(2))
 
 }

@@ -1,3 +1,58 @@
+
+#' @title xxx
+#' @description xxx
+#' @export
+#' @examples
+#' globals()
+#'
+#' @return A `list`
+#'
+globals <- function(){
+  list(
+    general_style = "display:inline-block; vertical-align: middle; padding: 7px",
+    actionBtnClass = "btn-primary",
+    bad_format_txt = "Dataset in not in correct format.
+omXplore can handle MSnset and QFeatures files or instances of class VizData
+If you use MSnset or QFeatures datasets, please use the function convert2vizList()"
+  )
+}
+  
+  
+
+#' @title xxx
+#' @description xxx
+#' @export
+#' @param object A `list`
+#' @param obj.class The name of the class to search in items of the list.
+#' @examples
+#' NULL
+#'
+#' @return A `character(1)` with the name of the package or xxx
+#'
+is.listOf <- function(object, obj.class=NULL){
+  
+  res <- NULL
+  
+  if(is.null(obj.class)){
+    ll <- unlist(lapply(object, function(x) class(x)[[1]]))
+    if (length(unique(ll)) == 1)
+      res <- unique(ll)
+  } else {
+    
+    res <- TRUE
+    
+    res <- res && inherits(object, 'list')
+    res <- res && 
+      all(unlist(lapply(object, 
+        function(x) class(x)[[1]]==obj.class)))
+    
+  }
+  
+  res
+}
+
+
+
 #' @title Package version
 #' @description Gets the version number of a package
 #' @export
@@ -5,7 +60,8 @@
 #' @examples
 #' GetPkgVersion('omXplore')
 #'
-#' @return A `character(1)` with the name of the package and its version number.
+#' @return A `character(1)` with the name of the package and 
+#' its version number.
 #'
 GetPkgVersion <- function(pkg){
   tryCatch({
@@ -71,6 +127,7 @@ customExportMenu <- function(hc, fname) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' library(highcharter)
 #' if (interactive()) {
 #'   hc <- highchart()
 #'   hc_chart(hc, type = "line")

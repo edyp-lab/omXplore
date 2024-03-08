@@ -2,14 +2,6 @@
 % Please edit documentation in R/mae_accessors.R
 \name{accessors}
 \alias{accessors}
-\alias{GetSlotMetadata,}
-\alias{GetSlotMetacell,}
-\alias{GetSlotQdata,}
-\alias{GetSlotProteinID,}
-\alias{GetSlotColID,}
-\alias{GetSlotConds,}
-\alias{GetSlotAdjMat,}
-\alias{GetSlotCc}
 \alias{get_adjacencyMatrix}
 \alias{get_adjacencyMatrix,SummarizedExperiment-method}
 \alias{get_group}

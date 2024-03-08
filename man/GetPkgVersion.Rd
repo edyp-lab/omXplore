@@ -10,7 +10,8 @@ GetPkgVersion(pkg)
 \item{pkg}{The name of the package}
 }
 \value{
-A \code{character(1)} with the name of the package and its version number.
+A \code{character(1)} with the name of the package and
+its version number.
 }
 \description{
 Gets the version number of a package
