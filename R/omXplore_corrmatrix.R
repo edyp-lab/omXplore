@@ -15,7 +15,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_corrmatrix(vdata, 1)
 #' }
@@ -23,7 +23,7 @@
 NULL
 
 #' @importFrom shiny NS tagList
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname corrmatrix
 #' @export
 #' @return NA
@@ -118,7 +118,7 @@ omXplore_corrmatrix_server <- function(
 #' @rdname corrmatrix
 #'
 #' @import tidyr
-#' @import dplyr
+#' @importFrom  dplyr mutate left_join select
 #' @importFrom DT JS
 #'
 corrMatrix <- function(

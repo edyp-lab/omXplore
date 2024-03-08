@@ -16,6 +16,7 @@ NULL
 
 
 #' @rdname Prostar-1x-compatible
+#' @importFrom SummarizedExperiment rowData
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
 #' 
@@ -29,8 +30,8 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
     ind.metacell <- grep('metacell_', colnames(fData(obj)))
     .metacell <- DataFrame(fData(obj)[, ind.metacell])
     if (length(ind.metacell) > 0){
-      rowData(se) <- rowData(se)[, -ind.metacell]
-      rowData(se)[['metacell']] <- .metacell
+      SummarizedExperiment::rowData(se) <- SummarizedExperiment::rowData(se)[, -ind.metacell]
+      SummarizedExperiment::rowData(se)[['metacell']] <- .metacell
     }
   },
     warning = function(w) DataFrame(),
@@ -43,7 +44,7 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   #  as a DataFrame
   tryCatch({
     adjMatrices <- experimentData(obj)@other$matAdj
-    rowData(se)[['adjacencyMatrix']] <- adjMatrices[[1]]
+    SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- adjMatrices[[1]]
   },
     warning = function(w) matrix(),
     error = function(e) matrix()

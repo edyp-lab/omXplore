@@ -52,7 +52,7 @@ A shiny app
 xxxx
 }
 \examples{
-if (!interactive()) {
+if (interactive()) {
   data(vdata)
   omXplore_corrmatrix(vdata, 1)
 }

@@ -16,7 +16,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_variance(vdata, 1)
 #' }
@@ -25,6 +25,7 @@ NULL
 
 
 #' @importFrom shiny NS tagList
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -44,6 +45,7 @@ omXplore_variance_ui <- function(id) {
 
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname plot-variance
 #' @export
 #' @return NA

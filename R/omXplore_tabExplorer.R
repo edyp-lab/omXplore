@@ -11,7 +11,7 @@
 #' @name omXplore_tabExplorer
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_tabExplorer(vdata, 1)
 #' }
@@ -24,6 +24,7 @@ NULL
 
 #' @import shiny
 #' @importFrom DT DTOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
 #'
@@ -66,6 +67,8 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
 #' @importFrom tibble as_tibble
 #' @importFrom stats setNames
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData
 #'
 #' @rdname omXplore_tabExplorer
 #'
@@ -141,7 +144,7 @@ omXplore_tabExplorer_server <- function(
     output$metadata_ui <- DT::renderDT({
       req(rv$data)
 
-      .row <- rowData(rv$data[[i()]])
+      .row <- SummarizedExperiment::rowData(rv$data[[i()]])
       
       tryCatch({# remove columns that are instances of DataFrame
       .row <- .row[, -match('adjacencyMatrix', colnames(.row))]

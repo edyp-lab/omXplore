@@ -29,7 +29,7 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   # Replace missing values for the example
 #'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
@@ -42,6 +42,7 @@ NULL
 
 #' @rdname ds-pca
 #' @importFrom shiny NS tagList uiOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @export
 #' @return NA
 #'
@@ -62,6 +63,7 @@ omXplore_pca_ui <- function(id) {
 #'
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom highcharter renderHighchart
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @import factoextra
 #'
 #' @export

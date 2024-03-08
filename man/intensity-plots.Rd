@@ -62,7 +62,7 @@ A violin plot
 xxxx
 }
 \examples{
-if (!interactive()) {
+if (interactive()) {
   data(vdata)
   omXplore_intensity(vdata, 1)
 }

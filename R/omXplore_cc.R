@@ -10,7 +10,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_cc(vdata, 1)
 #' }
@@ -24,7 +24,7 @@ NULL
 
 
 #' @importFrom shiny NS tagList
-#' @importFrom shinyjs toggle hidden
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @import shinyBS
 #' @import highcharter
 #'
@@ -33,7 +33,6 @@ NULL
 #' @return A shiny plot
 #' @import visNetwork
 #' @import shinyBS
-#' @import shinyjs
 #' @import highcharter
 #' 
 #' @return A shiny module
@@ -126,7 +125,7 @@ omXplore_cc_ui <- function(id) {
 
 
 #' @importFrom tibble tibble
-#' @importFrom shinyjs toggle hidden
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
 #' @rdname ds-cc
 #'

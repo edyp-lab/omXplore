@@ -64,7 +64,7 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"), 
 #'               DaparToolshed = c("mod_ds_metacell"))
@@ -83,7 +83,7 @@ NULL
 
 #' @import shiny
 #' @import shinyBS
-#' @importFrom shinyjs useShinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname ds-view
 #' @export
 #' @return NA
@@ -114,7 +114,7 @@ view_dataset_ui <- function(id) {
 }
 
 #'
-#' @importFrom shinyjs show hide hidden
+#' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @import shiny
 #' @import shinyBS
 #' @import shinyjqui
@@ -363,7 +363,7 @@ view_dataset_server <- function(
 #' 
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   view_dataset(vdata)
 #' }

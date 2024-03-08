@@ -18,7 +18,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_density(vdata, 1)
 #' }
@@ -26,6 +26,7 @@
 NULL
 
 
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom shiny NS tagList
 #' @importFrom highcharter highchartOutput
 #' @rdname density-plot

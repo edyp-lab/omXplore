@@ -18,7 +18,7 @@
 #' @name intensity-plots
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_intensity(vdata, 1)
 #' }
@@ -27,7 +27,7 @@ NULL
 
 
 #' @import shiny
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom stats setNames
 #' @export
 #' @rdname intensity-plots
@@ -53,7 +53,7 @@ omXplore_intensity_ui <- function(id) {
 #'
 #' @export
 #' @importFrom grDevices png dev.off
-#' @importFrom shinyjs toggle hidden
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
 #'
 #' @return NA

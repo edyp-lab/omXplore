@@ -12,7 +12,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   extFoo1(vdata[[1]])
 #'   extFoo2(vdata[[1]])
@@ -23,6 +23,7 @@
 NULL
 
 #' @importFrom shiny NS tagList
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname external_app
 #' @export
 #' @return NA

@@ -78,7 +78,7 @@ If any style is given, then the dataset must be well configured (I.e. it
 must contain the correct columns )
 }
 \examples{
-if (!interactive()) {
+if (interactive()) {
   data(vdata)
   formatDT(SummarizedExperiment::assay(vdata, 1))
 }

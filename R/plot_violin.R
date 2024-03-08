@@ -14,7 +14,7 @@
 #' @param pal.name xxx
 #'
 #' @import vioplot
-#' @import graphics
+#' @importFrom graphics plot.new plot.window title axis segments points legend
 #'
 violinPlot <- function(
     data,

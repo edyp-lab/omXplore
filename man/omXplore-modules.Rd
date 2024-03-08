@@ -53,7 +53,7 @@ listPlotModules()
 # Integration of a module in the package 'mypackage'
 #####################################################
 \donttest{
-addons <- list(myPackage = c("shinyMod_1", "shinyMod_2"))
+addons <- list(omXplore = c("extFoo1", "extFoo2"))
 addModules(addons)
 }
 

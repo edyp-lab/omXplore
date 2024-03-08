@@ -56,7 +56,7 @@ A shiny app
 xxxx
 }
 \examples{
-if (!interactive()) {
+if (interactive()) {
   data(vdata)
   omXplore_density(vdata, 1)
 }

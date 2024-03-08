@@ -28,7 +28,7 @@
 #' @name format_DT
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   formatDT(SummarizedExperiment::assay(vdata, 1))
 #' }
@@ -41,7 +41,7 @@ NULL
 
 #' @importFrom shiny NS tagList
 #' @importFrom  DT dataTableOutput
-#' @importFrom shinyjs useShinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #'
 #' @rdname format_DT
 #' @return NA

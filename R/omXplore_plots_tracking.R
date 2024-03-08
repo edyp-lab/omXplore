@@ -9,7 +9,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   plots_tracking(vdata, 1)
 #' }
@@ -23,7 +23,7 @@ NULL
 #' @rdname plots_tracking
 #' @export
 #' @importFrom shiny NS tagList
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @return NA
 #'
 plots_tracking_ui <- function(id) {
@@ -62,7 +62,7 @@ plots_tracking_ui <- function(id) {
 #'
 #' @export
 #' @keywords internal
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @return A `list` (same structure as the parameter `params`)
 #'
 plots_tracking_server <- function(

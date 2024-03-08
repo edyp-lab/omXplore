@@ -79,7 +79,7 @@ library
 xxx
 }
 \examples{
-if (!interactive()) {
+if (interactive()) {
   data(vdata)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))

@@ -122,7 +122,7 @@ metacell.def("peptide")
 #-----------------------------------------------
 # A shiny app to view color legends
 #-----------------------------------------------
-if(!interactive()) {
+if(interactive()) {
   data(vdata)
   ui <- qMetacellLegend_ui("legend")
 

@@ -33,7 +33,7 @@
 #'
 #'
 #' @examples
-#' if (!interactive()) {
+#' if (interactive()) {
 #'   data(vdata)
 #'   omXplore_heatmap(vdata, 1)
 #' }
@@ -42,6 +42,7 @@ NULL
 
 
 
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom shiny NS tagList
 #' @rdname omXplore_heatmap
 #' @export
@@ -79,6 +80,7 @@ omXplore_heatmap_ui <- function(id) {
 
 
 
+#' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname omXplore_heatmap
 #' @export
 #' @return NA
