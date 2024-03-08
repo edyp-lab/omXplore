@@ -8,7 +8,7 @@
 #' @param mae An instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' data(sub_R25_prot)
+#' data(sub_R25)
 #' 
 #' 
 #' 

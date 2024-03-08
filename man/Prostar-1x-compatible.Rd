@@ -27,7 +27,7 @@ An enriched instance of the class \code{MultiAssayExperiment}
 xxx
 }
 \examples{
-data(sub_R25_prot)
+data(sub_R25)
 
 
 

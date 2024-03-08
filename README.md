@@ -1,16 +1,8 @@
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R-CMD-check](https://github.com/prostarProteomics/omXplore/workflows/R-CMD-check/badge.svg)](https://github.com/prostarProteomics/omXplore/actions)
 [![R-CMD-check-bioc](https://github.com/prostarProteomics/omXplore/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/prostarProteomics/omXplore/actions?query=workflow%3AR-CMD-check-bioc)
 [![codecov.io](https://codecov.io/github/prostarProteomics/omXplore/coverage.svg?branch=main)](https://codecov.io/github/prostarProteomics/omXplore?branch=main)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
-[![Bioc release status](http://www.bioconductor.org/shields/build/release/bioc/omXplore.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/omXplore)
-[![Bioc devel status](http://www.bioconductor.org/shields/build/devel/bioc/omXplore.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/omXplore)
-[![Bioc downloads rank](https://bioconductor.org/shields/downloads/release/omXplore.svg)](http://bioconductor.org/packages/stats/bioc/omXplore/)
-[![Bioc support](https://bioconductor.org/shields/posts/omXplore.svg)](https://support.bioconductor.org/tag/omXplore)
-[![Bioc history](https://bioconductor.org/shields/years-in-bioc/omXplore.svg)](https://bioconductor.org/packages/release/bioc/html/omXplore.html#since)
-[![Bioc last commit](https://bioconductor.org/shields/lastcommit/devel/bioc/omXplore.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/omXplore/)
-[![Bioc dependencies](https://bioconductor.org/shields/dependencies/release/omXplore.svg)](https://bioconductor.org/packages/release/bioc/html/omXplore.html#since)
 <!-- badges: end -->
 
 

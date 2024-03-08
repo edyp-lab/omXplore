@@ -86,12 +86,12 @@ xxx
 ## -----------------------------------
 ## Accessing slots from a MSnSet dataset
 ## -----------------------------------
-data(sub_R25_prot)
-se1 <- sub_R25_prot[[1]]
+data(sub_R25)
+se1 <- sub_R25[[1]]
 proteinID <- get_proteinID(se1)
 colID <- get_colID(se1)
 type <- get_type(se1)
 metacell <- get_metacell(se1)
-conds <- get_group(sub_R25_prot)
+conds <- get_group(sub_R25)
 
 }
