@@ -67,7 +67,7 @@ setMethod("get_group", signature = "MultiAssayExperiment",
   function(object) {
     tryCatch(
       {
-        colData(object)$group
+        SummarizedExperiment::colData(object)$group
       },
       warning = function(w) NULL,
       error = function(e) NULL

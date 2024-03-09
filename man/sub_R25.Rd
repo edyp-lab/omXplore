@@ -14,5 +14,5 @@ An enriched instance of the class \code{MultiAssayExperiment}
 }
 \description{
 \code{sub_R25} is a protein subset of the dataset 'Exp1_R25_pept' in the
-package 'DAPARdata'.
+package \code{DAPARdata}.
 }

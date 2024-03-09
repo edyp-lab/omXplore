@@ -62,7 +62,7 @@ xxxx
 \examples{
 data(sub_R25)
 se1 <- sub_R25[[1]]
-g <- buildGraph(get_cc(se1)[[11]])
+g <- buildGraph(get_cc(se1)[[1]])
 display.CC.visNet(g)
 
 

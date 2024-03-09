@@ -24,14 +24,13 @@ Description: This package contains a collection of functions (shiny modules)
     interface of DpaarViz (function `view_dataset()`).
 License: Artistic-2.0
 Depends:
-    R (>= 4.3.0), methods
+    R (>= 4.3.0)
 Imports:
     shiny, 
     MSnbase,
     PSMatch,
     SummarizedExperiment,
     MultiAssayExperiment,
-    DAPARdata,
     shinyBS,
     shinyjs,
     shinyjqui,

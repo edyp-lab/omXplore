@@ -9,14 +9,14 @@
 #' @param ll A list
 #' @name converters
 #' 
-#' @importFrom SummarizedExperiment rowData colData assays SummarizedExperiment
+#' @importFrom SummarizedExperiment rowData colData assay SummarizedExperiment
 #' @importFrom MSnbase exprs fData pData
 #' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
 #' 
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' 
+#' \donttest{
 #' #-------------------------------------------
 #' # Conversion of a list of MSnSet instances
 #' #-------------------------------------------
@@ -47,6 +47,7 @@
 #' #-------------------------------------------
 #' data(miniACC, package = 'MultiAssayExperiment')
 #' convert_to_mae(miniACC)
+#' }
 #' 
 NULL
 
@@ -312,7 +313,7 @@ listOfLists_to_mae <- function(obj, colData = NULL){
   
   names(ll.se) <- names(obj)
   
-  .assay1 <- assay(ll.se[[1]])
+  .assay1 <- SummarizedExperiment::assay(ll.se[[1]])
   if(is.null(colData)){
     colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(.assay1)), 
     row.names = colnames(.assay1))
@@ -457,10 +458,11 @@ Build_X_CC <- function(se){
   tryCatch({
     X <- PSMatch::makeAdjacencyMatrix((rowData(se))[, get_proteinID(se)])
     rownames(X) <- rownames(rowData(se))
-    cc <- PSMatch::ConnectedComponents(X)@adjMatrices
-    rowData(se)[['adjacencyMatrix']] <- X
+    SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- X
     
-    metadata(se)[['cc']] <- cc
+    cc <- PSMatch::ConnectedComponents(X)
+    metadata(se)[['cc']] <- lapply(cc@adjMatrices, function(x) x)
+    
     se
   }, warning = function(w) original.se,
     error = function(e) original.se

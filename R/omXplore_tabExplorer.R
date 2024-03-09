@@ -10,6 +10,9 @@
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom DT DTOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
@@ -117,7 +120,7 @@ omXplore_tabExplorer_server <- function(
     #     output$viewDesign <- DT::renderDT({
     #       req(rv$data)
     #
-    #       data <- tibble::as_tibble(colData(se()))
+    #       data <- tibble::as_tibble(SummarizedExperiment::colData(se()))
     #
     #       pal <- unique(RColorBrewer::brewer.pal(8, "Dark2"))
     #

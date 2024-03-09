@@ -1,13 +1,18 @@
-library(omXplore)
-
 
 
 #' @title Build an example list
 #' @description Creates a list which contains example info to be
 #' used to create instances of `MultiAssayExperiment` 
 #' @export
-#' @rdname build_example_datasets
+#' @name build_example_datasets
 #' @return A list
+#' 
+NULL
+
+
+
+#' @export
+#' @rdname build_example_datasets
 #' 
 build_toylist_example <- function(name = 'original'){
 
@@ -51,31 +56,42 @@ build_toylist_example <- function(name = 'original'){
 ## ---------------------------------------------------------
 ## Create the vdata dataset
 ## ---------------------------------------------------------
-test <- list(
+create_vdata <- function(){
+  library(omXplore)
+
+  test <- list(
   data1 = build_toylist_example(), 
   data2 = build_toylist_example(), 
   data3 = build_toylist_example())
 
-colData <- DataFrame(
-  group = c('A', 'A', 'A', 'B', 'B', 'B'), 
-  row.names = colnames(test$data1$assay)
-  )
+  colData <- DataFrame(
+    group = c('A', 'A', 'A', 'B', 'B', 'B'), 
+    row.names = colnames(test$data1$assay)
+    )
 
-vdata <- listOfLists_to_mae(test, colData)
-save(vdata, file = 'data/vdata.rda')
+  vdata <- listOfLists_to_mae(test, colData)
+  save(vdata, file = 'data/vdata.rda')
+}
 
 
 ## ---------------------------------------------------------
 ## Create small datasets based on `DAPARdata` package
 ## ---------------------------------------------------------
-data("Exp1_R25_pept", package = 'DAPARdata')
-data("Exp1_R25_prot", package = 'DAPARdata')
+create_sub_R25 <- function(){
+  library(omXplore)
+  
+  
+  data("Exp1_R25_pept", package = 'DAPARdata')
+  data("Exp1_R25_prot", package = 'DAPARdata')
 
-sub_R25 <- convert_to_mae(
-  list(
-    peptide = Exp1_R25_pept[150:170],
-    protein = Exp1_R25_prot[1:21]
+  sub_R25 <- convert_to_mae(
+    list(
+      peptide = Exp1_R25_pept[150:170],
+      protein = Exp1_R25_prot[1:21]
+      )
   )
-)
 
 save(sub_R25, file = 'data/sub_R25.rda')
+}
+
+

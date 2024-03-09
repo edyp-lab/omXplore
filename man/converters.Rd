@@ -96,7 +96,7 @@ The resulting object is an instance of the  MultiAssayExperiment class.
 F
 }
 \examples{
-
+\donttest{
 #-------------------------------------------
 # Conversion of a list of MSnSet instances
 #-------------------------------------------
@@ -127,5 +127,6 @@ convert_to_mae(mae[[1]])
 #-------------------------------------------
 data(miniACC, package = 'MultiAssayExperiment')
 convert_to_mae(miniACC)
+}
 
 }

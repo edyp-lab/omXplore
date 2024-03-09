@@ -22,7 +22,7 @@ NULL
 #'
 #' @description
 #' `sub_R25` is a protein subset of the dataset 'Exp1_R25_pept' in the 
-#' package 'DAPARdata'. 
+#' package `DAPARdata`. 
 #' @name sub_R25
 #' @source
 #'

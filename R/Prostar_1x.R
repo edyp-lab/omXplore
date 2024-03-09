@@ -42,28 +42,27 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   )
   
   
-  # Checks if metacell data exists
-  # If exists, remove them from rowData and stores it
-  #  as a DataFrame
-  tryCatch({
-    adjMatrices <- experimentData(obj)@other$matAdj
-    SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- adjMatrices[[1]]
-  },
-    warning = function(w) matrix(),
-    error = function(e) matrix()
-  )
+  # # Checks if metacell data exists
+  # # If exists, remove them from rowData and stores it
+  # #  as a DataFrame
+  # tryCatch({
+  #   X <- experimentData(obj)@other$matAdj
+  #   SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- DataFrame(X)
+  # },
+  #   warning = function(w) matrix(),
+  #   error = function(e) matrix()
+  # )
   
   
-  # Checks if metacell data exists
-  # If exists, remove them from rowData and stores it
-  #  as a DataFrame
-  tryCatch({
-    adjMatrices <- experimentData(obj)@other$CC
-    metadata(se)[['cc']] <- experimentData(obj)@other$CC
-  },
-    warning = function(w) list(),
-    error = function(e) list()
-  )
+  # # Checks if metacell data exists
+  # # If exists, remove them from rowData and stores it
+  # #  as a DataFrame
+  # tryCatch({
+  #   metadata(se)[['cc']] <- experimentData(obj)@other$CC$allPep
+  # },
+  #   warning = function(w) list(),
+  #   error = function(e) list()
+  # )
   
   
   tryCatch({
@@ -100,7 +99,7 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
   
   tryCatch({
-    colData(se)['group'] <- pData(obj)$Condition
+    SummarizedExperiment::colData(se)['group'] <- pData(obj)$Condition
   },
     warning = function(w) MultiAssayExperiment::DataFrame(),
     error = function(e) MultiAssayExperiment::DataFrame()
@@ -122,8 +121,8 @@ MAE_Compatibility_with_Prostar_1x <- function(obj, mae){
   stopifnot(inherits(obj, 'MSnSet') && 
       inherits(mae, 'MultiAssayExperiment'))
   
-  colData(mae)['group'] <- tryCatch({
-    pData(obj)$Condition
+  SummarizedExperiment::colData(mae)['group'] <- tryCatch({
+    MSnbase::pData(obj)$Condition
   },
     warning = function(w) .colData,
     error = function(e) .colData
