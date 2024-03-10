@@ -12,7 +12,7 @@ F"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2
     
     <a class="navbar-brand me-2" href="../index.html">omXplore</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -177,70 +177,7 @@ F</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Conversion of a list of MSnSet instances</span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R2_pept</span>, package <span class="op">=</span> <span class="st">'DAPARdata'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ll.msnset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data1 <span class="op">=</span> <span class="va">Exp1_R2_pept</span>, data2 <span class="op">=</span> <span class="va">Exp1_R2_pept</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">convert_to_mae</span><span class="op">(</span><span class="va">ll.msnset</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A MultiAssayExperiment object of 2 listed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments with user-defined names and respective classes.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Containing an ExperimentList class object of length 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] data1: SummarizedExperiment with 14048 rows and 6 columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] data2: SummarizedExperiment with 14048 rows and 6 columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Functionality:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments() - obtain the ExperimentList instance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  colData() - the primary/phenotype DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  sampleMap() - the sample coordination DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  exportClass() - save data to flat files</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Conversion of a MSnSet instance</span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="fu">convert_to_mae</span><span class="op">(</span><span class="va">Exp1_R2_pept</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A MultiAssayExperiment object of 1 listed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiment with a user-defined name and respective class.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Containing an ExperimentList class object of length 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] original: SummarizedExperiment with 14048 rows and 6 columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Functionality:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments() - obtain the ExperimentList instance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  colData() - the primary/phenotype DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  sampleMap() - the sample coordination DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  exportClass() - save data to flat files</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Conversion of a list of SummarizedExperiment instances</span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Conversion of a SummarizedExperiment instance</span></span></span>
-<span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="va">mae</span> <span class="op">&lt;-</span> <span class="fu">convert_to_mae</span><span class="op">(</span><span class="va">Exp1_R2_pept</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">convert_to_mae</span><span class="op">(</span><span class="va">mae</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A MultiAssayExperiment object of 1 listed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiment with a user-defined name and respective class.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Containing an ExperimentList class object of length 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] original: SummarizedExperiment with 14048 rows and 6 columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Functionality:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments() - obtain the ExperimentList instance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  colData() - the primary/phenotype DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  sampleMap() - the sample coordination DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  exportClass() - save data to flat files</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Conversion of a MultiAssayExperiment instance</span></span></span>
@@ -263,6 +200,7 @@ F</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  exportClass() - save data to flat files</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

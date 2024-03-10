@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">omXplore</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ Wieczorek</h4>
                                     <h4 data-toc-skip class="author">Thomas
 Burger</h4>
                         
-            <h4 data-toc-skip class="date">2024-03-08</h4>
+            <h4 data-toc-skip class="date">2024-03-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prostarproteomics/omXplore/blob/HEAD/vignettes/omXplore.Rmd" class="external-link"><code>vignettes/omXplore.Rmd</code></a></small>
       <div class="d-none name"><code>omXplore.Rmd</code></div>
@@ -88,7 +88,7 @@ Burger</h4>
       experiments. It can deal with common data formats in Bioconductor
       such as MSnSet, MultiAssayEperiments, QFeatures or even simple
       lists. This document covers the functionalities available in
-      omXplore 0.99.0.</p>
+      omXplore 0.99.1.</p>
     </div>
     
 <div class="section level2">
@@ -161,14 +161,6 @@ DataFrame in the rowData() of a SUmmarizedexperiment item.</p>
 the datasets to the format used in <code>omXplore</code>. This process
 simply tries to find and extract information to save them in the correct
 item of the slot metadata.</p>
-<p>To convert datasets to the enriched MultiAssayExperiment, run the
-function `convert_to_mae()` as follows:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/prostarproteomics/omXplore" class="external-link">omXplore</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Exp1_R25_pept"</span>, package <span class="op">=</span> <span class="st">'DAPARdata'</span><span class="op">)</span></span>
-<span><span class="co">#sub_R25_pept &lt;- convert_to_mae(Exp1_R25_pept[150:170])</span></span></code></pre></div>
-<p>If a plot function do not have all infos it needs, then it is not
-available on the GUI</p>
 </div>
 </div>
 <div class="section level2">
@@ -227,7 +219,7 @@ than embedded in the main UI. It is also possible to insert a module
 plot in a third party Shiny app.</p>
 <p>It is possible simply by running its name. The list of all shiny apps
 which are available via omXplore can be seen using</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/omXplore-modules.html">listShinyApps</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "omXplore_cc()"          "omXplore_corrmatrix()"  "omXplore_density()"    </span></span>
 <span><span class="co">## [4] "omXplore_heatmap()"     "omXplore_intensity()"   "omXplore_pca()"        </span></span>
@@ -238,7 +230,7 @@ which are available via omXplore can be seen using</p>
 </p>
 </div>
 <p>See the help page of this function fore more details.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#data(sub_R25)</span></span>
 <span><span class="co">#omXplore_density(sub_R25, 1)</span></span></code></pre></div>
 The resulting plot is the following:
@@ -290,7 +282,7 @@ stored in the ‘images’ directory of the corresponding package.</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R Under development (unstable) (2024-01-28 r85838 ucrt)</span></span>
 <span><span class="co">## Platform: x86_64-w64-mingw32/x64</span></span>
@@ -311,14 +303,14 @@ stored in the ‘images’ directory of the corresponding package.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] shiny_1.8.0      omXplore_0.99.0  BiocStyle_2.31.0</span></span>
+<span><span class="co">## [1] shiny_1.8.0      omXplore_0.99.1  BiocStyle_2.31.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] splines_4.4.0               later_1.3.2                </span></span>
 <span><span class="co">##   [3] bitops_1.0-7                tibble_3.2.1               </span></span>
 <span><span class="co">##   [5] preprocessCore_1.65.0       xts_0.13.2                 </span></span>
-<span><span class="co">##   [7] XML_3.99-0.16.1             factoextra_1.0.7           </span></span>
-<span><span class="co">##   [9] lifecycle_1.0.4             shinyjqui_0.4.1            </span></span>
+<span><span class="co">##   [7] XML_3.99-0.16.1             shinyjqui_0.4.1            </span></span>
+<span><span class="co">##   [9] factoextra_1.0.7            lifecycle_1.0.4            </span></span>
 <span><span class="co">##  [11] doParallel_1.0.17           processx_3.8.3             </span></span>
 <span><span class="co">##  [13] lattice_0.22-5              MASS_7.3-60.2              </span></span>
 <span><span class="co">##  [15] crosstalk_1.2.1             flashClust_1.01-2          </span></span>
@@ -327,7 +319,7 @@ stored in the ‘images’ directory of the corresponding package.</p>
 <span><span class="co">##  [21] limma_3.59.2                sass_0.4.8                 </span></span>
 <span><span class="co">##  [23] rmarkdown_2.25              jquerylib_0.1.4            </span></span>
 <span><span class="co">##  [25] yaml_2.3.8                  rlist_0.4.6.2              </span></span>
-<span><span class="co">##  [27] shinyBS_0.61.1              sm_2.2-5.7.1               </span></span>
+<span><span class="co">##  [27] sm_2.2-5.7.1                shinyBS_0.61.1             </span></span>
 <span><span class="co">##  [29] httpuv_1.6.14               MsCoreUtils_1.15.3         </span></span>
 <span><span class="co">##  [31] RColorBrewer_1.1-3          lubridate_1.9.3            </span></span>
 <span><span class="co">##  [33] multcomp_1.4-25             abind_1.4-5                </span></span>
@@ -338,7 +330,7 @@ stored in the ‘images’ directory of the corresponding package.</p>
 <span><span class="co">##  [43] GenomeInfoDbData_1.2.11     IRanges_2.37.1             </span></span>
 <span><span class="co">##  [45] S4Vectors_0.41.3            ggrepel_0.9.5              </span></span>
 <span><span class="co">##  [47] MSnbase_2.29.3              pkgdown_2.0.7              </span></span>
-<span><span class="co">##  [49] ncdf4_1.22                  highcharter_0.9.4          </span></span>
+<span><span class="co">##  [49] highcharter_0.9.4           ncdf4_1.22                 </span></span>
 <span><span class="co">##  [51] codetools_0.2-19            DelayedArray_0.29.1        </span></span>
 <span><span class="co">##  [53] DT_0.32                     tidyselect_1.2.0           </span></span>
 <span><span class="co">##  [55] viridis_0.6.5               matrixStats_1.2.0          </span></span>
@@ -356,8 +348,8 @@ stored in the ‘images’ directory of the corresponding package.</p>
 <span><span class="co">##  [79] BiocManager_1.30.22         fastmap_1.1.1              </span></span>
 <span><span class="co">##  [81] fansi_1.0.6                 shinyjs_2.1.0              </span></span>
 <span><span class="co">##  [83] callr_3.7.5                 caTools_1.18.2             </span></span>
-<span><span class="co">##  [85] digest_0.6.34               timechange_0.3.0           </span></span>
-<span><span class="co">##  [87] R6_2.5.1                    mime_0.12                  </span></span>
+<span><span class="co">##  [85] digest_0.6.34               mime_0.12                  </span></span>
+<span><span class="co">##  [87] timechange_0.3.0            R6_2.5.1                   </span></span>
 <span><span class="co">##  [89] estimability_1.5            textshaping_0.3.7          </span></span>
 <span><span class="co">##  [91] colorspace_2.1-0            gtools_3.9.5               </span></span>
 <span><span class="co">##  [93] utf8_1.2.4                  tidyr_1.3.1                </span></span>
