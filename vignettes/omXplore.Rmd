@@ -110,8 +110,14 @@ the format used in `omXplore`. This process simply tries to find and extract inf
 save them in the correct item of the slot metadata.
 
 To convert datasets to the enriched MultiAssayExperiment, run the
-function \`convert_to_mae()\` as follows:
+function \`convert_to_mae()\` on different datasets.
 
+From MSnSet: follow instructions on how to make a MSnSet instance in
+\url{https://lgatto.github.io/MSnbase/articles/v02-MSnbase-io.html}
+
+
+From QFeatures: 
+\url{https://rformassspectrometry.github.io/QFeatures/articles/Visualization.html#preparing-the-data}
 
 If a plot function do not have all infos it needs, then it is not available on the GUI
 
