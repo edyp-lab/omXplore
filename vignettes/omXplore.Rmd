@@ -112,11 +112,7 @@ save them in the correct item of the slot metadata.
 To convert datasets to the enriched MultiAssayExperiment, run the
 function \`convert_to_mae()\` as follows:
 
-```{r convert_to_mae}
-library(omXplore)
-data("Exp1_R25_pept", package = 'DAPARdata')
-#sub_R25_pept <- convert_to_mae(Exp1_R25_pept[150:170])
-```
+
 If a plot function do not have all infos it needs, then it is not available on the GUI
 
 # Using omXplore
