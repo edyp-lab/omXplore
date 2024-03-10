@@ -41,10 +41,14 @@ setMethod("get_adjacencyMatrix", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        rowData(object)[, 'adjacencyMatrix']
+        MultiAssayExperiment::rowData(object)[, 'adjacencyMatrix']
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -67,10 +71,14 @@ setMethod("get_group", signature = "MultiAssayExperiment",
   function(object) {
     tryCatch(
       {
-        SummarizedExperiment::colData(object)$group
+        MultiAssayExperiment::colData(object)$group
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -94,10 +102,14 @@ setMethod("get_metacell", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        as.data.frame(rowData(object)[, 'metacell'])
+        as.data.frame(MultiAssayExperiment::rowData(object)[, 'metacell'])
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
   )
@@ -120,10 +132,14 @@ setMethod("get_cc", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        metadata(object)$cc
+        MultiAssayExperiment::metadata(object)$cc
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -145,10 +161,14 @@ setMethod("get_proteinID", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        metadata(object)$proteinID
+        MultiAssayExperiment::metadata(object)$proteinID
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -171,10 +191,14 @@ setMethod("get_colID", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        metadata(object)$colID
+        MultiAssayExperiment::metadata(object)$colID
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -197,10 +221,14 @@ setMethod("get_type", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        metadata(object)$type
+        MultiAssayExperiment::metadata(object)$type
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )
@@ -223,10 +251,14 @@ setMethod("get_pkg_version", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        metadata(object)$pkg_version
+        MultiAssayExperiment::metadata(object)$pkg_version
       },
-      warning = function(w) NULL,
-      error = function(e) NULL
+      warning = function(w) {
+        print(w)
+        NULL},
+      error = function(e) {
+        print(e)
+        NULL}
     )
   }
 )

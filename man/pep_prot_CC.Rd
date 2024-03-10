@@ -8,10 +8,10 @@
 \alias{GetCCInfos}
 \title{Display a CC}
 \usage{
-buildGraph(cc, metadata = NULL)
+buildGraph(cc = NULL, meta = NULL)
 
 display.CC.visNet(
-  g,
+  g = NULL,
   layout = "layout_with_fr",
   obj = NULL,
   prot.tooltip = NULL,
@@ -25,7 +25,7 @@ GetCCInfos(cc)
 \arguments{
 \item{cc}{xxx}
 
-\item{metadata}{xxx}
+\item{meta}{xxx}
 
 \item{g}{A cc (a list)}
 
@@ -61,10 +61,9 @@ xxxx
 }
 \examples{
 data(sub_R25)
-se1 <- sub_R25[[1]]
-g <- buildGraph(get_cc(se1)[[1]])
+se <- sub_R25[[1]]
+g <- buildGraph(get_cc(se)[[1]])
 display.CC.visNet(g)
-
 
 data(sub_R25)
 GetCCInfos(get_cc(sub_R25[[1]]))

@@ -77,21 +77,21 @@ create_vdata <- function(){
 ## ---------------------------------------------------------
 ## Create small datasets based on `DAPARdata` package
 ## ---------------------------------------------------------
-create_sub_R25 <- function(){
-  library(omXplore)
-  
-  
-  data("Exp1_R25_pept", package = 'DAPARdata')
-  data("Exp1_R25_prot", package = 'DAPARdata')
-
-  sub_R25 <- convert_to_mae(
-    list(
-      peptide = Exp1_R25_pept[150:170],
-      protein = Exp1_R25_prot[1:21]
-      )
-  )
-
-save(sub_R25, file = 'data/sub_R25.rda')
-}
+# create_sub_R25 <- function(){
+#   library(omXplore)
+#   
+#   
+#   data("Exp1_R25_pept", package = 'DAPARdata')
+#   data("Exp1_R25_prot", package = 'DAPARdata')
+# 
+#   sub_R25 <- convert_to_mae(
+#     list(
+#       peptide = Exp1_R25_pept[150:170],
+#       protein = Exp1_R25_prot[1:21]
+#       )
+#   )
+# 
+# save(sub_R25, file = 'data/sub_R25.rda')
+# }
 
 

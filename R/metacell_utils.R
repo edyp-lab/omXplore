@@ -289,8 +289,6 @@ GetMetacellTags <- function(
     stop("level must be defined if 'onlyPresent' equals to FALSE")
     return(invisible(NULL))
     }
-
-
   
   if (onlyPresent) {
     # Compute unique tags

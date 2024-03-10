@@ -97,30 +97,6 @@ F
 }
 \examples{
 \donttest{
-#-------------------------------------------
-# Conversion of a list of MSnSet instances
-#-------------------------------------------
-data(Exp1_R2_pept, package = 'DAPARdata')
-ll.msnset <- list(data1 = Exp1_R2_pept, data2 = Exp1_R2_pept)
-convert_to_mae(ll.msnset)
-
-#-------------------------------------------
-# Conversion of a MSnSet instance
-#-------------------------------------------
-convert_to_mae(Exp1_R2_pept)
-
-#-------------------------------------------
-# Conversion of a list of SummarizedExperiment instances
-#-------------------------------------------
-
-
-
-#-------------------------------------------
-# Conversion of a SummarizedExperiment instance
-#-------------------------------------------
-mae <- convert_to_mae(Exp1_R2_pept)
-convert_to_mae(mae[[1]])
-
 
 #-------------------------------------------
 # Conversion of a MultiAssayExperiment instance

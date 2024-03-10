@@ -1,7 +1,7 @@
 #' @title Display a CC
 #'
 #' @param cc A cc (a list)
-#' @param metadata xxx
+#' @param meta xxx
 #' @param g A cc (a list)
 #' @param layout xxxxx
 #' @param obj xxx
@@ -15,12 +15,14 @@
 #'
 #' @examples
 #' data(sub_R25)
-#' se1 <- sub_R25[[1]]
-#' g <- buildGraph(get_cc(se1)[[1]])
+#' se <- sub_R25[[1]]
+#' g <- buildGraph(get_cc(se)[[1]])
 #' display.CC.visNet(g)
 #'
-#'
 #' @name pep_prot_CC
+#' 
+#' @import highcharter
+#' @import visNetwork
 #'
 NULL
 
@@ -30,10 +32,10 @@ NULL
 #' @export
 buildGraph <- function(
     cc = NULL,
-    metadata = NULL) {
+    meta = NULL) {
   
   if(is.null(cc)){
-    warning('cc is NULL. ABort...')
+    message('cc is NULL. Abort...')
     return(NULL)
   }
   
@@ -51,19 +53,19 @@ buildGraph <- function(
   def.grp <- c(rep("shared.peptide", nb.pep), rep("protein", nb.prot))
   def.grp[which(rowSums(subX) == 1)] <- "spec.peptide"
 
-  buildNodesInfos <- function(cc, metadata, info.indice = 1) {
+  buildNodesInfos <- function(cc, meta, info.indice = 1) {
     
     nodes_infos <- NULL
-    if (!is.null(metadata)) {
+    if (!is.null(meta)) {
       #nodes_infos <- rep("", nrow(cc)+ncol(cc))
       nodes_infos <- vector()
       # We add infos only on peptides nodes
       for (i in seq(nrow(cc))) {
-        ind <- which(rownames(metadata) == rownames(cc)[i])
+        ind <- which(rownames(meta) == rownames(cc)[i])
         nodes_infos <- c(nodes_infos, 
           paste0(
-          "<p>", colnames(metadata)[info.indice], ":",
-          metadata[ind, info.indice], "</p>")
+          "<p>", colnames(meta)[info.indice], ":",
+            meta[ind, info.indice], "</p>")
         )
       }
     }
@@ -79,7 +81,7 @@ buildGraph <- function(
   )
 
   #browser()
-  title <- buildNodesInfos(cc, metadata)
+  title <- buildNodesInfos(cc, meta)
   #if (!is.null(title)) {
   #  nodes <- cbind(nodes, title)
   #}
@@ -100,18 +102,23 @@ buildGraph <- function(
 
 
 
-#' @import highcharter
-#' @import visNetwork
+
 #' @rdname pep_prot_CC
 #' @export
 #' @return A plot
 #'
 display.CC.visNet <- function(
-    g,
+    g = NULL,
     layout = "layout_with_fr",
     obj = NULL,
     prot.tooltip = NULL,
     pept.tooltip = NULL) {
+  
+  if(is.null(g)){
+    message('g is NULL. Abort...')
+    return(NULL)
+  }
+  
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"
   col.shared <- "#0EA513"
