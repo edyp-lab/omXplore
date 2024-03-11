@@ -17,6 +17,9 @@ extFoo1_server(
   id,
   obj = reactive({
      NULL
+ }),
+  i = reactive({
+     1
  })
 )
 
@@ -28,6 +31,9 @@ extFoo2_server(
   id,
   obj = reactive({
      NULL
+ }),
+  i = reactive({
+     1
  })
 )
 
@@ -36,8 +42,9 @@ extFoo2(obj)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An object of instance compliant with formats in
-\code{FormatAvailables()}.}
+\item{obj}{An object of instance \code{MultiAssayExperiment}}
+
+\item{i}{xxx}
 }
 \value{
 NA
@@ -60,8 +67,8 @@ xxxx
 \examples{
 if (interactive()) {
   data(vdata)
-  extFoo1(vdata[[1]])
-  extFoo2(vdata[[1]])
+  extFoo1(vdata, 1)
+  extFoo2(vdata, 1)
 }
 
 }

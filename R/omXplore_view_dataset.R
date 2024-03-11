@@ -58,16 +58,6 @@
 #' @param height xxx
 #' @param use.modal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
-#'
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsModal
-#' @importFrom shinyjs useShinyjs hidden toggle show hide
-#' @importFrom shinyjqui jqui_resizable
 #' 
 #' 
 #' 
@@ -90,6 +80,17 @@ NULL
 
 
 
+#'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyBS bsModal
+#' @importFrom shinyjs useShinyjs hidden toggle show hide
+#' @importFrom shinyjqui jqui_resizable
+#' 
 #' @rdname ds-view
 #' @export
 #' @return NA
@@ -121,6 +122,16 @@ view_dataset_ui <- function(id) {
 
 
 #'
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyBS bsModal
+#' @importFrom shinyjs useShinyjs hidden toggle show hide
+#' @importFrom shinyjqui jqui_resizable
+#' 
 #' @rdname ds-view
 #' @export
 #' @return NA
@@ -279,7 +290,7 @@ view_dataset_server <- function(
 
       wellPanel(style = "height: 120px; overflow-y: scroll;",
         lapply(rv$ll.mods, function(x) {
-        jqui_resizable(paste0("#", ns(paste0("window_", x)), " .modal-content"))
+        shinyjqui::jqui_resizable(paste0("#", ns(paste0("window_", x)), " .modal-content"))
         
         tagList(
           actionButton(
@@ -302,7 +313,7 @@ view_dataset_server <- function(
             
             # Here, we could put the global function that calls shinyApp with
             # the module but it takes a longer time to display than if the
-            # server is laready launched elsewhere
+            # server is lrleady launched elsewhere
             #do.call(x, list(obj = rv$current.se))
           )
         )

@@ -41,7 +41,7 @@ setMethod("get_adjacencyMatrix", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        MultiAssayExperiment::rowData(object)[, 'adjacencyMatrix']
+        SummarizedExperiment::rowData(object)[, 'adjacencyMatrix']
       },
       warning = function(w) {
         print(w)
@@ -102,7 +102,7 @@ setMethod("get_metacell", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        as.data.frame(MultiAssayExperiment::rowData(object)[, 'metacell'])
+        as.data.frame(SummarizedExperiment::rowData(object)[, 'metacell'])
       },
       warning = function(w) {
         print(w)

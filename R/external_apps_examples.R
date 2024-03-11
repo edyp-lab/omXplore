@@ -7,8 +7,8 @@
 #' @name external_app
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An object of instance compliant with formats in
-#' `FormatAvailables()`.
+#' @param obj An object of instance `MultiAssayExperiment`
+#' @param i xxx
 #'
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
@@ -21,8 +21,8 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   extFoo1(vdata[[1]])
-#'   extFoo2(vdata[[1]])
+#'   extFoo1(vdata, 1)
+#'   extFoo2(vdata, 1)
 #' }
 #' 
 #' @return NA
@@ -49,7 +49,8 @@ extFoo1_ui <- function(id) {
 #'
 extFoo1_server <- function(
     id,
-    obj = reactive({NULL})) {
+    obj = reactive({NULL}),
+    i = reactive({1})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -118,9 +119,8 @@ extFoo2_ui <- function(id) {
 #'
 extFoo2_server <- function(
     id,
-    obj = reactive({
-      NULL
-    })) {
+    obj = reactive({NULL}),
+    i = reactive({1})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -158,10 +158,8 @@ extFoo2 <- function(obj) {
   ui <- extFoo2_ui("plot")
 
   server <- function(input, output, session) {
-    extFoo2_server("plot", reactive({
-      obj
-    }))
+    extFoo2_server("plot", reactive({obj}))
   }
 
-  shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 }

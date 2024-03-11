@@ -96,7 +96,7 @@ Compute_CC <- function(obj){
   cc <- list()
   
   X <- tryCatch({
-    rowData(obj)[, "adjacencyMatrix"]
+    SummarizedExperiment::rowData(obj)[, "adjacencyMatrix"]
   }, warning = function(w) NULL,
     error = function(e) NULL
   )
@@ -432,8 +432,10 @@ Build_X_CC <- function(se){
   
   original.se <- se
   tryCatch({
-    X <- PSMatch::makeAdjacencyMatrix((rowData(se))[, get_proteinID(se)])
-    rownames(X) <- rownames(rowData(se))
+    X <- PSMatch::makeAdjacencyMatrix((
+      SummarizedExperiment::rowData(se))[, get_proteinID(se)])
+    rownames(X) <- rownames(
+      SummarizedExperiment::rowData(se))
     SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- X
     
     cc <- PSMatch::ConnectedComponents(X)

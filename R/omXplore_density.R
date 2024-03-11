@@ -84,7 +84,7 @@ omXplore_density_server <- function(
     )
 
 
-    output$plot_ui <- renderHighchart({
+    output$plot_ui <- highcharter::renderHighchart({
       req(obj())
       tmp <- NULL
       isolate({
@@ -197,6 +197,7 @@ densityPlot <- function(
 #' @return A shiny app
 #'
 omXplore_density <- function(obj, i) {
+
   stopifnot(inherits(obj, "MultiAssayExperiment"))
   
   ui <- omXplore_density_ui("plot")
@@ -209,5 +210,5 @@ omXplore_density <- function(obj, i) {
     
   }
 
-  app <- shinyApp(ui, server)
+  shinyApp(ui, server)
 }
