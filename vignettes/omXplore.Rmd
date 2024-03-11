@@ -111,17 +111,18 @@ This section describes how to view built-in plots and the main app of `omXplore`
 
 ## Individual built-in plots
 
-The list of buil-in plots can be obtained with:
+The list of plots available in the current R session via omXplore can be obtained with: 
 
 ```{r listShinyApps}
-listShinyApps()
+listPlotModules()
 ```
 
+By default, this function lists the built-in modules and the external modules compliant with omXplore.
 
 Each of these functions is a Shiny app implemented as a module and can be launched in a standalone mode or embedded in another shiny app (as it is the case with the main UI of `omXplore` or inserted in a third party Shiny app).
 
 
-Most of these functions analyses the data contained in an Experiment of the dataset (an instance of the class `SummarizedExperiment`). For a sake of simplicity, they all have the same two parameters: the dataset in any (compatible) format (See the help page of the plot functions for details) and the indice of the assay to analyse (See [MultiAssayExperiment](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html)). 
+Most of these functions analyse the data contained in an Experiment of the dataset (an instance of the class `SummarizedExperiment`). For a sake of simplicity, they all have the same two parameters: (1) the dataset in any (compatible) format (See the help page of the plot functions for details) and (2) the indice of the assay to analyse (See [MultiAssayExperiment](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html)). 
 
 Internally, each function builds the enriched instance of MAE used inside omXplore then show the plot for the assay which has been specified in parameters.
 
@@ -151,33 +152,32 @@ view_dataset(sub_R25)
 
 The resulting UI is the following:
 
-```{r view_dataset_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
-knitr::include_graphics("./figs/view_dataset.png", error = FALSE)
+```{r example_view_dataset_nomodal_png, results='markup', fig.cap="`omXplore` interactive interface with modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
+knitr::include_graphics("./figs/example_view_dataset_nomodal.png", error = FALSE)
 ```
 
-The UI is divided in two parts. 
-On the left side, a selection widget to select one of the SummarizedExperiment data contained in the dataset.
-On the top of the right, a series of clickable vignettes which represent the different plots available. When the user clicks on one of those vignettes, the corresponding plot is showed below. is dedicated to the display of data. The selection of the plot to show
-is possible by clicking one of the vignettes shown at the top of the window. The plot is then displayed with
-two possible ways, whether the option used to launch the function `view_dataset()`: the plot can be shown in the same window as the UI (below the vignettes) or in a modal window.
+The interface is divided in three parts.
 
-```{r view_dataset_modal_png, results='markup', fig.cap="`omXplore` interactive interface with modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
+**(A) Choosing the assay** 
+
+A widget let the user select one of the experiments contained in the dataset.
+
+**(B) Select which plot to display**
+
+A series of clickable vignettes which represent the different plots available. When the user clicks on a vignette, the corresponding plot is displayed (See are C).
+
+**(C) Viewing the plots**
+
+The plots are displayed in the same window as the UI (below the vignettes) or in a modal window, depending of the option used to launch the Shinyp app (See `?view_dataset`).
+
+
+```{r view_dataset_nomodal_png, results='markup', fig.cap="`omXplore` interactive interface with modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
 knitr::include_graphics("./figs/view_dataset_modal.png", error = FALSE)
-```
-
-```{r view_dataset_nomodal_png, results='markup', fig.cap="`omXplore` interactive interface without modal.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
-knitr::include_graphics("./figs/view_dataset_nomodal.png", error = FALSE)
 ```
 
 When a plot is displayed, it shows the data corresponding to the dataset
 selected in the widget (of the left side). If this dataset is changed, the plot is 
 automatically updated with the data of the new dataset.
-
-The list of vignettes is composed of:
-- built-in shiny apps in the package `omXplore`. See details with `listPlotsModules()`,
-- external apps which are exported by other packages. For more details on the
-development of an external app, see section xxx.
-
 
 # Session information
 
