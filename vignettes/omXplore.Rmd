@@ -5,71 +5,55 @@ author:
 - name: Thomas Burger
 package: omXplore
 abstract: >
-    The package omXplore is a R package which provides functions to vizualize quantitative data from label-free proteomics experiments. It can deal with common data formats in Bioconductor such as MSnSet, MultiAssayEperiments, QFeatures or even simple lists. This document covers the functionalities available in `r BiocStyle::pkg_ver('omXplore')`.
+    The package omXplore (standing for "Omics Explore") is a R package which provides functions to vizualize omics experiments. It deals with common data formats in Bioconductor such as MSnSet, MultiAssayEperiments, QFeatures or even simple lists.
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
-        highlight: tango
-        number_sections: yes
-        toc: true
-        toc_depth: 2
-        fig_width: 7
-        fig_height: 6
-        fig_caption: true
+        toc_float: true
 vignette: >
     %\VignetteIndexEntry{omXplore user Manual}
-    %%\VignetteKeywords{Softmware, Mass Spectrometry, Quantitative }
+    %%\VignetteKeywords{Softmware}
     %\VignetteEncoding{UTF-8}
     %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  markdown: 
-    wrap: 72
 ---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
+```{r env, message = FALSE, warning = FALSE, echo = FALSE}
+library("omXplore")
+```
+
 # Introduction
 
-The `omXplore` package is a Shiny app which is a standalone hub for
-plots dedicated to the analysis of proteomics data. It is compliant with
-common data structures in Bioconductor such as `MSnSet`, `QFeatures` nor
-`MultiAssayExperiments`.
+The `omXplore` package offers a series of Shiny apps (implemented as modules) dedicated to the visualization and the analysis of omics data. 
+It contains:
 
-`omXplore` has a user-friendly Shiny interface which has a series of
-built-in plots. With less effort, it can also easily integrate new plots
+- several built-in plots, embedded in Shiny modules,
+
+- one main UI which gives easily access to the individual plots.
+
+With less effort, it can also easily integrate new plots
 (written as Shiny modules) from other packages or directly in the R
 environment.
 
-It contains:
 
--   several built-in plots,
-
--   one main UI which gives easily access to the individual plots.
-
-All the plots in this package are based on Shiny technology
-(\url{http://shiny.rstudio.com/}) and are implemented as modules. Thus,
-they can also be run standalone or easily inserted in another Shiny app.
-
-In that sense, the plots in `omXplore` can be used alone or as a
-complement to the numerous packages on Bioconductor
-(\url{https://www.bioconductor.org/}) it is compliant with. For example,
-it is well suited for the package `Prostar`
-(\url{https://www.bioconductor.org/packages/release/bioc/html/Prostar.html}) 
-in which it is used.
+Each plot can be run alone or as a complement to the numerous packages on [Bioconductor](https://www.bioconductor.org/) it is compliant with. For example,
+it is well suited for the package [Prostar](https://www.bioconductor.org/packages/release/bioc/html/Prostar.html) in which it is used.
 
 One main feature is the capacity to insert plots (as shiny modules) from third party packages.
 
-```{r load_pkg}
-library(omXplore)
-```
+In the following sections, we are going to explain how the xxx is enriched based on native MultiAssayExperiment and how to view individual plots and main UI
 
-# omXplore data format
+# Enriching native MultiAssayExperiment
 
-`omXplore` is based on the class `MultiAssayExperiments`
-(\url{https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html})
-and enrich it with specific slots needed to create built-in plots.
+`omXplore` is based on the class [MultiAssayExperiments](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) which is enriched with specific slots needed to create built-in plots.
 The plots display statistical information about data contained in the SummarizedExperiment
 slots of a dataset.
 
@@ -77,37 +61,44 @@ Some items are added to the metadata of the instance of
 MultiAssayExperiment and to each of the instances of
 SummarizedExperiment.
 
-#### Additional info in MultiAssayExperiment
+**Additional info in MultiAssayExperiment**
 
 Currently, there is no custom slot in the metadata of the mae contains
-the following additional items:
+the following additional items (in the slot names `other`):
 
-#### Additional info in SummarizedExperiment
+```{r meta_mae, echo = TRUE}
+data(vdata)
+MultiAssayExperiment::metadata(vdata)
+```
 
+**Additional info in SummarizedExperiment**
 
 The metadata of each SummarizedExperiment dataset contains the following
-items:
+items: 
 
--   **proteinID**: The name of the column which contains xxx
+-   **proteinID**: the name of the column which contains xxx
 
--   **colID**: The name of the column which serves as unique index
+-   **colID**: the name of the column which serves as unique index
 
--   **cc**: The list of Connected Components, based on the adjacency
-    matrix
+-   **cc**: the list of Connected Components, based on the adjacency
+    matrix (if exists)
 
--   **type**: The type of data contains in this object (e.g. peptide,
-    protein, ...)
+-   **type**: the type of data contained in the current Experiment (e.g. peptide, protein, ...)
 
--   **pkg_version**: The name and version number which has been used to
-    create this object
+-   **pkg_version**: the name and version number which has been used to
+    create the current Experiment.
 
+
+```{r meta_se, echo = TRUE}
+data(vdata)
+MultiAssayExperiment::metadata(vdata[[1]])
+```
 
 The **adjacencyMatrix** (when exists) is stored as a DataFrame in the
-rowData() of a SUmmarizedexperiment item.
+rowData() of a SummarizedExperiment item (See xxx)
 
-Thus, while the class used in common, it is necessary to "convert" the datasets to
-the format used in `omXplore`. This process simply tries to find and extract information to
-save them in the correct item of the slot metadata.
+
+All modules are self-contained in the sense that it is not necessary to manipulate datasets to view the plots. The information described above are given only to discover the slots used if the user wants to enrich its dataset before using omXplore.
 
 
 # Using omXplore
@@ -116,12 +107,44 @@ The package `omXplore` offers a collection of standard plots written as Shiny mo
 The main app is a Shiny module itself which displays the plots of each
 module.
 
+This section describes how to view built-in plots and the main app of `omXplore`.
+
+## Individual built-in plots
+
+The list of buil-in plots can be obtained with:
+
+```{r listShinyApps}
+listShinyApps()
+```
+
+
+Each of these functions is a Shiny app implemented as a module and can be launched in a standalone mode or embedded in another shiny app (as it is the case with the main UI of `omXplore` or inserted in a third party Shiny app).
+
+
+Most of these functions analyses the data contained in an Experiment of the dataset (an instance of the class `SummarizedExperiment`). For a sake of simplicity, they all have the same two parameters: the dataset in any (compatible) format (See the help page of the plot functions for details) and the indice of the assay to analyse (See [MultiAssayExperiment](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html)). 
+
+Internally, each function builds the enriched instance of MAE used inside omXplore then show the plot for the assay which has been specified in parameters.
+
+
+```{r ex_modules, eval=FALSE}
+data(sub_R25)
+omXplore_density(sub_R25, 1)
+```
+
+
+```{r omXplore_density_png, results='markup', fig.cap="Plot generated by the module omXplore_density()", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
+knitr::include_graphics("./figs/omXplore_density.png", error = FALSE)
+```
+
+
+
 ## Main UI
 
-The main shiny app is called view_dataset(). It is launched as follows:
+As it is 9described in the previous section, omXplore have several built-in plots. And it may be fastidious to launch each plot function one after one to completely analyze a dataset.
 
-```{r view_dataset_modal, include=FALSE}
-library(omXplore)
+For that purpose, `omXplore` has another shiny app, called `view_dataset()` which acts as a hub for plots to facilitate the analyse of the different assays in a dataset. It is launched as follows:
+
+```{r view_dataset_modal, eval=FALSE}
 data(sub_R25)
 view_dataset(sub_R25)
 ```
@@ -155,77 +178,6 @@ The list of vignettes is composed of:
 - external apps which are exported by other packages. For more details on the
 development of an external app, see section xxx.
 
-## Individual plots
-
-Each of the built-in plots can be run in a standalone mode rather than
-embedded in the main UI. It is also possible to insert a module plot in
-a third party Shiny app.
-
-It is possible simply by running its name. The list of all shiny apps
-which are available via omXplore can be seen using
-
-```{r listShinyApps}
-listShinyApps()
-```
-
-
-
-```{r vignettes_png, results='markup', fig.cap="`omXplore` interactive interface: xxxx.", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
-knitr::include_graphics("./figs/plot_vignettes.png", error = FALSE)
-```
-
-
-See the help page of this function fore more details.
-
-```{r ex_modules}
-#data(sub_R25)
-#omXplore_density(sub_R25, 1)
-```
-
-The resulting plot is the following:
-```{r omXplore_density_png, results='markup', fig.cap="Plot generated by the module omXplore_density()", echo=FALSE, out.width='100%', fig.align='center', fig.wide = TRUE}
-knitr::include_graphics("./figs/omXplore_density.png", error = FALSE)
-```
-
-
-# Adding external plots
-
-omXplore can plot plots coming from third packages. For that purpose, two points may be considered:
-
--   make a shiny app available in the global R environment
-
--   ensure that the name of the two functions `ui()` and `server()` of
-    the app respect a predefined syntax. More specifically, the name of
-    the shiny app is composed by the prefix 'mod_ds\_' (which stands for
-    'descriptive statistics') and a user-defined name. As for each Shiny
-    app, there must be two functions (one for the ui part and the second
-    one for the server part.). Thus, in this example, the shiny app
-    called `foo` must provide the functions `foo_ui()` and
-    `foo_server()`.
-
-In this case, a clickable button is added to the series of vignettes (at the top of the right side
-of the UI). If an image has been correctly configured, it is shown in this button.
-
-The use of those external apps is devoted to its developer, the
-interface of `omXplore` is only a shell that presents apps in a
-user-friendly interface.
-
-To add external app to `omXplore`, please use the global function
-`view_dataset()` as follows. In the example below, one want to add the
-app called `extFoo1` and `extFoo2` from the package `omXplore`. It is
-only for the example, this app contains a simple plot just to
-demonstrate how it works
-
-```         
-#data(vdata)
-#addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#view_dataset(vdata, addons)
-```
-
-If there are icons to display within omXplore, the png images must be
-stored in the 'images' directory of the corresponding package.
-
-## Technical point of view
 
 # Session information
 

@@ -1,0 +1,83 @@
+---
+title: "Adding third party plots"
+author: 
+- name: Samuel Wieczorek
+- name: Thomas Burger
+package: omXplore
+abstract: >
+    The package omXplore is able to embed third party plots. This vignette aims to explain how to do to add an external plot.
+date: "`r Sys.Date()`"
+output:
+    BiocStyle::html_document:
+        number_sections: yes
+        toc_float: true
+vignette: >
+    %\VignetteIndexEntry{Adding third party plots}
+    %%\VignetteKeywords{Softmware}
+    %\VignetteEncoding{UTF-8}
+    %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r env, message = FALSE, warning = FALSE, echo = FALSE}
+library("omXplore")
+```
+
+# Introduction
+
+One interesting feature about `omXplore` is the capacity to insert custom plots into the collection of vignettes of the Shiny app `view_dataset()`.
+
+
+
+# Adding external plots
+
+omXplore can plot plots coming from third packages. For that purpose, two points may be considered:
+
+-   make a shiny app available in the global R environment
+
+-   ensure that the name of the two functions `ui()` and `server()` of
+    the app respect a predefined syntax. More specifically, the name of
+    the shiny app is composed by the prefix 'mod_ds\_' (which stands for
+    'descriptive statistics') and a user-defined name. As for each Shiny
+    app, there must be two functions (one for the ui part and the second
+    one for the server part.). Thus, in this example, the shiny app
+    called `foo` must provide the functions `foo_ui()` and
+    `foo_server()`.
+
+In this case, a clickable button is added to the series of vignettes (at the top of the right side
+of the UI). If an image has been correctly configured, it is shown in this button.
+
+The use of those external apps is devoted to its developer, the
+interface of `omXplore` is only a shell that presents apps in a
+user-friendly interface.
+
+To add external app to `omXplore`, please use the global function
+`view_dataset()` as follows. In the example below, one want to add the
+app called `extFoo1` and `extFoo2` from the package `omXplore`. It is
+only for the example, this app contains a simple plot just to
+demonstrate how it works
+
+```         
+#data(vdata)
+#addons <- list(omXplore = c("extFoo1", "extFoo2"))
+#view_dataset(vdata, addons)
+```
+
+If there are icons to display within omXplore, the png images must be
+stored in the 'images' directory of the corresponding package.
+
+## Technical point of view
+
+# Session information
+
+```{r}
+sessionInfo()
+```
