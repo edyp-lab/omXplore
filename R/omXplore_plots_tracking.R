@@ -7,14 +7,6 @@
 #' @param resetBtn A `boolean(1)` which indicates whether to show the 'Reset'
 #' button or not.
 #'
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom SummarizedExperiment rowData colData assays
 #' 
 #' @examples
 #' if (interactive()) {
@@ -28,6 +20,16 @@ NULL
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData colData assays
+#' 
+#' 
 #' @rdname plots_tracking
 #' @export
 #' @return NA
@@ -64,6 +66,17 @@ plots_tracking_ui <- function(id) {
 }
 
 
+
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData colData assays
+#' 
+#' 
 #' @rdname plots_tracking
 #'
 #' @export

@@ -12,6 +12,16 @@
 #' @param rate xxx. Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
+#' 
+#' 
+#' @examples
+#' if (interactive()) {
+#'   data(vdata)
+#'   omXplore_corrmatrix(vdata, 1)
+#' }
+#'
+NULL
+
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
@@ -26,15 +36,6 @@
 #' @import tidyr
 #' @importFrom dplyr mutate left_join select
 #' 
-#' 
-#' @examples
-#' if (interactive()) {
-#'   data(vdata)
-#'   omXplore_corrmatrix(vdata, 1)
-#' }
-#'
-NULL
-
 #' @rdname corrmatrix
 #' @export
 #' @return NA
@@ -52,6 +53,22 @@ omXplore_corrmatrix_ui <- function(id) {
     )
 }
 
+
+
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom DT JS
+#' @importFrom tibble tibble as_tibble
+#' @importFrom stats cor
+#' @import tidyr
+#' @importFrom dplyr mutate left_join select
+#' 
 #' @rdname corrmatrix
 #' @export
 #' @return NA
@@ -117,6 +134,13 @@ omXplore_corrmatrix_server <- function(
 #' @param showValues xxx
 #'
 #' @export
+#' 
+#' @importFrom tibble as_tibble tibble
+#' @importFrom dplyr mutate left_join select
+#' @importFrom tidyr gather
+#' @importFrom stats cor
+#' @importFrom highcharter list_parse2 highchart hc_xAxis hc_yAxis
+#' hc_add_series hc_plotOptions hc_tooltip hc_legend hc_colorAxis
 #'
 #'
 #' @return A plot

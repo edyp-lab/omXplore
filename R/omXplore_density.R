@@ -13,15 +13,6 @@
 #' the package [RColorBrewer] from which the colors are taken. Default
 #' value is 'Set1'.
 #'
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom highcharter highchartOutput renderHighchart
-#' @importFrom stats density
 #' 
 #' @name density-plot
 #'
@@ -35,6 +26,15 @@
 NULL
 
 
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom highcharter highchartOutput renderHighchart
+#' @importFrom stats density
 #' @rdname density-plot
 #' @export
 #' @return NA
@@ -52,6 +52,18 @@ omXplore_density_ui <- function(id) {
 }
 
 
+
+
+
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom highcharter highchartOutput renderHighchart
+#' @importFrom stats density
 #' @rdname density-plot
 #'
 #'
@@ -107,7 +119,11 @@ omXplore_density_server <- function(
 
 
 
-#'
+#' @importFrom highcharter list_parse highchart hc_xAxis hc_yAxis
+#' hc_add_series hc_plotOptions hc_tooltip hc_legend hc_colorAxis
+#' @importFrom stats density
+#' 
+#' 
 #' @export
 #'
 #' @rdname density-plot

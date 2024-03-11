@@ -8,18 +8,6 @@
 #'
 #' @keywords internal
 #'
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom tibble tibble
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
-#' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
-#' @importFrom SummarizedExperiment rowData colData assays 
-#' @import shinyBS
 #' 
 #' @examples
 #' if (interactive()) {
@@ -36,6 +24,18 @@ NULL
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom tibble tibble
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
+#' @importFrom SummarizedExperiment rowData colData assays 
+#' @import shinyBS
 #' @rdname ds-cc
 #' @export
 #' @return A shiny plot
@@ -130,6 +130,18 @@ omXplore_cc_ui <- function(id) {
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom tibble tibble
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
+#' @importFrom SummarizedExperiment rowData colData assays 
+#' @import shinyBS
 #' @rdname ds-cc
 #'
 #' @export

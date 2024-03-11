@@ -7,6 +7,22 @@
 #' @param i xxx
 #' @param digits xxx
 #'
+#' 
+#' 
+#' @name omXplore_tabExplorer
+#'
+#' @examples
+#' if (interactive()) {
+#'   data(vdata)
+#'   omXplore_tabExplorer(vdata, 1)
+#' }
+#' 
+#' @return NA
+#'
+NULL
+
+
+
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
@@ -24,21 +40,6 @@
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' 
 #' 
-#' @name omXplore_tabExplorer
-#'
-#' @examples
-#' if (interactive()) {
-#'   data(vdata)
-#'   omXplore_tabExplorer(vdata, 1)
-#' }
-#' 
-#' @return NA
-#'
-NULL
-
-
-
-
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
 #'
@@ -77,6 +78,25 @@ omXplore_tabExplorer_ui <- function(id) {
 }
 
 
+
+
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom DT DTOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable
+#' DTOutput
+#' @importFrom tibble as_tibble
+#' @importFrom stats setNames
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment rowData colData assays
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
+#' 
+#' 
 #' @return NA
 #'
 #' @rdname omXplore_tabExplorer

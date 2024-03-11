@@ -11,13 +11,7 @@
 #'
 #' @name color-legend
 #' 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsCollapsePanel bsCollapse
+#' 
 #' @example
 #' inst/examples/ex_mod_colorLegend.R
 #' 
@@ -48,6 +42,13 @@ custom_metacell_colors <- function() {
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @rdname color-legend
 #' @export
 #'
@@ -62,6 +63,13 @@ colorLegend_ui <- function(id) {
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @export
 #' @rdname color-legend
 #' @return NA
@@ -119,6 +127,13 @@ colorLegend_server <- function(id,
 
 
 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @export
 #' @rdname color-legend
 #' @return A shiny app

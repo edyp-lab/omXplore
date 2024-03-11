@@ -16,17 +16,6 @@
 #' of rows in the dataset to highlight
 #'
 #' @name intensity-plots
-#' 
-#' @importFrom grDevices png dev.off
-#' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom stats setNames
 #'
 #' @examples
 #' if (interactive()) {
@@ -38,6 +27,19 @@ NULL
 
 
 
+
+#' 
+#' @importFrom grDevices png dev.off
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom stats setNames
+#' 
 #' @export
 #' @rdname intensity-plots
 #' @return NA
@@ -58,6 +60,19 @@ omXplore_intensity_ui <- function(id) {
 
 
 
+
+#' 
+#' @importFrom grDevices png dev.off
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @import highcharter
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom stats setNames
+#' 
 #' @rdname intensity-plots
 #'
 #' @export

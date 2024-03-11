@@ -14,6 +14,18 @@
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
 #'
+#' 
+#' @examples
+#' if (interactive()) {
+#'   data(vdata)
+#'   omXplore_variance(vdata, 1)
+#' }
+#'
+NULL
+
+
+
+
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
@@ -26,16 +38,7 @@
 #' @importFrom DT JS
 #' @importFrom stats var
 #' 
-#' @examples
-#' if (interactive()) {
-#'   data(vdata)
-#'   omXplore_variance(vdata, 1)
-#' }
-#'
-NULL
-
-
-
+#' 
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -54,6 +57,21 @@ omXplore_variance_ui <- function(id) {
 
 
 
+
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom RColorBrewer brewer.pal
+#' @import highcharter
+#' @importFrom DT JS
+#' @importFrom stats var
+#' 
+#' 
+#' 
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -105,7 +123,10 @@ omXplore_variance_server <- function(
 
 
 
-#'
+#' @importFrom stats density var
+#' @import highcharter
+#' 
+#' 
 #' @export
 #'
 #' @param obj An matrix
@@ -164,8 +185,8 @@ CVDist <- function(
         }
       )
       tmp <- data.frame(
-        x = density(t, na.rm = TRUE)$x,
-        y = density(t, na.rm = TRUE)$y
+        x = stats::density(t, na.rm = TRUE)$x,
+        y = stats::density(t, na.rm = TRUE)$y
       )
 
       ymaxY <- max(maxY, tmp$y)

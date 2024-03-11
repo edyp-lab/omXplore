@@ -88,7 +88,7 @@ parameter is a list structured as follows:
 
 -   the content of the slot is a vector of modules names.
 
-It is necessary that the functions \*_ui() and \*_server are defined outside the global app function myFirstPlot(). This is because the function "view_dataset" cannot use the function myFirstPlot() and it must use the two functions myFirstPlot_ui(), myFirstPlot_server()
+It is necessary that the functions \*_ui() and \*_server are defined outside the global app function myFirstPlot(). This is because the function "view_dataset" cannot use the function myFirstPlot() and it must use the two functions myFirstPlot_ui(), myFirstPlot_server().
 
 Thus, the following situation will not work:
 
@@ -96,15 +96,15 @@ Thus, the following situation will not work:
 myFirstPlot <- function(obj, i) {
   ui <- function(id) {
   ns <- NS(id)
-  # ....
+  ....
   }
   server <- function(id, obj, i) {
-  moduleServer(id, function(input, output, session) {
+  moduleServer(id, 
+    function(input, output, session) {
     ns <- session$ns
-    # ....
+    ....
   })
   }
-  
   
   app <- shinyApp(ui = ui, server = server)
 }
@@ -115,18 +115,17 @@ The right manner is the following:
 ```{r, eval=FALSE}
 myFirstPlot_ui <- function(id) {
   ns <- NS(id)
-  # ....
+  ....
 }
 
 
 myFirstPlot_server <- function(id, obj, i) {
-  moduleServer(id, function(input, output, session) {
+  moduleServer(id, 
+    function(input, output, session) {
     ns <- session$ns
-    # ....
+    ....
   })
 }
-
-
 
 myFirstPlot <- function(obj, i) {
   ui <- myFirstPlot_ui(id)
@@ -134,11 +133,6 @@ myFirstPlot <- function(obj, i) {
   app <- shinyApp(ui = ui, server = server)
 }
 ```
-
-
-
-
-
 
 
 As an example, the code below will add three external plots:
