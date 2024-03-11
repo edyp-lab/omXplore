@@ -15,12 +15,14 @@ vignette: >
     %%\VignetteKeywords{Softmware}
     %\VignetteEncoding{UTF-8}
     %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
 ```
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -30,30 +32,33 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library("omXplore")
 ```
 
-# Introduction
+## Introduction
 
-One interesting feature about `omXplore` is the capacity to insert custom plots into the collection of vignettes of the Shiny app `view_dataset()`.
+One interesting feature about `omXplore` is the capacity to insert
+custom plots into the collection of vignettes of the Shiny app
+`view_dataset()`.
 
-This is useful to complete the panel of built-in plots of `omXplore` ans still use its main UI (See ?view_dataset()).
+This is useful to complete the panel of built-in plots of `omXplore` ans
+still use its main UI (See ?view_dataset()).
 
+A new plot can be added if it is: (i) implemented in a R package and
+(ii) loaded in the R global environment. This vignette describes these
+two cases.
 
-A new plot can be added if it is: (i) implemented in a R package and (ii) loaded in the R global environment. This vignette describes these two cases.
+## Add an existing module
 
+### From a R package
 
-# Add an existing module
+When one wants to add an external plot from a R package, it is by means
+of the parameter 'addons' of the function `view_dataset()`.
 
+This parameter is a list structured as follows: - the name of each slot
+is the name of a R package in which a plot module is implemented - the
+content of the slot is a vector of modules names
 
-# From a R package
-
-When one wants to add an external plot from a R package, it is by means of the parameter 'addons' of the function `view_dataset()`.
-
-This parameter is a list structured as follows:
-- the name of each slot is the name of a R package in which a plot module is implemented
-- the content of the slot is a vector of modules names
-
-
-As an example, the code below is about to add three external plots: plot functions "extFoo1" and "extFoo2" from the package "myPkgA" and a plot function "extFoo1" from the package "myPkgB".
-
+As an example, the code below is about to add three external plots: plot
+functions "extFoo1" and "extFoo2" from the package "myPkgA" and a plot
+function "extFoo1" from the package "myPkgB".
 
 ```{r eval = FALSE}
 addons <- list(
@@ -63,16 +68,15 @@ addons <- list(
 view_dataset(myData, addons)
 ```
 
-As you may have noticed, it is possible to use identical function names for plots from different packages.
+As you may have noticed, it is possible to use identical function names
+for plots from different packages.
 
-With this procedure, it is not necessary to load the entire package in order to user the plot module. `omXplore` loads only the necessary code.
+With this procedure, it is not necessary to load the entire package in
+order to user the plot module. `omXplore` loads only the necessary code.
 
+### From R console
 
-
-## From R console
-
-
-# Developing plot module
+## Developing plot module
 
 two points may be considered:
 
@@ -87,8 +91,9 @@ two points may be considered:
     called `foo` must provide the functions `foo_ui()` and
     `foo_server()`.
 
-In this case, a clickable button is added to the series of vignettes (at the top of the right side
-of the UI). If an image has been correctly configured, it is shown in this button.
+In this case, a clickable button is added to the series of vignettes (at
+the top of the right side of the UI). If an image has been correctly
+configured, it is shown in this button.
 
 The use of those external apps is devoted to its developer, the
 interface of `omXplore` is only a shell that presents apps in a
@@ -100,14 +105,10 @@ app called `extFoo1` and `extFoo2` from the package `omXplore`. It is
 only for the example, this app contains a simple plot just to
 demonstrate how it works
 
-
-
 If there are icons to display within omXplore, the png images must be
 stored in the 'images' directory of the corresponding package.
 
-## Technical point of view
-
-# Session information
+## Session information
 
 ```{r}
 sessionInfo()
