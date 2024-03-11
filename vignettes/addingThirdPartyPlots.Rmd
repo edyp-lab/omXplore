@@ -5,7 +5,7 @@ author:
 - name: Thomas Burger
 package: omXplore
 abstract: >
-    The package omXplore is able to embed third party plots. This vignette aims to explain how to add an external plot to the main UI of `omXplore`.
+    The package `omXplore` is able to embed third party plots. This vignette aims to explain how to add an external plot to the main UI of `omXplore`.
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
@@ -32,33 +32,71 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library("omXplore")
 ```
 
-## Introduction
+# Introduction
 
-One interesting feature about `omXplore` is the capacity to insert
-custom plots into the collection of vignettes of the Shiny app
-`view_dataset()`.
+An interesting feature about `omXplore` is the capacity to insert custom
+plots into the collection of vignettes of the Shiny app
+`view_dataset()`. This is useful to complete the panel of built-in plots
+of `omXplore` and the main UI (See ?view_dataset).
 
-This is useful to complete the panel of built-in plots of `omXplore` ans
-still use its main UI (See ?view_dataset()).
+This vignette aims to describe how to (i) develop a plot function
+compliant with `omXplore` and (ii) add a new plot in the main app of the
+package `omXplore`.
 
-A new plot can be added if it is: (i) implemented in a R package and
-(ii) loaded in the R global environment. This vignette describes these
-two cases.
+# Develop a plot module for `omXplore`
 
-## Add an existing module
+Any plot function, to be compatible with `omXplore`, must be written as
+a [shiny module](https://shiny.posit.co/r/articles/improve/modules/) to
+allow for better code organisation and re-usability. Let suppose one
+wants to write a plot called "myFirstPlot". As usual, the code of this
+shiny app is divided into two parts:
 
-### From a R package
+-   User interface (UI): function "myFirstPlot_ui()"
+-   Server: function "myFirstPlot_server()"
+
+Moreover, the parameters of these two functions must have the same name
+and class as the built-in plot functions in `omXplore` . For more
+details, see ?extFoo1 which is a simple example of what a generic plot
+function should looks like.
+
+Following Bioconductor's recommendations about [Running shiny
+apps](https://contributions.bioconductor.org/shiny.html#running-app),
+the source code for this plot function should look as follows:
+
+```{r, eval=FALSE}
+myFirstPlot <- function(obj, i) {
+  ui <- myFirstPlot_ui(id)
+  server <- myFirstPlot_server(id, obj, i)
+  app <- shinyApp(ui = ui, server = server)
+}
+```
+
+These three functions (myFirstPlot_ui(), myFirstPlot_server() and
+myFirstPlot()) can be written in the same source code file (e.g.
+myFirstPlot.R)
+
+# Adding an existing module
+
+## From a R package
 
 When one wants to add an external plot from a R package, it is by means
-of the parameter 'addons' of the function `view_dataset()`.
+of the parameter 'addons' of the function `view_dataset()`. This
+parameter is a list structured as follows:
 
-This parameter is a list structured as follows: - the name of each slot
-is the name of a R package in which a plot module is implemented - the
-content of the slot is a vector of modules names
+-   the name of each slot is the name of a R package in which a plot
+    module is implemented,
 
-As an example, the code below is about to add three external plots: plot
-functions "extFoo1" and "extFoo2" from the package "myPkgA" and a plot
-function "extFoo1" from the package "myPkgB".
+-   the content of the slot is a vector of modules names.
+
+
+
+As an example, the code below will add three external plots:
+
+-   package `myPkgA`: the plot functions "extFoo1" and "extFoo2",
+
+-   package `myPkgB`: the plot function "extFoo1".
+
+The corresponding R code is the following:
 
 ```{r eval = FALSE}
 addons <- list(
@@ -68,45 +106,50 @@ addons <- list(
 view_dataset(myData, addons)
 ```
 
-As you may have noticed, it is possible to use identical function names
-for plots from different packages.
+Functions can have same names if they are part of different packages.
 
 With this procedure, it is not necessary to load the entire package in
-order to user the plot module. `omXplore` loads only the necessary code.
+order to user the plot module. `omXplore` loads only the necessary code for the plot fucntions.
 
-### From R console
+**Icon for clickable vignette**
 
-## Developing plot module
+If the plot function is part of a R package, it is possible to store a
+\*.png image that serves as icon for the clickable vignette displayed in
+the (B) area of the main app of `omXplore` (See xxx). For that purpose,
+the file should be stored in the 'images' directory of the corresponding
+package and its name should be the same as the function it refers to.
 
-two points may be considered:
+The global file structure for the plot function of the example is the
+following:
 
--   make a shiny app available in the global R environment
+```         
+MyPackage/
+|-- R/
+|   |-- myFirstPlot.R
+|-- inst/
+|   |-- images/
+|       |-- myFirstPlot.png
+```
 
--   ensure that the name of the two functions `ui()` and `server()` of
-    the app respect a predefined syntax. More specifically, the name of
-    the shiny app is composed by the prefix 'mod_ds\_' (which stands for
-    'descriptive statistics') and a user-defined name. As for each Shiny
-    app, there must be two functions (one for the ui part and the second
-    one for the server part.). Thus, in this example, the shiny app
-    called `foo` must provide the functions `foo_ui()` and
-    `foo_server()`.
+## From R console
 
-In this case, a clickable button is added to the series of vignettes (at
-the top of the right side of the UI). If an image has been correctly
-configured, it is shown in this button.
+If the plot function is written in a R script nor console, the same rules are used to write the three functions described in the previous section. 
 
-The use of those external apps is devoted to its developer, the
-interface of `omXplore` is only a shell that presents apps in a
-user-friendly interface.
+However, there are two important modifications:
 
-To add external app to `omXplore`, please use the global function
-`view_dataset()` as follows. In the example below, one want to add the
-app called `extFoo1` and `extFoo2` from the package `omXplore`. It is
-only for the example, this app contains a simple plot just to
-demonstrate how it works
+-   the name of the three functions must be prefixed by "omXplore_'
 
-If there are icons to display within omXplore, the png images must be
-stored in the 'images' directory of the corresponding package.
+-   so as to let `omXplore` find the plot function, it must already be loaded in the global R environment before running the app `view_dataset()`. Please note that in this case, there is to need to set the parameter "addons".
+
+```{r, eval=FALSE}
+omXplore_mySecondPlot <- function(obj, i) {
+  ui <- omXplore_mySecondPlot_ui(id)
+  server <- omXplore_mySecondPlot_server(id, obj, i)
+  app <- shinyApp(ui = ui, server = server)
+}
+```
+
+
 
 ## Session information
 
