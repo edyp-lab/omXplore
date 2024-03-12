@@ -14,8 +14,10 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   extFoo1(vdata, 1)
-#'   extFoo2(vdata, 1)
+#'   app1 <- extFoo1(vdata, 1)
+#'   app2 <- extFoo2(vdata, 1)
+#'   shiny::runApp(app1)
+#'   shiny::runApp(app2)
 #' }
 #' 
 #' @return NA
@@ -148,7 +150,7 @@ extFoo2_ui <- function(id) {
 extFoo2_server <- function(
     id,
     obj = reactive({NULL}),
-    i = reactive({1})) {
+    i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -156,8 +158,7 @@ extFoo2_server <- function(
       data = NULL
     )
 
-    observe(
-      {
+    observe({
         req(obj())
         obj.cond <- inherits(obj(), "MultiAssayExperiment")
         if (obj.cond) {
@@ -165,8 +166,7 @@ extFoo2_server <- function(
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
-      },
-      priority = 1000
+      }, priority = 1000
     )
 
     output$plot <- renderPlot({

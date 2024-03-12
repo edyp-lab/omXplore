@@ -70,8 +70,8 @@ GetPkgVersion <- function(pkg){
     version <- utils::installed.packages()[ind, 'Version']
     paste0(pkg, "_", version)
   },
-    warning = function(w) cat(w),
-    error = function(e) cat(e)
+    warning = function(w) message(w),
+    error = function(e) message(e)
   )
 }
 

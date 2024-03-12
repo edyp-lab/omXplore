@@ -80,8 +80,8 @@ addModules <- function(addons = list()) {
         directoryPath = system.file('images', package = pkg)
         )
       },
-      warning = function(w) print(w),
-      error = function(e) print(e)
+      warning = function(w) message(w),
+      error = function(e) message(e)
       )
   }
 }

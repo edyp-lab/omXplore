@@ -94,9 +94,11 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 if (interactive()) {
   data(vdata)
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-  view_dataset(vdata, addons)
+  app <- view_dataset(vdata, addons)
+  runApp(app)
   
-  view_dataset(vdata)
+  app <- view_dataset(vdata)
+  runApp(app)
 }
 
 if (interactive()) {

@@ -19,11 +19,11 @@ extFoo1_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  })
 )
 
-extFoo1(obj)
+extFoo1(obj, i)
 
 extFoo2_ui(id)
 
@@ -33,11 +33,11 @@ extFoo2_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  })
 )
 
-extFoo2(obj)
+extFoo2(obj, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
@@ -67,8 +67,10 @@ xxxx
 \examples{
 if (interactive()) {
   data(vdata)
-  extFoo1(vdata, 1)
-  extFoo2(vdata, 1)
+  app1 <- extFoo1(vdata, 1)
+  app2 <- extFoo2(vdata, 1)
+  shiny::runApp(app1)
+  shiny::runApp(app2)
 }
 
 }
