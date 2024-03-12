@@ -165,36 +165,32 @@ module is implemented,</p></li>
 outside the global app function myFirstPlot(). This is because the
 function “view_dataset” cannot use the function myFirstPlot() and it
 must use the two functions myFirstPlot_ui(), myFirstPlot_server().</p>
-<p>Thus, the following situation will not work:</p>
+<p>Thus, the following code <strong>will not work</strong>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFirstPlot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
-<span>  <span class="va">....</span></span>
+<span>  <span class="va">...</span></span>
 <span>  <span class="op">}</span></span>
 <span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, </span>
 <span>    <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">ns</span> <span class="op">&lt;-</span> <span class="va">session</span><span class="op">$</span><span class="va">ns</span></span>
-<span>    <span class="va">....</span></span>
+<span>    <span class="va">...</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span>  </span>
 <span>  <span class="va">app</span> <span class="op">&lt;-</span> <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>The right manner is the following:</p>
+<p>A functional code is as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFirstPlot_ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
-<span>  <span class="va">....</span></span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span></span>
 <span><span class="va">myFirstPlot_server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, </span>
 <span>    <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">ns</span> <span class="op">&lt;-</span> <span class="va">session</span><span class="op">$</span><span class="va">ns</span></span>
-<span>    <span class="va">....</span></span>
+<span>    <span class="va">...</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
