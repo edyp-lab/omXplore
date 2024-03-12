@@ -167,5 +167,5 @@ colorLegend <- function(obj = SummarizedExperiment::SummarizedExperiment()) {
     colorLegend_server("plot3", tags)
   }
 
-  shinyApp(ui, server)
+  app <- shinyApp(ui, server)
 }

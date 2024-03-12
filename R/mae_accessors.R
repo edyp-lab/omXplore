@@ -6,7 +6,7 @@
 #' @name accessors
 #'
 #' @importFrom SummarizedExperiment rowData colData assays 
-#' @import methods
+#' @importFrom methods setGeneric setMethod
 #'
 #' @return If exists, the slot value requested.
 #' @examples

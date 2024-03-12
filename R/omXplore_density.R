@@ -226,5 +226,5 @@ omXplore_density <- function(obj, i) {
     
   }
 
-  shinyApp(ui, server)
+  app <- shinyApp(ui, server)
 }

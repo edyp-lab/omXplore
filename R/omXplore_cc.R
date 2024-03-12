@@ -803,5 +803,5 @@ omXplore_cc <- function(obj, i) {
       i = reactive({i}))
   }
 
-  shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 }

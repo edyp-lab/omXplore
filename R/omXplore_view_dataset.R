@@ -67,9 +67,11 @@
 #' if (interactive()) {
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   view_dataset(vdata, addons)
+#'   app <- view_dataset(vdata, addons)
+#'   runApp(app)
 #'   
-#'   view_dataset(vdata)
+#'   app <- view_dataset(vdata)
+#'   runApp(app)
 #' }
 #' 
 #' @return NA
@@ -105,7 +107,9 @@ view_dataset_ui <- function(id) {
       ),
       fluidRow(
         column(3, div(style = globals()$general_style,
-          uiOutput(ns("chooseDataset_ui"))
+          wellPanel(
+            uiOutput(ns("chooseDataset_ui"))
+          )
         )),
         column(9, div(style = globals()$general_style,
           shinyjs::hidden(uiOutput(ns("ShowPlots_ui"))),
@@ -232,13 +236,27 @@ view_dataset_server <- function(
     observeEvent(GetVignettesBtns(), ignoreInit = TRUE, {
       req(rv$ll.mods)
       req(!use.modal)
+      
+      # Which vignette has been clicked
       clicked <- which(rv$btns.history != GetVignettesBtns())
+      
+      # Show the corresponding plot
       shinyjs::show(paste0("div_", rv$ll.mods[clicked], "_large"))
+      shinyjs::runjs(paste0('document.getElementById("',
+        ns(rv$ll.mods[clicked]), '").style.backgroundColor = "lightgrey";'))
+      
+      
+      # hide the other ones
       lapply(rv$ll.mods[-clicked], function(y) {
         shinyjs::hide(paste0("div_", y, "_large"))
+        shinyjs::runjs(paste0('document.getElementById("',
+          ns(y), '").style.backgroundColor = "white";'))
         })
+      
       rv$btns.history <- GetVignettesBtns()
       })
+    
+    
     
     GetVignettesBtns <- reactive({
       req(rv$ll.mods)
@@ -275,7 +293,8 @@ view_dataset_server <- function(
             tags$img(src = FindImgSrc(x), height = "50px")
             ),
             style = "padding: 0px; border: none;
-          background-size: cover; background-position: center;"
+          background-size: cover; background-position: center;
+          background-color: white;"
           )
         })
       )
@@ -290,7 +309,9 @@ view_dataset_server <- function(
 
       wellPanel(style = "height: 120px; overflow-y: scroll;",
         lapply(rv$ll.mods, function(x) {
-        shinyjqui::jqui_resizable(paste0("#", ns(paste0("window_", x)), " .modal-content"))
+        shinyjqui::jqui_resizable(
+          paste0("#", ns(paste0("window_", x)), " .modal-content")
+          )
         
         tagList(
           actionButton(
@@ -300,7 +321,8 @@ view_dataset_server <- function(
               tags$img(src = FindImgSrc(x), height = "50px")
             ),
             style = "padding: 5px; border: none;
-              background-size: cover; background-position: center;"
+              background-size: cover; background-position: center;
+            background-color: white;"
           ),
           shinyBS::bsModal(ns(paste0("window_", x)),
             title = x,
@@ -340,12 +362,7 @@ view_dataset_server <- function(
       }
     })
 
-   
 
-    # # Update current.se variable
-    # observeEvent(req(rv$data, input$chooseDataset), ignoreNULL = TRUE, {
-    #   rv$current.se <- rv$data[[input$chooseDataset]]
-    # })
 
     output$chooseDataset_ui <- renderUI({
       req(rv$data)
@@ -399,5 +416,5 @@ view_dataset <- function(
     )
   }
 
-  shinyApp(ui, server)
+  app <- shinyApp(ui, server)
 }

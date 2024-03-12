@@ -275,5 +275,5 @@ plots_tracking <- function(obj, i) {
     )
   }
 
-  shinyApp(ui, server)
+  app <- shinyApp(ui, server)
 }

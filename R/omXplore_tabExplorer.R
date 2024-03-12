@@ -317,5 +317,5 @@ omXplore_tabExplorer <- function(obj, i) {
       i = reactive({i}))
   }
 
-  shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 }

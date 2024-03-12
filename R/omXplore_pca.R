@@ -284,5 +284,5 @@ omXplore_pca <- function(obj, i) {
       obj = reactive({obj}),
       i = reactive({i}))
   }
-  shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 }

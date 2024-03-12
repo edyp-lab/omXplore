@@ -184,5 +184,5 @@ omXplore_intensity <- function(
   }
 
 
-  shinyApp(ui = ui, server = server)
+  app <- shinyApp(ui = ui, server = server)
 }

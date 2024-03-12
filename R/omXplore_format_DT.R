@@ -250,5 +250,5 @@ formatDT <- function(obj) {
     )
   }
 
-  shinyApp(ui, server)
+  app <- shinyApp(ui, server)
 }
