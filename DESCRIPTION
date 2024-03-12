@@ -24,7 +24,7 @@ Description: This package contains a collection of functions (shiny modules)
     interface of the package omXplore.
 License: Artistic-2.0
 Depends:
-    R (>= 4.4.0), methods
+    R (>= 4.3.0), methods
 Imports:
     shiny, 
     MSnbase,
