@@ -90,19 +90,17 @@ parameter is a list structured as follows:
 
 It is necessary that the functions \*_ui() and \*_server are defined outside the global app function myFirstPlot(). This is because the function "view_dataset" cannot use the function myFirstPlot() and it must use the two functions myFirstPlot_ui(), myFirstPlot_server().
 
-Thus, the following situation will not work:
+Thus, the following code **will not work**:
 
 ```{r, eval=FALSE}
 myFirstPlot <- function(obj, i) {
   ui <- function(id) {
-  ns <- NS(id)
-  ....
+  ...
   }
   server <- function(id, obj, i) {
   moduleServer(id, 
     function(input, output, session) {
-    ns <- session$ns
-    ....
+    ...
   })
   }
   
@@ -111,19 +109,17 @@ myFirstPlot <- function(obj, i) {
 ```
 
 
-The right manner is the following:
+A functional code is as follows:
 ```{r, eval=FALSE}
 myFirstPlot_ui <- function(id) {
-  ns <- NS(id)
-  ....
+  ...
 }
 
 
 myFirstPlot_server <- function(id, obj, i) {
   moduleServer(id, 
     function(input, output, session) {
-    ns <- session$ns
-    ....
+    ...
   })
 }
 
