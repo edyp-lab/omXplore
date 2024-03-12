@@ -1,4 +1,4 @@
 library(omXplore)
 
-data(vData_ft)
-plots_tracking(vData_ft[[1]])
+data(vdata)
+shiny::runApp(plots_tracking(vdata, 1))

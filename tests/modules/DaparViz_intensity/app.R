@@ -1,4 +1,4 @@
 library(omXplore)
 
-data(vData_ft)
-omXplore_intensity(vData_ft[[1]])
+data(vdata)
+shiny::runApp(omXplore_intensity(vdata, 1))

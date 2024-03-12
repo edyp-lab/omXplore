@@ -1,4 +1,4 @@
 library(omXplore)
 
-data(vData_ft)
-omXplore_heatmap(vData_ft[[1]])
+data(vdata)
+shiny::runApp(omXplore_heatmap(vdata, 1))

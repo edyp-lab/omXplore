@@ -1,6 +1,5 @@
 library(omXplore)
 
-data(vData_ft)
+data(vdata)
 # Replace missing values for the example
-vData_ft[[1]]@qdata[which(is.na(vData_ft[[1]]@qdata))] <- 0
-omXplore_pca(vData_ft[[1]])
+shiny::runApp(omXplore_pca(vdata, 1))

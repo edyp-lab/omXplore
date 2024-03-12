@@ -1,5 +1,5 @@
 library(omXplore)
 
-data(vData_ft)
+data(vdata)
 # addon <- list(DaparToolshed=c('omXplore_metacell'))
-view_dataset(vData_ft[[1]])
+shiny::runApp(view_dataset(vdata, 1))
