@@ -1,0 +1,5 @@
+- name: Upload coverage reports to Codecov
+  uses: codecov/codecov-action@v4.0.1
+  with:
+    token: ${{ d34c1c4f-6769-4236-880b-944b8bf45789 }}
+    slug: prostarproteomics/omXplore
