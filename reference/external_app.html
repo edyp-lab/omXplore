@@ -69,6 +69,9 @@ numeric matrix.</h1>
 <span>  <span class="va">id</span>,</span>
 <span>  obj <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
+<span> <span class="op">}</span><span class="op">)</span>,</span>
+<span>  i <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>     <span class="fl">1</span></span>
 <span> <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -80,6 +83,9 @@ numeric matrix.</h1>
 <span>  <span class="va">id</span>,</span>
 <span>  obj <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
+<span> <span class="op">}</span><span class="op">)</span>,</span>
+<span>  i <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>     <span class="fl">1</span></span>
 <span> <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -93,8 +99,11 @@ numeric matrix.</h1>
 
 
 <dt>obj</dt>
-<dd><p>An object of instance compliant with formats in
-<code>FormatAvailables()</code>.</p></dd>
+<dd><p>An object of instance <code>MultiAssayExperiment</code></p></dd>
+
+
+<dt>i</dt>
+<dd><p>xxx</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -126,8 +135,8 @@ numeric matrix.</h1>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">vdata</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">extFoo1</span><span class="op">(</span><span class="va">vdata</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">extFoo2</span><span class="op">(</span><span class="va">vdata</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">extFoo1</span><span class="op">(</span><span class="va">vdata</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">extFoo2</span><span class="op">(</span><span class="va">vdata</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
