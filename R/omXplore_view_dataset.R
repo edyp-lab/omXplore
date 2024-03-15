@@ -44,7 +44,7 @@
 #'
 #' @param id A `character(1)` for the 'id' of the shiny module. It must be
 #' the same as for the '*_ui' function.
-#' @param obj An instance of the class `VizList`.
+#' @param obj An instance of the class `MultiAssayExperiment`.
 #' @param addons A `list` to configure the other shiny apps to integrate.
 #' Each item correspond to one package:
 #' * the name of the slot is the name of the package
@@ -58,6 +58,7 @@
 #' @param height xxx
 #' @param use.modal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
+#' @param verbose A boolean for verbose mode. Default is FALSE.
 #' 
 #' 
 #' 
@@ -102,6 +103,7 @@ view_dataset_ui <- function(id) {
   tagList(
     shinyjs::useShinyjs(),
     fluidPage(
+      h3('View dataset'),
       shinyjs::hidden(
         div(id = ns("badFormatMsg"), p("Dataset in not in correct format."))
       ),
@@ -146,7 +148,8 @@ view_dataset_server <- function(
     addons = list(),
     width = 40,
     height = 40,
-    use.modal = TRUE) {
+    use.modal = TRUE,
+    verbose = FALSE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -209,24 +212,34 @@ view_dataset_server <- function(
     
     observe({
       req(obj())
-        
-        inherits_VizList <- inherits(obj(), "MultiAssayExperiment")
-        if (inherits_VizList) {
-          rv$data <- obj()
-          conds <- get_group(rv$data[1])
 
-          # Load external modules
-          addModules(addons)
+        inherits_mae <- inherits(obj(), "MultiAssayExperiment")
+        tryCatch({
+          rv$data <- convert_to_mae(obj())
+          conds <- get_group(rv$data[1])
           
-          rv$ll.mods <- listPlotModules()
+          # Load external modules
+          omXplore::addModules(addons)
+          
+          rv$ll.mods <- omXplore::listPlotModules()
+          #if (verbose)
+          print(rv$ll.mods)
           
           shinyjs::toggle("ShowPlots_ui", condition = use.modal)
           shinyjs::toggle("ShowPlots2_ui", condition = !use.modal)
           shinyjs::toggle("ShowVignettes_ui", condition = !use.modal)
-          
-        } else {
-          shinyjs::toggle("badFormatMsg", condition = !inherits_VizList)
-        }
+        },
+          warning = function(w) {
+            w
+            rv$data <- NULL
+            shinyjs::toggle("badFormatMsg", condition = TRUE)
+            },
+          error = function(e) {
+            e
+            rv$data <- NULL
+            shinyjs::toggle("badFormatMsg", condition = TRUE)
+            }
+          )
       },
       priority = 1000
     )

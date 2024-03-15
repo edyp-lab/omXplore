@@ -1,9 +1,3 @@
-# pkgdown 1.1.0
+# omXplore 0.99.1
 
-## Bug Fixes
-
-* Lots of them
-
-# pkgdown 1.0.0
-
-* This is the first release of pkgdown.
+* This is the first release of omXplore.

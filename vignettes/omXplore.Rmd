@@ -26,7 +26,7 @@ BiocStyle::markdown()
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r env, message = FALSE, warning = FALSE, echo = FALSE}
+```{r env}
 library("omXplore")
 ```
 
