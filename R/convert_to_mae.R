@@ -68,7 +68,8 @@ convert_to_mae <- function(obj){
 #' 
 MSnSet_to_mae <- function(obj){
 
-  .colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(exprs(obj))), 
+  .colData <- MultiAssayExperiment::DataFrame(
+    group = seq(ncol(exprs(obj))), 
     row.names = colnames(exprs(obj)))
   
   
@@ -374,7 +375,7 @@ stopifnot(inherits(obj, 'MSnSet'))
   
   
   .colID <- tryCatch({
-    experimentData(obj)@other$keyid
+    experimentData(obj)@other$keyId
   }, warning = function(w) NA,
     error = function(e) NA
   )
