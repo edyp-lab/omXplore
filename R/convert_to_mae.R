@@ -65,12 +65,14 @@ convert_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom Biobase exprs 
 #' 
 MSnSet_to_mae <- function(obj){
 
+  mae <- tryCatch({
   .colData <- MultiAssayExperiment::DataFrame(
-    group = seq(ncol(exprs(obj))), 
-    row.names = colnames(exprs(obj)))
+    group = seq(ncol(MSnbase::exprs(obj))), 
+    row.names = colnames(MSnbase::exprs(obj)))
   
   
   mae <- MultiAssayExperiment::MultiAssayExperiment(
@@ -78,9 +80,16 @@ MSnSet_to_mae <- function(obj){
     colData = .colData,
     metadata = list(other = list())
   )
-  
   mae <- MAE_Compatibility_with_Prostar_1x(obj, mae)
-  
+  mae
+  },
+    warning  = function(w) {
+      print(w)
+      NULL},
+    error = function(e){
+      print(e)
+      NULL}
+  )
   
   mae
    
@@ -329,7 +338,8 @@ listOfSE_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return A `boolean(1)`
-#' @importFrom MSnbase exprs pData
+#' @importFrom MSnbase exprs pData fData
+#' 
 Check_MSnSet_Consistency <- function(obj){
   stopifnot(is.listOf(obj, 'MSnSet'))
   
@@ -349,9 +359,9 @@ Check_MSnSet_Consistency <- function(obj){
   for (i in seq(length(obj)-1)){
     test1 <- obj[[i]]
     test2 <- obj[[i+1]]
-    passed <- passed && identical(pData(test1), pData(test2))
+    passed <- passed && identical(MSnbase::pData(test1), MSnbase::pData(test2))
     #passed <- passed && identical(rownames(exprs(test1)), rownames(fData(test2)))
-    passed <- passed && identical(colnames(exprs(test1)), rownames(pData(test2)))
+    passed <- passed && identical(colnames(MSnbase::exprs(test1)), rownames(MSnbase::pData(test2)))
     #passed <- passed && identical(rownames(exprs(test1)), rownames(exprs(test2)))
     
   }
@@ -403,14 +413,14 @@ stopifnot(inherits(obj, 'MSnSet'))
     colID = .colID,
     proteinID = .proteinID,
     cc = list(),
-    conds = pData(obj)[,'Condition']
+    conds = MSnbase::pData(obj)[,'Condition']
   )
   
   # Builds the SE corresponding to MSnSet 
   se <- SummarizedExperiment::SummarizedExperiment(
-    assays = exprs(obj),
+    assays = MSnbase::exprs(obj),
     metadata = se.meta,
-    rowData = fData(obj)
+    rowData = MSnbase::fData(obj)
   )
   
   # If the MSnSet has been created with Prostar_1.x
@@ -464,8 +474,9 @@ listOfMSnSet_to_mae <- function(obj){
   
   names(ll.se) <- names(obj)
 
-  .colData <- MultiAssayExperiment::DataFrame(group = seq(ncol(exprs(obj[[1]]))), 
-    row.names = colnames(exprs(obj[[1]])))
+  .colData <- MultiAssayExperiment::DataFrame(
+    group = seq(ncol(MSnbase::roxygexprs(obj[[1]]))), 
+    row.names = colnames(MSnbase::exprs(obj[[1]])))
   
   MultiAssayExperiment::MultiAssayExperiment(
     experiments = MultiAssayExperiment::ExperimentList(ll.se),

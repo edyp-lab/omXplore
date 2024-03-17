@@ -22,6 +22,7 @@ NULL
 #' @rdname Prostar-1x-compatible
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
+#' @importFrom Biobase exprs pData fData
 #' 
 SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
@@ -30,9 +31,9 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   # If exists, remove them from rowData and stores it
   #  as a DataFrame
   tryCatch({
-    ind.metacell <- grep('metacell_', colnames(fData(obj)))
-    .metacell <- DataFrame(fData(obj)[, ind.metacell])
+    ind.metacell <- grep('metacell_', colnames(MSnbase::fData(obj)))
     if (length(ind.metacell) > 0){
+      .metacell <- DataFrame(MSnbase::fData(obj)[, ind.metacell])
       SummarizedExperiment::rowData(se) <- SummarizedExperiment::rowData(se)[, -ind.metacell]
       SummarizedExperiment::rowData(se)[['metacell']] <- .metacell
     }
@@ -99,7 +100,7 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
   
   tryCatch({
-    SummarizedExperiment::colData(se)['group'] <- pData(obj)$Condition
+    SummarizedExperiment::colData(se)['group'] <- MSnbase::pData(obj)$Condition
   },
     warning = function(w) MultiAssayExperiment::DataFrame(),
     error = function(e) MultiAssayExperiment::DataFrame()

@@ -72,7 +72,7 @@
 #'   runApp(app)
 #'   
 #'   app <- view_dataset(vdata)
-#'   runApp(app)
+#'   runApp(view_dataset(vdata))
 #' }
 #' 
 #' @return NA

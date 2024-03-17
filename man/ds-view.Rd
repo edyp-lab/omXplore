@@ -17,11 +17,11 @@ view_dataset_server(
   addons = list(),
   width = 40,
   height = 40,
-  use.modal = TRUE,
+  useModal = TRUE,
   verbose = FALSE
 )
 
-view_dataset(obj = NULL, addons = NULL, use.modal = TRUE)
+view_dataset(obj = NULL, addons = NULL, useModal = TRUE)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
@@ -45,7 +45,7 @@ foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 
 \item{height}{xxx}
 
-\item{use.modal}{A \code{boolean(1)} that indicates whether to open plot modules
+\item{useModal}{A \code{boolean(1)} that indicates whether to open plot modules
 in a modal window or not. Default is TRUE.}
 
 \item{verbose}{A boolean for verbose mode. Default is FALSE.}
@@ -101,7 +101,7 @@ if (interactive()) {
   runApp(app)
   
   app <- view_dataset(vdata)
-  runApp(app)
+  runApp(view_dataset(vdata))
 }
 
 if (interactive()) {
