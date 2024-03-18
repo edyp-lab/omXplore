@@ -14,7 +14,7 @@ data(ft)
 #
 #
 # test_that("getIndicesConditions", {
-#     labels <- Biobase::pData(Exp1_R2_pept)[,"Condition"]
+#     labels <- MSnbase::pData(Exp1_R2_pept)[,"Condition"]
 #     l <- list(iCond1=c(1,2,3), iCond2=c(4,5,6))
 #     expect_equal(getIndicesConditions(labels, "10fmol", "5fmol"), l)
 # })

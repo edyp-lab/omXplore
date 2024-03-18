@@ -65,7 +65,7 @@ convert_to_mae <- function(obj){
 #' @export
 #' @rdname converters
 #' @return An enriched instance of the class `MultiAssayExperiment`
-#' @importFrom Biobase exprs 
+#' @importFrom MSnbase exprs 
 #' 
 MSnSet_to_mae <- function(obj){
 

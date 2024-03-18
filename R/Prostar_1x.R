@@ -22,7 +22,7 @@ NULL
 #' @rdname Prostar-1x-compatible
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
-#' @importFrom Biobase exprs pData fData
+#' @importFrom MSnbase exprs pData fData
 #' 
 SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   

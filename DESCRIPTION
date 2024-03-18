@@ -17,11 +17,12 @@ Authors@R:
     email = "enora.fremy@cea.fr", 
     role = c("ctb"))
     )
-Description: This package contains a collection of functions (shiny modules) 
-    for the visualisation and the statistical analysis of omics data. These
-    plots can be displayed individually or embedded in a global Shiny module.
-    Additionaly, it is possible to integrate external shiny modules to the main
-    interface of the package omXplore.
+Description: This package contains a collection of functions (written as
+   shiny modules) for the visualisation and the statistical analysis of omics 
+   data. These plots can be displayed individually or embedded in a global 
+   Shiny module.
+   Additionaly, it is possible to integrate third party modules to the main
+   interface of the package omXplore.
 License: Artistic-2.0
 Depends:
     R (>= 4.3.0), methods
@@ -60,8 +61,10 @@ Suggests:
     graph
 biocViews: 
     Software,
-    Proteomics,
+    ShinyApps,
     MassSpectrometry,
+    DataRepresentation,
+    GUI,
     QualityControl
 NeedsCompilation: no
 Collate:
