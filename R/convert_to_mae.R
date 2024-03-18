@@ -69,7 +69,8 @@ convert_to_mae <- function(obj){
 #' 
 MSnSet_to_mae <- function(obj){
 
-  mae <- tryCatch({
+  mae <- NULL
+  tryCatch({
   .colData <- MultiAssayExperiment::DataFrame(
     group = seq(ncol(MSnbase::exprs(obj))), 
     row.names = colnames(MSnbase::exprs(obj)))
@@ -81,7 +82,7 @@ MSnSet_to_mae <- function(obj){
     metadata = list(other = list())
   )
   mae <- MAE_Compatibility_with_Prostar_1x(obj, mae)
-  mae
+
   },
     warning  = function(w) {
       print(w)
@@ -383,31 +384,51 @@ MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))
   
   .proteinID <- tryCatch({
-    experimentData(obj)@other$proteinId
-  }, warning = function(w) NA,
-    error = function(e) NA
+    obj@experimentData@other$proteinId
+  }, warning = function(w) {
+    print(w)
+    NA},
+    error = function(e) {
+      print(e)
+      NA
+    }
   )
   
   
   .colID <- tryCatch({
-    experimentData(obj)@other$keyId
-  }, warning = function(w) NA,
-    error = function(e) NA
+    obj@experimentData@other$keyId
+  }, warning = function(w) {
+    print(w)
+    NA},
+    error = function(e) {
+      print(e)
+      NA
+    }
   )
   
   
   # If exists, extracts type of dataset info
   .type <- tryCatch({
-    experimentData(obj)@other$typeOfData
-  }, warning = function(w) NA,
-    error = function(e) NA
+    obj@experimentData@other$typeOfData
+  }, warning = function(w) {
+    print(w)
+    NA},
+    error = function(e) {
+      print(e)
+      NA
+    }
   )
   
   
   .pkg_version <- tryCatch({
-    experimentData(obj)@other$Prostar_Version
-  }, warning = function(w) NA,
-    error = function(e) NA
+    obj@experimentData@other$Prostar_Version
+  }, warning = function(w) {
+    print(w)
+    NA},
+    error = function(e) {
+      print(e)
+      NA
+    }
   )
 
   

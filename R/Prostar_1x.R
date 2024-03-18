@@ -23,6 +23,8 @@ NULL
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
 #' @importFrom MSnbase exprs pData fData
+#' @importFrom MultiAssayExperiment DataFrame
+#' @importFrom SummarizedExperiment rowData 
 #' 
 SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
@@ -33,13 +35,19 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   tryCatch({
     ind.metacell <- grep('metacell_', colnames(MSnbase::fData(obj)))
     if (length(ind.metacell) > 0){
-      .metacell <- DataFrame(MSnbase::fData(obj)[, ind.metacell])
+      .metacell <- MultiAssayExperiment::DataFrame(MSnbase::fData(obj)[, ind.metacell])
       SummarizedExperiment::rowData(se) <- SummarizedExperiment::rowData(se)[, -ind.metacell]
       SummarizedExperiment::rowData(se)[['metacell']] <- .metacell
     }
   },
-    warning = function(w) MultiAssayExperiment::DataFrame(),
-    error = function(e) MultiAssayExperiment::DataFrame()
+    warning = function(w){
+      print(w)
+      MultiAssayExperiment::DataFrame()
+      },
+    error = function(e){
+      print(e)
+      MultiAssayExperiment::DataFrame()
+    }
   )
   
   

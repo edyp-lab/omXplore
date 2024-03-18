@@ -107,10 +107,10 @@ setMethod("get_metacell", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        data.frame()},
       error = function(e) {
         message(e)
-        NULL}
+        data.frame()}
     )
   }
   )
@@ -137,10 +137,10 @@ setMethod("get_cc", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        list()},
       error = function(e) {
         message(e)
-        NULL}
+        list()}
     )
   }
 )
@@ -166,10 +166,10 @@ setMethod("get_proteinID", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        ''},
       error = function(e) {
         message(e)
-        NULL}
+        ''}
     )
   }
 )
@@ -196,10 +196,10 @@ setMethod("get_colID", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        ''},
       error = function(e) {
         message(e)
-        NULL}
+        ''}
     )
   }
 )
@@ -226,10 +226,10 @@ setMethod("get_type", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        ''},
       error = function(e) {
         message(e)
-        NULL}
+        ''}
     )
   }
 )
@@ -256,10 +256,10 @@ setMethod("get_pkg_version", signature = "SummarizedExperiment",
       },
       warning = function(w) {
         message(w)
-        NULL},
+        ''},
       error = function(e) {
         message(e)
-        NULL}
+        ''}
     )
   }
 )
