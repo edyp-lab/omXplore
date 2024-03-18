@@ -36,7 +36,7 @@ NULL
 convert_to_mae <- function(obj){
   
   converted.obj <- NULL
-  
+  #browser()
   if (inherits(obj, "list")){
     if (is.listOf(obj, "MSnSet"))
       converted.obj <- listOfMSnSet_to_mae(obj)
@@ -56,7 +56,7 @@ convert_to_mae <- function(obj){
     converted.obj <- MAE_to_mae(obj)
   }
 
-  converted.obj
+  return(converted.obj)
 }
 
 
@@ -91,7 +91,7 @@ MSnSet_to_mae <- function(obj){
       NULL}
   )
   
-  mae
+  return(mae)
    
 }
 
@@ -120,7 +120,7 @@ Compute_CC <- function(obj){
     cc <- PSMatch::ConnectedComponents(X)@adjMatrices
   }
   
-  cc
+  return(cc)
 }
 
 #' @export
@@ -144,10 +144,12 @@ QFeatures_to_mae <- function(obj){
 SE_to_mae <- function(obj){
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
-  MultiAssayExperiment::MultiAssayExperiment(
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
     experiments = MultiAssayExperiment::ExperimentList(original = obj),
     metadata = list(other = list())
   )
+  
+  return(mae)
 }
 
 
@@ -158,7 +160,7 @@ SE_to_mae <- function(obj){
 MAE_to_mae <- function(obj){
   stopifnot(inherits(obj, 'MultiAssayExperiment'))
   
-  obj
+  return(obj)
 }
 
 
@@ -253,7 +255,7 @@ list_to_se <- function(ll){
   
   se <- Build_X_CC(se)
   
-  se
+  return(se)
 }
 
 
@@ -276,7 +278,7 @@ Check_List_consistency <- function(ll){
     
   }
 
-  passed
+  return(passed)
 }
 
 
@@ -305,12 +307,13 @@ listOfLists_to_mae <- function(obj, colData = NULL){
     row.names = colnames(.assay1))
   }
   
-  MultiAssayExperiment::MultiAssayExperiment(
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
     experiments = MultiAssayExperiment::ExperimentList(ll.se),
     colData = colData,
     metadata = list(other = list())
   )
 
+  return(mae)
   
 }
 
@@ -327,11 +330,13 @@ listOfSE_to_mae <- function(obj){
   if(length(names(obj) != length(obj)))
     names(obj) <- paste0('original_', seq.int(length(obj)))
   
-  MultiAssayExperiment::MultiAssayExperiment(
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
     experiments = obj,
     colData = MultiAssayExperiment::DataFrame(),
     metadata = list(other = list())
   )
+  
+  return(mae)
 }
 
 
@@ -429,7 +434,7 @@ stopifnot(inherits(obj, 'MSnSet'))
   
   se <- Build_X_CC(se)
   
-  se
+  return(se)
   
 }
 
@@ -442,7 +447,7 @@ stopifnot(inherits(obj, 'MSnSet'))
 Build_X_CC <- function(se){
   
   original.se <- se
-  tryCatch({
+  res <- tryCatch({
     X <- PSMatch::makeAdjacencyMatrix((
       SummarizedExperiment::rowData(se))[, get_proteinID(se)])
     rownames(X) <- rownames(
@@ -457,6 +462,8 @@ Build_X_CC <- function(se){
     error = function(e) original.se
   )
   
+  
+  return(res)
 }
 
 #' @export
@@ -478,11 +485,13 @@ listOfMSnSet_to_mae <- function(obj){
     group = seq(ncol(MSnbase::roxygexprs(obj[[1]]))), 
     row.names = colnames(MSnbase::exprs(obj[[1]])))
   
-  MultiAssayExperiment::MultiAssayExperiment(
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
     experiments = MultiAssayExperiment::ExperimentList(ll.se),
     colData = .colData,
     metadata = list(other = list())
   )
+  
+  return(mae)
   
 }
 
