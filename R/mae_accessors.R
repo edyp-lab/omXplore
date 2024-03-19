@@ -74,12 +74,8 @@ setMethod("get_group", signature = "MultiAssayExperiment",
       {
         MultiAssayExperiment::colData(object)$group
       },
-      warning = function(w) {
-        message(w)
-        NULL},
-      error = function(e) {
-        message(e)
-        NULL}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )
@@ -105,12 +101,8 @@ setMethod("get_metacell", signature = "SummarizedExperiment",
       {
         as.data.frame(SummarizedExperiment::rowData(object)[, 'metacell'])
       },
-      warning = function(w) {
-        message(w)
-        data.frame()},
-      error = function(e) {
-        message(e)
-        data.frame()}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
   )
@@ -135,12 +127,8 @@ setMethod("get_cc", signature = "SummarizedExperiment",
       {
         MultiAssayExperiment::metadata(object)$cc
       },
-      warning = function(w) {
-        message(w)
-        list()},
-      error = function(e) {
-        message(e)
-        list()}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )
@@ -164,12 +152,8 @@ setMethod("get_proteinID", signature = "SummarizedExperiment",
       {
         MultiAssayExperiment::metadata(object)$proteinID
       },
-      warning = function(w) {
-        message(w)
-        ''},
-      error = function(e) {
-        message(e)
-        ''}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )
@@ -194,12 +178,8 @@ setMethod("get_colID", signature = "SummarizedExperiment",
       {
         MultiAssayExperiment::metadata(object)$colID
       },
-      warning = function(w) {
-        message(w)
-        ''},
-      error = function(e) {
-        message(e)
-        ''}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )
@@ -224,12 +204,8 @@ setMethod("get_type", signature = "SummarizedExperiment",
       {
         MultiAssayExperiment::metadata(object)$type
       },
-      warning = function(w) {
-        message(w)
-        ''},
-      error = function(e) {
-        message(e)
-        ''}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )
@@ -254,12 +230,8 @@ setMethod("get_pkg_version", signature = "SummarizedExperiment",
       {
         MultiAssayExperiment::metadata(object)$pkg_version
       },
-      warning = function(w) {
-        message(w)
-        ''},
-      error = function(e) {
-        message(e)
-        ''}
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
     )
   }
 )

@@ -44,6 +44,10 @@ convert_to_mae <- function(obj){
     converted.obj <- listOfSE_to_mae(obj)
     else if (is.listOf(obj, "list"))
       converted.obj <- listOfLists_to_mae(obj)
+    else if (is.listOf(obj, "matrix"))
+      converted.obj <- listOfmatrix_to_mae(obj)
+    else if (is.listOf(obj, "data.frame"))
+      converted.obj <- listOfdf_to_mae(obj)
   } else {
     # Obj is a single MSnSet
   if (inherits(obj, "MSnSet"))
@@ -54,6 +58,10 @@ convert_to_mae <- function(obj){
     converted.obj <- list(SE_to_mae(obj)) 
   else if (inherits(obj, "MultiAssayExperiment"))
     converted.obj <- MAE_to_mae(obj)
+  else if (inherits(obj, "matrix"))
+    converted.obj <- matrix_to_mae(obj)
+  else if (inherits(obj, "data.frame"))
+    converted.obj <- df_to_mae(obj)
   }
 
   return(converted.obj)
@@ -69,20 +77,19 @@ convert_to_mae <- function(obj){
 #' 
 MSnSet_to_mae <- function(obj){
 
-  mae <- NULL
-  tryCatch({
+  mae <- tryCatch({
   .colData <- MultiAssayExperiment::DataFrame(
     group = seq(ncol(MSnbase::exprs(obj))), 
     row.names = colnames(MSnbase::exprs(obj)))
-  
+
   
   mae <- MultiAssayExperiment::MultiAssayExperiment(
     experiments = MultiAssayExperiment::ExperimentList(original = MSnSet_to_se(obj)),
     colData = .colData,
     metadata = list(other = list())
   )
-  mae <- MAE_Compatibility_with_Prostar_1x(obj, mae)
-
+  
+  MAE_Compatibility_with_Prostar_1x(obj, mae)
   },
     warning  = function(w) {
       print(w)
@@ -96,6 +103,56 @@ MSnSet_to_mae <- function(obj){
    
 }
 
+
+#' @export
+#' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' 
+matrix_to_mae <- function(obj){
+  
+  mae <- tryCatch({
+    .colData <- MultiAssayExperiment::DataFrame(
+      group = seq(ncol(obj)), 
+      row.names = colnames(obj))
+    
+    
+    MultiAssayExperiment::MultiAssayExperiment(
+      experiments = MultiAssayExperiment::ExperimentList(original = matrix_to_se(obj)),
+      colData = .colData,
+      metadata = list(other = list())
+    )
+  },
+    warning  = function(w) {
+      print(w)
+      NULL},
+    error = function(e){
+      print(e)
+      NULL}
+  )
+  
+  return(mae)
+  
+}
+
+
+#' @export
+#' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' 
+df_to_mae <- function(obj){
+  
+  mae <- tryCatch({
+    matrix_to_mae(as.matrix(obj))
+  },
+    warning  = function(w) {
+      print(w)
+      NULL},
+    error = function(e){
+      print(e)
+      NULL}
+  )
+  return(mae)
+}
 
 
 #' @rdname converters
@@ -376,6 +433,64 @@ return(passed)
 }
 
 
+
+
+#' @rdname converters
+#' @export
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' 
+matrix_to_se <- function(obj){
+  stopifnot(inherits(obj, 'matrix'))
+
+  # Prebuild metadata info for SE
+  se.meta <- list(
+    pkg_version = '',
+    type = '',
+    colID = '',
+    proteinID = '',
+    cc = list(),
+    conds = colnames(obj)
+  )
+  
+  # Builds the SE corresponding to MSnSet 
+  se <- SummarizedExperiment::SummarizedExperiment(
+    assays = obj,
+    metadata = se.meta,
+    rowData = DataFrame(row.names = rownames(obj))
+  )
+  
+  return(se)
+}
+
+
+#' @rdname converters
+#' @export
+#' @return An enriched instance of the class `SummarizedExperiment`
+#' 
+df_to_se <- function(obj){
+  stopifnot(inherits(obj, 'data.frame'))
+  
+  # Prebuild metadata info for SE
+  se.meta <- list(
+    pkg_version = '',
+    type = '',
+    colID = '',
+    proteinID = '',
+    cc = list(),
+    conds = colnames(obj)
+  )
+  
+  # Builds the SE corresponding to MSnSet 
+  se <- SummarizedExperiment::SummarizedExperiment(
+    assays = obj,
+    metadata = se.meta,
+    rowData = DataFrame(row.names = rownames(obj))
+  )
+  
+  return(se)
+}
+
+
 #' @rdname converters
 #' @export
 #' @return An enriched instance of the class `SummarizedExperiment`
@@ -503,7 +618,7 @@ listOfMSnSet_to_mae <- function(obj){
   names(ll.se) <- names(obj)
 
   .colData <- MultiAssayExperiment::DataFrame(
-    group = seq(ncol(MSnbase::roxygexprs(obj[[1]]))), 
+    group = seq(ncol(MSnbase::exprs(obj[[1]]))), 
     row.names = colnames(MSnbase::exprs(obj[[1]])))
   
   mae <- MultiAssayExperiment::MultiAssayExperiment(
@@ -515,4 +630,71 @@ listOfMSnSet_to_mae <- function(obj){
   return(mae)
   
 }
+
+
+
+
+
+#' @export
+#' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom MultiAssayExperiment MultiAssayExperiment MultiAssayExperiment
+#' @importFrom MSnbase exprs
+#' 
+listOfmatrix_to_mae <- function(obj){
+  stopifnot(is.listOf(obj, "matrix"))
+  
+  ll.se <- lapply(obj, function(x){
+    matrix_to_se(x)})
+  
+  names(ll.se) <- names(obj)
+  
+  .colData <- MultiAssayExperiment::DataFrame(
+    group = seq(ncol(obj[[1]])), 
+    row.names = colnames(obj[[1]])
+    )
+  
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(ll.se),
+    colData = .colData,
+    metadata = list(other = list())
+  )
+  
+  return(mae)
+  
+}
+
+
+
+
+
+#' @export
+#' @rdname converters
+#' @return An enriched instance of the class `MultiAssayExperiment`
+#' @importFrom MultiAssayExperiment MultiAssayExperiment MultiAssayExperiment
+#' @importFrom MSnbase exprs
+#' 
+listOfdf_to_mae <- function(obj){
+  stopifnot(is.listOf(obj, "data.frame"))
+  
+  ll.se <- lapply(obj, function(x){
+    df_to_se(x)})
+  
+  names(ll.se) <- names(obj)
+  
+  .colData <- MultiAssayExperiment::DataFrame(
+    group = seq(ncol(obj[[1]])), 
+    row.names = colnames(obj[[1]])
+    )
+  
+  mae <- MultiAssayExperiment::MultiAssayExperiment(
+    experiments = MultiAssayExperiment::ExperimentList(ll.se),
+    colData = .colData,
+    metadata = list(other = list())
+  )
+  
+  return(mae)
+  
+}
+
 

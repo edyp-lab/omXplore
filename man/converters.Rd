@@ -4,6 +4,8 @@
 \alias{converters}
 \alias{convert_to_mae}
 \alias{MSnSet_to_mae}
+\alias{matrix_to_mae}
+\alias{df_to_mae}
 \alias{Compute_CC}
 \alias{QFeatures_to_mae}
 \alias{SE_to_mae}
@@ -14,14 +16,22 @@
 \alias{listOfLists_to_mae}
 \alias{listOfSE_to_mae}
 \alias{Check_MSnSet_Consistency}
+\alias{matrix_to_se}
+\alias{df_to_se}
 \alias{MSnSet_to_se}
 \alias{Build_X_CC}
 \alias{listOfMSnSet_to_mae}
+\alias{listOfmatrix_to_mae}
+\alias{listOfdf_to_mae}
 \title{xxx}
 \usage{
 convert_to_mae(obj)
 
 MSnSet_to_mae(obj)
+
+matrix_to_mae(obj)
+
+df_to_mae(obj)
 
 Compute_CC(obj)
 
@@ -43,11 +53,19 @@ listOfSE_to_mae(obj)
 
 Check_MSnSet_Consistency(obj)
 
+matrix_to_se(obj)
+
+df_to_se(obj)
+
 MSnSet_to_se(obj)
 
 Build_X_CC(se)
 
 listOfMSnSet_to_mae(obj)
+
+listOfmatrix_to_mae(obj)
+
+listOfdf_to_mae(obj)
 }
 \arguments{
 \item{obj}{An object compliant with formats xxxx}
@@ -59,6 +77,10 @@ listOfMSnSet_to_mae(obj)
 \item{se}{xxxx}
 }
 \value{
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
 An enriched instance of the class \code{MultiAssayExperiment}
 
 An enriched instance of the class \code{MultiAssayExperiment}
@@ -88,6 +110,14 @@ A \code{boolean(1)}
 An enriched instance of the class \code{SummarizedExperiment}
 
 An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{SummarizedExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
+
+An enriched instance of the class \code{MultiAssayExperiment}
 
 An enriched instance of the class \code{MultiAssayExperiment}
 }

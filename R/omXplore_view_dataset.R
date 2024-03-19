@@ -68,11 +68,9 @@
 #' if (interactive()) {
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   app <- view_dataset(vdata, addons)
-#'   runApp(app)
+#'   runApp(view_dataset(vdata, addons))
 #'   
-#'   app <- view_dataset(vdata)
-#'   runApp(view_dataset(vdata))
+#'   shiny::runApp(view_dataset(vdata))
 #' }
 #' 
 #' @return NA
