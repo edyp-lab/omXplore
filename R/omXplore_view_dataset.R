@@ -158,8 +158,7 @@ view_dataset_server <- function(
       ll.mods = NULL
     )
     
-    
-    
+   
     is.addon <- function(x)
       (length(grep('addon_', x)) == 1)
     
@@ -216,12 +215,12 @@ view_dataset_server <- function(
           rv$data <- convert_to_mae(obj())
         },
           warning = function(w) {
-            w
+            print(w)
             rv$data <- NULL
             shinyjs::toggle("badFormatMsg", condition = TRUE)
             },
           error = function(e) {
-            e
+            print(e)
             rv$data <- NULL
             shinyjs::toggle("badFormatMsg", condition = TRUE)
             }

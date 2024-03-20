@@ -482,7 +482,7 @@ df_to_se <- function(obj){
   
   # Builds the SE corresponding to MSnSet 
   se <- SummarizedExperiment::SummarizedExperiment(
-    assays = obj,
+    assays = as.matrix(obj),
     metadata = se.meta,
     rowData = DataFrame(row.names = rownames(obj))
   )

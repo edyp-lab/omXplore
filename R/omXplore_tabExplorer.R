@@ -95,6 +95,7 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
+#' @import highcharter
 #' 
 #' 
 #' @return NA
@@ -225,18 +226,39 @@ omXplore_tabExplorer_server <- function(
 
     output$qdata_ui <- DT::renderDataTable(server = TRUE, {
       req(rv$data)
+      .keyId <- df <- NULL
+      browser()
       .row <- rowData(rv$data[[i()]])
+      .colId <- get_colID(rv$data[[i()]])
+      .metacell <- get_metacell(rv$data[[i()]])
+
+      if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0) 
+        .keyId <- (.row)[, .colId] 
+      else 
+        .keyId <- rownames(assay(rv$data[[i()]]))
+      
+      .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]), 
+          digits = digits())
+      
+      .qdata.exists <- (!is.null(.qdata) && 
+          ncol(.qdata) > 0) && 
+        (nrow(.qdata) > 0)
+      
+      .metacell.exists <- (!is.null(.metacell) && 
+          ncol(.metacell) > 0) && 
+        (nrow(.metacell) > 0)
       
 
-      df <- cbind(
-        keyId = (.row)[, get_colID(rv$data[[i()]])],
-        round(assay(rv$data, i()), digits = digits()),
-        get_metacell(rv$data[[i()]])
-      )
+       #if (.qdata.exists){
+         if(.metacell.exists)
+           df <- cbind(keyId = .keyId, .qdata, .metacell)
+         else
+           df <- cbind(keyId = .keyId, .qdata)
+       #}
 
       colors <- custom_metacell_colors()
 
-      DT::datatable(as.data.frame(df),
+      dt <- DT::datatable(as.data.frame(df),
         extensions = c("Scroller"),
         options = list(
           initComplete = .initComplete(),
@@ -248,14 +270,17 @@ omXplore_tabExplorer_server <- function(
           scroller = TRUE,
           ordering = FALSE,
           server = TRUE,
-          columnDefs = list(
+          columnDefs = if (.metacell.exists){
             list(
+              list(
               targets = c(((2 + (ncol(df) - 1) / 2)):ncol(df)),
               visible = FALSE
-            )
+            )) } else NULL
           )
         )
-      ) %>%
+      
+      if (.metacell.exists){
+        dt <- dt %>%
         DT::formatStyle(
           colnames(df)[2:(1 + (ncol(df) - 1) / 2)],
           colnames(df)[((2 + (ncol(df) - 1) / 2)):ncol(df)],
@@ -267,6 +292,9 @@ omXplore_tabExplorer_server <- function(
           backgroundRepeat = "no-repeat",
           backgroundPosition = "center"
         )
+      }
+      
+      dt
     })
 
     output$qMetacell_ui <- DT::renderDataTable(server = TRUE, {

@@ -107,9 +107,7 @@ omXplore_pca_server <- function(
         is.mae <- inherits(obj(), "MultiAssayExperiment")
         stopifnot(is.mae)
         
-         if (is.mae) {
            rv.pca$data <- assay(obj(), i())
-         }
 
         shinyjs::toggle("badFormatMsg", condition = !is.mae)
       },

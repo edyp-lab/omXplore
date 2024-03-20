@@ -54,6 +54,7 @@ NULL
 #'
 #' @rdname format_DT
 #' @return NA
+#' @export
 #'
 formatDT_ui <- function(id) {
   ns <- NS(id)
@@ -85,6 +86,7 @@ formatDT_ui <- function(id) {
 #' formatStyle styleEqual
 #' @rdname format_DT
 #' @return NA
+#' @export
 #'
 formatDT_server <- function(id,
   data = reactive({NULL}),
@@ -244,9 +246,7 @@ formatDT <- function(obj) {
 
   server <- function(input, output, session) {
     formatDT_server("table",
-      data = reactive({
-        obj
-      })
+      data = reactive({obj})
     )
   }
 
