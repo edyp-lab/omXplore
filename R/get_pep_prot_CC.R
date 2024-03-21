@@ -80,7 +80,7 @@ buildGraph <- function(
     stringsAsFactors = FALSE
   )
 
-  #browser()
+
   title <- buildNodesInfos(cc, meta)
   #if (!is.null(title)) {
   #  nodes <- cbind(nodes, title)

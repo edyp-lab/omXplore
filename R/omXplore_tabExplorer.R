@@ -227,7 +227,6 @@ omXplore_tabExplorer_server <- function(
     output$qdata_ui <- DT::renderDataTable(server = TRUE, {
       req(rv$data)
       .keyId <- df <- NULL
-      browser()
       .row <- rowData(rv$data[[i()]])
       .colId <- get_colID(rv$data[[i()]])
       .metacell <- get_metacell(rv$data[[i()]])

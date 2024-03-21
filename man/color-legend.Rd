@@ -45,8 +45,9 @@ A shiny app
 Shows xxx based on the tags in the package 'DaparToolshed'
 }
 \examples{
-if (interactive()) {
-  data(vdata)
-  colorLegend(vdata[[1]])
-  }
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(vdata)
+shiny::runApp(colorLegend(vdata[[1]]))
+
+\dontshow{\}) # examplesIf}
 }

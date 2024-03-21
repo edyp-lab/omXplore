@@ -36,7 +36,6 @@ NULL
 convert_to_mae <- function(obj){
   
   converted.obj <- NULL
-  #browser()
   if (inherits(obj, "list")){
     if (is.listOf(obj, "MSnSet"))
       converted.obj <- listOfMSnSet_to_mae(obj)

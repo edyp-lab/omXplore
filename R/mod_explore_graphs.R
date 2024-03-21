@@ -487,7 +487,6 @@
 #'
 #'         # select a CC in the jitter plot
 #'         observeEvent(req(input$eventPointClicked), {
-#'             # browser()
 #'             .str <- strsplit(input$eventPointClicked, "_")
 #'             this.index <- as.integer(.str[[1]][1])
 #'             # this.index + 1

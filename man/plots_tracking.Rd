@@ -44,7 +44,7 @@ This shiny module provides a tool to select
 \examples{
 if (interactive()) {
   data(vdata)
-  plots_tracking(vdata, 1)
+  shiny::runApp(plots_tracking(vdata, 1))
 }
 
 }

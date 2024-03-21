@@ -58,8 +58,7 @@ The plots display statistical information about data contained in the Summarized
 slots of a dataset.
 
 Some items are added to the metadata of the instance of
-MultiAssayExperiment and to each of the instances of
-SummarizedExperiment.
+MultiAssayExperiment and to each of the instances of SummarizedExperiment.
 
 **Additional info in MultiAssayExperiment**
 

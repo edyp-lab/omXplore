@@ -11,7 +11,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   plots_tracking(vdata, 1)
+#'   shiny::runApp(plots_tracking(vdata, 1))
 #' }
 #'
 #' @name plots_tracking

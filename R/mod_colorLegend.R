@@ -12,8 +12,9 @@
 #' @name color-legend
 #' 
 #' 
-#' @example
-#' inst/examples/ex_mod_colorLegend.R
+#' @examplesIf interactive()
+#' data(vdata)
+#' shiny::runApp(colorLegend(vdata[[1]]))
 #' 
 #'
 NULL
