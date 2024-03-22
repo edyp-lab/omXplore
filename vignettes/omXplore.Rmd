@@ -1,18 +1,21 @@
 ---
-title: "omXplore user manual"
+title: "omXplore: a versatile series of Shiny apps to explore 'omics' data"
 author: 
 - name: Samuel Wieczorek
 - name: Thomas Burger
 package: omXplore
 abstract: >
-    The package omXplore (standing for "Omics Explore") is a R package which provides functions to vizualize omics experiments. It deals with common data formats in Bioconductor such as MSnSet, MultiAssayEperiments, QFeatures or even simple lists.
+    The package omXplore (standing for "Omics Explore") is a R package which 
+    provides functions to vizualize omics data experiments. It deals with 
+    common data formats in Bioconductor such as MSnSet, MultiAssayEperiments, 
+    QFeatures or even simple lists.
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
         toc_float: true
 vignette: >
-    %\VignetteIndexEntry{omXplore user Manual}
-    %%\VignetteKeywords{Softmware}
+    %\VignetteIndexEntry{omXplore}
+    %%\VignetteKeywords{Software}
     %\VignetteEncoding{UTF-8}
     %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -26,34 +29,105 @@ BiocStyle::markdown()
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
+
+# Introduction
+
+The `omXplore` package offers a series of built-in plots dedicated to the 
+visualization and the analysis of *omics (genomic, transcriptomics, proteomics) 
+data. As for several R packages available in `Biocondcutor` for exploring 
+omics-like datasets, `omXplore` is based on Shiny to make those plots easily 
+available in a web application. Four popular Bioconductor data objects are 
+currently supported: `SummarizedExperiment`, `MultiAssayExperiment`, `MSnset` 
+and `QFeatures.`It is also possible to use `data.frame` or `matrix` (or lists of)
+which contains quantitative data tables (rows for features and columns for
+samples).
+
+All these formats are automatically converted into an internal S4 class which 
+is an enriched version of the `MultiAssayexperiment` class. This process is
+invisible to the end-user.
+
+
+The package `omXplore` was created to be versatile, reusable and scalable. It 
+differs from similar R packages in two main points:
+
+- (versatile) The main Shiny module in `omXplore` is a hub which gives access 
+to the individual plots. The plots are automatically updated w.r.t the selected 
+dataset (in case of data which contains several ExperimentData like the 
+classes `MultiAssayExperiment` or `QFeatures`).
+
+- (scalable) with less effort, it is easy integrate external plots (written as 
+Shiny modules) in the main GUI of `omXplore`.
+
+- (reusable) Each plot (a Shiny module) can be run alone or integrated as a 
+complementary tool in third party Shiny apps. As an example, it is well suited 
+for the package 
+[Prostar](https://www.bioconductor.org/packages/release/bioc/html/Prostar.html)
+in which it is used.
+
+
+# Features
+
+`omXplore` provides a graphical user interface using the `Shiny` and 
+the `highcharter` packages for the following visualizations:
+
+- Connected Components of graph-type data (e.g. in proteomics datasets, graphs 
+of peptide-protein relationship),
+- Principal Component Analysis (PCA),
+- Histograms to analyze the quantitative data based on cell metadata 
+(eg missing values, imputed values, ...), 
+- Intensity plots (boxplot and violinplot) of quantitative data. There is also 
+a tool to select and view (by superimposition) the evolution of intensity over 
+samples for a given set of entities,
+- Density plot
+- Variance distribution plot
+- Heatmap
+- Correlation plot
+
+
+For developers or users who wants to enhance their application, additional 
+features include:
+
+- As each plot is a Shiny module, it can be launched in a standalone mode 
+(from a R console) or it can be easily integrated into any third party Shiny app
+- Internal convert function from a large variety of `Bioconductor` objects,
+- A easy way to add user-defined plots (written as Shiny modules) in the main 
+GUI of `omXplore` 
+
+
+
+# Installation
+
+
+To install this package, start R (version "4.3") and enter:
+
+```
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("omXplore")
+```
+
+This will also install dependencies.
+
+It is also possible to install `omXplore` from Github:
+
+```
+library(devtools)
+install_github('prostarproteomics/omXplore')
+
+```
+
+
+Then, load the package into R environment:
+
 ```{r env}
 library("omXplore")
 ```
 
-# Introduction
-
-The `omXplore` package offers a series of Shiny apps (implemented as modules) dedicated to the visualization and the analysis of omics data. 
-It contains:
-
-- several built-in plots, embedded in Shiny modules,
-
-- one main UI which gives easily access to the individual plots.
-
-With less effort, it can also easily integrate new plots
-(written as Shiny modules) from other packages or directly in the R
-environment.
-
-
-Each plot can be run alone or as a complement to the numerous packages on [Bioconductor](https://www.bioconductor.org/) it is compliant with. For example,
-it is well suited for the package [Prostar](https://www.bioconductor.org/packages/release/bioc/html/Prostar.html) in which it is used.
-
-One main feature is the capacity to insert plots (as shiny modules) from third party packages.
-
-In the following sections, we are going to explain how the xxx is enriched based on native MultiAssayExperiment and how to view individual plots and main UI
 
 # Enriching native MultiAssayExperiment
 
-`omXplore` is based on the class [MultiAssayExperiments](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) which is enriched with specific slots needed to create built-in plots.
+The internal data struture used in `omXplore` is based on the class [MultiAssayExperiments](https://www.bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) which is enriched with specific slots needed to create built-in plots.
 The plots display statistical information about data contained in the SummarizedExperiment
 slots of a dataset.
 
