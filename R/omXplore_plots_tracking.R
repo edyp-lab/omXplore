@@ -151,7 +151,7 @@ plots_tracking_server <- function(
 
       
       .colID <- get_colID(rv.track$data[[i()]])
-      .row <- rowData(rv.track$data[[i()]])
+      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
       if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
         .choices <- .row[, .colID]
         updateSelectizeInput(session, "listSelect",
@@ -175,7 +175,8 @@ plots_tracking_server <- function(
 
 
     Get_LogicalCols_in_Dataset <- reactive({
-      .row <- rowData(rv.track$data[[i()]])
+      req(rv.track$data)
+      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
       
       logical.cols <- lapply(
         colnames(.row),
@@ -221,7 +222,7 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(length(input$listSelect) > 0), ignoreNULL = FALSE, {
-      .row <- rowData(assay(rv.track$data[[i()]]))
+      .row <- SummarizedExperiment::rowData(assay(rv.track$data[[i()]]))
       .id <- get_colID(rv.track$data[[i()]])
       dataOut$indices <- match(input$listSelect, .row[, .id])
     })
@@ -230,7 +231,7 @@ plots_tracking_server <- function(
     observeEvent(req(!is.null(input$randSelect) && input$randSelect != ""),
       ignoreNULL = FALSE,
       {
-        .row <- rowData(rv.track$data[[i()]])
+        .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
         dataOut$indices <- sample(seq_len(nrow(.row)),
           as.numeric(input$randSelect),
           replace = FALSE
@@ -242,7 +243,7 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(input$colSelect), {
-      .row <- rowData(rv.track$data[[i()]])
+      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
       .arg <- .row[, input$colSelect]
       dataOut$indices <- which(.arg == TRUE)
     })
