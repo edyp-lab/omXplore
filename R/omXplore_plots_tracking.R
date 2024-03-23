@@ -86,10 +86,8 @@ plots_tracking_ui <- function(id) {
 plots_tracking_server <- function(
     id,
     obj = reactive({NULL}),
-  i = reactive({1}),
-    resetBtn = reactive({
-      FALSE
-    })) {
+    i = reactive({1}),
+    resetBtn = reactive({FALSE})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
