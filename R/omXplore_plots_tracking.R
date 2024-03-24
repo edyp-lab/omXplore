@@ -123,6 +123,20 @@ plots_tracking_server <- function(
     })
     
     
+    observeEvent(req(input$typeSelect == "List"), {
+      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
+      
+      .choices <- seq(nrow(.row))
+      .colID <- get_colID(rv.track$data[[i()]])
+      if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
+        .choices <- .row[, .colID]
+      }
+    
+      updateSelectizeInput(session, 'listSelect', 
+        choices = .choices, server = TRUE)
+      })
+    
+    
   output$listSelect_UI <- renderUI({
     req(input$typeSelect == "List")
     .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
@@ -135,7 +149,7 @@ plots_tracking_server <- function(
     
     selectizeInput(ns("listSelect"),
       label = "Select protein",
-      choices = .choices,
+      choices = NULL,
       width = "400px",
       multiple = TRUE,
       options = list(maxOptions = 10000)
@@ -209,7 +223,10 @@ plots_tracking_server <- function(
     observeEvent(req(length(input$listSelect) > 0), ignoreNULL = FALSE, {
       .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
       .id <- get_colID(rv.track$data[[i()]])
-      dataOut$indices <- match(input$listSelect, .row[, .id])
+      if(is.null(.id))
+        dataOut$indices <- input$listSelect
+      else
+        dataOut$indices <- match(input$listSelect, .row[, .id])
     })
 
 

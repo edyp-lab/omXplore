@@ -180,7 +180,14 @@ setMethod("get_colID", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        MultiAssayExperiment::metadata(object)$colID
+        test1 <- MultiAssayExperiment::metadata(object)$colID
+        test2 <- MultiAssayExperiment::metadata(object)$idcol
+        
+        if (!is.null(test1))
+          test1
+        
+        if(!is.null(test2))
+          test2
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}
