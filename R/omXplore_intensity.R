@@ -108,7 +108,9 @@ omXplore_intensity_server <- function(
 
     output$box <- renderHighchart({
       req(rv$data)
+      req(input$choosePlot == "box")
       # withProgress(message = "Making plot", value = 100, {
+
       boxPlot(
         obj = rv$data[[i()]],
         conds = get_group(rv$data),
@@ -118,10 +120,10 @@ omXplore_intensity_server <- function(
       # })
     })
 
-    output$violin <- renderImage(
-      {
+    output$violin <- renderImage({
         req(rv$data)
-        
+      req(input$choosePlot == "violin")
+
         # A temp file to save the output. It will be deleted after
         # renderImage sends it, because deleteFile=TRUE.
         outfile <- tempfile(fileext = ".png")

@@ -6,7 +6,7 @@
 #' @param legend A vector of the conditions (one condition per sample).
 #' @param pal A basis palette for the boxes which length must be equal
 #' to the number of unique conditions in the dataset.
-#' @param subset.view A vector of index indicating which rows to highlight
+#' @param subset A vector of index indicating which rows to highlight
 #' @return A boxplot
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
 #' @examples
@@ -24,10 +24,10 @@ boxPlot <- function(
   keyId = NULL,
   legend = NULL,
   pal = NULL,
-  subset.view = NULL) {
+  subset = NULL) {
   pkgs.require(c('stats', "grDevices", "RColorBrewer"))
   
-  
+
   if (is.null(obj)) {
     warning("The dataset is NULL and cannot be shown")
     return(NULL)
@@ -45,8 +45,8 @@ boxPlot <- function(
     stop("'conds' is missing.")
   }
   
-  if (length(subset.view) == 0) {
-    subset.view <- NULL
+  if (length(subset) == 0) {
+    subset <- NULL
   }
   
   if (is.null(legend)) {
@@ -74,7 +74,7 @@ boxPlot <- function(
   }
   
   
-  if (!is.null(subset.view)) {
+  if (!is.null(subset)) {
     if (is.null(keyId) || missing(keyId)) {
       stop("'keyId' is missing.")
     } else {
@@ -236,12 +236,12 @@ boxPlot <- function(
     box_line_colors = "black"
   )
   
-  # Display of rows to highlight (index of row in subset.view)
-  if (!is.null(subset.view)) {
+  # Display of rows to highlight (index of row in subset)
+  if (!is.null(subset)) {
     idVector <- keyId
-    pal <- ExtendPalette(length(subset.view), "Dark2")
+    pal <- ExtendPalette(length(subset), "Dark2")
     n <- 0
-    for (i in subset.view) {
+    for (i in subset) {
       n <- n + 1
       dfSubset <- data.frame(
         y = as.vector(qData[i, ], mode = "numeric"),

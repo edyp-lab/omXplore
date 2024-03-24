@@ -125,7 +125,6 @@ plots_tracking_server <- function(
     
   output$listSelect_UI <- renderUI({
     req(input$typeSelect == "List")
-
     .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
     
     .choices <- seq(nrow(.row))
@@ -208,7 +207,7 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(length(input$listSelect) > 0), ignoreNULL = FALSE, {
-      .row <- SummarizedExperiment::rowData(assay(rv.track$data[[i()]]))
+      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
       .id <- get_colID(rv.track$data[[i()]])
       dataOut$indices <- match(input$listSelect, .row[, .id])
     })
