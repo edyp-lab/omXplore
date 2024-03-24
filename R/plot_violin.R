@@ -20,7 +20,7 @@ violinPlot <- function(
     data,
     conds,
     subset = NULL,
-    pal.name) {
+    pal.name = "Set1") {
   stopifnot(inherits(data, "matrix"))
 
   legend <- colnames(data)

@@ -17,11 +17,9 @@
 #'
 #' @name intensity-plots
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
-#'   omXplore_intensity(vdata, 1)
-#' }
+#'   shiny::runApp(omXplore_intensity(vdata, 1))
 #'
 NULL
 
@@ -50,9 +48,9 @@ omXplore_intensity_ui <- function(id) {
     shinyjs::useShinyjs(),
     shinyjs::hidden(div(id = ns("badFormatMsg"), 
       h3(globals()$bad_format_txt))),
-    hidden(radioButtons(ns("choosePlot"), "",
+    radioButtons(ns("choosePlot"), "",
       choices = setNames(nm = c("violin", "box"))
-    )),
+    ),
     highchartOutput(ns("box")),
     shinyjs::hidden(imageOutput(ns("violin")))
   )
@@ -112,7 +110,7 @@ omXplore_intensity_server <- function(
       req(rv$data)
       # withProgress(message = "Making plot", value = 100, {
       boxPlot(
-        data = assay(rv$data, i()),
+        obj = rv$data[[i()]],
         conds = get_group(rv$data),
         subset = track.indices()
       )
@@ -123,6 +121,7 @@ omXplore_intensity_server <- function(
     output$violin <- renderImage(
       {
         req(rv$data)
+        
         # A temp file to save the output. It will be deleted after
         # renderImage sends it, because deleteFile=TRUE.
         outfile <- tempfile(fileext = ".png")

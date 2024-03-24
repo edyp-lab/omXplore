@@ -8,11 +8,9 @@
 #' button or not.
 #'
 #' 
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
 #'   shiny::runApp(plots_tracking(vdata, 1))
-#' }
 #'
 #' @name plots_tracking
 #'
@@ -41,21 +39,8 @@ plots_tracking_ui <- function(id) {
     shinyjs::hidden(div(id = ns("badFormatMsg"), 
       h3(globals()$bad_format_txt))),
     shinyjs::hidden(actionButton(ns("reset"), "Reset")),
-    shinyjs::hidden(selectInput(ns("typeSelect"), "Type of selection",
-      choices = character(0),
-      selected = character(0),
-      width = "130px"
-    )),
-    shinyjs::hidden(
-      selectizeInput(
-        inputId = ns("listSelect"),
-        label = "Select protein",
-        choices = character(0),
-        width = "400px",
-        multiple = TRUE,
-        options = list(maxOptions = 10000)
-      )
-    ),
+    uiOutput(ns('choose_UI')),
+    uiOutput(ns("listSelect_UI")),
     shinyjs::hidden(
       textInput(ns("randSelect"), "Random", width = "120px")
     ),
@@ -107,9 +92,7 @@ plots_tracking_server <- function(
         if (inherits(obj(), "MultiAssayExperiment")) {
           rv.track$data <- obj()
         }
-
         shinyjs::toggle("badFormatMsg", condition = is.null(rv.track$data))
-        shinyjs::toggle("typeSelect", condition = !is.null(rv.track$data))
       },
       priority = 1000
     )
@@ -128,37 +111,6 @@ plots_tracking_server <- function(
       req(rv.track$data)
 
       shinyjs::toggle("reset", condition = isTRUE(resetBtn()))
-
-
-      if (length(Get_LogicalCols_in_Dataset()) > 0) {
-        updateSelectInput(session, "typeSelect",
-          choices = c(
-            "None" = "None", "Protein list" = "List",
-            "Random" = "Random", "Column" = "Column"
-          )
-        )
-      } else {
-        updateSelectInput(session, "typeSelect",
-          choices = c(
-            "None" = "None",
-            "Protein list" = "List",
-            "Random" = "Random"
-          )
-        )
-      }
-
-      
-      .colID <- get_colID(rv.track$data[[i()]])
-      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
-      if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
-        .choices <- .row[, .colID]
-        updateSelectizeInput(session, "listSelect",
-          choices = .choices,
-          selected = character(0),
-          server = TRUE
-        )
-      }
-
       updateSelectInput(session, "randSelect",
         selected = character(0)
       )
@@ -169,8 +121,43 @@ plots_tracking_server <- function(
         selected = character(0)
       )
     })
-
-
+    
+    
+  output$listSelect_UI <- renderUI({
+    req(input$typeSelect == "List")
+    
+    .choices <- character(0)
+    .colID <- get_colID(rv.track$data[[i()]])
+    .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
+    if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
+      .choices <- .row[, .colID]
+    }
+    
+    selectizeInput(ns("listSelect"),
+      label = "Select protein",
+      choices = .choices,
+      width = "400px",
+      multiple = TRUE,
+      options = list(maxOptions = 10000)
+    )
+  })
+  
+  
+    output$choose_UI <- renderUI({
+      req(rv.track$data)
+      
+      .choices <- c("None" = "None", 
+        "Protein list" = "List", 
+        "Random" = "Random")
+      
+      if (length(Get_LogicalCols_in_Dataset()) > 0)
+        .choices <- c(.choices, "Column" = "Column")
+      
+      
+      selectInput(ns("typeSelect"), "Type of selection",
+        choices = .choices,
+        width = "130px")
+    })
 
     Get_LogicalCols_in_Dataset <- reactive({
       req(rv.track$data)

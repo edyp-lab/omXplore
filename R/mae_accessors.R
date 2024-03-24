@@ -72,7 +72,11 @@ setMethod("get_group", signature = "MultiAssayExperiment",
   function(object) {
     tryCatch(
       {
-        MultiAssayExperiment::colData(object)$group
+        grp <- MultiAssayExperiment::colData(object)$group
+        if(is.null(grp))
+          grp <- MultiAssayExperiment::colData(object)$Condition
+        
+        grp
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}
