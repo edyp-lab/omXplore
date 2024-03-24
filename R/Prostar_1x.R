@@ -100,7 +100,7 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se){
   
   
   tryCatch({
-    metadata(se)[['colID']] <- experimentData(obj)@other$keyId
+    metadata(se)[['colID']] <- experimentData(obj)@other$idcol
   },
     warning = function(w) NA,
     error = function(e) NA

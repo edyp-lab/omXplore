@@ -7,6 +7,12 @@
 #' @name build_example_datasets
 #' @return A list
 #' 
+#' @examples
+#' 
+#' # rebuild comptlete vdata dataset
+#' create_vdata()
+#' 
+#' 
 NULL
 
 

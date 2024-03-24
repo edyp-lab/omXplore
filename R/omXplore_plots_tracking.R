@@ -125,10 +125,11 @@ plots_tracking_server <- function(
     
   output$listSelect_UI <- renderUI({
     req(input$typeSelect == "List")
-    
-    .choices <- character(0)
-    .colID <- get_colID(rv.track$data[[i()]])
+
     .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
+    
+    .choices <- seq(nrow(.row))
+    .colID <- get_colID(rv.track$data[[i()]])
     if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
       .choices <- .row[, .colID]
     }

@@ -254,7 +254,7 @@ list_to_se <- function(ll){
   
   
   .colID <- tryCatch({
-    ll$keyid
+    ll$colID
   }, warning = function(w) NA,
     error = function(e) NA
   )
