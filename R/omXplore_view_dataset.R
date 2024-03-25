@@ -64,14 +64,12 @@
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'   runApp(view_dataset(vdata, addons))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
-#' }
 #' 
 #' @return NA
 #'
@@ -225,6 +223,8 @@ view_dataset_server <- function(
             shinyjs::toggle("badFormatMsg", condition = TRUE)
             }
           )
+        } else {
+          rv$data <- obj()
         }
         
         if(!is.null(rv$data)){

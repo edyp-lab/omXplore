@@ -109,47 +109,17 @@ plots_tracking_server <- function(
 
     observe({
       req(rv.track$data)
-
       shinyjs::toggle("reset", condition = isTRUE(resetBtn()))
-      updateSelectInput(session, "randSelect",
-        selected = character(0)
-      )
-
-
-      updateSelectInput(session, "colSelect",
-        choices = Get_LogicalCols_in_Dataset(),
-        selected = character(0)
-      )
     })
     
-    
-    observeEvent(req(input$typeSelect == "List"), {
-      .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
-      
-      .choices <- seq(nrow(.row))
-      .colID <- get_colID(rv.track$data[[i()]])
-      if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
-        .choices <- .row[, .colID]
-      }
-    
-      updateSelectizeInput(session, 'listSelect', 
-        choices = .choices, server = TRUE)
-      })
-    
-    
+
+
   output$listSelect_UI <- renderUI({
     req(input$typeSelect == "List")
-    .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
-    
-    .choices <- seq(nrow(.row))
-    .colID <- get_colID(rv.track$data[[i()]])
-    if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
-      .choices <- .row[, .colID]
-    }
-    
+
     selectizeInput(ns("listSelect"),
       label = "Select protein",
-      choices = NULL,
+      choices = NULL, # use server side option
       width = "400px",
       multiple = TRUE,
       options = list(maxOptions = 10000)
@@ -195,9 +165,25 @@ plots_tracking_server <- function(
       shinyjs::toggle("colSelect", condition = input$typeSelect == "Column" &&
         length(Get_LogicalCols_in_Dataset()) > 0)
 
-      updateSelectInput(session, "listSelect", selected = "")
-      updateSelectInput(session, "randSelect", selected = "")
-      updateSelectInput(session, "colSelect", selected = NULL)
+      
+      if(input$typeSelect == 'List'){
+        .row <- SummarizedExperiment::rowData(rv.track$data[[i()]])
+        
+        .choices <- seq(nrow(.row))
+        .colID <- get_colID(rv.track$data[[i()]])
+        if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
+          .choices <- .row[, .colID]
+        }
+        
+        updateSelectizeInput(session, 'listSelect', selected = "",
+          choices = .choices, server = TRUE)
+      }
+      
+      updateSelectInput(session, "randSelect", selected = character(0))
+      
+      updateSelectInput(session, "colSelect",
+        choices = Get_LogicalCols_in_Dataset(),
+        selected = character(0))
 
       if (input$typeSelect == "None") {
         RunReset()
@@ -276,6 +262,10 @@ plots_tracking <- function(obj, i) {
       obj = reactive({obj}),
       i = reactive({i})
     )
+    
+    observeEvent(indices(), {
+      print(indices())
+    })
   }
 
   app <- shinyApp(ui, server)
