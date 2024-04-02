@@ -205,10 +205,9 @@ view_dataset_server <- function(
     }
     
     observeEvent(req(obj()), {
-      
 
-        inherits_mae <- inherits(obj(), "MultiAssayExperiment")
-        if (!inherits_mae){
+        #inherits_mae <- inherits(obj(), "MultiAssayExperiment")
+        #if (!inherits_mae){
         tryCatch({
           rv$data <- convert_to_mae(obj())
         },
@@ -223,9 +222,9 @@ view_dataset_server <- function(
             shinyjs::toggle("badFormatMsg", condition = TRUE)
             }
           )
-        } else {
-          rv$data <- obj()
-        }
+        # } else {
+        #   rv$data <- obj()
+        # }
         
         if(!is.null(rv$data)){
           
@@ -277,6 +276,7 @@ view_dataset_server <- function(
     output$ShowPlotsNoModal_ui <- renderUI({
       #req(rv$data)
       print('In ShowPlotsNoModal_ui')
+      browser()
       req(rv$ll.mods)
       req(!isTRUE(useModal))
 
