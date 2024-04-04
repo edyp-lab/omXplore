@@ -274,9 +274,6 @@ view_dataset_server <- function(
 
 
     output$ShowPlotsNoModal_ui <- renderUI({
-      #req(rv$data)
-      print('In ShowPlotsNoModal_ui')
-      browser()
       req(rv$ll.mods)
       req(!isTRUE(useModal))
 
