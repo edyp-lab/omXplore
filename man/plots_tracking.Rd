@@ -42,10 +42,9 @@ A shiny app
 This shiny module provides a tool to select
 }
 \examples{
-if (interactive()) {
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   shiny::runApp(plots_tracking(vdata, 1))
-}
-
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

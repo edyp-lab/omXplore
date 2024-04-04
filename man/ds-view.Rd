@@ -94,14 +94,13 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 }
 
 \examples{
-if (interactive()) {
+\dontshow{if () (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
   runApp(view_dataset(vdata, addons))
   
   shiny::runApp(view_dataset(vdata))
-}
-
+\dontshow{\}) # examplesIf}
 if (interactive()) {
   data(vdata)
   view_dataset(vdata)

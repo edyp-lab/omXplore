@@ -4,14 +4,7 @@
 \alias{boxPlot}
 \title{Builds a boxplot from a dataframe using the package \code{highcharter}}
 \usage{
-boxPlot(
-  obj,
-  conds,
-  keyId = NULL,
-  legend = NULL,
-  pal = NULL,
-  subset.view = NULL
-)
+boxPlot(obj, conds, keyId = NULL, legend = NULL, pal = NULL, subset = NULL)
 }
 \arguments{
 \item{obj}{Numeric matrix}
@@ -25,7 +18,7 @@ boxPlot(
 \item{pal}{A basis palette for the boxes which length must be equal
 to the number of unique conditions in the dataset.}
 
-\item{subset.view}{A vector of index indicating which rows to highlight}
+\item{subset}{A vector of index indicating which rows to highlight}
 }
 \value{
 A boxplot

@@ -22,7 +22,7 @@ omXplore_intensity_server(
 
 omXplore_intensity(obj, i, withTracking = FALSE)
 
-violinPlot(data, conds, subset = NULL, pal.name)
+violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
