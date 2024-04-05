@@ -64,7 +64,7 @@
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examplesIf
+#' @examplesIf interactive()
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'   runApp(view_dataset(vdata, addons))

@@ -2,7 +2,6 @@
 #' @title Builds a boxplot from a dataframe using the package \code{highcharter}
 #' @param obj Numeric matrix
 #' @param conds xxx
-#' @param keyId xxxx
 #' @param legend A vector of the conditions (one condition per sample).
 #' @param pal A basis palette for the boxes which length must be equal
 #' to the number of unique conditions in the dataset.
@@ -10,18 +9,15 @@
 #' @return A boxplot
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
 #' @examples
-#' data(Exp1_R25_prot, package="DAPARdata")
-#' obj <- Exp1_R25_prot
-#' conds <- legend <- Biobase::pData(obj)$Condition
-#' key <- "Protein_IDs"
+#' data(sub_R25)
+#' conds <- legend <- colData(sub_R25)$group
 #' pal <- ExtendPalette(length(unique(conds)))
-#' boxPlotD_(obj, conds, key, legend, pal, seq_len(10))
+#' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 #' @import highcharter
 #' @export
 boxPlot <- function(
     obj,
   conds,
-  keyId = NULL,
   legend = NULL,
   pal = NULL,
   subset = NULL) {
@@ -73,16 +69,13 @@ boxPlot <- function(
     }
   }
   
+  keyId <- MultiAssayExperiment::metadata(obj)$proteinId
   
-  if (!is.null(subset)) {
-    if (is.null(keyId) || missing(keyId)) {
-      stop("'keyId' is missing.")
-    } else {
-      if (!grep(keyId, colnames(Biobase::fData(obj)))) {
-        stop("'keyId' does not belong to metadata")
-      }
-    }
-  }
+  # if (!is.null(subset)) {
+  #   if (is.null(keyId) || missing(keyId)) {
+  #     stop("'keyId' is missing.")
+  #   }
+  # }
   
   
   
@@ -247,13 +240,15 @@ boxPlot <- function(
         y = as.vector(qData[i, ], mode = "numeric"),
         x = as.numeric(factor(names(qData[i, ]))) - 1,
         stringsAsFactors = FALSE)
+      
+
       hc <- hc %>%
         highcharter::hc_add_series(
           type = "line",
           data = dfSubset,
           color = pal[n],
           dashStyle = "shortdot",
-          name = Biobase::fData(obj)[i, keyId],
+          name = SummarizedExperiment::rowData(obj)[i, keyId],
           tooltip = list(enabled = TRUE,
             headerFormat = "",
             pointFormat = "{point.series.name} : {point.y: .2f} ")

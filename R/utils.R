@@ -28,6 +28,7 @@ omXplore can handle MSnset and QFeatures files.
 #' pkgs.require('DAPAR')
 #' 
 #' @export
+#' @return NA
 #' 
 #' @author Samuel Wieczorek
 #' 

@@ -94,7 +94,7 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 }
 
 \examples{
-\dontshow{if () (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
   runApp(view_dataset(vdata, addons))
