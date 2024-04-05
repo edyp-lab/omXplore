@@ -26,7 +26,7 @@ Builds a boxplot from a dataframe using the package \code{highcharter}
 }
 \examples{
 data(sub_R25)
-conds <- legend <- colData(sub_R25)$group
+conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
 pal <- ExtendPalette(length(unique(conds)))
 boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 }
