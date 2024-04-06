@@ -30,7 +30,7 @@ get_group(object, ...)
 
 get_metacell(object, ...)
 
-\S4method{get_metacell}{SummarizedExperiment}(object)
+\S4method{get_metacell}{SummarizedExperiment}(object, slot.name = c("metacell", "qMetacell"))
 
 get_cc(object, ...)
 

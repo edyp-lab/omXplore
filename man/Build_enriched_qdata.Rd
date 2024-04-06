@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{Build_enriched_qdata}
 \alias{Build_enriched_qdata}
-\title{xxxx}
+\title{Builds enriched assay with cell metadata info}
 \usage{
 Build_enriched_qdata(obj)
 }
@@ -10,8 +10,11 @@ Build_enriched_qdata(obj)
 \item{obj}{An instance of the class \code{SummarizedExperiment}}
 }
 \value{
-A list
+A data.frame with new colums corresponding to the cell metadata
+(if exists)
 }
 \description{
-xxxx
+If the cell metadata exists in the object of class \code{SummarizedExperiment},
+then these information are added to the quantitative data so as to use
+styles with the functions of the package \code{DT}.
 }

@@ -45,9 +45,8 @@ A shiny app
 xxx
 }
 \examples{
-if (interactive()) {
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
-  omXplore_tabExplorer(vdata, 1)
-}
-
+  shiny::runApp(omXplore_tabExplorer(vdata, 1))
+\dontshow{\}) # examplesIf}
 }

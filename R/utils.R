@@ -266,19 +266,23 @@ BuildColorStyles <- function(type) {
 
 
 
-#' @title
-#' xxxx
+#' @title Builds enriched assay with cell metadata info
 #'
 #' @description
-#' xxxx
+#' If the cell metadata exists in the object of class `SummarizedExperiment`,
+#' then these information are added to the quantitative data so as to use
+#' styles with the functions of the package `DT`.
 #'
 #' @param obj An instance of the class `SummarizedExperiment`
 #'
 #' @export
 #'
-#' @return A list
+#' @return A data.frame with new colums corresponding to the cell metadata 
+#' (if exists)
 #'
 Build_enriched_qdata <- function(obj){
+  
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
   
   .keyId <- enriched_df <- NULL
   .row <- SummarizedExperiment::rowData(obj)
