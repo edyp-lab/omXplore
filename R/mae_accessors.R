@@ -100,10 +100,17 @@ setGeneric(
 #' @return A data.frame containing the metadata of the dataset
 #'
 setMethod("get_metacell", signature = "SummarizedExperiment",
-  function(object) {
+  function(object, slot.name = c('metacell', 'qMetacell')) {
     tryCatch(
       {
-        as.data.frame(SummarizedExperiment::rowData(object)[, 'metacell'])
+        meta <- NULL
+        .rowdata <- SummarizedExperiment::rowData(object)
+        for(i in slot.name){
+          found <- match(i, colnames(.rowdata))
+          if (!is.na(found))
+            meta <- as.data.frame(.rowdata[, found])
+        }
+        return(meta)
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}
@@ -180,14 +187,17 @@ setMethod("get_colID", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
+        id <- NULL
         test1 <- MultiAssayExperiment::metadata(object)$colID
         test2 <- MultiAssayExperiment::metadata(object)$idcol
         
         if (!is.null(test1))
-          test1
+          id <- test1
         
         if(!is.null(test2))
-          test2
+          id <- test2
+        
+        return(id)
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}

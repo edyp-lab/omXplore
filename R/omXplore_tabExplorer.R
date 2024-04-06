@@ -11,11 +11,9 @@
 #' 
 #' @name omXplore_tabExplorer
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
-#'   omXplore_tabExplorer(vdata, 1)
-#' }
+#'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
 #' 
 #' @return NA
 #'
@@ -226,35 +224,38 @@ omXplore_tabExplorer_server <- function(
 
     output$qdata_ui <- DT::renderDataTable(server = TRUE, {
       req(rv$data)
-      .keyId <- df <- NULL
-      .row <- rowData(rv$data[[i()]])
-      .colId <- get_colID(rv$data[[i()]])
-      .metacell <- get_metacell(rv$data[[i()]])
+      # .keyId <- df <- NULL
+      # .row <- rowData(rv$data[[i()]])
+      # .colId <- get_colID(rv$data[[i()]])
+      # .metacell <- get_metacell(rv$data[[i()]])
+      # 
+      # if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0) 
+      #   .keyId <- (.row)[, .colId] 
+      # else 
+      #   .keyId <- rownames(assay(rv$data[[i()]]))
+      # 
+      # .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]), 
+      #     digits = digits())
+      # 
+      # .qdata.exists <- (!is.null(.qdata) && 
+      #     ncol(.qdata) > 0) && 
+      #   (nrow(.qdata) > 0)
+      # 
+      # .metacell.exists <- (!is.null(.metacell) && 
+      #     ncol(.metacell) > 0) && 
+      #   (nrow(.metacell) > 0)
+      # 
+      # 
+      #  #if (.qdata.exists){
+      #    if(.metacell.exists)
+      #      df <- cbind(keyId = .keyId, .qdata, .metacell)
+      #    else
+      #      df <- cbind(keyId = .keyId, .qdata)
+      #  #}
 
-      if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0) 
-        .keyId <- (.row)[, .colId] 
-      else 
-        .keyId <- rownames(assay(rv$data[[i()]]))
+      df <- Build_enriched_qdata(rv$data[[i()]])
+      .metacell.exists <- !isTRUE(all.equal(rv$data[[i()]], df))
       
-      .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]), 
-          digits = digits())
-      
-      .qdata.exists <- (!is.null(.qdata) && 
-          ncol(.qdata) > 0) && 
-        (nrow(.qdata) > 0)
-      
-      .metacell.exists <- (!is.null(.metacell) && 
-          ncol(.metacell) > 0) && 
-        (nrow(.metacell) > 0)
-      
-
-       #if (.qdata.exists){
-         if(.metacell.exists)
-           df <- cbind(keyId = .keyId, .qdata, .metacell)
-         else
-           df <- cbind(keyId = .keyId, .qdata)
-       #}
-
       colors <- custom_metacell_colors()
 
       dt <- DT::datatable(as.data.frame(df),

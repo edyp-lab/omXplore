@@ -3,6 +3,7 @@
 export(.initComplete)
 export(BuildColorStyles)
 export(Build_X_CC)
+export(Build_enriched_qdata)
 export(CVDist)
 export(Check_MSnSet_Consistency)
 export(Check_se_Consistency)

@@ -264,3 +264,49 @@ BuildColorStyles <- function(type) {
   colors
 }
 
+
+
+#' @title
+#' xxxx
+#'
+#' @description
+#' xxxx
+#'
+#' @param obj An instance of the class `SummarizedExperiment`
+#'
+#' @export
+#'
+#' @return A list
+#'
+Build_enriched_qdata <- function(obj){
+  
+  .keyId <- enriched_df <- NULL
+  .row <- SummarizedExperiment::rowData(obj)
+  .colId <- get_colID(obj)
+  .metacell <- get_metacell(obj)
+  
+  if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0) 
+    .keyId <- (.row)[, .colId] 
+  else 
+    .keyId <- rownames(SummarizedExperiment::assay(obj))
+  
+  .qdata <- SummarizedExperiment::assay(obj)
+  
+  .qdata.exists <- (!is.null(.qdata) && 
+      ncol(.qdata) > 0) && 
+    (nrow(.qdata) > 0)
+  
+  .metacell.exists <- (!is.null(.metacell) && 
+      ncol(.metacell) > 0) && 
+    (nrow(.metacell) > 0)
+  
+  
+  #if (.qdata.exists){
+  if(.metacell.exists)
+    enriched_df <- cbind(keyId = .keyId, .qdata, .metacell)
+  else
+    enriched_df <- cbind(keyId = .keyId, .qdata)
+  #}
+  
+  return(enriched_df)
+}
