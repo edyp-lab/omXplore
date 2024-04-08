@@ -56,6 +56,9 @@ get_pkg_version(object, ...)
 \item{object}{An instance of class \code{SummarizedExperiment}.}
 
 \item{...}{xxxx description}
+
+\item{slot.name}{The name of the slot dedicated to cell metadata to search.
+Default values are 'metacell' and 'qMetacell'}
 }
 \value{
 See individual method description for the return value.

@@ -96,6 +96,8 @@ setGeneric(
 
 
 #' @param object An instance of class `SummarizedExperiment`.
+#' @param slot.name The name of the slot dedicated to cell metadata to search. 
+#' Default values are 'metacell' and 'qMetacell'
 #' @rdname accessors
 #' @return A data.frame containing the metadata of the dataset
 #'

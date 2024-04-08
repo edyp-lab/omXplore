@@ -25,7 +25,7 @@ omXplore can handle MSnset and QFeatures files.
 #' @param ll.deps A `character()` vector which contains packages names
 #' 
 #' @examples 
-#' pkgs.require('DAPAR')
+#' pkgs.require('omXplore')
 #' 
 #' @export
 #' @return NA
@@ -43,17 +43,19 @@ pkgs.require <- function(ll.deps){
 
 
 
-#' @title xxx
-#' @description xxx
+#' @title Checks the class of a list's slots
+#' @description Checks if all slots of the given list are of the same class.
 #' @export
 #' @param object A `list`
 #' @param obj.class The name of the class to search in items of the list.
 #' @examples
-#' NULL
+#' ll <- as.list(LETTERS[1:3])
+#' is.listOf(ll, "data.frame")
+#' is.listOf(ll, "character")
 #'
-#' @return A `character(1)` with the name of the package or xxx
+#' @return A `character(1)` with the name of the package or NULL
 #'
-is.listOf <- function(object, obj.class=NULL){
+is.listOf <- function(object, obj.class = NULL){
   
   res <- NULL
   
