@@ -4,7 +4,7 @@
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of `SummarizedExperiment` class
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the param obj
 #'
 #' @keywords internal
 #'

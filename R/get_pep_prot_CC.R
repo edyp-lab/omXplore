@@ -1,14 +1,12 @@
 #' @title Display a CC
 #'
-#' @param cc A cc (a list)
-#' @param meta xxx
-#' @param g A cc (a list)
-#' @param layout xxxxx
-#' @param obj xxx
-#' @param prot.tooltip xxx
-#' @param pept.tooltip xxx
-#' @param df xxxx
-#' @param clickFunction xxxx
+#' @param cc A Connected Component (a list)
+#' @param meta A data.frame()
+#' @param g An instance of a graph
+#' @param layout A `character(1)` which i the layout used in visNetwork. 
+#' Default value is 'layout_with_fr'
+#' @param df A data.frame()
+#' @param clickFunction A JS function to determine the behaviour of a click
 #'
 #'
 #' @author Thomas Burger, Samuel Wieczorek
@@ -109,10 +107,7 @@ buildGraph <- function(
 #'
 display.CC.visNet <- function(
     g = NULL,
-    layout = "layout_with_fr",
-    obj = NULL,
-    prot.tooltip = NULL,
-    pept.tooltip = NULL) {
+    layout = "layout_with_fr") {
   
   if(is.null(g)){
     message('g is NULL. Abort...')
@@ -198,9 +193,8 @@ plotCCJitter <- function(
 
 
 
-#' @title xxx
-#' @description xxxx
-#' @param cc xxx
+#' @title Connected Components infos
+#' @param cc A list of connected component
 #' @return A `list` of three items:
 #' * `One_One`: the number of cc composed of one protein and one peptide
 #' * `One_Multi`: the number of cc composed of one protein and several peptides

@@ -1,26 +1,35 @@
-#' @title Displays a correlation matrix of the quantitative data of a
-#' numeric matrix.
-#'
-#' @description
-#' xxxx
+#' @title Displays different intensity plots.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj A instance of the class `MultiAssayExperiment`
-#' @param i xxx
-#' @param track.indices xxx
-#' @param withTracking xxx
+#' @param i An integer which is the index of the assay in the param obj
+#' @param track.indices A vector of integers which are the indices of
+#' lines to track.
+#' @param data A data.frame() of quantitaive data
+#' @param withTracking A `boolean(1)` indicating whether the tracking option is
+#' activated or not.
 #' @param pal.name A `character(1)` which is the name of the palette from the
 #' package [RColorBrewer] from which the colors are taken. Default value
 #' is 'Set1'.
 #' @param subset A `integer()` vector of index indicating the indices
 #' of rows in the dataset to highlight
+#' 
+#' @param conds A vector indicating the name of each sample.
+#' @param legend A vector of the conditions (one condition per sample).
+#' @param pal A basis palette for the boxes which length must be equal
+#' to the number of unique conditions in the dataset.
 #'
 #' @name intensity-plots
 #'
 #' @examplesIf interactive()
 #'   data(vdata)
 #'   shiny::runApp(omXplore_intensity(vdata, 1))
-#'
+#' data(sub_R25)
+#' conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
+#' pal <- ExtendPalette(length(unique(conds)))
+#' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
+#' 
+#' 
 NULL
 
 

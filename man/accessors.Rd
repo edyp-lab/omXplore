@@ -55,7 +55,7 @@ get_pkg_version(object, ...)
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment}.}
 
-\item{...}{xxxx description}
+\item{...}{Additional parameters}
 
 \item{slot.name}{The name of the slot dedicated to cell metadata to search.
 Default values are 'metacell' and 'qMetacell'}
@@ -82,7 +82,8 @@ A data.frame containing the metadata of the dataset
 A data.frame containing the metadata of the dataset
 }
 \description{
-xxx
+Functions used to access the additional plots in the instances
+of the class \code{MultiAssayExperiment}.
 }
 \examples{
 

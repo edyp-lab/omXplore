@@ -168,7 +168,7 @@ MultiAssayExperiment::metadata(vdata[[1]])
 ```
 
 The **adjacencyMatrix** (when exists) is stored as a DataFrame in the
-rowData() of a SummarizedExperiment item (See xxx)
+rowData() of a SummarizedExperiment itemµ.
 
 
 All modules are self-contained in the sense that it is not necessary to manipulate datasets to view the plots. The information described above are given only to discover the slots used if the user wants to enrich its dataset before using omXplore.

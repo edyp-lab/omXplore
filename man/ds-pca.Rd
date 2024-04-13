@@ -33,19 +33,20 @@ plotPCA_Eigen_hc(res.pca)
 
 \item{obj}{An instance of the class \code{MultiAssayExperiment}.}
 
-\item{i}{xxxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
-\item{qdata}{xxx}
+\item{qdata}{A data.frame() of quantitative data}
 
-\item{group}{xxx}
+\item{group}{A vector with the name of samples}
 
-\item{var.scaling}{xxx}
+\item{var.scaling}{A boolean indicating whether to scale the data or not}
 
-\item{ncp}{xxx}
+\item{ncp}{See \code{FactoMineR::PCA()}}
 
-\item{res.pca}{xxx}
+\item{res.pca}{The result of the function \code{FactoMineR::PCA()}}
 
-\item{chosen.axes}{xxx}
+\item{chosen.axes}{See the parameter 'axes' of the function
+\code{factoextra::fviz_pca_var()}}
 }
 \value{
 NA
@@ -68,25 +69,22 @@ A plot
 This method plots a bar plot which represents the distribution of the
 number of missing values (NA) per lines (ie proteins).
 \itemize{
-\item \code{wrapper_pca()}: xxx
+\item \code{wrapper_pca()}
 \item \code{plotPCA_Eigen_hc()}: plots the eigen values of PCA with the highcharts
 library
 \item \code{plotPCA_Eigen()}: plots the eigen values of PCA
-\item \code{plotPCA_Var()}:
-\item \code{plotPCA_Ind()}:
+\item \code{plotPCA_Var()}
+\item \code{plotPCA_Ind()}
 }
-
-xxx
 }
 \examples{
-if (interactive()) {
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
   omXplore_pca(vdata, 1)
-}
-
+\dontshow{\}) # examplesIf}
 data(vdata)
 obj <- vdata[[1]]
 res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))

@@ -7,12 +7,6 @@
 #' @export
 #'
 #' @rdname intensity-plots
-#' 
-#' @param data xxx
-#' @param conds xxx
-#' @param subset xxx
-#' @param pal.name xxx
-#'
 #' @import vioplot
 #' @importFrom graphics plot.new plot.window title axis segments points legend
 #'

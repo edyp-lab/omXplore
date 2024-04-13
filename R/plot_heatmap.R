@@ -1,32 +1,3 @@
-#' @title xxx
-#' @description #' This function is inspired from the function \code{heatmap.2}
-#' @name omXplore_heatmap
-#'
-#' @param x A `matrix` or `array` containing the quantitative data.
-#'
-#' @param col Colors used for the image. Defaults to heat colors (heat.colors).
-#'
-#' @param srtCol Angle of column conds, in degrees from horizontal
-#'
-#' @param labCol Character vectors with column conds to use.
-#'
-#' @param labRow Character vectors with row conds to use.
-#'
-#' @param key Logical indicating whether a color-key should be shown.
-#'
-#' @param key.title Main title of the color key. If set to NA no title will
-#' be plotted.
-#'
-#' @param main Main title; default to none.
-#'
-#' @param ylab y-axis title; default to none.
-#'
-#' @export
-#'
-#' @author Samuel Wieczorek
-#'
-NULL
-
 
 
 #' @rdname omXplore_heatmap

@@ -1,7 +1,7 @@
 #' @title Color legend for DaparToolshed
 #'
 #' @description
-#' Shows xxx based on the tags in the package 'DaparToolshed'
+#' Shows a legend based on the tags in the package 'DaparToolshed'
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param presentTags A vector of `character()` which correspond to the tags.

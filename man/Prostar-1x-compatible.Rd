@@ -4,7 +4,7 @@
 \alias{Prostar-1x-compatible}
 \alias{SE_Compatibility_with_Prostar_1.x}
 \alias{MAE_Compatibility_with_Prostar_1x}
-\title{xxxx}
+\title{Convert datasets exported by the package \code{Prostar}}
 \usage{
 SE_Compatibility_with_Prostar_1.x(obj, se)
 
@@ -23,7 +23,7 @@ An enriched instance of the class \code{SummarizedExperiment}
 An enriched instance of the class \code{MultiAssayExperiment}
 }
 \description{
-xxx
+Convert datasets exported by the package \code{Prostar}
 }
 \examples{
 data(sub_R25)

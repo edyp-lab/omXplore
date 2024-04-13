@@ -1,8 +1,9 @@
 #' @title Accessors functions
-#' @description xxx
+#' @description Functions used to access the additional plots in the instances 
+#' of the class `MultiAssayExperiment`.
 #' @return See individual method description for the return value.
 #' @param object An object of
-#' @param ... xxxx description
+#' @param ... Additional parameters
 #' @name accessors
 #'
 #' @importFrom SummarizedExperiment rowData colData assays 

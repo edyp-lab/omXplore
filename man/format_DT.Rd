@@ -19,46 +19,38 @@ formatDT_server(
  }),
   withDLBtns = FALSE,
   showRownames = FALSE,
-  dom = "Bt",
   dt_style = reactive({
      NULL
  }),
   filename = "Prostar_export",
-  hideCols = reactive({
-     NULL
- }),
   selection = "single"
 )
 
-formatDT(obj)
+formatDT(data)
 }
 \arguments{
 \item{id}{shiny id}
 
 \item{data}{A \code{data.frame}}
 
-\item{data_nostyle}{xxx}
+\item{data_nostyle}{A data.frame() to be bind to the main data with no
+custom style}
 
 \item{withDLBtns}{A boolean to indicate whether to display download
 buttons or not.}
 
 \item{showRownames}{A boolean to indicate whether to show rownames.}
 
-\item{dom}{xxx}
-
 \item{dt_style}{A \code{list} composed of:
 \itemize{
-\item data : a data.frame` xxxx
+\item data : a data.frame
 \item colors : a named vector
 }}
 
 \item{filename}{A \code{character(1)} which is the default filename for download.}
 
-\item{hideCols}{xxx}
-
-\item{selection}{xxx}
-
-\item{obj}{xxx}
+\item{selection}{A \code{character(1)} which indicates the type of selection.
+Default is 'single'.}
 }
 \value{
 NA

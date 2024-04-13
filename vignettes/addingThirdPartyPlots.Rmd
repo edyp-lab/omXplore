@@ -156,7 +156,7 @@ order to user the plot module. `omXplore` loads only the necessary code for the 
 
 If the plot function is part of a R package, it is possible to store a
 \*.png image that serves as icon for the clickable vignette displayed in
-the (B) area of the main app of `omXplore` (See xxx). For that purpose,
+the (B) area of the main app of `omXplore`. For that purpose,
 the file should be stored in the 'images' directory of the corresponding
 package and its name should be the same as the function it refers to.
 

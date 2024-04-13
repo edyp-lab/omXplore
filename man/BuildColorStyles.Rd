@@ -2,16 +2,17 @@
 % Please edit documentation in R/utils.R
 \name{BuildColorStyles}
 \alias{BuildColorStyles}
-\title{xxxx}
+\title{Build color style for DT tables}
 \usage{
 BuildColorStyles(type)
 }
 \arguments{
-\item{type}{The type od dataset}
+\item{type}{The type of dataset. Available values are \code{protein} and \code{peptide}}
 }
 \value{
 A list
 }
 \description{
-xxxx
+This function builds a list which is used for styling DT tables with the
+function \code{DT::styleEqual()}
 }

@@ -54,8 +54,6 @@
 #' For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 #' means that the package called "testPkg" must provide the four functions:
 #' foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
-#' @param width xxx
-#' @param height xxx
 #' @param useModal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
 #' @param verbose A boolean for verbose mode. Default is FALSE.
@@ -141,13 +139,14 @@ view_dataset_server <- function(
     id,
     obj = reactive({NULL}),
     addons = list(),
-    width = 40,
-    height = 40,
     useModal = TRUE,
     verbose = FALSE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    width <- 40
+    height <- 40
+    
     rv <- reactiveValues(
       data = NULL,
       conds = NULL,

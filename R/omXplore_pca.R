@@ -5,16 +5,16 @@
 #' This method plots a bar plot which represents the distribution of the
 #' number of missing values (NA) per lines (ie proteins).
 #'
-#' * `wrapper_pca()`: xxx
+#' * `wrapper_pca()`
 #' * `plotPCA_Eigen_hc()`: plots the eigen values of PCA with the highcharts
 #'    library
 #' * `plotPCA_Eigen()`: plots the eigen values of PCA
-#' * `plotPCA_Var()`:
-#' * `plotPCA_Ind()`:
+#' * `plotPCA_Var()`
+#' * `plotPCA_Ind()`
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of the class `MultiAssayExperiment`.
-#' @param i xxxx
+#' @param i An integer which is the index of the assay in the param obj
 #' @param var.scaling The dimensions to plot
 #' @param ncp A `integer(1)` which represents the umber of dimensions kept in
 #' the results.
@@ -28,14 +28,12 @@
 #'
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
 #'   # Replace missing values for the example
 #'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
 #'   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
 #'   omXplore_pca(vdata, 1)
-#' }
 #'
 NULL
 

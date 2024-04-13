@@ -124,6 +124,8 @@ listShinyApps <- function(location = "both") {
 #'
 listPlotModules <- function(location = "both") {
   stopifnot(location %in% c("both", "external", "builtin"))
+  
+  
 
   builtin <- ls("package:omXplore")
   builtin <- builtin[grep("omXplore_", builtin)]

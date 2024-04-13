@@ -8,8 +8,7 @@
 \alias{extFoo2_ui}
 \alias{extFoo2_server}
 \alias{extFoo2}
-\title{Displays a correlation matrix of the quantitative data of a
-numeric matrix.}
+\title{External module example}
 \usage{
 extFoo1_ui(id)
 
@@ -44,7 +43,7 @@ extFoo2(obj, i)
 
 \item{obj}{An object of instance \code{MultiAssayExperiment}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 }
 \value{
 NA
@@ -62,7 +61,8 @@ NA
 A shiny app
 }
 \description{
-xxxx
+Example for an external shiny module, well structured to be run within a
+workflow for \code{MagellanNTK}
 }
 \examples{
 if (interactive()) {

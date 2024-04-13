@@ -1,5 +1,4 @@
-#' @title xxxx
-#' @description xxx
+#' @title Convert datasets exported by the package `Prostar`
 #' 
 #' @name Prostar-1x-compatible
 #' 

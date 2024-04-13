@@ -1,27 +1,22 @@
 #' @title Displays a correlation matrix of the quantitative data of a
 #' numeric matrix.
 #'
-#' @description
-#' xxxx
-#'
-#' @param id xxx
+#' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of the class `SummarizedExperiment`
-#' @param i xxx
-#' @param data xxx
-#' @param conds xxx
+#' @param i An integer which is the index of the assay in the param obj
 #' @param pal.name A `character(1)` which is the name of the palette from
 #' the package [RColorBrewer] from which the colors are taken. Default
 #' value is 'Set1'.
+#' @param data A data.frame() of quantitative data
+#' @param conds A vector indicating the name of each sample.
 #'
 #' 
 #' @name density-plot
 #'
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
 #'   omXplore_density(vdata, 1)
-#' }
 #'
 NULL
 

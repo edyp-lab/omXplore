@@ -1,13 +1,9 @@
 #' @title Explore `MultiAssayExperiment` objects.
 #'
-#' @description xxx
-#'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of the class `MultiAssayExperiment`
-#' @param i xxx
-#' @param digits xxx
-#'
-#' 
+#' @param i An integer which is the index of the assay in the param obj
+#' @param digits An integer for the number of digits shown in the table
 #' 
 #' @name omXplore_tabExplorer
 #'

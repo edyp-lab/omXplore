@@ -1,19 +1,10 @@
 
-#' @title Builds a boxplot from a dataframe using the package \code{highcharter}
-#' @param obj Numeric matrix
-#' @param conds xxx
-#' @param legend A vector of the conditions (one condition per sample).
-#' @param pal A basis palette for the boxes which length must be equal
-#' to the number of unique conditions in the dataset.
-#' @param subset A vector of index indicating which rows to highlight
 #' @return A boxplot
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
-#' @examples
-#' data(sub_R25)
-#' conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
-#' pal <- ExtendPalette(length(unique(conds)))
-#' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 #' @import highcharter
+#' 
+#' @rdname intensity-plots
+#' 
 #' @export
 boxPlot <- function(
     obj,

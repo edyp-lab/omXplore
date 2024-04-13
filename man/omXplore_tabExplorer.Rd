@@ -28,9 +28,9 @@ omXplore_tabExplorer(obj, i)
 
 \item{obj}{An instance of the class \code{MultiAssayExperiment}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
-\item{digits}{xxx}
+\item{digits}{An integer for the number of digits shown in the table}
 }
 \value{
 NA
@@ -42,7 +42,7 @@ NA
 A shiny app
 }
 \description{
-xxx
+Explore \code{MultiAssayExperiment} objects.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
