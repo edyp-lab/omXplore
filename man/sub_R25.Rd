@@ -3,6 +3,9 @@
 \name{sub_R25}
 \alias{sub_R25}
 \title{Feature example data}
+\format{
+An instance of the class \code{MultiAssayExperiment}
+}
 \source{
 \code{sub_R25} was built from the source code available in
 \href{https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R}{\code{inst/scripts/build_datasets.R}}
