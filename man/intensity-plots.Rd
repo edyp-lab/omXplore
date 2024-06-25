@@ -18,6 +18,12 @@ omXplore_intensity_server(
   i,
   track.indices = reactive({
      NULL
+ }),
+  remoteReset = reactive({
+     NULL
+ }),
+  is.enabled = reactive({
+     TRUE
  })
 )
 
@@ -74,6 +80,7 @@ Displays different intensity plots.
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   shiny::runApp(omXplore_intensity(vdata, 1))
+  
 data(sub_R25)
 conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
 pal <- ExtendPalette(length(unique(conds)))

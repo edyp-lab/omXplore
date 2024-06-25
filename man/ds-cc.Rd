@@ -15,7 +15,7 @@ omXplore_cc_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  })
 )
 

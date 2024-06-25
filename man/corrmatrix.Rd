@@ -17,7 +17,7 @@ omXplore_corrmatrix_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  })
 )
 
