@@ -77,7 +77,7 @@ Collate:
     'mae_accessors.R'
     'metacell_utils.R'
     'mod_colorLegend.R'
-    'mod_explore_graphs.R',
+    'mod_explore_graphs.R'
     'modules.R'
     'omXplore_cc.R'
     'omXplore_corrmatrix.R'
