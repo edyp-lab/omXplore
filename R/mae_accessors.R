@@ -17,7 +17,7 @@
 #' ## -----------------------------------
 #' data(sub_R25)
 #' se1 <- sub_R25[[1]]
-#' proteinID <- get_proteinID(se1)
+#' parentProtId <- get_parentProtId(se1)
 #' colID <- get_colID(se1)
 #' type <- get_type(se1)
 #' metacell <- get_metacell(se1)
@@ -148,10 +148,10 @@ setMethod("get_cc", signature = "SummarizedExperiment",
 )
 
 #' @rdname accessors
-#' @exportMethod get_proteinID
+#' @exportMethod get_parentProtId
 setGeneric(
-  "get_proteinID",
-  function(object, ...) standardGeneric("get_proteinID")
+  "get_parentProtId",
+  function(object, ...) standardGeneric("get_parentProtId")
 )
 
 
@@ -160,11 +160,11 @@ setGeneric(
 #' @rdname accessors
 #' @return A data.frame containing the metadata of the dataset
 #'
-setMethod("get_proteinID", signature = "SummarizedExperiment",
+setMethod("get_parentProtId", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        MultiAssayExperiment::metadata(object)$proteinID
+        MultiAssayExperiment::metadata(object)$parentProtId
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}

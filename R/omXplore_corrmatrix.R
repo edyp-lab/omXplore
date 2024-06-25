@@ -73,7 +73,7 @@ omXplore_corrmatrix_ui <- function(id) {
 omXplore_corrmatrix_server <- function(
     id,
     obj = reactive({ NULL}),
-  i = reactive({1})) {
+  i = reactive({NULL})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 

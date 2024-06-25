@@ -24,6 +24,7 @@
 #' @examplesIf interactive()
 #'   data(vdata)
 #'   shiny::runApp(omXplore_intensity(vdata, 1))
+#'   
 #' data(sub_R25)
 #' conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
 #' pal <- ExtendPalette(length(unique(conds)))
@@ -89,12 +90,19 @@ omXplore_intensity_ui <- function(id) {
 omXplore_intensity_server <- function(
     id,
     obj,
-  i,
-    track.indices = reactive({NULL})) {
+    i,
+    track.indices = reactive({NULL}),
+    remoteReset = reactive({NULL}),
+    is.enabled = reactive({TRUE})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     rv <- reactiveValues(data = NULL)
+    
+    observeEvent(req(remoteReset()), {
+      updateSelectInput(session, "choosePlot", selected = "violin")
+
+    })
 
     observe(
       {
@@ -168,28 +176,34 @@ omXplore_intensity_server <- function(
 #'
 omXplore_intensity <- function(
     obj,
-  i,
+    i,
     withTracking = FALSE) {
   
   stopifnot(inherits(obj, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     tagList(
+      actionButton('reset', "Reset"),
       plots_tracking_ui("tracker"),
       omXplore_intensity_ui("iplot")
     )
   )
 
   server <- function(input, output, session) {
+    
     indices <- plots_tracking_server("tracker",
       obj = reactive({obj}),
-      i = reactive({i})
+      i = reactive({i}),
+      reset = reactive({input$reset}),
+      is.enabled = reactive({TRUE})
     )
 
     omXplore_intensity_server("iplot",
       obj = reactive({obj}),
       i = reactive({i}),
-      track.indices = reactive({indices()})
+      track.indices = reactive({indices()}),
+      reset = reactive({input$reset}),
+      is.enabled = reactive({TRUE})
     )
   }
 

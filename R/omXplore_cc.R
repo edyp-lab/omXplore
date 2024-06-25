@@ -149,7 +149,7 @@ omXplore_cc_ui <- function(id) {
 #'
 omXplore_cc_server <- function(id, 
   obj = reactive({NULL}), 
-  i = reactive({1})) {
+  i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
