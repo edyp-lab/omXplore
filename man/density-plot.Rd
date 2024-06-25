@@ -29,19 +29,19 @@ densityPlot(data, conds = NULL, pal.name = NULL)
 omXplore_density(obj, i)
 }
 \arguments{
-\item{id}{xxx}
+\item{id}{A \code{character(1)} which is the id of the shiny module.}
 
 \item{obj}{An instance of the class \code{SummarizedExperiment}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from
 the package \link{RColorBrewer} from which the colors are taken. Default
 value is 'Set1'.}
 
-\item{data}{xxx}
+\item{data}{A data.frame() of quantitative data}
 
-\item{conds}{xxx}
+\item{conds}{A vector indicating the name of each sample.}
 }
 \value{
 NA
@@ -53,14 +53,14 @@ A plot
 A shiny app
 }
 \description{
-xxxx
+Displays a correlation matrix of the quantitative data of a
+numeric matrix.
 }
 \examples{
-if (interactive()) {
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   omXplore_density(vdata, 1)
-}
-
+\dontshow{\}) # examplesIf}
 data(vdata)
 qdata <- SummarizedExperiment::assay(vdata[[1]])
 conds <- get_group(vdata)

@@ -10,36 +10,25 @@
 \usage{
 buildGraph(cc = NULL, meta = NULL)
 
-display.CC.visNet(
-  g = NULL,
-  layout = "layout_with_fr",
-  obj = NULL,
-  prot.tooltip = NULL,
-  pept.tooltip = NULL
-)
+display.CC.visNet(g = NULL, layout = "layout_with_fr")
 
 plotCCJitter(df, clickFunction = NULL)
 
 GetCCInfos(cc)
 }
 \arguments{
-\item{cc}{xxx}
+\item{cc}{A list of connected component}
 
-\item{meta}{xxx}
+\item{meta}{A data.frame()}
 
-\item{g}{A cc (a list)}
+\item{g}{An instance of a graph}
 
-\item{layout}{xxxxx}
+\item{layout}{A \code{character(1)} which i the layout used in visNetwork.
+Default value is 'layout_with_fr'}
 
-\item{obj}{xxx}
+\item{df}{A data.frame()}
 
-\item{prot.tooltip}{xxx}
-
-\item{pept.tooltip}{xxx}
-
-\item{df}{xxxx}
-
-\item{clickFunction}{xxxx}
+\item{clickFunction}{A JS function to determine the behaviour of a click}
 }
 \value{
 A list
@@ -57,7 +46,9 @@ several (shared) peptides.
 }
 }
 \description{
-xxxx
+Display a CC
+
+Connected Components infos
 }
 \examples{
 data(sub_R25)

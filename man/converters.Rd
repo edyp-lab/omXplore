@@ -23,7 +23,7 @@
 \alias{listOfMSnSet_to_mae}
 \alias{listOfmatrix_to_mae}
 \alias{listOfdf_to_mae}
-\title{xxx}
+\title{Convert to enriched MultiAssayExperiment}
 \usage{
 convert_to_mae(obj)
 
@@ -68,13 +68,13 @@ listOfmatrix_to_mae(obj)
 listOfdf_to_mae(obj)
 }
 \arguments{
-\item{obj}{An object compliant with formats xxxx}
+\item{obj}{An object compliant with the formats accepted by \code{omXplore}}
 
 \item{ll}{A list}
 
-\item{colData}{xxxx}
+\item{colData}{A data.frame()}
 
-\item{se}{xxxx}
+\item{se}{AN instance of the class \code{SummarizedExperiment}}
 }
 \value{
 An enriched instance of the class \code{MultiAssayExperiment}

@@ -10,8 +10,8 @@
 \alias{get_metacell,SummarizedExperiment-method}
 \alias{get_cc}
 \alias{get_cc,SummarizedExperiment-method}
-\alias{get_proteinID}
-\alias{get_proteinID,SummarizedExperiment-method}
+\alias{get_parentProtId}
+\alias{get_parentProtId,SummarizedExperiment-method}
 \alias{get_colID}
 \alias{get_colID,SummarizedExperiment-method}
 \alias{get_type}
@@ -36,9 +36,9 @@ get_cc(object, ...)
 
 \S4method{get_cc}{SummarizedExperiment}(object)
 
-get_proteinID(object, ...)
+get_parentProtId(object, ...)
 
-\S4method{get_proteinID}{SummarizedExperiment}(object)
+\S4method{get_parentProtId}{SummarizedExperiment}(object)
 
 get_colID(object, ...)
 
@@ -55,7 +55,10 @@ get_pkg_version(object, ...)
 \arguments{
 \item{object}{An instance of class \code{SummarizedExperiment}.}
 
-\item{...}{xxxx description}
+\item{...}{Additional parameters}
+
+\item{slot.name}{The name of the slot dedicated to cell metadata to search.
+Default values are 'metacell' and 'qMetacell'}
 }
 \value{
 See individual method description for the return value.
@@ -79,7 +82,8 @@ A data.frame containing the metadata of the dataset
 A data.frame containing the metadata of the dataset
 }
 \description{
-xxx
+Functions used to access the additional plots in the instances
+of the class \code{MultiAssayExperiment}.
 }
 \examples{
 
@@ -88,7 +92,7 @@ xxx
 ## -----------------------------------
 data(sub_R25)
 se1 <- sub_R25[[1]]
-proteinID <- get_proteinID(se1)
+parentProtId <- get_parentProtId(se1)
 colID <- get_colID(se1)
 type <- get_type(se1)
 metacell <- get_metacell(se1)

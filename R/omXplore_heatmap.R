@@ -7,35 +7,33 @@
 #' more details, see `heatmap.2()`.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param width xxx
 #' @param obj An instance of a class `MultiAssayExperiment`.
-#' @param i xxx
-#' @param qdata xxx
-#' @param conds xx
+#' @param i An integer which is the index of the assay in the param obj
+#' @param qdata A data.frame() of quantitative data.
+#' @param conds A vector indicating the name of each sample.
 #' @param distance The distance used by the clustering algorithm to compute
 #' the dendrogram.
 #' @param cluster the clustering algorithm used to build the dendrogram.
 #' @param dendro A boolean to indicate fi the dendrogram has to be displayed
-#' @param x xxx
-#' @param col A palette of colors
-#' @param srtCol xxx
-#' @param labCol xxx
-#' @param labRow xxxx
-#' @param key xxx
-#' @param key.title xxxx
-#' @param main xxx
-#' @param ylab xxxx
+#' @param x A `matrix` or `array` containing the quantitative data.
+#' @param col Colors used for the image. Defaults to heat colors (heat.colors).
+#' @param srtCol Angle of column conds, in degrees from horizontal
+#' @param labCol Character vectors with column conds to use.
+#' @param labRow Character vectors with row conds to use.
+#' @param key Logical indicating whether a color-key should be shown.
+#' @param key.title Main title of the color key. If set to NA no title will
+#' be plotted.
+#' @param main Main title; default to none.
+#' @param ylab y-axis title; default to none.
 #'
 #' @author Florence Combes, Samuel Wieczorek, Enora Fremy
 #'
 #' @name omXplore_heatmap
 #'
 #'
-#' @examples
-#' if (interactive()) {
+#' @examplesIf interactive()
 #'   data(vdata)
 #'   omXplore_heatmap(vdata, 1)
-#' }
 #'
 NULL
 
@@ -98,15 +96,14 @@ omXplore_heatmap_ui <- function(id) {
 omXplore_heatmap_server <- function(
     id,
     obj = reactive({NULL}),
-    i = reactive({NULL}),
-    width = 900) {
+    i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    width = 900
     #rv <- reactiveValues(data = NULL)
 
-    observe(
-      {
+    observe({
         # if (inherits(obj(), "MultiAssayExperiment")) {
         #   rv$data <- obj()
         # }

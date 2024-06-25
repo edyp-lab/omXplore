@@ -15,8 +15,6 @@ view_dataset_server(
      NULL
  }),
   addons = list(),
-  width = 40,
-  height = 40,
   useModal = TRUE,
   verbose = FALSE
 )
@@ -40,10 +38,6 @@ For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 means that the package called "testPkg" must provide the four functions:
 foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 }}
-
-\item{width}{xxx}
-
-\item{height}{xxx}
 
 \item{useModal}{A \code{boolean(1)} that indicates whether to open plot modules
 in a modal window or not. Default is TRUE.}

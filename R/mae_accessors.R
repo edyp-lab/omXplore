@@ -1,8 +1,9 @@
 #' @title Accessors functions
-#' @description xxx
+#' @description Functions used to access the additional plots in the instances 
+#' of the class `MultiAssayExperiment`.
 #' @return See individual method description for the return value.
 #' @param object An object of
-#' @param ... xxxx description
+#' @param ... Additional parameters
 #' @name accessors
 #'
 #' @importFrom SummarizedExperiment rowData colData assays 
@@ -16,7 +17,7 @@
 #' ## -----------------------------------
 #' data(sub_R25)
 #' se1 <- sub_R25[[1]]
-#' proteinID <- get_proteinID(se1)
+#' parentProtId <- get_parentProtId(se1)
 #' colID <- get_colID(se1)
 #' type <- get_type(se1)
 #' metacell <- get_metacell(se1)
@@ -96,6 +97,8 @@ setGeneric(
 
 
 #' @param object An instance of class `SummarizedExperiment`.
+#' @param slot.name The name of the slot dedicated to cell metadata to search. 
+#' Default values are 'metacell' and 'qMetacell'
 #' @rdname accessors
 #' @return A data.frame containing the metadata of the dataset
 #'
@@ -145,10 +148,10 @@ setMethod("get_cc", signature = "SummarizedExperiment",
 )
 
 #' @rdname accessors
-#' @exportMethod get_proteinID
+#' @exportMethod get_parentProtId
 setGeneric(
-  "get_proteinID",
-  function(object, ...) standardGeneric("get_proteinID")
+  "get_parentProtId",
+  function(object, ...) standardGeneric("get_parentProtId")
 )
 
 
@@ -157,11 +160,11 @@ setGeneric(
 #' @rdname accessors
 #' @return A data.frame containing the metadata of the dataset
 #'
-setMethod("get_proteinID", signature = "SummarizedExperiment",
+setMethod("get_parentProtId", signature = "SummarizedExperiment",
   function(object) {
     tryCatch(
       {
-        MultiAssayExperiment::metadata(object)$proteinID
+        MultiAssayExperiment::metadata(object)$parentProtId
       },
       warning = function(w) {NULL},
       error = function(e) {NULL}

@@ -4,8 +4,9 @@
 #'
 #' @param id shiny id
 #' @param obj An instance of the class `MultiAssayExperiment`
-#' @param resetBtn A `boolean(1)` which indicates whether to show the 'Reset'
+#' @param remoteReset A `boolean(1)` which indicates whether to show the 'Reset'
 #' button or not.
+#' @param is.enabled xxx
 #'
 #' 
 #' @examplesIf interactive()
@@ -71,8 +72,10 @@ plots_tracking_ui <- function(id) {
 plots_tracking_server <- function(
     id,
     obj = reactive({NULL}),
-    i = reactive({1}),
-    resetBtn = reactive({FALSE})) {
+    i = reactive({NULL}),
+    remoteReset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -98,21 +101,15 @@ plots_tracking_server <- function(
     )
 
 
-
     # observe({
     #   req(rv.track$data)
-    #   shinyjs::toggle('reset', condition = isTRUE(resetBtn()))
-    #
-    #
+    #   shinyjs::toggle("reset", condition = isTRUE(remoteReset()))
     # })
-
-
-    observe({
-      req(rv.track$data)
-      shinyjs::toggle("reset", condition = isTRUE(resetBtn()))
-    })
     
 
+    observeEvent(req(remoteReset()), {
+      RunReset()
+    })
 
   output$listSelect_UI <- renderUI({
     req(input$typeSelect == "List")
@@ -254,13 +251,15 @@ plots_tracking <- function(obj, i) {
   stopifnot(inherits(obj, "MultiAssayExperiment"))
   
   ui <- fluidPage(
+    actionButton('reset', 'Reset'),
     plots_tracking_ui("tracker")
   )
 
   server <- function(input, output, session) {
     indices <- plots_tracking_server("tracker", 
       obj = reactive({obj}),
-      i = reactive({i})
+      i = reactive({i}),
+      remoteReset = reactive({input$reset})
     )
     
     observeEvent(indices(), {

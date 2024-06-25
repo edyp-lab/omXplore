@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{is.listOf}
 \alias{is.listOf}
-\title{xxx}
+\title{Checks the class of a list's slots}
 \usage{
 is.listOf(object, obj.class = NULL)
 }
@@ -12,12 +12,14 @@ is.listOf(object, obj.class = NULL)
 \item{obj.class}{The name of the class to search in items of the list.}
 }
 \value{
-A \code{character(1)} with the name of the package or xxx
+A \code{character(1)} with the name of the package or NULL
 }
 \description{
-xxx
+Checks if all slots of the given list are of the same class.
 }
 \examples{
-NULL
+ll <- as.list(LETTERS[1:3])
+is.listOf(ll, "data.frame")
+is.listOf(ll, "character")
 
 }

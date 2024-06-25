@@ -14,10 +14,13 @@ plots_tracking_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  }),
-  resetBtn = reactive({
-     FALSE
+  remoteReset = reactive({
+     NULL
+ }),
+  is.enabled = reactive({
+     TRUE
  })
 )
 
@@ -28,8 +31,10 @@ plots_tracking(obj, i)
 
 \item{obj}{An instance of the class \code{MultiAssayExperiment}}
 
-\item{resetBtn}{A \code{boolean(1)} which indicates whether to show the 'Reset'
+\item{remoteReset}{A \code{boolean(1)} which indicates whether to show the 'Reset'
 button or not.}
+
+\item{is.enabled}{xxx}
 }
 \value{
 NA

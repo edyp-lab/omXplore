@@ -1,6 +1,6 @@
 
-#' @title xxx
-#' @description xxx
+#' @title Global variables
+#' @description Defines the global variables for the package `omXplore`
 #' @export
 #' @examples
 #' globals()
@@ -25,7 +25,7 @@ omXplore can handle MSnset and QFeatures files.
 #' @param ll.deps A `character()` vector which contains packages names
 #' 
 #' @examples 
-#' pkgs.require('DAPAR')
+#' pkgs.require('omXplore')
 #' 
 #' @export
 #' @return NA
@@ -43,17 +43,19 @@ pkgs.require <- function(ll.deps){
 
 
 
-#' @title xxx
-#' @description xxx
+#' @title Checks the class of a list's slots
+#' @description Checks if all slots of the given list are of the same class.
 #' @export
 #' @param object A `list`
 #' @param obj.class The name of the class to search in items of the list.
 #' @examples
-#' NULL
+#' ll <- as.list(LETTERS[1:3])
+#' is.listOf(ll, "data.frame")
+#' is.listOf(ll, "character")
 #'
-#' @return A `character(1)` with the name of the package or xxx
+#' @return A `character(1)` with the name of the package or NULL
 #'
-is.listOf <- function(object, obj.class=NULL){
+is.listOf <- function(object, obj.class = NULL){
   
   res <- NULL
   
@@ -144,21 +146,19 @@ customExportMenu <- function(hc, fname) {
 #' @param hc A highcharter object
 #' @param chartType The type of the plot
 #' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
-#' @param width xxx
-#' @param height xxx
+#' @param width The width of the plot
+#' @param height The height of the plot
 #'
 #' @return A highchart plot
 #'
 #' @author Samuel Wieczorek
 #'
-#' @examples
+#' @examplesIf interactive()
 #' library(highcharter)
-#' if (interactive()) {
 #'   hc <- highchart()
 #'   hc_chart(hc, type = "line")
 #'   hc_add_series(hc, data = c(29, 71, 40))
 #'   customChart(hc)
-#' }
 #'
 #' @export
 #'
@@ -246,13 +246,13 @@ FormatDataForDT <- function(
 
 
 
-#' @title
-#' xxxx
+#' @title Build color style for DT tables
 #'
 #' @description
-#' xxxx
+#' This function builds a list which is used for styling DT tables with the 
+#' function `DT::styleEqual()`
 #'
-#' @param type The type od dataset
+#' @param type The type of dataset. Available values are `protein` and `peptide`
 #'
 #' @export
 #'

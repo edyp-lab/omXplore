@@ -1,15 +1,12 @@
 #' @title Displays a correlation matrix of the quantitative data of a
 #' numeric matrix.
 #'
-#' @description
-#' xxxx
-#'
 #' @name corrmatrix
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of the class `SummarizedExperiment`
-#' @param i xxx
-#' @param rate xxx. Default value is 0.9
+#' @param i An integer which is the index of the assay in the param obj
+#' @param rate Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
 #' 
@@ -76,7 +73,7 @@ omXplore_corrmatrix_ui <- function(id) {
 omXplore_corrmatrix_server <- function(
     id,
     obj = reactive({ NULL}),
-  i = reactive({1})) {
+  i = reactive({NULL})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
@@ -131,7 +128,8 @@ omXplore_corrmatrix_server <- function(
 #' @param rate The rate parameter to control the exponential law for
 #' the gradient of colors
 #'
-#' @param showValues xxx
+#' @param showValues A boolean which indicates whether to show values in the
+#' correlation plot.
 #'
 #' @export
 #' 

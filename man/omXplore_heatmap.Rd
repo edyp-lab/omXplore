@@ -19,8 +19,7 @@ omXplore_heatmap_server(
  }),
   i = reactive({
      NULL
- }),
-  width = 900
+ })
 )
 
 omXplore_heatmap(obj, i)
@@ -62,13 +61,11 @@ heatmapForMissingValues(
 
 \item{obj}{An instance of a class \code{MultiAssayExperiment}.}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
-\item{width}{xxx}
+\item{qdata}{A data.frame() of quantitative data.}
 
-\item{qdata}{xxx}
-
-\item{conds}{xx}
+\item{conds}{A vector indicating the name of each sample.}
 
 \item{distance}{The distance used by the clustering algorithm to compute
 the dendrogram.}
@@ -113,18 +110,13 @@ A heatmap
 This function is a wrapper to \code{heatmap.2()} that displays
 assay data in an instance of \code{SummarizedExperiment}. For
 more details, see \code{heatmap.2()}.
-
-#' This function is inspired from the function \code{heatmap.2}
 }
 \examples{
-if (interactive()) {
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
   omXplore_heatmap(vdata, 1)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \author{
 Florence Combes, Samuel Wieczorek, Enora Fremy
-
-Samuel Wieczorek
 }

@@ -1,13 +1,13 @@
-#' @title xxx
-#' @description xxx
+#' @title PCA plots
 #' @importFrom stats na.omit
 #'
-#' @param res.pca xxx
-#' @param qdata xxx
-#' @param group xxx
-#' @param var.scaling xxx
-#' @param ncp xxx
-#' @param chosen.axes xxx
+#' @param res.pca The result of the function `FactoMineR::PCA()`
+#' @param qdata A data.frame() of quantitative data
+#' @param group A vector with the name of samples
+#' @param var.scaling A boolean indicating whether to scale the data or not
+#' @param ncp See `FactoMineR::PCA()`
+#' @param chosen.axes See the parameter 'axes' of the function 
+#' `factoextra::fviz_pca_var()`
 #'
 #' @name ds-pca
 #'
