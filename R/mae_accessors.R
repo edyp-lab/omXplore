@@ -56,6 +56,40 @@ setMethod("get_adjacencyMatrix", signature = "SummarizedExperiment",
 )
 
 
+
+
+#' @rdname accessors
+#' @exportMethod get_design
+setGeneric(
+  "get_design",
+  function(object, ...) standardGeneric("get_design")
+)
+
+
+
+#' @param object An instance of class `SummarizedExperiment`.
+#' @rdname accessors
+#' @return A data.frame containing the metadata of the dataset
+#'
+setMethod("get_design", signature = "MultiAssayExperiment",
+  function(object) {
+    tryCatch(
+      {
+        design <- MultiAssayExperiment::colData(object)
+        if(is.null(design))
+          design <- MultiAssayExperiment::colData(object)
+        
+        design
+      },
+      warning = function(w) {NULL},
+      error = function(e) {NULL}
+    )
+  }
+)
+
+
+
+
 #' @rdname accessors
 #' @exportMethod get_group
 setGeneric(
