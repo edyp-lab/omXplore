@@ -144,6 +144,12 @@ view_dataset_server <- function(
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    
+    shiny::addResourcePath(
+      prefix = "images",
+      directoryPath = system.file("images", package = "omXplore")
+    )
+    
     width <- 40
     height <- 40
     
