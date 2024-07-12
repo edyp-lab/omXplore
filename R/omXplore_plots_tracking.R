@@ -98,27 +98,23 @@ plots_tracking_server <- function(
       value = NULL
     )
     observeEvent(obj(), ignoreNULL = TRUE, {
-      
-      if (inherits(obj(), "SummarizedExperiment")) {
+      stopifnot(inherits(obj(), 'SummarizedExperiment'))
           rv$dataIn <- obj()
-          #dataOut$trigger <- Timestamp()
+          dataOut$trigger <- as.numeric(Sys.time())
           dataOut$value <- NULL
-      }
       }, priority = 1000)
 
 
     observeEvent(remoteReset(), ignoreInit = TRUE, ignoreNULL = TRUE, {
-      RunReset()
-    })
-    
-    
-    RunReset <- function(){
-      rv$dataIn <- obj()
-      dataOut$value <- NULL
       lapply(names(rv.widgets), function(x){
         rv.widgets[[x]] <- widgets.default.values[[x]]
       })
-    }
+      
+      dataOut$trigger <- as.numeric(Sys.time())
+      dataOut$value <- NULL
+    })
+    
+
     
     Get_LogicalCols_in_Dataset <- reactive({
       req(rv$dataIn)
@@ -231,6 +227,7 @@ plots_tracking_server <- function(
     observeEvent(req(rv.widgets$listSelect), ignoreNULL = FALSE, {
       .row <- SummarizedExperiment::rowData(rv$dataIn)
       .id <- get_colID(rv$dataIn)
+      dataOut$trigger <- as.numeric(Sys.time())
       if(is.null(.id))
         dataOut$value <- rv.widgets$listSelect
       else
@@ -246,6 +243,7 @@ plots_tracking_server <- function(
         cond <- cond || (as.numeric(rv.widgets$randSelect) > nrow(rv$dataIn))
         if (!cond) {
           .row <- SummarizedExperiment::rowData(rv$dataIn)
+          dataOut$trigger <- as.numeric(Sys.time())
         dataOut$value <- sample(seq_len(nrow(.row)),
           as.numeric(rv.widgets$randSelect),
           replace = FALSE
@@ -258,7 +256,7 @@ plots_tracking_server <- function(
 
     observeEvent(req(rv.widgets$colSelect), {
       req(rv.widgets$colSelect != "None")
-      
+      dataOut$trigger <- as.numeric(Sys.time())
       .op1 <- rowData(rv$dataIn)[, rv.widgets$colSelect]
       dataOut$indices <- which(.op1 == TRUE)
     })
