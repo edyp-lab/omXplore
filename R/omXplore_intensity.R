@@ -30,6 +30,8 @@
 #' pal <- ExtendPalette(length(unique(conds)))
 #' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 #' 
+#' shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+#' 
 #' 
 NULL
 
@@ -56,8 +58,8 @@ omXplore_intensity_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    #shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      # h3(globals()$bad_format_txt))),
     radioButtons(ns("choosePlot"), "",
       choices = setNames(nm = c("violin", "box"))
     ),
@@ -107,11 +109,13 @@ omXplore_intensity_server <- function(
     })
 
     observeEvent(obj(),{
+      #browser()
         stopifnot(inherits(obj(), "MultiAssayExperiment"))
+      
           rv$data <- obj()[[i()]]
           rv$conds <- get_group(obj())
           
-        shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
+        #shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
         shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
       })
 
@@ -188,15 +192,20 @@ omXplore_intensity <- function(
 
   server <- function(input, output, session) {
     
+     rv <- reactiveValues(
+       indices = reactive({NULL})
+     )
+     
     indices <- plots_tracking_server("tracker",
       obj = reactive({obj[[i]]}),
       remoteReset = reactive({input$reset})
     )
 
+    
     omXplore_intensity_server("iplot",
       obj = reactive({obj}),
       i = reactive({i}),
-      track.indices = reactive({indices()}),
+      track.indices = reactive({indices()$indices}),
       remoteReset = reactive({input$reset}),
       is.enabled = reactive({TRUE})
     )

@@ -11,7 +11,7 @@
 #' 
 #' @examplesIf interactive()
 #'   data(vdata)
-#'   shiny::runApp(plots_tracking(vdata, 1))
+#'   shiny::runApp(plots_tracking(vdata[[1]]))
 #'
 #' @name plots_tracking
 #'
@@ -64,7 +64,8 @@ plots_tracking_ui <- function(id) {
 plots_tracking_server <- function(
     id,
     obj = reactive({NULL}),
-    remoteReset = reactive({NULL})
+    remoteReset = reactive({NULL}),
+    is.enabled = reactive({TRUE})
   ) {
   
   widgets.default.values <- list(
@@ -83,10 +84,10 @@ plots_tracking_server <- function(
 
     
     rv.widgets <- reactiveValues(
-      typeSelect = "None",
-      listSelect = NULL,
-      randSelect = NULL,
-      colSelect = 'None'
+      typeSelect = widgets.default.values$typeSelect,
+      listSelect = widgets.default.values$listSelect,
+      randSelect = widgets.default.values$randSelect,
+      colSelect = widgets.default.values$colSelect
     )
     
     rv <- reactiveValues(
@@ -95,13 +96,25 @@ plots_tracking_server <- function(
     
     dataOut <- reactiveValues(
       trigger = NULL,
-      value = NULL
+      indices = NULL
     )
+    
+    observeEvent(input$typeSelect, {
+      rv.widgets$rv.widgets$typeSelect <- input$typeSelect})
+    observeEvent(input$listSelect, {
+      rv.widgets$rv.widgets$listSelect <- input$listSelect})
+    observeEvent(input$randSelect, {
+      rv.widgets$rv.widgets$randSelect <- input$randSelect})
+    observeEvent(input$colSelect, {
+      rv.widgets$rv.widgets$colSelect <- input$colSelect})
+    
+    
     observeEvent(obj(), ignoreNULL = TRUE, {
+      
       stopifnot(inherits(obj(), 'SummarizedExperiment'))
           rv$dataIn <- obj()
           dataOut$trigger <- as.numeric(Sys.time())
-          dataOut$value <- NULL
+          dataOut$indices <- NULL
       }, priority = 1000)
 
 
@@ -111,7 +124,7 @@ plots_tracking_server <- function(
       })
       
       dataOut$trigger <- as.numeric(Sys.time())
-      dataOut$value <- NULL
+      dataOut$indices <- NULL
     })
     
 
@@ -225,13 +238,14 @@ plots_tracking_server <- function(
   
   
     observeEvent(req(rv.widgets$listSelect), ignoreNULL = FALSE, {
+
       .row <- SummarizedExperiment::rowData(rv$dataIn)
       .id <- get_colID(rv$dataIn)
       dataOut$trigger <- as.numeric(Sys.time())
       if(is.null(.id))
-        dataOut$value <- rv.widgets$listSelect
+        dataOut$indices <- rv.widgets$listSelect
       else
-        dataOut$value <- match(rv.widgets$listSelect, .row[, .id])
+        dataOut$indices <- match(rv.widgets$listSelect, .row[, .id])
     })
 
 
@@ -244,7 +258,7 @@ plots_tracking_server <- function(
         if (!cond) {
           .row <- SummarizedExperiment::rowData(rv$dataIn)
           dataOut$trigger <- as.numeric(Sys.time())
-        dataOut$value <- sample(seq_len(nrow(.row)),
+        dataOut$indices <- sample(seq_len(nrow(.row)),
           as.numeric(rv.widgets$randSelect),
           replace = FALSE
         )
@@ -288,8 +302,8 @@ plots_tracking <- function(obj) {
       remoteReset = reactive({input$reset})
     )
     
-    observeEvent(req(indices()$value), {
-      print(indices()$value)
+    observeEvent(req(indices()$indices), {
+      print(indices()$indices)
     })
   }
 

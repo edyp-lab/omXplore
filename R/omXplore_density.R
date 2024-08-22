@@ -16,7 +16,7 @@
 #'
 #' @examplesIf interactive()
 #'   data(vdata)
-#'   omXplore_density(vdata, 1)
+#'   shiny::runApp(omXplore_density(vdata, 1))
 #'
 NULL
 
