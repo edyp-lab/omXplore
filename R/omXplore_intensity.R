@@ -128,8 +128,7 @@ omXplore_intensity_server <- function(
     output$box <- renderHighchart({
       req(rv$data)
       req(input$choosePlot == "box")
-      # withProgress(message = "Making plot", value = 100, {
-
+      track.indices()
       boxPlot(
         obj = rv$data,
         conds = rv$conds,
@@ -143,6 +142,7 @@ omXplore_intensity_server <- function(
         req(rv$data)
       req(rv$conds)
       req(input$choosePlot == "violin")
+      track.indices()
 
         # A temp file to save the output. It will be deleted after
         # renderImage sends it, because deleteFile=TRUE.
@@ -196,16 +196,19 @@ omXplore_intensity <- function(
        indices = reactive({NULL})
      )
      
-    indices <- plots_tracking_server("tracker",
+    observe({
+    rv$indices <- plots_tracking_server("tracker",
       obj = reactive({obj[[i]]}),
       remoteReset = reactive({input$reset})
     )
+    })
+   
 
     
     omXplore_intensity_server("iplot",
       obj = reactive({obj}),
       i = reactive({i}),
-      track.indices = reactive({indices()$indices}),
+      track.indices = reactive({rv$indices()$indices}),
       remoteReset = reactive({input$reset}),
       is.enabled = reactive({TRUE})
     )

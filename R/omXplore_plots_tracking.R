@@ -99,32 +99,33 @@ plots_tracking_server <- function(
       indices = NULL
     )
     
-    observeEvent(input$typeSelect, {
-      rv.widgets$rv.widgets$typeSelect <- input$typeSelect})
-    observeEvent(input$listSelect, {
-      rv.widgets$rv.widgets$listSelect <- input$listSelect})
-    observeEvent(input$randSelect, {
-      rv.widgets$rv.widgets$randSelect <- input$randSelect})
-    observeEvent(input$colSelect, {
-      rv.widgets$rv.widgets$colSelect <- input$colSelect})
-    
-    
+   
     observeEvent(obj(), ignoreNULL = TRUE, {
       
       stopifnot(inherits(obj(), 'SummarizedExperiment'))
           rv$dataIn <- obj()
-          dataOut$trigger <- as.numeric(Sys.time())
-          dataOut$indices <- NULL
+          #dataOut$trigger <- as.numeric(Sys.time())
+          #dataOut$indices <- NULL
       }, priority = 1000)
 
 
-    observeEvent(remoteReset(), ignoreInit = TRUE, ignoreNULL = TRUE, {
+    observeEvent(remoteReset(), ignoreNULL = TRUE, ignoreInit = TRUE, {
+      print('omXplore : in observeEvent(remoteReset()')
+      
       lapply(names(rv.widgets), function(x){
         rv.widgets[[x]] <- widgets.default.values[[x]]
       })
       
+      rv$dataIn <- obj()
+      updateSelectInput(session, "typeSelect", selected = widgets.default.values$typeSelect)
+      updateSelectInput(session, ns("listSelect"), selected = widgets.default.values$listSelect)
+      updateTextInput(session, ns("randSelect"), value = widgets.default.values$randSelect)
+      updateSelectInput(session, ns("colSelect"), selected = widgets.default.values$colSelect)
+
+
       dataOut$trigger <- as.numeric(Sys.time())
       dataOut$indices <- NULL
+      
     })
     
 
@@ -141,7 +142,7 @@ plots_tracking_server <- function(
     
     output$typeSelect_UI <- renderUI({
       req(rv$dataIn)
-      
+      rv.widgets$typeSelect
       .choices <- c("None" = "None", 
         "List" = "List", 
         "Random" = "Random")
@@ -161,9 +162,7 @@ plots_tracking_server <- function(
     observeEvent(input$randSelect, {rv.widgets$randSelect <- input$randSelect})
     observeEvent(input$colSelect, {rv.widgets$colSelect <- input$colSelect})
     
-    
-    
-    
+   
   output$listSelect_UI <- renderUI({
     req(rv$dataIn)
     req(rv.widgets$typeSelect == "List")
@@ -185,32 +184,6 @@ plots_tracking_server <- function(
       #options = list(maxOptions = 10000)
     )
   })
-  
-  # observeEvent(req(rv.widgets$typeSelect == 'List'), {
-  #   
-  #   #if(rv.widgets$typeSelect == 'List'){
-  #   .row <- SummarizedExperiment::rowData(rv$dataIn)
-  #   
-  #   .choices <- seq(nrow(.row))
-  #   .colID <- get_colID(rv$dataIn)
-  #   if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
-  #     .choices <- .row[, .colID]
-  #   }
-  #   
-  #   updateSelectizeInput(session, 'listSelect', 
-  #     selected = rv.widgets$listSelect,
-  #     choices = .choices, 
-  #     server = TRUE)
-  #   # }
-  #   
-  #   # updateSelectInput(session, "randSelect", 
-  #   #   selected = rv.widgets$randSelect)
-  #   
-  #   # updateSelectInput(session, "colSelect",
-  #   #   choices = Get_LogicalCols_in_Dataset(),
-  #   #   selected = rv.widgets$colSelect)
-  # })
-  
   
   output$colSelect_UI <- renderUI({
     req(rv$dataIn)
@@ -237,8 +210,8 @@ plots_tracking_server <- function(
   
   
   
-    observeEvent(req(rv.widgets$listSelect), ignoreNULL = FALSE, {
-
+    observeEvent(req(rv.widgets$listSelect), ignoreNULL = TRUE, {
+req(rv$dataIn)
       .row <- SummarizedExperiment::rowData(rv$dataIn)
       .id <- get_colID(rv$dataIn)
       dataOut$trigger <- as.numeric(Sys.time())
@@ -249,8 +222,9 @@ plots_tracking_server <- function(
     })
 
 
-    observeEvent(req(rv.widgets$randSelect), ignoreNULL = FALSE,
-      {
+    observeEvent(req(rv.widgets$randSelect), ignoreNULL = TRUE, {
+      req(rv$dataIn)
+      
         cond <- is.null(rv.widgets$randSelect)
         cond <- cond || rv.widgets$randSelect == ""
         cond <- cond || (as.numeric(rv.widgets$randSelect) < 0)
@@ -269,6 +243,7 @@ plots_tracking_server <- function(
 
 
     observeEvent(req(rv.widgets$colSelect), {
+      req(rv$dataIn)
       req(rv.widgets$colSelect != "None")
       dataOut$trigger <- as.numeric(Sys.time())
       .op1 <- rowData(rv$dataIn)[, rv.widgets$colSelect]
