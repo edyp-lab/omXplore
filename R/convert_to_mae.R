@@ -1,7 +1,6 @@
 #' @title Convert to enriched MultiAssayExperiment
 #' @description
-#' The resulting object is an instance of the  MultiAssayExperiment class.
-#' F
+#' The resulting object is an instance of the  `MultiAssayExperiment` class.
 #' 
 #' @param obj An object compliant with the formats accepted by `omXplore`
 #' @param colData A data.frame()

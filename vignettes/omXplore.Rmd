@@ -34,7 +34,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 The `omXplore` package offers a series of built-in plots dedicated to the 
 visualization and the analysis of *omics (genomic, transcriptomics, proteomics) 
-data. As for several R packages available in `Biocondcutor` for exploring 
+data. As for several R packages available in `Bioconductor` for exploring 
 omics-like datasets, `omXplore` is based on Shiny to make those plots easily 
 available in a web application. Four popular Bioconductor data objects are 
 currently supported: `SummarizedExperiment`, `MultiAssayExperiment`, `MSnset` 
