@@ -18,6 +18,9 @@
 #' @param legend A vector of the conditions (one condition per sample).
 #' @param pal A basis palette for the boxes which length must be equal
 #' to the number of unique conditions in the dataset.
+#' @param remoteReset An integer to activate the reset functions
+#' @param is.enabled A boolean that indicates whether the widgets should be
+#' enabled or disabled. Default is TRUE
 #'
 #' @name intensity-plots
 #'

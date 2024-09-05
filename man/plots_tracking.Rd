@@ -13,9 +13,6 @@ plots_tracking_server(
   obj = reactive({
      NULL
  }),
-  i = reactive({
-     NULL
- }),
   remoteReset = reactive({
      NULL
  }),
@@ -24,7 +21,7 @@ plots_tracking_server(
  })
 )
 
-plots_tracking(obj, i)
+plots_tracking(obj)
 }
 \arguments{
 \item{id}{shiny id}
@@ -49,7 +46,7 @@ This shiny module provides a tool to select
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
-  shiny::runApp(plots_tracking(vdata, 1))
+  shiny::runApp(plots_tracking(vdata[[1]]))
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

@@ -59,7 +59,7 @@ numeric matrix.
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
-  omXplore_density(vdata, 1)
+  shiny::runApp(omXplore_density(vdata, 1))
 \dontshow{\}) # examplesIf}
 data(vdata)
 qdata <- SummarizedExperiment::assay(vdata[[1]])
