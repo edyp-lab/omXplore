@@ -15,7 +15,7 @@
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' 
 #' #-------------------------------------------
 #' # Conversion of a MultiAssayExperiment instance

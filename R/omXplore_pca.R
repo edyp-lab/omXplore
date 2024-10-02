@@ -28,13 +28,16 @@
 #'
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   # Replace missing values for the example
 #'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
 #'   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
 #'   omXplore_pca(vdata, 1)
-#'
+#' }
+#' 
+#' 
 NULL
 
 

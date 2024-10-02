@@ -45,8 +45,9 @@ A shiny app
 Explore \code{MultiAssayExperiment} objects.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   shiny::runApp(omXplore_tabExplorer(vdata, 1))
-\dontshow{\}) # examplesIf}
+}
+
 }

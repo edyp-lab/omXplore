@@ -14,9 +14,12 @@
 #' @name density-plot
 #'
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_density(vdata, 1))
+#'}
+#'
 #'
 NULL
 
@@ -126,10 +129,12 @@ omXplore_density_server <- function(
 #' @return A plot
 #'
 #' @examples
+#' \dontrun{
 #' data(vdata)
 #' qdata <- SummarizedExperiment::assay(vdata[[1]])
 #' conds <- get_group(vdata)
 #' densityPlot(qdata, conds)
+#' }
 #'
 densityPlot <- function(
     data,

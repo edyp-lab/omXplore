@@ -7,9 +7,11 @@
 #' 
 #' @name omXplore_tabExplorer
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
+#' }
 #' 
 #' @return NA
 #'

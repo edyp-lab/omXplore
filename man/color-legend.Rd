@@ -45,9 +45,10 @@ A shiny app
 Shows a legend based on the tags in the package 'DaparToolshed'
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
 data(vdata)
 shiny::runApp(colorLegend(vdata[[1]]))
+}
 
-\dontshow{\}) # examplesIf}
+
 }

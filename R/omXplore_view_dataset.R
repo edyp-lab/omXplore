@@ -62,12 +62,15 @@
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'   runApp(view_dataset(vdata, addons))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
+#' }
+#' 
 #' 
 #' @return NA
 #'

@@ -57,13 +57,17 @@ Displays a correlation matrix of the quantitative data of a
 numeric matrix.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   shiny::runApp(omXplore_density(vdata, 1))
-\dontshow{\}) # examplesIf}
+}
+
+
+\dontrun{
 data(vdata)
 qdata <- SummarizedExperiment::assay(vdata[[1]])
 conds <- get_group(vdata)
 densityPlot(qdata, conds)
+}
 
 }

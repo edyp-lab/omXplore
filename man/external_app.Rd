@@ -65,7 +65,7 @@ Example for an external shiny module, well structured to be run within a
 workflow for \code{MagellanNTK}
 }
 \examples{
-if (interactive()) {
+\dontrun{
   data(vdata)
   app1 <- extFoo1(vdata, 1)
   app2 <- extFoo2(vdata, 1)

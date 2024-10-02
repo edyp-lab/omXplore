@@ -153,12 +153,14 @@ customExportMenu <- function(hc, fname) {
 #'
 #' @author Samuel Wieczorek
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #' library(highcharter)
 #'   hc <- highchart()
 #'   hc_chart(hc, type = "line")
 #'   hc_add_series(hc, data = c(29, 71, 40))
 #'   customChart(hc)
+#'   }
 #'
 #' @export
 #'

@@ -78,13 +78,15 @@ library
 }
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
   omXplore_pca(vdata, 1)
-\dontshow{\}) # examplesIf}
+}
+
+
 data(vdata)
 obj <- vdata[[1]]
 res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))

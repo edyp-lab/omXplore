@@ -86,7 +86,7 @@ A violin plot
 Displays different intensity plots.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   shiny::runApp(omXplore_intensity(vdata, 1))
   
@@ -96,8 +96,8 @@ pal <- ExtendPalette(length(unique(conds)))
 boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 
 shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+}
 
-\dontshow{\}) # examplesIf}
 }
 \author{
 Samuel Wieczorek, Anais Courtier, Enora Fremy

@@ -9,9 +9,11 @@
 #' @param is.enabled xxx
 #'
 #' 
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(plots_tracking(vdata[[1]]))
+#'   }
 #'
 #' @name plots_tracking
 #'
