@@ -26,7 +26,7 @@
 #' The function [heatmapD()]
 #'
 #'
-#' The function [] is inspired from the function 'heatmap.2'
+#' The function `[]` is inspired from the function 'heatmap.2'
 #' that displays a numeric matrix. For more information, please refer to the
 #' help of the heatmap.2 function.
 #'

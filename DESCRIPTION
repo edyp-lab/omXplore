@@ -27,6 +27,7 @@ License: Artistic-2.0
 Depends:
     R (>= 4.4.0), methods
 Imports:
+    DT,
     shiny, 
     MSnbase,
     PSMatch,
@@ -35,7 +36,6 @@ Imports:
     shinyBS,
     shinyjs,
     shinyjqui,
-    DT,
     RColorBrewer,
     gplots,
     highcharter,

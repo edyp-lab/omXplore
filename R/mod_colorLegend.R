@@ -130,7 +130,7 @@ colorLegend_server <- function(id,
 
 
 
-#' @import shiny
+#' @importFrom shiny fluidPage tagList shinyApp
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @export
 #' @rdname color-legend
