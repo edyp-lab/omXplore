@@ -1,114 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/404.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/articles/addingThirdPartyPlots.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/articles/omXplore.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/accessors.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/BuildColorStyles.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/color-legend.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/converters.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/corrmatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/customChart.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/customExportMenu_HC.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/density-plot.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/ds-cc.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/ds-pca.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/ds-view.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/external_app.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/FormatDataForDT.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/format_DT.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/GetPkgVersion.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/globals.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/intensity-plots.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/is.listOf.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/omXplore-modules.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/omXplore_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/omXplore_tabExplorer.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/palette.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/pep_prot_CC.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/plot-variance.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/plots_tracking.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/Prostar-1x-compatible.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/q_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/sub_R25.html</loc>
-  </url>
-  <url>
-    <loc>https://prostarproteomics.github.io/omXplore/reference/vdata.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/addingThirdPartyPlots.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/omXplore.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/BuildColorStyles.html</loc></url>
+<url><loc>/reference/Build_enriched_qdata.html</loc></url>
+<url><loc>/reference/FormatDataForDT.html</loc></url>
+<url><loc>/reference/GetPkgVersion.html</loc></url>
+<url><loc>/reference/Prostar-1x-compatible.html</loc></url>
+<url><loc>/reference/accessors.html</loc></url>
+<url><loc>/reference/color-legend.html</loc></url>
+<url><loc>/reference/converters.html</loc></url>
+<url><loc>/reference/corrmatrix.html</loc></url>
+<url><loc>/reference/customChart.html</loc></url>
+<url><loc>/reference/customExportMenu_HC.html</loc></url>
+<url><loc>/reference/density-plot.html</loc></url>
+<url><loc>/reference/ds-cc.html</loc></url>
+<url><loc>/reference/ds-pca.html</loc></url>
+<url><loc>/reference/ds-view.html</loc></url>
+<url><loc>/reference/external_app.html</loc></url>
+<url><loc>/reference/format_DT.html</loc></url>
+<url><loc>/reference/globals.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/intensity-plots.html</loc></url>
+<url><loc>/reference/is.listOf.html</loc></url>
+<url><loc>/reference/omXplore-modules.html</loc></url>
+<url><loc>/reference/omXplore_heatmap.html</loc></url>
+<url><loc>/reference/omXplore_tabExplorer.html</loc></url>
+<url><loc>/reference/palette.html</loc></url>
+<url><loc>/reference/pep_prot_CC.html</loc></url>
+<url><loc>/reference/pkgs.require.html</loc></url>
+<url><loc>/reference/plot-variance.html</loc></url>
+<url><loc>/reference/plots_tracking.html</loc></url>
+<url><loc>/reference/q_metadata.html</loc></url>
+<url><loc>/reference/sub_R25.html</loc></url>
+<url><loc>/reference/vdata.html</loc></url>
 </urlset>
+
