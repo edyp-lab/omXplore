@@ -72,7 +72,7 @@ The CV is calculated for each condition present in the dataset
 
 The function \code{\link[=heatmapD]{heatmapD()}}
 
-The function [] is inspired from the function 'heatmap.2'
+The function \verb{[]} is inspired from the function 'heatmap.2'
 that displays a numeric matrix. For more information, please refer to the
 help of the heatmap.2 function.
 }

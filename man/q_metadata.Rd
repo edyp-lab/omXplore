@@ -113,22 +113,6 @@ Conversion from Maxquant datasets
 metacell.def("protein")
 metacell.def("peptide")
 
-#-----------------------------------------------
-# A shiny app to view color legends
-#-----------------------------------------------
-if(interactive()) {
-  data(vdata)
-  ui <- qMetacellLegend_ui("legend")
-
-  server <- function(input, output, session) {
-    qMetacellLegend_server("legend",
-      object = reactive({vdata[[1]]})
-    )
-  }
-
-  shinyApp(ui = ui, server = server)
-}
-
 Children("protein", "Missing")
 Children("protein", "Missing POV")
 Children("protein", c("Missing POV", "Missing MEC"))
