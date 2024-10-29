@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 0.99.8
+Version: 1.0.0
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
