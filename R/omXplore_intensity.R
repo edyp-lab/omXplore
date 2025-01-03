@@ -108,14 +108,15 @@ omXplore_intensity_server <- function(
       conds = NULL
       )
     
-    observeEvent(req(remoteReset()), {
+    observeEvent(remoteReset(), {
       updateSelectInput(session, "choosePlot", selected = "violin")
+      rv$data <- NULL
     })
 
     observeEvent(obj(),{
       #browser()
         stopifnot(inherits(obj(), "MultiAssayExperiment"))
-      
+      req(i())
           rv$data <- obj()[[i()]]
           rv$conds <- get_group(obj())
           
