@@ -87,7 +87,7 @@ Wieczorek</h4>
                                     <h4 data-toc-skip class="author">Thomas
 Burger</h4>
                         
-            <h4 data-toc-skip class="date">2024-10-18</h4>
+            <h4 data-toc-skip class="date">2025-01-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prostarproteomics/omXplore/blob/main/vignettes/omXplore.Rmd" class="external-link"><code>vignettes/omXplore.Rmd</code></a></small>
       <div class="hidden name"><code>omXplore.Rmd</code></div>
@@ -200,6 +200,8 @@ the main GUI of <code>omXplore</code>
 <p>Then, load the package into R environment:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/prostarproteomics/omXplore" class="external-link">"omXplore"</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="enriching-native-multiassayexperiment">Enriching native MultiAssayExperiment<a class="anchor" aria-label="anchor" href="#enriching-native-multiassayexperiment"></a>
@@ -216,7 +218,7 @@ SummarizedExperiment.</p>
 <p>Currently, there is no custom slot in the metadata of the mae
 contains the following additional items (in the slot names
 <code>other</code>):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">vdata</span><span class="op">)</span></span>
 <span><span class="fu">MultiAssayExperiment</span><span class="fu">::</span><span class="fu">metadata</span><span class="op">(</span><span class="va">vdata</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $other</span></span>
@@ -236,7 +238,7 @@ Experiment (e.g. peptide, protein, …)</p></li>
 <li><p><strong>pkg_version</strong>: the name and version number which
 has been used to create the current Experiment.</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">vdata</span><span class="op">)</span></span>
 <span><span class="fu">MultiAssayExperiment</span><span class="fu">::</span><span class="fu">metadata</span><span class="op">(</span><span class="va">vdata</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $pkg_version</span></span>
@@ -296,7 +298,7 @@ which displays the plots of each module.</p>
 </h3>
 <p>The list of plots available in the current R session via omXplore can
 be obtained with:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/omXplore-modules.html">listPlotModules</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "omXplore_cc"          "omXplore_corrmatrix"  "omXplore_density"    </span></span>
 <span><span class="co">## [4] "omXplore_heatmap"     "omXplore_intensity"   "omXplore_pca"        </span></span>
@@ -316,7 +318,7 @@ of the assay to analyse (See <a href="https://www.bioconductor.org/packages/rele
 <p>Internally, each function builds the enriched instance of MAE used
 inside omXplore then show the plot for the assay which has been
 specified in parameters.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sub_R25</span><span class="op">)</span></span>
 <span><span class="va">app</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/density-plot.html">omXplore_density</a></span><span class="op">(</span><span class="va">sub_R25</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">app</span><span class="op">)</span></span></code></pre></div>
@@ -339,7 +341,7 @@ one after one to completely analyze a dataset.</p>
 <code><a href="../reference/ds-view.html">view_dataset()</a></code> which acts as a hub for plots to facilitate
 the analyse of the different assays in a dataset. It is launched as
 follows:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sub_R25</span><span class="op">)</span></span>
 <span><span class="va">app</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ds-view.html">view_dataset</a></span><span class="op">(</span><span class="va">sub_R25</span><span class="op">)</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">app</span><span class="op">)</span></span></code></pre></div>
@@ -375,9 +377,9 @@ dataset.</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
+<pre><code><span><span class="co">## R version 4.4.2 (2024-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.5 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -398,85 +400,84 @@ dataset.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] omXplore_0.99.92 BiocStyle_2.32.1</span></span>
+<span><span class="co">## [1] omXplore_0.99.92 BiocStyle_2.34.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] RColorBrewer_1.1-3          jsonlite_1.8.9             </span></span>
-<span><span class="co">##   [3] MultiAssayExperiment_1.30.3 magrittr_2.0.3             </span></span>
+<span><span class="co">##   [3] MultiAssayExperiment_1.32.0 magrittr_2.0.3             </span></span>
 <span><span class="co">##   [5] shinyjqui_0.4.1             estimability_1.5.1         </span></span>
-<span><span class="co">##   [7] MALDIquant_1.22.3           rmarkdown_2.28             </span></span>
-<span><span class="co">##   [9] fs_1.6.4                    zlibbioc_1.50.0            </span></span>
+<span><span class="co">##   [7] MALDIquant_1.22.3           rmarkdown_2.29             </span></span>
+<span><span class="co">##   [9] fs_1.6.5                    zlibbioc_1.52.0            </span></span>
 <span><span class="co">##  [11] ragg_1.3.3                  vctrs_0.6.5                </span></span>
-<span><span class="co">##  [13] htmltools_0.5.8.1           S4Arrays_1.4.1             </span></span>
-<span><span class="co">##  [15] curl_5.2.3                  broom_1.0.7                </span></span>
-<span><span class="co">##  [17] SparseArray_1.4.8           mzID_1.42.0                </span></span>
+<span><span class="co">##  [13] htmltools_0.5.8.1           S4Arrays_1.6.0             </span></span>
+<span><span class="co">##  [15] curl_6.0.1                  broom_1.0.7                </span></span>
+<span><span class="co">##  [17] SparseArray_1.6.0           mzID_1.44.0                </span></span>
 <span><span class="co">##  [19] TTR_0.24.4                  sass_0.4.9                 </span></span>
 <span><span class="co">##  [21] KernSmooth_2.23-24          bslib_0.8.0                </span></span>
 <span><span class="co">##  [23] htmlwidgets_1.6.4           desc_1.4.3                 </span></span>
-<span><span class="co">##  [25] plyr_1.8.9                  impute_1.78.0              </span></span>
-<span><span class="co">##  [27] emmeans_1.10.5              zoo_1.8-12                 </span></span>
-<span><span class="co">##  [29] lubridate_1.9.3             cachem_1.1.0               </span></span>
-<span><span class="co">##  [31] igraph_2.0.3                mime_0.12                  </span></span>
+<span><span class="co">##  [25] plyr_1.8.9                  impute_1.80.0              </span></span>
+<span><span class="co">##  [27] emmeans_1.10.6              zoo_1.8-12                 </span></span>
+<span><span class="co">##  [29] lubridate_1.9.4             cachem_1.1.0               </span></span>
+<span><span class="co">##  [31] igraph_2.1.2                mime_0.12                  </span></span>
 <span><span class="co">##  [33] iterators_1.0.14            lifecycle_1.0.4            </span></span>
-<span><span class="co">##  [35] pkgconfig_2.0.3             Matrix_1.7-0               </span></span>
+<span><span class="co">##  [35] pkgconfig_2.0.3             Matrix_1.7-1               </span></span>
 <span><span class="co">##  [37] R6_2.5.1                    fastmap_1.2.0              </span></span>
-<span><span class="co">##  [39] shiny_1.9.1                 GenomeInfoDbData_1.2.12    </span></span>
-<span><span class="co">##  [41] MatrixGenerics_1.16.0       clue_0.3-65                </span></span>
-<span><span class="co">##  [43] digest_0.6.37               pcaMethods_1.96.0          </span></span>
-<span><span class="co">##  [45] colorspace_2.1-1            S4Vectors_0.42.1           </span></span>
-<span><span class="co">##  [47] textshaping_0.4.0           GenomicRanges_1.56.2       </span></span>
-<span><span class="co">##  [49] fansi_1.0.6                 timechange_0.3.0           </span></span>
-<span><span class="co">##  [51] httr_1.4.7                  abind_1.4-8                </span></span>
-<span><span class="co">##  [53] compiler_4.4.1              doParallel_1.0.17          </span></span>
-<span><span class="co">##  [55] backports_1.5.0             BiocParallel_1.38.0        </span></span>
-<span><span class="co">##  [57] viridis_0.6.5               highr_0.11                 </span></span>
-<span><span class="co">##  [59] dendextend_1.18.1           gplots_3.2.0               </span></span>
-<span><span class="co">##  [61] MASS_7.3-60.2               DelayedArray_0.30.1        </span></span>
-<span><span class="co">##  [63] scatterplot3d_0.3-44        gtools_3.9.5               </span></span>
-<span><span class="co">##  [65] caTools_1.18.3              mzR_2.38.0                 </span></span>
-<span><span class="co">##  [67] flashClust_1.01-2           tools_4.4.1                </span></span>
-<span><span class="co">##  [69] PSMatch_1.8.0               httpuv_1.6.15              </span></span>
-<span><span class="co">##  [71] quantmod_0.4.26             FactoMineR_2.11            </span></span>
-<span><span class="co">##  [73] glue_1.8.0                  promises_1.3.0             </span></span>
-<span><span class="co">##  [75] QFeatures_1.14.2            grid_4.4.1                 </span></span>
-<span><span class="co">##  [77] reshape2_1.4.4              cluster_2.1.6              </span></span>
-<span><span class="co">##  [79] generics_0.1.3              gtable_0.3.5               </span></span>
-<span><span class="co">##  [81] preprocessCore_1.66.0       shinyBS_0.61.1             </span></span>
-<span><span class="co">##  [83] sm_2.2-6.0                  tidyr_1.3.1                </span></span>
-<span><span class="co">##  [85] data.table_1.16.2           utf8_1.2.4                 </span></span>
-<span><span class="co">##  [87] XVector_0.44.0              BiocGenerics_0.50.0        </span></span>
-<span><span class="co">##  [89] foreach_1.5.2               ggrepel_0.9.6              </span></span>
-<span><span class="co">##  [91] pillar_1.9.0                stringr_1.5.1              </span></span>
-<span><span class="co">##  [93] limma_3.60.6                later_1.3.2                </span></span>
-<span><span class="co">##  [95] dplyr_1.1.4                 lattice_0.22-6             </span></span>
-<span><span class="co">##  [97] tidyselect_1.2.1            vioplot_0.5.0              </span></span>
-<span><span class="co">##  [99] knitr_1.48                  gridExtra_2.3              </span></span>
-<span><span class="co">## [101] bookdown_0.41               IRanges_2.38.1             </span></span>
-<span><span class="co">## [103] ProtGenerics_1.36.0         SummarizedExperiment_1.34.0</span></span>
-<span><span class="co">## [105] stats4_4.4.1                xfun_0.48                  </span></span>
-<span><span class="co">## [107] Biobase_2.64.0              statmod_1.5.0              </span></span>
-<span><span class="co">## [109] factoextra_1.0.7            MSnbase_2.30.1             </span></span>
-<span><span class="co">## [111] matrixStats_1.4.1           DT_0.33                    </span></span>
-<span><span class="co">## [113] visNetwork_2.1.2            stringi_1.8.4              </span></span>
-<span><span class="co">## [115] UCSC.utils_1.0.0            lazyeval_0.2.2             </span></span>
-<span><span class="co">## [117] yaml_2.3.10                 evaluate_1.0.1             </span></span>
-<span><span class="co">## [119] codetools_0.2-20            MsCoreUtils_1.16.1         </span></span>
-<span><span class="co">## [121] tibble_3.2.1                BiocManager_1.30.25        </span></span>
-<span><span class="co">## [123] affyio_1.74.0               multcompView_0.1-10        </span></span>
-<span><span class="co">## [125] cli_3.6.3                   xtable_1.8-4               </span></span>
-<span><span class="co">## [127] systemfonts_1.1.0           munsell_0.5.1              </span></span>
-<span><span class="co">## [129] jquerylib_0.1.4             Rcpp_1.0.13                </span></span>
-<span><span class="co">## [131] GenomeInfoDb_1.40.1         XML_3.99-0.17              </span></span>
-<span><span class="co">## [133] parallel_4.4.1              leaps_3.2                  </span></span>
-<span><span class="co">## [135] pkgdown_2.1.1               ggplot2_3.5.1              </span></span>
-<span><span class="co">## [137] assertthat_0.2.1            AnnotationFilter_1.28.0    </span></span>
-<span><span class="co">## [139] bitops_1.0-9                viridisLite_0.4.2          </span></span>
-<span><span class="co">## [141] mvtnorm_1.3-1               rlist_0.4.6.2              </span></span>
-<span><span class="co">## [143] affy_1.82.0                 scales_1.3.0               </span></span>
-<span><span class="co">## [145] xts_0.14.1                  ncdf4_1.23                 </span></span>
-<span><span class="co">## [147] purrr_1.0.2                 highcharter_0.9.4          </span></span>
-<span><span class="co">## [149] crayon_1.5.3                rlang_1.1.4                </span></span>
-<span><span class="co">## [151] vsn_3.72.0                  shinyjs_2.1.0</span></span></code></pre>
+<span><span class="co">##  [39] shiny_1.10.0                GenomeInfoDbData_1.2.13    </span></span>
+<span><span class="co">##  [41] MatrixGenerics_1.18.0       clue_0.3-66                </span></span>
+<span><span class="co">##  [43] digest_0.6.37               pcaMethods_1.98.0          </span></span>
+<span><span class="co">##  [45] colorspace_2.1-1            S4Vectors_0.44.0           </span></span>
+<span><span class="co">##  [47] textshaping_0.4.1           GenomicRanges_1.58.0       </span></span>
+<span><span class="co">##  [49] timechange_0.3.0            httr_1.4.7                 </span></span>
+<span><span class="co">##  [51] abind_1.4-8                 compiler_4.4.2             </span></span>
+<span><span class="co">##  [53] doParallel_1.0.17           backports_1.5.0            </span></span>
+<span><span class="co">##  [55] BiocParallel_1.40.0         viridis_0.6.5              </span></span>
+<span><span class="co">##  [57] dendextend_1.19.0           gplots_3.2.0               </span></span>
+<span><span class="co">##  [59] MASS_7.3-61                 DelayedArray_0.32.0        </span></span>
+<span><span class="co">##  [61] scatterplot3d_0.3-44        gtools_3.9.5               </span></span>
+<span><span class="co">##  [63] caTools_1.18.3              mzR_2.40.0                 </span></span>
+<span><span class="co">##  [65] flashClust_1.01-2           tools_4.4.2                </span></span>
+<span><span class="co">##  [67] PSMatch_1.10.0              httpuv_1.6.15              </span></span>
+<span><span class="co">##  [69] quantmod_0.4.26             FactoMineR_2.11            </span></span>
+<span><span class="co">##  [71] glue_1.8.0                  promises_1.3.2             </span></span>
+<span><span class="co">##  [73] QFeatures_1.16.0            grid_4.4.2                 </span></span>
+<span><span class="co">##  [75] cluster_2.1.6               reshape2_1.4.4             </span></span>
+<span><span class="co">##  [77] generics_0.1.3              gtable_0.3.6               </span></span>
+<span><span class="co">##  [79] preprocessCore_1.68.0       shinyBS_0.61.1             </span></span>
+<span><span class="co">##  [81] sm_2.2-6.0                  tidyr_1.3.1                </span></span>
+<span><span class="co">##  [83] data.table_1.16.4           XVector_0.46.0             </span></span>
+<span><span class="co">##  [85] BiocGenerics_0.52.0         foreach_1.5.2              </span></span>
+<span><span class="co">##  [87] ggrepel_0.9.6               pillar_1.10.0              </span></span>
+<span><span class="co">##  [89] stringr_1.5.1               limma_3.62.1               </span></span>
+<span><span class="co">##  [91] later_1.4.1                 dplyr_1.1.4                </span></span>
+<span><span class="co">##  [93] lattice_0.22-6              tidyselect_1.2.1           </span></span>
+<span><span class="co">##  [95] vioplot_0.5.0               knitr_1.49                 </span></span>
+<span><span class="co">##  [97] gridExtra_2.3               bookdown_0.41              </span></span>
+<span><span class="co">##  [99] IRanges_2.40.1              ProtGenerics_1.38.0        </span></span>
+<span><span class="co">## [101] SummarizedExperiment_1.36.0 stats4_4.4.2               </span></span>
+<span><span class="co">## [103] xfun_0.49                   Biobase_2.66.0             </span></span>
+<span><span class="co">## [105] statmod_1.5.0               factoextra_1.0.7           </span></span>
+<span><span class="co">## [107] MSnbase_2.32.0              matrixStats_1.4.1          </span></span>
+<span><span class="co">## [109] DT_0.33                     visNetwork_2.1.2           </span></span>
+<span><span class="co">## [111] stringi_1.8.4               UCSC.utils_1.2.0           </span></span>
+<span><span class="co">## [113] lazyeval_0.2.2              yaml_2.3.10                </span></span>
+<span><span class="co">## [115] evaluate_1.0.1              codetools_0.2-20           </span></span>
+<span><span class="co">## [117] MsCoreUtils_1.18.0          tibble_3.2.1               </span></span>
+<span><span class="co">## [119] BiocManager_1.30.25         affyio_1.76.0              </span></span>
+<span><span class="co">## [121] multcompView_0.1-10         cli_3.6.3                  </span></span>
+<span><span class="co">## [123] xtable_1.8-4                systemfonts_1.1.0          </span></span>
+<span><span class="co">## [125] munsell_0.5.1               jquerylib_0.1.4            </span></span>
+<span><span class="co">## [127] Rcpp_1.0.13-1               GenomeInfoDb_1.42.1        </span></span>
+<span><span class="co">## [129] XML_3.99-0.18               parallel_4.4.2             </span></span>
+<span><span class="co">## [131] leaps_3.2                   pkgdown_2.1.1              </span></span>
+<span><span class="co">## [133] ggplot2_3.5.1               assertthat_0.2.1           </span></span>
+<span><span class="co">## [135] AnnotationFilter_1.30.0     bitops_1.0-9               </span></span>
+<span><span class="co">## [137] viridisLite_0.4.2           mvtnorm_1.3-2              </span></span>
+<span><span class="co">## [139] rlist_0.4.6.2               affy_1.84.0                </span></span>
+<span><span class="co">## [141] scales_1.3.0                xts_0.14.1                 </span></span>
+<span><span class="co">## [143] ncdf4_1.23                  purrr_1.0.2                </span></span>
+<span><span class="co">## [145] highcharter_0.9.4           crayon_1.5.3               </span></span>
+<span><span class="co">## [147] rlang_1.1.4                 vsn_3.74.0                 </span></span>
+<span><span class="co">## [149] shinyjs_2.1.0</span></span></code></pre>
 </div>
   </div>
 
