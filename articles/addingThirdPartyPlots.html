@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">omXplore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.92</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.93</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@ Wieczorek</h4>
                                     <h4 data-toc-skip class="author">Thomas
 Burger</h4>
                         
-            <h4 data-toc-skip class="date">2025-01-03</h4>
+            <h4 data-toc-skip class="date">2025-01-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prostarproteomics/omXplore/blob/main/vignettes/addingThirdPartyPlots.Rmd" class="external-link"><code>vignettes/addingThirdPartyPlots.Rmd</code></a></small>
       <div class="hidden name"><code>addingThirdPartyPlots.Rmd</code></div>
@@ -112,9 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
-<div class="section level2">
+</script><div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>An interesting feature about <code>omXplore</code> is the capacity to
@@ -145,7 +143,7 @@ generic plot function should looks like.</p>
 <p>Following Bioconductor’s recommendations about <a href="https://contributions.bioconductor.org/shiny.html#running-app" class="external-link">Running
 shiny apps</a>, the source code for this plot function should look as
 follows:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFirstPlot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">myFirstPlot_ui</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
 <span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="fu">myFirstPlot_server</span><span class="op">(</span><span class="va">id</span>, <span class="va">obj</span>, <span class="va">i</span><span class="op">)</span></span>
@@ -175,7 +173,7 @@ outside the global app function myFirstPlot(). This is because the
 function “view_dataset” cannot use the function myFirstPlot() and it
 must use the two functions myFirstPlot_ui(), myFirstPlot_server().</p>
 <p>Thus, the following code <strong>will not work</strong>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFirstPlot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">...</span></span>
@@ -190,7 +188,7 @@ must use the two functions myFirstPlot_ui(), myFirstPlot_server().</p>
 <span>  <span class="va">app</span> <span class="op">&lt;-</span> <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>A functional code is as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFirstPlot_ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">}</span></span>
@@ -216,7 +214,7 @@ must use the two functions myFirstPlot_ui(), myFirstPlot_server().</p>
 “extFoo1”.</p></li>
 </ul>
 <p>The corresponding R code is the following:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  myPkgA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"extFoo1"</span>, <span class="st">"extFoo2"</span><span class="op">)</span>,</span>
 <span>  myPkgB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"extFoo1"</span><span class="op">)</span></span>
@@ -258,7 +256,7 @@ must already be loaded in the global R environment before running the
 app <code><a href="../reference/ds-view.html">view_dataset()</a></code>. Please note that in this case, there is
 to need to set the parameter “addons”.</p></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">omXplore_mySecondPlot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span>, <span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">omXplore_mySecondPlot_ui</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
 <span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="fu">omXplore_mySecondPlot_server</span><span class="op">(</span><span class="va">id</span>, <span class="va">obj</span>, <span class="va">i</span><span class="op">)</span></span>
@@ -268,15 +266,15 @@ to need to set the parameter “addons”.</p></li>
 <div class="section level3">
 <h3 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.4.2 (2024-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.5 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
@@ -291,7 +289,7 @@ to need to set the parameter “addons”.</p></li>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] omXplore_0.99.92 BiocStyle_2.34.0</span></span>
+<span><span class="co">## [1] omXplore_0.99.93 BiocStyle_2.34.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] RColorBrewer_1.1-3          jsonlite_1.8.9             </span></span>
@@ -301,23 +299,23 @@ to need to set the parameter “addons”.</p></li>
 <span><span class="co">##   [9] fs_1.6.5                    zlibbioc_1.52.0            </span></span>
 <span><span class="co">##  [11] ragg_1.3.3                  vctrs_0.6.5                </span></span>
 <span><span class="co">##  [13] htmltools_0.5.8.1           S4Arrays_1.6.0             </span></span>
-<span><span class="co">##  [15] curl_6.0.1                  broom_1.0.7                </span></span>
-<span><span class="co">##  [17] SparseArray_1.6.0           mzID_1.44.0                </span></span>
+<span><span class="co">##  [15] curl_6.2.0                  broom_1.0.7                </span></span>
+<span><span class="co">##  [17] SparseArray_1.6.1           mzID_1.44.0                </span></span>
 <span><span class="co">##  [19] TTR_0.24.4                  sass_0.4.9                 </span></span>
-<span><span class="co">##  [21] KernSmooth_2.23-24          bslib_0.8.0                </span></span>
+<span><span class="co">##  [21] KernSmooth_2.23-24          bslib_0.9.0                </span></span>
 <span><span class="co">##  [23] htmlwidgets_1.6.4           desc_1.4.3                 </span></span>
 <span><span class="co">##  [25] plyr_1.8.9                  impute_1.80.0              </span></span>
 <span><span class="co">##  [27] emmeans_1.10.6              zoo_1.8-12                 </span></span>
 <span><span class="co">##  [29] lubridate_1.9.4             cachem_1.1.0               </span></span>
-<span><span class="co">##  [31] igraph_2.1.2                mime_0.12                  </span></span>
+<span><span class="co">##  [31] igraph_2.1.4                mime_0.12                  </span></span>
 <span><span class="co">##  [33] iterators_1.0.14            lifecycle_1.0.4            </span></span>
 <span><span class="co">##  [35] pkgconfig_2.0.3             Matrix_1.7-1               </span></span>
 <span><span class="co">##  [37] R6_2.5.1                    fastmap_1.2.0              </span></span>
 <span><span class="co">##  [39] shiny_1.10.0                GenomeInfoDbData_1.2.13    </span></span>
-<span><span class="co">##  [41] MatrixGenerics_1.18.0       clue_0.3-66                </span></span>
+<span><span class="co">##  [41] MatrixGenerics_1.18.1       clue_0.3-66                </span></span>
 <span><span class="co">##  [43] digest_0.6.37               pcaMethods_1.98.0          </span></span>
 <span><span class="co">##  [45] colorspace_2.1-1            S4Vectors_0.44.0           </span></span>
-<span><span class="co">##  [47] textshaping_0.4.1           GenomicRanges_1.58.0       </span></span>
+<span><span class="co">##  [47] textshaping_1.0.0           GenomicRanges_1.58.0       </span></span>
 <span><span class="co">##  [49] timechange_0.3.0            httr_1.4.7                 </span></span>
 <span><span class="co">##  [51] abind_1.4-8                 compiler_4.4.2             </span></span>
 <span><span class="co">##  [53] doParallel_1.0.17           backports_1.5.0            </span></span>
@@ -337,37 +335,37 @@ to need to set the parameter “addons”.</p></li>
 <span><span class="co">##  [81] sm_2.2-6.0                  tidyr_1.3.1                </span></span>
 <span><span class="co">##  [83] data.table_1.16.4           XVector_0.46.0             </span></span>
 <span><span class="co">##  [85] BiocGenerics_0.52.0         foreach_1.5.2              </span></span>
-<span><span class="co">##  [87] ggrepel_0.9.6               pillar_1.10.0              </span></span>
-<span><span class="co">##  [89] stringr_1.5.1               limma_3.62.1               </span></span>
+<span><span class="co">##  [87] ggrepel_0.9.6               pillar_1.10.1              </span></span>
+<span><span class="co">##  [89] stringr_1.5.1               limma_3.62.2               </span></span>
 <span><span class="co">##  [91] later_1.4.1                 dplyr_1.1.4                </span></span>
 <span><span class="co">##  [93] lattice_0.22-6              tidyselect_1.2.1           </span></span>
 <span><span class="co">##  [95] vioplot_0.5.0               knitr_1.49                 </span></span>
-<span><span class="co">##  [97] gridExtra_2.3               bookdown_0.41              </span></span>
+<span><span class="co">##  [97] gridExtra_2.3               bookdown_0.42              </span></span>
 <span><span class="co">##  [99] IRanges_2.40.1              ProtGenerics_1.38.0        </span></span>
 <span><span class="co">## [101] SummarizedExperiment_1.36.0 stats4_4.4.2               </span></span>
-<span><span class="co">## [103] xfun_0.49                   Biobase_2.66.0             </span></span>
+<span><span class="co">## [103] xfun_0.50                   Biobase_2.66.0             </span></span>
 <span><span class="co">## [105] statmod_1.5.0               factoextra_1.0.7           </span></span>
-<span><span class="co">## [107] MSnbase_2.32.0              matrixStats_1.4.1          </span></span>
+<span><span class="co">## [107] MSnbase_2.32.0              matrixStats_1.5.0          </span></span>
 <span><span class="co">## [109] DT_0.33                     visNetwork_2.1.2           </span></span>
 <span><span class="co">## [111] stringi_1.8.4               UCSC.utils_1.2.0           </span></span>
 <span><span class="co">## [113] lazyeval_0.2.2              yaml_2.3.10                </span></span>
-<span><span class="co">## [115] evaluate_1.0.1              codetools_0.2-20           </span></span>
+<span><span class="co">## [115] evaluate_1.0.3              codetools_0.2-20           </span></span>
 <span><span class="co">## [117] MsCoreUtils_1.18.0          tibble_3.2.1               </span></span>
 <span><span class="co">## [119] BiocManager_1.30.25         affyio_1.76.0              </span></span>
 <span><span class="co">## [121] multcompView_0.1-10         cli_3.6.3                  </span></span>
-<span><span class="co">## [123] xtable_1.8-4                systemfonts_1.1.0          </span></span>
+<span><span class="co">## [123] xtable_1.8-4                systemfonts_1.2.1          </span></span>
 <span><span class="co">## [125] munsell_0.5.1               jquerylib_0.1.4            </span></span>
-<span><span class="co">## [127] Rcpp_1.0.13-1               GenomeInfoDb_1.42.1        </span></span>
+<span><span class="co">## [127] Rcpp_1.0.14                 GenomeInfoDb_1.42.3        </span></span>
 <span><span class="co">## [129] XML_3.99-0.18               parallel_4.4.2             </span></span>
 <span><span class="co">## [131] leaps_3.2                   pkgdown_2.1.1              </span></span>
 <span><span class="co">## [133] ggplot2_3.5.1               assertthat_0.2.1           </span></span>
 <span><span class="co">## [135] AnnotationFilter_1.30.0     bitops_1.0-9               </span></span>
-<span><span class="co">## [137] viridisLite_0.4.2           mvtnorm_1.3-2              </span></span>
+<span><span class="co">## [137] viridisLite_0.4.2           mvtnorm_1.3-3              </span></span>
 <span><span class="co">## [139] rlist_0.4.6.2               affy_1.84.0                </span></span>
 <span><span class="co">## [141] scales_1.3.0                xts_0.14.1                 </span></span>
 <span><span class="co">## [143] ncdf4_1.23                  purrr_1.0.2                </span></span>
 <span><span class="co">## [145] highcharter_0.9.4           crayon_1.5.3               </span></span>
-<span><span class="co">## [147] rlang_1.1.4                 vsn_3.74.0                 </span></span>
+<span><span class="co">## [147] rlang_1.1.5                 vsn_3.74.0                 </span></span>
 <span><span class="co">## [149] shinyjs_2.1.0</span></span></code></pre>
 </div>
 </div>
