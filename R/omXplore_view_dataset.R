@@ -352,7 +352,7 @@ view_dataset_server <- function(
             
             # Here, we could put the global function that calls shinyApp with
             # the module but it takes a longer time to display than if the
-            # server is lrleady launched elsewhere
+            # server is alrleady launched elsewhere
             #do.call(x, list(obj = rv$current.se))
           )
         )

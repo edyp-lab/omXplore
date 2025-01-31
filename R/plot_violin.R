@@ -15,7 +15,8 @@ violinPlot <- function(
     conds,
     subset = NULL,
     pal.name = "Set1") {
-  stopifnot(inherits(data, "matrix"))
+  if(!inherits(data, "matrix") || is.null(data))
+    return(NULL)
 
   legend <- colnames(data)
 
