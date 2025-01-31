@@ -31,44 +31,48 @@ NULL
 #'
 wrapper_pca <- function(
     qdata,
-  group,
+    group,
     var.scaling = TRUE,
-    ncp = NULL) {
+    ncp = NULL,
+    method = NULL,
+    gramschmidt = TRUE) {
   
-
+  
   if (missing(qdata)) {
     stop("'qdata' is missing.")
   }
-
+  
   stopifnot(inherits(qdata, "matrix"))
   
-
+  
   if (is.null(var.scaling)) {
     var.scaling <- TRUE
   }
-
+  
   res.pca <- NULL
-
+  
   # if (length(which(is.na(obj@qdata))) > 0) {
   if (is.null(ncp)) {
     nmax <- 12
     y <- qdata
     nprot <- dim(y)[1]
     n <- dim(y)[2] # If too big, take the number of conditions.
-
+    
     if (n > nmax) {
       n <- length(unique(group))
     }
-
+    
     ncp <- min(n, nmax)
   }
-
-  res.pca <- FactoMineR::PCA(qdata,
-    scale.unit = var.scaling,
-    ncp = ncp,
-    graph = FALSE
+  
+  res.pca <- my_PCA(X = qdata,
+                    scale.unit = var.scaling,
+                    ncp = ncp,
+                    graph = FALSE,
+                    method = method,
+                    gramschmidt = gramschmidt
   )
-
+  
   return(res.pca)
 }
 
@@ -83,7 +87,7 @@ wrapper_pca <- function(
 #'
 plotPCA_Eigen <- function(res.pca) {
   stopifnot(!is.null(res.pca))
-
+  
   hc <- highcharter::highchart() %>%
     highcharter::hc_yAxis_multiples(
       list(
@@ -108,20 +112,20 @@ plotPCA_Eigen <- function(res.pca) {
       categories = rownames(res.pca$eig)
     ) %>%
     highcharter::hc_add_series(data.frame(y = res.pca$eig[, 2]),
-      type = "column",
-      name = "% of variances",
-      yAxis = 0
+                               type = "column",
+                               name = "% of variances",
+                               yAxis = 0
     ) %>%
     highcharter::hc_add_series(data.frame(y = res.pca$eig[, 3]),
-      type = "line",
-      color = "darkblue",
-      name = "Cumulative % of variances",
-      marker = "diamond",
-      color = "#FF7900",
-      yAxis = 0
+                               type = "line",
+                               color = "darkblue",
+                               name = "Cumulative % of variances",
+                               marker = "diamond",
+                               color = "#FF7900",
+                               yAxis = 0
     ) %>%
     highcharter::hc_legend(enabled = TRUE)
-
+  
   hc
 }
 
@@ -163,10 +167,10 @@ plotPCA_Ind <- function(res.pca, chosen.axes = c(1, 2)) {
   if (is.null(res.pca)) {
     return(NULL)
   }
-
+  
   factoextra::fviz_pca_ind(res.pca,
-    axes = chosen.axes,
-    geom = "point"
+                           axes = chosen.axes,
+                           geom = "point"
   )
 }
 
