@@ -14,9 +14,12 @@
 #' @name density-plot
 #'
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
-#'   omXplore_density(vdata, 1)
+#'   shiny::runApp(omXplore_density(vdata, 1))
+#'}
+#'
 #'
 NULL
 
@@ -68,7 +71,7 @@ omXplore_density_ui <- function(id) {
 omXplore_density_server <- function(
     id,
     obj = reactive({NULL}),
-    i = reactive({NULL}),
+    i = reactive({1}),
     pal.name = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -77,12 +80,12 @@ omXplore_density_server <- function(
     #   data = NULL
     # )
 
-    observe(
-      {
+    observeEvent(obj(), ignoreNULL = TRUE, ignoreInit = TRUE,{
         # if (inherits(obj(), "SummarizedExperiment")) {
         #   rv$data <- obj()
         # }
-
+        #browser()
+        print(obj())
         shinyjs::toggle("badFormatMsg",
           condition = !inherits(obj(), "MultiAssayExperiment")
         )
@@ -93,11 +96,13 @@ omXplore_density_server <- function(
 
     output$plot_ui <- highcharter::renderHighchart({
       req(obj())
+      req(i())
+      
       tmp <- NULL
       isolate({
         withProgress(message = "Making plot", value = 100, {
           tmp <- densityPlot(
-            data = assay(obj()[[i()]]),
+            data = assay(obj(),i()),
             conds = get_group(obj()),
             pal.name = pal.name()
           )
@@ -126,10 +131,12 @@ omXplore_density_server <- function(
 #' @return A plot
 #'
 #' @examples
+#' \dontrun{
 #' data(vdata)
 #' qdata <- SummarizedExperiment::assay(vdata[[1]])
 #' conds <- get_group(vdata)
 #' densityPlot(qdata, conds)
+#' }
 #'
 densityPlot <- function(
     data,
@@ -140,6 +147,8 @@ densityPlot <- function(
     stop("'data' is missing.")
   }
 
+  print("data......")
+  print(head(data))
   # if (missing(conds)) {
   #   stop("'conds' is missing.")
   # }
@@ -179,7 +188,6 @@ densityPlot <- function(
       )
     ) %>%
     hc_colors(myColors)
-
 
 
   for (i in seq_len(ncol(data))) {

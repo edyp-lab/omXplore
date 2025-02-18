@@ -68,6 +68,8 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
+    'mod_explore_graphs.R'
+    'omXplore_PCA_nipals.R'
     'Infos_adjacencyMatrix.R'
     'Prostar_1x.R'
     'convert_to_mae.R'

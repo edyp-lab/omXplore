@@ -7,9 +7,11 @@
 #' 
 #' @name omXplore_tabExplorer
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
+#' }
 #' 
 #' @return NA
 #'
@@ -63,6 +65,10 @@ omXplore_tabExplorer_ui <- function(id) {
           ),
           shinyBS::bsCollapsePanel("Metacell",
             DT::DTOutput(ns("qMetacell_ui")),
+            style = "info"
+          ),
+          shinyBS::bsCollapsePanel("Design",
+            DT::DTOutput(ns("design_ui")),
             style = "info"
           )
         )
@@ -324,6 +330,38 @@ omXplore_tabExplorer_server <- function(
           backgroundPosition = "center"
         )
     })
+
+output$design_ui <- DT::renderDataTable(server = TRUE, {
+  req(rv$data)
+  df <- get_design(rv$data)
+  
+  DT::datatable(as.data.frame(df),
+    extensions = c("Scroller"),
+    options = list(
+      initComplete = .initComplete(),
+      displayLength = 20,
+      deferRender = TRUE,
+      bLengthChange = FALSE,
+      scrollX = 200,
+      scrollY = 600,
+      scroller = TRUE,
+      ordering = FALSE,
+      server = TRUE
+    )
+  ) 
+    # DT::formatStyle(
+    #   colnames(df),
+    #   colnames(df),
+    #   backgroundColor = DT::styleEqual(
+    #     names(colors),
+    #     unname(unlist(colors))
+    #   ),
+    #   backgroundSize = "98% 48%",
+    #   backgroundRepeat = "no-repeat",
+    #   backgroundPosition = "center"
+    # )
+})
+
   })
 }
 
