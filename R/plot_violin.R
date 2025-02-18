@@ -7,12 +7,6 @@
 #' @export
 #'
 #' @rdname intensity-plots
-#' 
-#' @param data xxx
-#' @param conds xxx
-#' @param subset xxx
-#' @param pal.name xxx
-#'
 #' @import vioplot
 #' @importFrom graphics plot.new plot.window title axis segments points legend
 #'
@@ -21,7 +15,8 @@ violinPlot <- function(
     conds,
     subset = NULL,
     pal.name = "Set1") {
-  stopifnot(inherits(data, "matrix"))
+  if(!inherits(data, "matrix") || is.null(data))
+    return(NULL)
 
   legend <- colnames(data)
 

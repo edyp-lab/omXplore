@@ -19,7 +19,7 @@ GetMetacellTags(metacells = NULL, level = NULL, onlyPresent = FALSE)
 \arguments{
 \item{level}{A string corresponding to the type of object}
 
-\item{node}{xxx
+\item{node}{The name of the node for which one wants its parent
 
 #' @examples
 Parent('protein', 'Missing')
@@ -27,7 +27,7 @@ Parent('protein', 'Missing POV')
 Parent('protein', c('Missing POV', 'Missing MEC'))
 Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
 
-\item{parent}{xxx}
+\item{parent}{The name og the parent node}
 
 \item{metacells}{A data.frame() representing the cell metadata}
 
@@ -48,12 +48,6 @@ A vector
 \description{
 This function gives the vocabulary used for the quantitative metadata of
 each entity in each condition.
-
-xxx
-
-xxx
-
-xxx
 }
 \section{Glossary}{
 
@@ -118,22 +112,6 @@ Conversion from Maxquant datasets
 
 metacell.def("protein")
 metacell.def("peptide")
-
-#-----------------------------------------------
-# A shiny app to view color legends
-#-----------------------------------------------
-if(interactive()) {
-  data(vdata)
-  ui <- qMetacellLegend_ui("legend")
-
-  server <- function(input, output, session) {
-    qMetacellLegend_server("legend",
-      object = reactive({vdata[[1]]})
-    )
-  }
-
-  shinyApp(ui = ui, server = server)
-}
 
 Children("protein", "Missing")
 Children("protein", "Missing POV")

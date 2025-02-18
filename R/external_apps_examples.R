@@ -1,18 +1,18 @@
-#' @title Displays a correlation matrix of the quantitative data of a
-#' numeric matrix.
+#' @title External module example
 #'
 #' @description
-#' xxxx
+#' Example for an external shiny module, well structured to be run within a 
+#' workflow for `MagellanNTK`
 #'
 #' @name external_app
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An object of instance `MultiAssayExperiment`
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the param obj
 #'
 #'
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'   data(vdata)
 #'   app1 <- extFoo1(vdata, 1)
 #'   app2 <- extFoo2(vdata, 1)

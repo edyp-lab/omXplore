@@ -1,19 +1,17 @@
 #' @title Explore `MultiAssayExperiment` objects.
 #'
-#' @description xxx
-#'
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param obj An instance of the class `MultiAssayExperiment`
-#' @param i xxx
-#' @param digits xxx
-#'
-#' 
+#' @param i An integer which is the index of the assay in the param obj
+#' @param digits An integer for the number of digits shown in the table
 #' 
 #' @name omXplore_tabExplorer
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
+#' }
 #' 
 #' @return NA
 #'
@@ -67,6 +65,10 @@ omXplore_tabExplorer_ui <- function(id) {
           ),
           shinyBS::bsCollapsePanel("Metacell",
             DT::DTOutput(ns("qMetacell_ui")),
+            style = "info"
+          ),
+          shinyBS::bsCollapsePanel("Design",
+            DT::DTOutput(ns("design_ui")),
             style = "info"
           )
         )
@@ -328,6 +330,38 @@ omXplore_tabExplorer_server <- function(
           backgroundPosition = "center"
         )
     })
+
+output$design_ui <- DT::renderDataTable(server = TRUE, {
+  req(rv$data)
+  df <- get_design(rv$data)
+  
+  DT::datatable(as.data.frame(df),
+    extensions = c("Scroller"),
+    options = list(
+      initComplete = .initComplete(),
+      displayLength = 20,
+      deferRender = TRUE,
+      bLengthChange = FALSE,
+      scrollX = 200,
+      scrollY = 600,
+      scroller = TRUE,
+      ordering = FALSE,
+      server = TRUE
+    )
+  ) 
+    # DT::formatStyle(
+    #   colnames(df),
+    #   colnames(df),
+    #   backgroundColor = DT::styleEqual(
+    #     names(colors),
+    #     unname(unlist(colors))
+    #   ),
+    #   backgroundSize = "98% 48%",
+    #   backgroundRepeat = "no-repeat",
+    #   backgroundPosition = "center"
+    # )
+})
+
   })
 }
 

@@ -4,6 +4,9 @@
 \name{vdata}
 \alias{vdata}
 \title{Feature example data}
+\format{
+An instance of the class \code{MultiAssayExperiment}
+}
 \source{
 \code{vdata} was built from the source code available in
 \href{https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R}{\code{inst/scripts/build_datasets.R}}

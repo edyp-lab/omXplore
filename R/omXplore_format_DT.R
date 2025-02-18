@@ -11,27 +11,26 @@
 #'
 #'
 #' @param id shiny id
-#' @param obj xxx
 #' @param data A `data.frame`
-#' @param data_nostyle xxx
+#' @param data_nostyle A data.frame() to be bind to the main data with no
+#' custom style
 #' @param withDLBtns A boolean to indicate whether to display download
 #' buttons or not.
 #' @param showRownames A boolean to indicate whether to show rownames.
-#' @param dom xxx
 #' @param dt_style A `list` composed of:
-#' * data : a data.frame` xxxx
+#' * data : a data.frame
 #' * colors : a named vector
 #' @param filename A `character(1)` which is the default filename for download.
-#' @param hideCols xxx
-#' @param selection xxx
+#' @param selection A `character(1)` which indicates the type of selection. 
+#' Default is 'single'.
 #'
 #' @name format_DT
 #' 
 #' 
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'   data(vdata)
-#'   formatDT(SummarizedExperiment::assay(vdata, 1))
+#'   formatDT(vdata)
 #' }
 #'
 #' @return NA
@@ -46,12 +45,11 @@ NULL
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput 
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom  DT dataTableOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
-#' formatStyle styleEqual
-#'
+#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual dataTableOutput
+#' 
 #' @rdname format_DT
 #' @return NA
 #' @export
@@ -79,11 +77,10 @@ formatDT_ui <- function(id) {
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput 
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom  DT dataTableOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
-#' formatStyle styleEqual
+#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual dataTableOutput
 #' @rdname format_DT
 #' @return NA
 #' @export
@@ -93,10 +90,8 @@ formatDT_server <- function(id,
   data_nostyle = reactive({NULL}),
   withDLBtns = FALSE,
   showRownames = FALSE,
-  dom = "Bt",
   dt_style = reactive({NULL}),
   filename = "Prostar_export",
-  hideCols = reactive({NULL}),
   selection = "single") {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -174,7 +169,7 @@ formatDT_server <- function(id,
         plugins = "ellipsis",
         options = list(
           initComplete = initComplete(),
-          dom = dom,
+          dom = "Bt",
           autoWidth = TRUE,
           columnDefs = if (is.null(dt_style())) {
             list(list(
@@ -239,14 +234,14 @@ formatDT_server <- function(id,
 #' @rdname format_DT
 #' @return NA
 #'
-formatDT <- function(obj) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+formatDT <- function(data) {
+  stopifnot(inherits(data, "MultiAssayExperiment"))
   
   ui <- formatDT_ui("table")
 
   server <- function(input, output, session) {
     formatDT_server("table",
-      data = reactive({obj})
+      data = reactive({data})
     )
   }
 

@@ -15,8 +15,6 @@ view_dataset_server(
      NULL
  }),
   addons = list(),
-  width = 40,
-  height = 40,
   useModal = TRUE,
   verbose = FALSE
 )
@@ -40,10 +38,6 @@ For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 means that the package called "testPkg" must provide the four functions:
 foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 }}
-
-\item{width}{xxx}
-
-\item{height}{xxx}
 
 \item{useModal}{A \code{boolean(1)} that indicates whether to open plot modules
 in a modal window or not. Default is TRUE.}
@@ -78,7 +72,7 @@ The CV is calculated for each condition present in the dataset
 
 The function \code{\link[=heatmapD]{heatmapD()}}
 
-The function [] is inspired from the function 'heatmap.2'
+The function \verb{[]} is inspired from the function 'heatmap.2'
 that displays a numeric matrix. For more information, please refer to the
 help of the heatmap.2 function.
 }
@@ -94,13 +88,15 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 }
 
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
   runApp(view_dataset(vdata, addons))
   
   shiny::runApp(view_dataset(vdata))
-\dontshow{\}) # examplesIf}
+}
+
+
 if (interactive()) {
   data(vdata)
   view_dataset(vdata)

@@ -6,8 +6,7 @@
 \alias{omXplore_variance_server}
 \alias{CVDist}
 \alias{omXplore_variance}
-\title{Displays a correlation matrix of the quantitative data of a
-numeric matrix.}
+\title{Variance plot}
 \usage{
 omXplore_variance_ui(id)
 
@@ -22,11 +21,13 @@ omXplore_variance(obj, i)
 
 \item{obj}{An matrix}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
-\item{pal.name}{xxx}
+\item{pal.name}{A \code{character(1)} which is the name of the palette from
+the package \link{RColorBrewer} from which the colors are taken. Default
+value is 'Set1'.}
 
-\item{conds}{xxx}
+\item{conds}{A vector indicating the name of each sample.}
 }
 \value{
 NA
@@ -38,7 +39,7 @@ A plot
 A shiny app
 }
 \description{
-xxxx
+A shiny module which plots the variance of samples
 }
 \examples{
 if (interactive()) {

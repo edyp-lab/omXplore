@@ -70,22 +70,6 @@
 #' metacell.def("protein")
 #' metacell.def("peptide")
 #'
-#' #-----------------------------------------------
-#' # A shiny app to view color legends
-#' #-----------------------------------------------
-#' if(interactive()) {
-#'   data(vdata)
-#'   ui <- qMetacellLegend_ui("legend")
-#'
-#'   server <- function(input, output, session) {
-#'     qMetacellLegend_server("legend",
-#'       object = reactive({vdata[[1]]})
-#'     )
-#'   }
-#'
-#'   shinyApp(ui = ui, server = server)
-#' }
-#'
 NULL
 
 
@@ -191,9 +175,9 @@ metacell.def <- function(level) {
 
 
 #' @title Parent name of a node
-#' @description xxx
-#' @param level xxx
-#' @param node xxx
+#' @param level The type of dataset (currently, the available values are 
+#' 'peptide' and 'protein')
+#' @param node The name of the node for which one wants its parent
 #'
 #' #' @examples
 #' Parent('protein', 'Missing')
@@ -223,10 +207,10 @@ Parent <- function(level, node = NULL) {
   return(parents)
 }
 
-#' @title Names of all chidren of a node
-#' @description xxx
-#' @param level xxx
-#' @param parent xxx
+#' @title Names of all children of a node
+#' @param level The type of entity (currently, available values are peptide or
+#' protein)
+#' @param parent The name og the parent node
 #' @rdname q_metadata
 #' @examples
 #' Children("protein", "Missing")
@@ -252,9 +236,7 @@ Children <- function(level, parent = NULL) {
 }
 
 
-#' @title Get metacell tags
-#'
-#' @description xxx
+#' @title Cell metadata tags
 #'
 #' @param metacells A data.frame() representing the cell metadata
 #' @param level A string corresponding to the type of object

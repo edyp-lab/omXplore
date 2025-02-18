@@ -19,9 +19,9 @@ customChart(
 
 \item{zoomType}{The type of the zoom (one of "x", "y", "xy", "None")}
 
-\item{width}{xxx}
+\item{width}{The width of the plot}
 
-\item{height}{xxx}
+\item{height}{The height of the plot}
 }
 \value{
 A highchart plot
@@ -30,13 +30,13 @@ A highchart plot
 Customised resetZoom Button of highcharts plots
 }
 \examples{
+\dontrun{
 library(highcharter)
-if (interactive()) {
   hc <- highchart()
   hc_chart(hc, type = "line")
   hc_add_series(hc, data = c(29, 71, 40))
   customChart(hc)
-}
+  }
 
 }
 \author{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{globals}
 \alias{globals}
-\title{xxx}
+\title{Global variables}
 \usage{
 globals()
 }
@@ -10,7 +10,7 @@ globals()
 A \code{list}
 }
 \description{
-xxx
+Defines the global variables for the package \code{omXplore}
 }
 \examples{
 globals()

@@ -29,7 +29,7 @@
 #' #####################################################
 #' # Integration of a module in the package 'mypackage'
 #' #####################################################
-#' \donttest{
+#' \dontrun{
 #' addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #' addModules(addons)
 #' }
@@ -124,6 +124,8 @@ listShinyApps <- function(location = "both") {
 #'
 listPlotModules <- function(location = "both") {
   stopifnot(location %in% c("both", "external", "builtin"))
+  
+  
 
   builtin <- ls("package:omXplore")
   builtin <- builtin[grep("omXplore_", builtin)]

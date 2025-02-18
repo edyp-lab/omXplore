@@ -15,6 +15,10 @@ Authors@R:
   person(given = "Enora", 
     family = "Fremy",
     email = "enora.fremy@cea.fr", 
+    role = c("ctb")),
+  person(given = "Cyril", 
+    family = "Ariztegui",
+    email = "cyril.ariztegui@cea.fr", 
     role = c("ctb"))
     )
 Description: This package contains a collection of functions (written as
@@ -27,6 +31,7 @@ License: Artistic-2.0
 Depends:
     R (>= 4.4.0), methods
 Imports:
+    DT,
     shiny, 
     MSnbase,
     PSMatch,
@@ -35,7 +40,6 @@ Imports:
     shinyBS,
     shinyjs,
     shinyjqui,
-    DT,
     RColorBrewer,
     gplots,
     highcharter,
@@ -85,6 +89,7 @@ Collate:
     'omXplore_format_DT.R'
     'omXplore_heatmap.R'
     'omXplore_intensity.R'
+    'omXplore_PCA_nipals.R'
     'omXplore_pca.R'
     'omXplore_plots_tracking.R'
     'omXplore_tabExplorer.R'
@@ -97,7 +102,7 @@ Collate:
     'plot_violin.R'
     'utils.R'
     'zzz.R'
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false

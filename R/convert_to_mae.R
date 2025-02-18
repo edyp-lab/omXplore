@@ -1,11 +1,10 @@
-#' @title xxx
+#' @title Convert to enriched MultiAssayExperiment
 #' @description
-#' The resulting object is an instance of the  MultiAssayExperiment class.
-#' F
+#' The resulting object is an instance of the  `MultiAssayExperiment` class.
 #' 
-#' @param obj An object compliant with formats xxxx
-#' @param colData xxxx
-#' @param se xxxx
+#' @param obj An object compliant with the formats accepted by `omXplore`
+#' @param colData A data.frame()
+#' @param se AN instance of the class `SummarizedExperiment`
 #' @param ll A list
 #' @name converters
 #' 
@@ -16,7 +15,7 @@
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' 
 #' #-------------------------------------------
 #' # Conversion of a MultiAssayExperiment instance
@@ -240,8 +239,8 @@ Check_se_Consistency <- function(obj){
 #' 
 list_to_se <- function(ll){
   
-  .proteinID <- tryCatch({
-    ll$proteinID
+  .parentProtId <- tryCatch({
+    ll$parentProtId
   }, warning = function(w) NA,
     error = function(e) NA
   )
@@ -298,7 +297,7 @@ list_to_se <- function(ll){
     pkg_version = .pkg_version,
     type = .type,
     colID = .colID,
-    proteinID = .proteinID,
+    parentProtId = .parentProtId,
     cc = list()
   )
   
@@ -446,7 +445,7 @@ matrix_to_se <- function(obj){
     pkg_version = '',
     type = '',
     colID = '',
-    proteinID = '',
+    parentProtId = '',
     cc = list(),
     conds = colnames(obj)
   )
@@ -474,7 +473,7 @@ df_to_se <- function(obj){
     pkg_version = '',
     type = '',
     colID = '',
-    proteinID = '',
+    parentProtId = '',
     cc = list(),
     conds = colnames(obj)
   )
@@ -497,7 +496,7 @@ df_to_se <- function(obj){
 MSnSet_to_se <- function(obj){
 stopifnot(inherits(obj, 'MSnSet'))
   
-  .proteinID <- tryCatch({
+  .parentProtId <- tryCatch({
     obj@experimentData@other$proteinId
   }, warning = function(w) {
     print(w)
@@ -551,7 +550,7 @@ stopifnot(inherits(obj, 'MSnSet'))
     pkg_version = .pkg_version,
     type = .type,
     colID = .colID,
-    proteinID = .proteinID,
+    parentProtId = .parentProtId,
     cc = list(),
     conds = MSnbase::pData(obj)[,'Condition']
   )
@@ -584,7 +583,7 @@ Build_X_CC <- function(se){
   original.se <- se
   res <- tryCatch({
     X <- PSMatch::makeAdjacencyMatrix((
-      SummarizedExperiment::rowData(se))[, get_proteinID(se)])
+      SummarizedExperiment::rowData(se))[, get_parentProtId(se)])
     rownames(X) <- rownames(
       SummarizedExperiment::rowData(se))
     SummarizedExperiment::rowData(se)[['adjacencyMatrix']] <- X

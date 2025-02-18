@@ -13,23 +13,25 @@ plots_tracking_server(
   obj = reactive({
      NULL
  }),
-  i = reactive({
-     1
+  remoteReset = reactive({
+     NULL
  }),
-  resetBtn = reactive({
-     FALSE
+  is.enabled = reactive({
+     TRUE
  })
 )
 
-plots_tracking(obj, i)
+plots_tracking(obj)
 }
 \arguments{
 \item{id}{shiny id}
 
 \item{obj}{An instance of the class \code{MultiAssayExperiment}}
 
-\item{resetBtn}{A \code{boolean(1)} which indicates whether to show the 'Reset'
+\item{remoteReset}{A \code{boolean(1)} which indicates whether to show the 'Reset'
 button or not.}
+
+\item{is.enabled}{xxx}
 }
 \value{
 NA
@@ -42,9 +44,10 @@ A shiny app
 This shiny module provides a tool to select
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
-  shiny::runApp(plots_tracking(vdata, 1))
-\dontshow{\}) # examplesIf}
+  shiny::runApp(plots_tracking(vdata[[1]]))
+  }
+
 }
 \keyword{internal}

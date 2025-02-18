@@ -26,7 +26,7 @@
 #' The function [heatmapD()]
 #'
 #'
-#' The function [] is inspired from the function 'heatmap.2'
+#' The function `[]` is inspired from the function 'heatmap.2'
 #' that displays a numeric matrix. For more information, please refer to the
 #' help of the heatmap.2 function.
 #'
@@ -54,8 +54,6 @@
 #' For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 #' means that the package called "testPkg" must provide the four functions:
 #' foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
-#' @param width xxx
-#' @param height xxx
 #' @param useModal A `boolean(1)` that indicates whether to open plot modules 
 #' in a modal window or not. Default is TRUE.
 #' @param verbose A boolean for verbose mode. Default is FALSE.
@@ -64,12 +62,15 @@
 #' 
 #' @author Samuel Wieczorek, Enora Fremy
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'   runApp(view_dataset(vdata, addons))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
+#' }
+#' 
 #' 
 #' @return NA
 #'
@@ -141,13 +142,20 @@ view_dataset_server <- function(
     id,
     obj = reactive({NULL}),
     addons = list(),
-    width = 40,
-    height = 40,
     useModal = TRUE,
     verbose = FALSE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    
+    shiny::addResourcePath(
+      prefix = "images",
+      directoryPath = system.file("images", package = "omXplore")
+    )
+    
+    width <- 40
+    height <- 40
+    
     rv <- reactiveValues(
       data = NULL,
       conds = NULL,
@@ -344,7 +352,7 @@ view_dataset_server <- function(
             
             # Here, we could put the global function that calls shinyApp with
             # the module but it takes a longer time to display than if the
-            # server is lrleady launched elsewhere
+            # server is alrleady launched elsewhere
             #do.call(x, list(obj = rv$current.se))
           )
         )

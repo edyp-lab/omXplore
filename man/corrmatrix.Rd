@@ -17,7 +17,7 @@ omXplore_corrmatrix_server(
      NULL
  }),
   i = reactive({
-     1
+     NULL
  })
 )
 
@@ -30,14 +30,15 @@ omXplore_corrmatrix(obj, i)
 
 \item{obj}{An instance of the class \code{SummarizedExperiment}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the param obj}
 
 \item{data}{An object of class 'matrix'}
 
 \item{rate}{The rate parameter to control the exponential law for
 the gradient of colors}
 
-\item{showValues}{xxx}
+\item{showValues}{A boolean which indicates whether to show values in the
+correlation plot.}
 }
 \value{
 NA
@@ -49,7 +50,8 @@ A plot
 A shiny app
 }
 \description{
-xxxx
+Displays a correlation matrix of the quantitative data of a
+numeric matrix.
 }
 \examples{
 if (interactive()) {

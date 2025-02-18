@@ -1,6 +1,6 @@
 
-#' @title xxx
-#' @description xxx
+#' @title Global variables
+#' @description Defines the global variables for the package `omXplore`
 #' @export
 #' @examples
 #' globals()
@@ -146,21 +146,21 @@ customExportMenu <- function(hc, fname) {
 #' @param hc A highcharter object
 #' @param chartType The type of the plot
 #' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
-#' @param width xxx
-#' @param height xxx
+#' @param width The width of the plot
+#' @param height The height of the plot
 #'
 #' @return A highchart plot
 #'
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' library(highcharter)
-#' if (interactive()) {
 #'   hc <- highchart()
 #'   hc_chart(hc, type = "line")
 #'   hc_add_series(hc, data = c(29, 71, 40))
 #'   customChart(hc)
-#' }
+#'   }
 #'
 #' @export
 #'
@@ -248,13 +248,13 @@ FormatDataForDT <- function(
 
 
 
-#' @title
-#' xxxx
+#' @title Build color style for DT tables
 #'
 #' @description
-#' xxxx
+#' This function builds a list which is used for styling DT tables with the 
+#' function `DT::styleEqual()`
 #'
-#' @param type The type od dataset
+#' @param type The type of dataset. Available values are `protein` and `peptide`
 #'
 #' @export
 #'
