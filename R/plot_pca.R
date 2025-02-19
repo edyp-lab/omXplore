@@ -14,7 +14,7 @@
 #' @examples
 #' data(vdata)
 #' obj <- vdata[[1]]
-#' res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))
+#' res.pca <- wrapper_pca(qdata=SummarizedExperiment::assay(obj), group=get_group(obj))
 #' plotPCA_Eigen(res.pca)
 #' plotPCA_Var(res.pca)
 #' plotPCA_Eigen_hc(res.pca)
@@ -49,9 +49,9 @@ wrapper_pca <- function(
     var.scaling <- TRUE
   }
   print(paste("gramschmidt wrapper pca :", gramschmidt))
-  if (is.null(gramschmidt))
-    gramschmidt <- TRUE
-  print(paste("gramschmidt wrapper pca après modif :", gramschmidt))
+  # if (is.null(gramschmidt))
+  #   gramschmidt <- TRUE
+  # print(paste("gramschmidt wrapper pca après modif :", gramschmidt))
   
   res.pca <- NULL
   
@@ -124,7 +124,7 @@ plotPCA_Eigen <- function(res.pca) {
                                type = "line",
                                color = "darkblue",
                                name = "Cumulative % of variances",
-                               marker = "diamond",
+                               #marker = "diamond",
                                color = "#FF7900",
                                yAxis = 0
     ) %>%
@@ -224,7 +224,7 @@ plotPCA_Eigen_hc <- function(res.pca) {
       type = "line",
       color = "darkblue",
       name = "Cumulative % of variances",
-      marker = "diamond",
+      #marker = "diamond",
       color = "#FF7900",
       yAxis = 0
     ) %>%
