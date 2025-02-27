@@ -34,7 +34,7 @@ wrapper_pca <- function(
     group,
     var.scaling = TRUE,
     ncp = NULL,
-    method = NULL,
+    method = "FM",
     gramschmidt = TRUE) {
   
   
@@ -49,10 +49,7 @@ wrapper_pca <- function(
     var.scaling <- TRUE
   }
   print(paste("gramschmidt wrapper pca :", gramschmidt))
-  # if (is.null(gramschmidt))
-  #   gramschmidt <- TRUE
-  # print(paste("gramschmidt wrapper pca après modif :", gramschmidt))
-  
+
   res.pca <- NULL
   
   # if (length(which(is.na(obj@qdata))) > 0) {

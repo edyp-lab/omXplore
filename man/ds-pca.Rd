@@ -40,7 +40,7 @@ wrapper_pca(
   group,
   var.scaling = TRUE,
   ncp = NULL,
-  method = NULL,
+  method = "FM",
   gramschmidt = TRUE
 )
 
@@ -143,6 +143,7 @@ plotPCA_Ind(res.pca)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
+  SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
   omXplore_pca(vdata, 1)
   shiny::runApp(omXplore_pca(vdata, 1))
 }
@@ -150,7 +151,7 @@ plotPCA_Ind(res.pca)
 
 data(vdata)
 obj <- vdata[[1]]
-res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))
+res.pca <- wrapper_pca(qdata=SummarizedExperiment::assay(obj), group=get_group(obj))
 plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)

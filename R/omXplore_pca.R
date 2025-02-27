@@ -107,7 +107,7 @@ omXplore_pca_server <- function(
       res.pca = NULL,
       PCA_varScale = TRUE,
       gramschmidt_PCA = TRUE,
-      method_PCA = NULL
+      method_PCA = "FM"
     )
     
     
@@ -116,7 +116,7 @@ omXplore_pca_server <- function(
         is.mae <- inherits(obj(), "MultiAssayExperiment")
         stopifnot(is.mae)
         
-        rv.pca$data <- assay(obj(), i())
+        rv.pca$data <- SummarizedExperiment::assay(obj(), i())
         
         shinyjs::toggle("badFormatMsg", condition = !is.mae)
       },

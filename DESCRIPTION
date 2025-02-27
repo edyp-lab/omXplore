@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 0.99.6
+Version: 1.1.0
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
@@ -72,6 +72,7 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
+    'mod_explore_graphs.R'
     'Infos_adjacencyMatrix.R'
     'Prostar_1x.R'
     'convert_to_mae.R'
@@ -81,7 +82,6 @@ Collate:
     'mae_accessors.R'
     'metacell_utils.R'
     'mod_colorLegend.R'
-    'mod_explore_graphs.R'
     'modules.R'
     'omXplore_cc.R'
     'omXplore_corrmatrix.R'
