@@ -43,6 +43,10 @@ violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 \item{track.indices}{A vector of integers which are the indices of
 lines to track.}
 
+\item{remoteReset}{xxx}
+
+\item{is.enabled}{xxx}
+
 \item{withTracking}{A \code{boolean(1)} indicating whether the tracking option is
 activated or not.}
 

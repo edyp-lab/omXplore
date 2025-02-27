@@ -13,7 +13,8 @@
 #' is 'Set1'.
 #' @param subset A `integer()` vector of index indicating the indices
 #' of rows in the dataset to highlight
-#' 
+#' @param remoteReset xxx
+#' @param is.enabled xxx
 #' @param conds A vector indicating the name of each sample.
 #' @param legend A vector of the conditions (one condition per sample).
 #' @param pal A basis palette for the boxes which length must be equal
