@@ -148,7 +148,7 @@ densityPlot <- function(
   }
 
   print("data......")
-  print(head(data))
+  #print(head(data))
   # if (missing(conds)) {
   #   stop("'conds' is missing.")
   # }

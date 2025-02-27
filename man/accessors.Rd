@@ -4,6 +4,8 @@
 \alias{accessors}
 \alias{get_adjacencyMatrix}
 \alias{get_adjacencyMatrix,SummarizedExperiment-method}
+\alias{get_design}
+\alias{get_design,MultiAssayExperiment-method}
 \alias{get_group}
 \alias{get_group,MultiAssayExperiment-method}
 \alias{get_metacell}
@@ -23,6 +25,10 @@
 get_adjacencyMatrix(object, ...)
 
 \S4method{get_adjacencyMatrix}{SummarizedExperiment}(object)
+
+get_design(object, ...)
+
+\S4method{get_design}{MultiAssayExperiment}(object)
 
 get_group(object, ...)
 
@@ -66,6 +72,8 @@ See individual method description for the return value.
 If exists, the slot value requested.
 
 A DataFrame containing the adjacency matrix of the dataset
+
+A data.frame containing the metadata of the dataset
 
 A data.frame containing the metadata of the dataset
 

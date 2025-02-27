@@ -17,7 +17,7 @@ omXplore_density_server(
      NULL
  }),
   i = reactive({
-     NULL
+     1
  }),
   pal.name = reactive({
      NULL
@@ -57,13 +57,17 @@ Displays a correlation matrix of the quantitative data of a
 numeric matrix.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
-  omXplore_density(vdata, 1)
-\dontshow{\}) # examplesIf}
+  shiny::runApp(omXplore_density(vdata, 1))
+}
+
+
+\dontrun{
 data(vdata)
 qdata <- SummarizedExperiment::assay(vdata[[1]])
 conds <- get_group(vdata)
 densityPlot(qdata, conds)
+}
 
 }

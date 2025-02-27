@@ -75,9 +75,11 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
   
   print(paste("method_nip :", method))
 
+  if (is.null(method))
+    print("method my_pca NULL")
   
   X <- as.data.frame(supp_lignes_na(X))
-  
+
   if (method == "NIPALS")
     X.init <- X
   
