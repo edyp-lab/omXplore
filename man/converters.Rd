@@ -122,11 +122,10 @@ An enriched instance of the class \code{MultiAssayExperiment}
 An enriched instance of the class \code{MultiAssayExperiment}
 }
 \description{
-The resulting object is an instance of the  MultiAssayExperiment class.
-F
+The resulting object is an instance of the  \code{MultiAssayExperiment} class.
 }
 \examples{
-\donttest{
+\dontrun{
 
 #-------------------------------------------
 # Conversion of a MultiAssayExperiment instance

@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
@@ -15,6 +15,10 @@ Authors@R:
   person(given = "Enora", 
     family = "Fremy",
     email = "enora.fremy@cea.fr", 
+    role = c("ctb")),
+  person(given = "Cyril", 
+    family = "Ariztegui",
+    email = "cyril.ariztegui@cea.fr", 
     role = c("ctb"))
     )
 Description: This package contains a collection of functions (written as
@@ -27,6 +31,7 @@ License: Artistic-2.0
 Depends:
     R (>= 4.4.0), methods
 Imports:
+    DT,
     shiny, 
     MSnbase,
     PSMatch,
@@ -35,7 +40,6 @@ Imports:
     shinyBS,
     shinyjs,
     shinyjqui,
-    DT,
     RColorBrewer,
     gplots,
     highcharter,
@@ -68,6 +72,7 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
+    'mod_explore_graphs.R'
     'Infos_adjacencyMatrix.R'
     'Prostar_1x.R'
     'convert_to_mae.R'
@@ -84,6 +89,7 @@ Collate:
     'omXplore_format_DT.R'
     'omXplore_heatmap.R'
     'omXplore_intensity.R'
+    'omXplore_PCA_nipals.R'
     'omXplore_pca.R'
     'omXplore_plots_tracking.R'
     'omXplore_tabExplorer.R'

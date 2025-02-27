@@ -13,16 +13,19 @@
 #' is 'Set1'.
 #' @param subset A `integer()` vector of index indicating the indices
 #' of rows in the dataset to highlight
-#' @param remoteReset xxx
-#' @param is.enabled xxx
+#' 
 #' @param conds A vector indicating the name of each sample.
 #' @param legend A vector of the conditions (one condition per sample).
 #' @param pal A basis palette for the boxes which length must be equal
 #' to the number of unique conditions in the dataset.
+#' @param remoteReset An integer to activate the reset functions
+#' @param is.enabled A boolean that indicates whether the widgets should be
+#' enabled or disabled. Default is TRUE
 #'
 #' @name intensity-plots
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_intensity(vdata, 1))
 #'   
@@ -31,6 +34,8 @@
 #' pal <- ExtendPalette(length(unique(conds)))
 #' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 #' 
+#' shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+#' }
 #' 
 NULL
 
@@ -57,8 +62,8 @@ omXplore_intensity_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    #shinyjs::hidden(div(id = ns("badFormatMsg"), 
+      # h3(globals()$bad_format_txt))),
     radioButtons(ns("choosePlot"), "",
       choices = setNames(nm = c("violin", "box"))
     ),
@@ -90,36 +95,37 @@ omXplore_intensity_ui <- function(id) {
 #'
 omXplore_intensity_server <- function(
     id,
-    obj,
-    i,
+    obj = reactive({NULL}),
+    i = reactive({1}),
     track.indices = reactive({NULL}),
     remoteReset = reactive({NULL}),
     is.enabled = reactive({TRUE})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    rv <- reactiveValues(data = NULL)
+    rv <- reactiveValues(
+      data = NULL,
+      conds = NULL
+      )
     
-    observeEvent(req(remoteReset()), {
+    observeEvent(remoteReset(), {
       updateSelectInput(session, "choosePlot", selected = "violin")
-
+      rv$data <- NULL
     })
 
-    observe(
-      {
-        if (inherits(obj(), "MultiAssayExperiment")) {
-          rv$data <- obj()
-        }
-
-        shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
+    observeEvent(obj(),{
+      #browser()
+        stopifnot(inherits(obj(), "MultiAssayExperiment"))
+      req(i())
+          rv$data <- obj()[[i()]]
+          rv$conds <- get_group(obj())
+          
+        #shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
         shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
-      },
-      priority = 1000
-    )
+      })
 
 
     observeEvent(input$choosePlot, {
-      req(rv$data)
       shinyjs::toggle("violin", condition = input$choosePlot == "violin")
       shinyjs::toggle("box", condition = input$choosePlot == "box")
     })
@@ -127,11 +133,10 @@ omXplore_intensity_server <- function(
     output$box <- renderHighchart({
       req(rv$data)
       req(input$choosePlot == "box")
-      # withProgress(message = "Making plot", value = 100, {
-
+      track.indices()
       boxPlot(
-        obj = rv$data[[i()]],
-        conds = get_group(rv$data),
+        obj = rv$data,
+        conds = rv$conds,
         subset = track.indices()
       )
 
@@ -140,7 +145,9 @@ omXplore_intensity_server <- function(
 
     output$violin <- renderImage({
         req(rv$data)
+      req(rv$conds)
       req(input$choosePlot == "violin")
+      track.indices()
 
         # A temp file to save the output. It will be deleted after
         # renderImage sends it, because deleteFile=TRUE.
@@ -150,8 +157,8 @@ omXplore_intensity_server <- function(
           png(outfile)
           pattern <- paste0("test", ".violinplot")
           tmp <- violinPlot(
-            data = as.matrix(assay(rv$data, i())),
-            conds = get_group(rv$data),
+            data = as.matrix(SummarizedExperiment::assay(rv$data)),
+            conds = rv$conds,
             subset = track.indices()
           )
           # future(createPNGFromWidget(tmp,pattern))
@@ -177,10 +184,8 @@ omXplore_intensity_server <- function(
 #'
 omXplore_intensity <- function(
     obj,
-    i,
+    i = NULL,
     withTracking = FALSE) {
-  
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     tagList(
@@ -192,18 +197,24 @@ omXplore_intensity <- function(
 
   server <- function(input, output, session) {
     
-    indices <- plots_tracking_server("tracker",
-      obj = reactive({obj}),
-      i = reactive({i}),
-      reset = reactive({input$reset}),
-      is.enabled = reactive({TRUE})
+     rv <- reactiveValues(
+       indices = reactive({NULL})
+     )
+     
+    observe({
+    rv$indices <- plots_tracking_server("tracker",
+      obj = reactive({obj[[i]]}),
+      remoteReset = reactive({input$reset})
     )
+    })
+   
 
+    
     omXplore_intensity_server("iplot",
       obj = reactive({obj}),
       i = reactive({i}),
-      track.indices = reactive({indices()}),
-      reset = reactive({input$reset}),
+      track.indices = reactive({rv$indices()$indices}),
+      remoteReset = reactive({input$reset}),
       is.enabled = reactive({TRUE})
     )
   }

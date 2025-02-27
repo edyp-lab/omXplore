@@ -31,10 +31,13 @@
 #' @name omXplore_heatmap
 #'
 #'
-#' @examplesIf interactive()
+#' @examples
+#' \dontrun{
 #'   data(vdata)
 #'   omXplore_heatmap(vdata, 1)
-#'
+#' }
+#' 
+#' 
 NULL
 
 

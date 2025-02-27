@@ -14,8 +14,12 @@ omXplore_intensity_ui(id)
 
 omXplore_intensity_server(
   id,
-  obj,
-  i,
+  obj = reactive({
+     NULL
+ }),
+  i = reactive({
+     1
+ }),
   track.indices = reactive({
      NULL
  }),
@@ -27,7 +31,7 @@ omXplore_intensity_server(
  })
 )
 
-omXplore_intensity(obj, i, withTracking = FALSE)
+omXplore_intensity(obj, i = NULL, withTracking = FALSE)
 
 boxPlot(obj, conds, legend = NULL, pal = NULL, subset = NULL)
 
@@ -43,9 +47,10 @@ violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 \item{track.indices}{A vector of integers which are the indices of
 lines to track.}
 
-\item{remoteReset}{xxx}
+\item{remoteReset}{An integer to activate the reset functions}
 
-\item{is.enabled}{xxx}
+\item{is.enabled}{A boolean that indicates whether the widgets should be
+enabled or disabled. Default is TRUE}
 
 \item{withTracking}{A \code{boolean(1)} indicating whether the tracking option is
 activated or not.}
@@ -81,7 +86,7 @@ A violin plot
 Displays different intensity plots.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   shiny::runApp(omXplore_intensity(vdata, 1))
   
@@ -90,7 +95,9 @@ conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
 pal <- ExtendPalette(length(unique(conds)))
 boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 
-\dontshow{\}) # examplesIf}
+shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+}
+
 }
 \author{
 Samuel Wieczorek, Anais Courtier, Enora Fremy

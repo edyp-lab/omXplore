@@ -28,9 +28,9 @@
 #' 
 #' 
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'   data(vdata)
-#'   formatDT(SummarizedExperiment::assay(vdata, 1))
+#'   formatDT(vdata)
 #' }
 #'
 #' @return NA
@@ -45,12 +45,11 @@ NULL
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput 
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom  DT dataTableOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
-#' formatStyle styleEqual
-#'
+#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual dataTableOutput
+#' 
 #' @rdname format_DT
 #' @return NA
 #' @export
@@ -78,11 +77,10 @@ formatDT_ui <- function(id) {
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput 
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom  DT dataTableOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom  DT dataTableProxy replaceData renderDataTable datatable JS
-#' formatStyle styleEqual
+#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS
+#' formatStyle styleEqual dataTableOutput
 #' @rdname format_DT
 #' @return NA
 #' @export

@@ -112,10 +112,12 @@ assay data in an instance of \code{SummarizedExperiment}. For
 more details, see \code{heatmap.2()}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   data(vdata)
   omXplore_heatmap(vdata, 1)
-\dontshow{\}) # examplesIf}
+}
+
+
 }
 \author{
 Florence Combes, Samuel Wieczorek, Enora Fremy
