@@ -1,5 +1,6 @@
 #' @title my_PCA 
 #' @importFrom stats na.omit
+#' @import nipals
 #'
 #' @description Process a PCA, using nipals or FactoMineR, on a quantitative dataset.
 #'
