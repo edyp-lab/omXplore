@@ -23,13 +23,63 @@
 NULL
 
 
-
 #' @export
 #' @return The result of the function FactoMineR::PCA()
 #' @rdname ds-pca
 #' @import FactoMineR
 #'
 wrapper_pca <- function(
+        qdata,
+    group,
+    var.scaling = TRUE,
+    ncp = NULL) {
+    
+    
+    if (missing(qdata)) {
+        stop("'qdata' is missing.")
+    }
+    
+    stopifnot(inherits(qdata, "matrix"))
+    
+    
+    if (is.null(var.scaling)) {
+        var.scaling <- TRUE
+    }
+    
+    res.pca <- NULL
+    
+    # if (length(which(is.na(obj@qdata))) > 0) {
+    if (is.null(ncp)) {
+        nmax <- 12
+        y <- qdata
+        nprot <- dim(y)[1]
+        n <- dim(y)[2] # If too big, take the number of conditions.
+        
+        if (n > nmax) {
+            n <- length(unique(group))
+        }
+        
+        ncp <- min(n, nmax)
+    }
+    
+    res.pca <- FactoMineR::PCA(qdata,
+        scale.unit = var.scaling,
+        ncp = ncp,
+        graph = FALSE
+    )
+    
+    return(res.pca)
+}
+
+
+
+
+#' @export
+#' @return The result of the function FactoMineR::PCA()
+#' @rdname ds-pca
+#' @import FactoMineR
+#'
+wrapper_pca_with_nipals <- function(
     qdata,
     group,
     var.scaling = TRUE,
@@ -66,13 +116,15 @@ wrapper_pca <- function(
     ncp <- min(n, nmax)
   }
   
-  res.pca <- my_PCA(X = qdata,
-                    scale.unit = var.scaling,
-                    ncp = ncp,
-                    graph = FALSE,
-                    method = method,
-                    gramschmidt = gramschmidt
+  res.pca <- my_PCA_with_nipals(X = qdata,
+      scale.unit = var.scaling,
+      ncp = ncp,
+      graph = FALSE,
+      method = method,
+      gramschmidt = gramschmidt
   )
+  
+  print('return values for wrapper_pca')
   
   return(res.pca)
 }

@@ -32,7 +32,7 @@
 #' plotPCA_Eigen_hc(res.pca)
 #' plotPCA_Ind(res.pca)
 #'
-my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind.sup = NULL,
+my_PCA_with_nipals <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind.sup = NULL,
                     quanti.sup = NULL, quali.sup = NULL, row.w = NULL, col.w = NULL,
                     graph = FALSE, axes = c(1, 2), method = "FM", gramschmidt = TRUE) 
 {

@@ -91,7 +91,7 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 \dontrun{
   data(vdata)
   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-  runApp(view_dataset(vdata, addons))
+  runApp(view_dataset(vdata, addons, useModal = FALSE))
   
   shiny::runApp(view_dataset(vdata))
 }

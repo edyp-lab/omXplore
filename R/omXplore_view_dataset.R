@@ -66,7 +66,7 @@
 #' \dontrun{
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   runApp(view_dataset(vdata, addons))
+#'   runApp(view_dataset(vdata, addons, useModal = FALSE))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
 #' }
@@ -359,6 +359,7 @@ view_dataset_server <- function(
       })
         
       } else {
+        
         lapply(rv$ll.mods, function(x) {
           actionButton(ns(x),
             label = tagList(
@@ -382,6 +383,7 @@ view_dataset_server <- function(
       req(rv$data)
 
       for (x in rv$ll.mods) {
+         
         do.call(
           paste0(x, "_server"),
           list(

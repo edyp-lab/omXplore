@@ -3,18 +3,19 @@
 %   R/plot_pca.R
 \name{ds-pca}
 \alias{ds-pca}
-\alias{my_PCA}
+\alias{my_PCA_with_nipals}
 \alias{omXplore_pca_ui}
 \alias{omXplore_pca_server}
 \alias{omXplore_pca}
 \alias{wrapper_pca}
+\alias{wrapper_pca_with_nipals}
 \alias{plotPCA_Eigen}
 \alias{plotPCA_Var}
 \alias{plotPCA_Ind}
 \alias{plotPCA_Eigen_hc}
 \title{my_PCA}
 \usage{
-my_PCA(
+my_PCA_with_nipals(
   X,
   scale.unit = TRUE,
   ncp = min(12, nrow(X) - 1, ncol(X)),
@@ -31,11 +32,21 @@ my_PCA(
 
 omXplore_pca_ui(id)
 
-omXplore_pca_server(id, obj, i)
+omXplore_pca_server(
+  id,
+  obj = reactive({
+     NULL
+ }),
+  i = reactive({
+     NULL
+ })
+)
 
 omXplore_pca(obj, i)
 
-wrapper_pca(
+wrapper_pca(qdata, group, var.scaling = TRUE, ncp = NULL)
+
+wrapper_pca_with_nipals(
   qdata,
   group,
   var.scaling = TRUE,
@@ -105,6 +116,8 @@ A shiny app
 
 The result of the function FactoMineR::PCA()
 
+The result of the function FactoMineR::PCA()
+
 A plot
 
 A plot
@@ -144,7 +157,6 @@ plotPCA_Ind(res.pca)
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
   SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
-  omXplore_pca(vdata, 1)
   shiny::runApp(omXplore_pca(vdata, 1))
 }
 

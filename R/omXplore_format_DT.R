@@ -131,6 +131,7 @@ formatDT_server <- function(id,
     observe({
       req(data())
       rv$data <- data()
+      print('In observe replaceData')
       DT::replaceData(proxy, rv$data, resetPaging = FALSE)
     })
 
@@ -141,12 +142,13 @@ formatDT_server <- function(id,
 
 
     prepareDataset <- reactive({
-      df <- data()
+      req(rv$data)
+        df <- rv$data
 
       .data <- as.data.frame(dt_style()$data)
       if (!is.null(dt_style()) && checkValidity()) {
         df <- cbind(df, .data)
-        rv$tgt2hide <- ncol(data()) - 1 + seq(ncol(.data))
+        rv$tgt2hide <- ncol(rv$data) - 1 + seq(ncol(.data))
       }
 
       if (!is.null(data_nostyle())) {
