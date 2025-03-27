@@ -98,8 +98,7 @@ wrapper_pca_with_nipals <- function(
   if (is.null(var.scaling)) {
     var.scaling <- TRUE
   }
-  print(paste("gramschmidt wrapper pca :", gramschmidt))
-
+  
   res.pca <- NULL
   
   # if (length(which(is.na(obj@qdata))) > 0) {
@@ -123,8 +122,6 @@ wrapper_pca_with_nipals <- function(
       method = method,
       gramschmidt = gramschmidt
   )
-  
-  print('return values for wrapper_pca')
   
   return(res.pca)
 }

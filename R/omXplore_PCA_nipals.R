@@ -32,10 +32,26 @@
 #' plotPCA_Eigen_hc(res.pca)
 #' plotPCA_Ind(res.pca)
 #'
-my_PCA_with_nipals <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind.sup = NULL,
-                    quanti.sup = NULL, quali.sup = NULL, row.w = NULL, col.w = NULL,
-                    graph = FALSE, axes = c(1, 2), method = "FM", gramschmidt = TRUE) 
+my_PCA_with_nipals <- function (X, 
+    scale.unit = TRUE,
+    ncp = min(12, nrow(X)-1, ncol(X)),
+    ind.sup = NULL,
+    quanti.sup = NULL,
+    quali.sup = NULL,
+    row.w = NULL,
+    col.w = NULL,
+    graph = FALSE,
+    axes = c(1, 2),
+    method = "FM",
+    gramschmidt = TRUE) 
 {
+    
+    print(paste0('method = ', method))
+    print(paste0('scale.unit = ', scale.unit))
+    print(paste0('gramschmidt = ', gramschmidt))
+    print(paste0('axes = ', axes))
+    
+    
   moy.ptab <- function(V, poids) {
     as.vector(crossprod(poids/sum(poids), as.matrix(V)))
   }

@@ -62,7 +62,7 @@ NULL
 omXplore_pca_ui <- function(id) {
 
   ns <- NS(id)
-  tagList(
+      tagList(
     shinyjs::useShinyjs(),
     shinyjs::hidden(
         div(
@@ -72,6 +72,7 @@ omXplore_pca_ui <- function(id) {
     uiOutput(ns("WarningNA_PCA")),
     uiOutput(ns("pcaOptions")),
     uiOutput(ns("pcaPlots"))
+
   )
 }
 
@@ -104,7 +105,7 @@ omXplore_pca_server <- function(
     
     rv.pca <- reactiveValues(
       data = NULL,
-      PCA_axes = NULL,
+      PCA_axes = c(1, 2),
       res.pca = NULL,
       PCA_varScale = TRUE,
       gramschmidt_PCA = TRUE,
@@ -114,12 +115,13 @@ omXplore_pca_server <- function(
     )
     
     
-    observe({
+    observeEvent(req(obj()), ignoreInit = FALSE, {
         is.mae <- inherits(obj(), "MultiAssayExperiment")
         stopifnot(is.mae)
-        rv.pca$data <- SummarizedExperiment::assay(obj(), i())
         rv.pca$obj <- obj()
         rv.pca$i <- i()
+        rv.pca$data <- SummarizedExperiment::assay(rv.pca$obj, rv.pca$i)
+      
         shinyjs::toggle("badFormatMsg", condition = !is.mae)
       }, priority = 1000)
     
@@ -172,26 +174,18 @@ omXplore_pca_server <- function(
             )
           ),
             tags$div(
-                shinyjs::hidden(checkboxInput(ns("gramschmidt_PCA"), "gramschmidt in Nipals", value = rv.pca$gramschmidt_PCA)),
-                shinyjs::hidden(checkboxInput(ns("PCA_varScale"), "VarScale in FactoMineR", value = rv.pca$PCA_varScale)),
+                shinyjs::hidden(checkboxInput(ns("gramschmidt_PCA"), "gramschmidt in Nipals", value = TRUE)),
+                shinyjs::hidden(checkboxInput(ns("PCA_varScale"), "VarScale in FactoMineR", value = TRUE)),
                 
             )
         ))
         })
         
         
-        
-        
-        observeEvent(c(input$pca_axe1, input$pca_axe2), {
-            rv.pca$PCA_axes <- c(input$pca_axe1, input$pca_axe2)
-        })
-        
-        observeEvent(input$PCA_varScale,{
-            rv.pca$PCA_varScale <- input$PCA_varScale})
+        observeEvent(input$PCA_varScale, {rv.pca$PCA_varScale <- input$PCA_varScale})
         observeEvent(input$gramschmidt_PCA, {rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA})
-        observeEvent(c(input$pca_axe1, input$pca_axe2), {
-            rv.pca$PCA_axes <- c(input$pca_axe1, input$pca_axe2)
-        })
+        observeEvent(input$pca_axe1, {rv.pca$PCA_axes[1] <- input$pca_axe1})
+        observeEvent(input$pca_axe2, {rv.pca$PCA_axes[2] <- input$pca_axe2})
         
         observeEvent(input$method_PCA, {
             rv.pca$method_PCA <- input$method_PCA
@@ -204,7 +198,6 @@ omXplore_pca_server <- function(
 
         Compute_PCA_dim <- reactive({
             
-            print('IN Compute_PCA_dim()')
             req(rv.pca$data)
             nmax <- 12 # ncp should not be greater than...
             # for info, ncp = number of components or dimensions in PCA results
@@ -230,50 +223,22 @@ omXplore_pca_server <- function(
         ignoreInit = FALSE,{
       req(rv.pca$method_PCA)
       
-      print(paste("gramschmidt omXplore pca :", rv.pca$gramschmidt_PCA))
-      print(paste("method omXplore pca :", rv.pca$method_PCA))
-      print(paste("var scale :", rv.pca$PCA_varScale))
-      
       withProgress(message = "Performing PCA", value = 100, {
-          
-        # rv.pca$res.pca <- wrapper_pca_with_nipals(
-        #   qdata = rv.pca$data,
-        #   group = get_group(rv.pca$obj),
-        #   var.scaling = rv.pca$PCA_varScale,
-        #   ncp = Compute_PCA_dim(),
-        #   method = rv.pca$method_PCA,
-        #   gramschmidt = rv.pca$gramschmidt_PCA
-        # )
-        
-        
-        rv.pca$res.pca <- wrapper_pca(
-            qdata = rv.pca$data,
-            group = get_group(rv.pca$obj),
-            var.scaling = rv.pca$PCA_varScale,
-            ncp = Compute_PCA_dim()
+        rv.pca$res.pca <- wrapper_pca_with_nipals(
+          qdata = rv.pca$data,
+          group = get_group(rv.pca$obj),
+          var.scaling = rv.pca$PCA_varScale,
+          ncp = Compute_PCA_dim(),
+          method = rv.pca$method_PCA,
+          gramschmidt = rv.pca$gramschmidt_PCA
         )
-        
-
-         # })
       })
     })
     
-    # 
-    # observeEvent(rv.pca$res.pca, {
-    #     print('change in rv.pca$res.pca')
-    # })
-    # 
-    # observe({
-    #     
-    #     print(head(rv.pca$res.pca$var$coord))
-    #     
-    #     
-    # })
-    # 
+
     
     output$pcaPlots <- renderUI({
       req(rv.pca$data)
-      #req(length(which(is.na(rv.pca$data))) == 0)
       req(rv.pca$res.pca$var$coord)
       
       #df <- as.data.frame(rv.pca$res.pca$var$coord)
@@ -297,8 +262,10 @@ omXplore_pca_server <- function(
     
     output$pcaPlotVar <- renderPlot({
       req(c(rv.pca$PCA_axes, rv.pca$res.pca))
+
       withProgress(message = "Making variables plot", value = 100, {
-        factoextra::fviz_pca_var(rv.pca$res.pca,
+  
+          factoextra::fviz_pca_var(rv.pca$res.pca,
             axes = rv.pca$PCA_axes,
             col.var = "cos2",
             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
@@ -309,10 +276,12 @@ omXplore_pca_server <- function(
 
     output$pcaPlotInd <- renderPlot({
       req(c(rv.pca$PCA_axes, rv.pca$res.pca))
+
       withProgress(message = "Making individuals plot", value = 100, {
-        factoextra::fviz_pca_ind(rv.pca$res.pca,
-                                 axes = rv.pca$PCA_axes,
-                                 geom = "point"
+        factoextra::fviz_pca_ind(
+            rv.pca$res.pca,
+            axes = rv.pca$PCA_axes,
+            geom = "point"
         )
       })
     })
