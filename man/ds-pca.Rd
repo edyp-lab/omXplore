@@ -25,7 +25,7 @@ my_PCA(
   col.w = NULL,
   graph = FALSE,
   axes = c(1, 2),
-  method = "FM",
+  approach = "FM",
   gramschmidt = TRUE
 )
 
@@ -40,7 +40,7 @@ wrapper_pca(
   group,
   var.scaling = TRUE,
   ncp = NULL,
-  method = "FM",
+  approach = "FM",
   gramschmidt = TRUE
 )
 
@@ -73,7 +73,7 @@ plotPCA_Eigen_hc(res.pca)
 
 \item{axes}{See \code{FactoMineR::PCA()}}
 
-\item{method}{a string corresponding to the package to use for PCA (if no \code{NA}, default is "FM" for FactoMineR)}
+\item{approach}{a string corresponding to the package to use for PCA (if no \code{NA}, default is "FM" for FactoMineR)}
 
 \item{gramschmidt}{A boolean indicating whether to use Gram-Schmidt orthogonalization or not.}
 
@@ -130,7 +130,7 @@ library
 \examples{
 data(vdata)
 obj <- vdata[[1]]
-res.pca <- my_PCA(SummarizedExperiment::assay(obj), method = "FM")
+res.pca <- my_PCA(SummarizedExperiment::assay(obj), approach = "FM")
 plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)
@@ -138,8 +138,10 @@ plotPCA_Ind(res.pca)
 
 \dontrun{
   data(vdata)
+  library(shiny)
   library(shinyWidgets)
   library(dplyr)
+  library(highcharter)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0

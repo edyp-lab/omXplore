@@ -31,8 +31,10 @@
 #' @examples
 #' \dontrun{
 #'   data(vdata)
+#'   library(shiny)
 #'   library(shinyWidgets)
 #'   library(dplyr)
+#'   library(highcharter)
 #'   # Replace missing values for the example
 #'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
 #'   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
@@ -109,7 +111,7 @@ omXplore_pca_server <- function(
       res.pca = NULL,
       PCA_varScale = TRUE,
       gramschmidt_PCA = TRUE,
-      method_PCA = "FM"
+      approach_PCA = "FM"
     )
     
     
@@ -125,10 +127,12 @@ omXplore_pca_server <- function(
     )
     
     output$WarningNA_PCA <- renderUI({
-
-      req(rv.pca$data)
-      req(length(which(is.na(rv.pca$data))) > 0)
-      if (rv.pca$method_PCA == "FM"){
+      # req(rv.pca$data)
+      # req(length(which(is.na(rv.pca$data))) > 0)
+      
+      rule <- !is.null(rv.pca$data) && length(which(is.na(rv.pca$data))) > 0
+      req(rule)
+      if (rv.pca$approach_PCA == "FM"){
         tagList(
           tags$p(
             style = "color:red;font-size: 20px",
@@ -142,6 +146,7 @@ omXplore_pca_server <- function(
     
     output$pcaOptions <- renderUI({
       req(rv.pca$data)
+      print(length(rv.pca$data))
       # req(length(which(is.na(rv.pca$data))) == 0)
       tagList(
         tags$div(
@@ -165,7 +170,7 @@ omXplore_pca_server <- function(
             )
           ),
           tags$div(
-            selectInput(ns("method_PCA"), label = "Method used for PCA",
+            selectInput(ns("approach_PCA"), label = "Approach used for PCA",
                         choices = c("FactoMineR" = "FM", "Nipals" = "NIPALS"),
                         width = "150px"
             )
@@ -173,102 +178,48 @@ omXplore_pca_server <- function(
         ))
         })
         
-        
-        
-        
         observeEvent(c(input$pca_axe1, input$pca_axe2), {
             rv.pca$PCA_axes <- c(input$pca_axe1, input$pca_axe2)
         })
         
         observeEvent(req(input$PCA_varScale), {rv.pca$PCA_varScale <- input$PCA_varScale})
+        
         observeEvent(input$gramschmidt_PCA, {rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA})
-        observeEvent(req(input$method_PCA), {
-            rv.pca$method_PCA <- input$method_PCA
+        observeEvent(req(input$approach_PCA), {
+            rv.pca$approach_PCA <- input$approach_PCA
             
-            shinyjs::toggle('gramschmidt_PCA', condition = rv.pca$method_PCA == 'NIPALS')
+            shinyjs::toggle('gramschmidt_PCA', condition = rv.pca$approach_PCA == 'NIPALS')
         })
         
-        
-        # observe({
-        #   req(rv.pca$method_PCA == 'NIPALS')
-        #   req(is.null(rv.pca$gramschmidt_PCA))
-        #   rv.pca$gramschmidt_PCA <- TRUE
-        # })
-        
-        # observeEvent(input$method_PCA, {
-        #   if (is.null(rv.pca$gramschmidt_PCA) & rv.pca$method_PCA == "NIPALS")
-        #     rv.pca$gramschmidt_PCA <- TRUE
-        #   else if (!is.null(rv.pca$gramschmidt_PCA) & rv.pca$method_PCA == "NIPALS")
-        #     rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA
-        #   })
+        observeEvent(input$PCA_varScale, {
+          rv.pca$PCA_varScale <- input$PCA_varScale})
+        observeEvent(req(input$approach_PCA), {
+          rv.pca$approach_PCA <- input$approach_PCA
+          shinyjs::toggle('PCA_varScale', condition = rv.pca$approach_PCA == 'FM')
+        })
         
         observe({
-            
-            req(rv.pca$PCA_varScale)
-             req(rv.pca$method_PCA)
-            
-            
-            #rv.pca$PCA_varScale <- input$varScale_PCA
-            #rv.pca$method_PCA <- input$method_PCA
-            #browser()
-            #if (rv.pca$method_PCA == 'NIPALS')
-            #  rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA
-            
-            
-            print(paste("gramschmidt omXplore pca :", rv.pca$gramschmidt_PCA))
-            print(paste("method omXplore pca :", rv.pca$method_PCA))
-            
+            rule1 <- rv.pca$approach_PCA == "FM" && length(which(is.na(rv.pca$data))) == 0
+            rule2 <- rv.pca$approach_PCA == "NIPALS"
+            req(rule1 || rule2)
+
             rv.pca$res.pca <- wrapper_pca(
                 qdata = assay(obj(), i()),
                 group = get_group(obj()),
                 var.scaling = rv.pca$PCA_varScale,
                 ncp = Compute_PCA_dim(),
-                method = rv.pca$method_PCA,
+                approach = rv.pca$approach_PCA,
                 gramschmidt = rv.pca$gramschmidt_PCA
             )
         })
         
-        # 
-        # output$gramschmidtNipals <- renderUI({
-        #     #req(rv.pca$data)
-        #     print(rv.pca$method_PCA)
-        #     req(rv.pca$method_PCA == 'NIPALS')
-        #     #browser()
-        #     print("toto")
-        #     h3('toto')
-        #     # tagList(
-        #     #   tags$div(
-        #     #     tags$div(
-        #     #       style = "display:inline-block;
-        #     #                        vertical-align: middle; padding-right: 20px;",
-        #     #       tags$div(
-        #     #          checkboxInput(ns("gramschmidt_PCA"), "gramschmidt in Nipals", 
-        #     #                        value = TRUE)
-        #     #         )
-        #     #       )
-        #     #     )
-        #     #   )
-        # })
-        # 
-        
-        
-        #observe({
-        #  req(length(which(is.na(rv.pca$data))) == 0)
-        
-        #  rv.pca$res.pca <- wrapper_pca(
-        #    qdata = assay(obj(), i()),
-        #    group = get_group(obj()),
-        #    var.scaling = rv.pca$PCA_varScale,
-        #    ncp = Compute_PCA_dim(),
-        #    method = "FM",
-        #    gramschmidt = rv.pca$gramschmidt_PCA
-        #  )
-        #})
-        
         output$pcaPlots <- renderUI({
-            req(rv.pca$data)
-            #req(length(which(is.na(rv.pca$data))) == 0)
-            req(rv.pca$res.pca$var$coord)
+          req(rv.pca$data)
+          req(rv.pca$res.pca$var$coord)
+
+          rule1 <- rv.pca$approach_PCA == "FM" && length(which(is.na(rv.pca$data))) == 0
+          rule2 <- rv.pca$approach_PCA == "NIPALS"
+          req(rule1 || rule2)
             
             tagList(
                 plotOutput(ns("pcaPlotVar")),
@@ -285,11 +236,10 @@ omXplore_pca_server <- function(
                 showRownames = TRUE
             )
         })
-        
-        
-        
+   
         output$pcaPlotVar <- renderPlot({
             req(c(rv.pca$PCA_axes, rv.pca$res.pca))
+
             withProgress(message = "Making plot", value = 100, {
                 factoextra::fviz_pca_var(rv.pca$res.pca,
                     axes = rv.pca$PCA_axes,
@@ -302,6 +252,7 @@ omXplore_pca_server <- function(
         
         output$pcaPlotInd <- renderPlot({
             req(c(rv.pca$PCA_axes, rv.pca$res.pca))
+
             withProgress(message = "Making plot", value = 100, {
                 factoextra::fviz_pca_ind(rv.pca$res.pca,
                     axes = rv.pca$PCA_axes,
@@ -313,12 +264,11 @@ omXplore_pca_server <- function(
         
         output$pcaPlotEigen <- highcharter::renderHighchart({
             req(rv.pca$res.pca)
-            
+
             withProgress(message = "Making plot", value = 100, {
                 plotPCA_Eigen(rv.pca$res.pca)
             })
         })
-        
         
         
         Compute_PCA_dim <- reactive({
@@ -336,119 +286,7 @@ omXplore_pca_server <- function(
             
             ncp <- min(n, nmax)
             ncp
-        })
-   # })
-
-    
-    observeEvent(c(input$pca_axe1, input$pca_axe2), {
-      rv.pca$PCA_axes <- c(input$pca_axe1, input$pca_axe2)
-    })
-    
-    observeEvent(input$PCA_varScale, {
-      print("A")
-      rv.pca$PCA_varScale <- input$PCA_varScale})
-    
-    observeEvent(req(input$method_PCA), {
-      rv.pca$method_PCA <- input$method_PCA
-      
-      shinyjs::toggle('PCA_varScale', condition = rv.pca$method_PCA == 'FM')
-    })
-    
-    observeEvent(input$gramschmidt_PCA, {rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA})
-    observeEvent(req(input$method_PCA), {
-      rv.pca$method_PCA <- input$method_PCA
-      
-      shinyjs::toggle('gramschmidt_PCA', condition = rv.pca$method_PCA == 'NIPALS')
-    })
-    
-    observe({
-      print(paste("var scale :", rv.pca$PCA_varScale))
-      req(rv.pca$method_PCA)
-      
-      print(paste("gramschmidt omXplore pca :", rv.pca$gramschmidt_PCA))
-      print(paste("method omXplore pca :", rv.pca$method_PCA))
-      
-      withProgress(message = "Performing PCA", value = 100, {
-        rv.pca$res.pca <- wrapper_pca(
-          qdata = assay(obj(), i()),
-          group = get_group(obj()),
-          var.scaling = rv.pca$PCA_varScale,
-          ncp = Compute_PCA_dim(),
-          method = rv.pca$method_PCA,
-          gramschmidt = rv.pca$gramschmidt_PCA
-        )
       })
-    })
-    
-    output$pcaPlots <- renderUI({
-      req(rv.pca$data)
-      #req(length(which(is.na(rv.pca$data))) == 0)
-      req(rv.pca$res.pca$var$coord)
-      
-      tagList(
-        plotOutput(ns("pcaPlotVar")),
-        plotOutput(ns("pcaPlotInd")),
-        formatDT_ui(ns("PCAvarCoord")),
-        highcharter::highchartOutput(ns("pcaPlotEigen"))
-      )
-    })
-    
-    observe({
-      df <- as.data.frame(rv.pca$res.pca$var$coord)
-      formatDT_server("PCAvarCoord",
-                      data = reactive({round(df, digits = 2)}),
-                      showRownames = TRUE
-      )
-    })
-    
-    
-    output$pcaPlotVar <- renderPlot({
-      req(c(rv.pca$PCA_axes, rv.pca$res.pca))
-      withProgress(message = "Making variables plot", value = 100, {
-        factoextra::fviz_pca_var(rv.pca$res.pca,
-                                 axes = rv.pca$PCA_axes,
-                                 col.var = "cos2",
-                                 gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                 repel = TRUE
-        )
-      })
-    })
-
-    output$pcaPlotInd <- renderPlot({
-      req(c(rv.pca$PCA_axes, rv.pca$res.pca))
-      withProgress(message = "Making individuals plot", value = 100, {
-        factoextra::fviz_pca_ind(rv.pca$res.pca,
-                                 axes = rv.pca$PCA_axes,
-                                 geom = "point"
-        )
-      })
-    })
-    
-    output$pcaPlotEigen <- highcharter::renderHighchart({
-      req(rv.pca$res.pca)
-    
-      withProgress(message = "Making eigen plot", value = 100, {
-        plotPCA_Eigen_hc(rv.pca$res.pca)
-      })
-    })
-    
-    
-    Compute_PCA_dim <- reactive({
-      req(rv.pca$data)
-      nmax <- 12 # ncp should not be greater than...
-      # for info, ncp = number of components or dimensions in PCA results
-      
-      y <- rv.pca$data
-      nprot <- dim(y)[1]
-      n <- dim(y)[2] # If too big, take the number of conditions.
-      
-      if (n > nmax) {
-        n <- length(unique(get_group(obj())))
-      }
-      
-      ncp <- min(n, nmax)
-      ncp
-    })
   })
 }
 

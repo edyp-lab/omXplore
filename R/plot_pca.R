@@ -34,7 +34,7 @@ wrapper_pca <- function(
     group,
     var.scaling = TRUE,
     ncp = NULL,
-    method = "FM",
+    approach = "FM",
     gramschmidt = TRUE) {
   
   
@@ -48,7 +48,6 @@ wrapper_pca <- function(
   if (is.null(var.scaling)) {
     var.scaling <- TRUE
   }
-  print(paste("gramschmidt wrapper pca :", gramschmidt))
 
   res.pca <- NULL
   
@@ -70,7 +69,7 @@ wrapper_pca <- function(
                     scale.unit = var.scaling,
                     ncp = ncp,
                     graph = FALSE,
-                    method = method,
+                    approach = approach,
                     gramschmidt = gramschmidt
   )
   
