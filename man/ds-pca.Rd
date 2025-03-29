@@ -3,19 +3,18 @@
 %   R/plot_pca.R
 \name{ds-pca}
 \alias{ds-pca}
-\alias{my_PCA_with_nipals}
+\alias{my_PCA}
 \alias{omXplore_pca_ui}
 \alias{omXplore_pca_server}
 \alias{omXplore_pca}
 \alias{wrapper_pca}
-\alias{wrapper_pca_with_nipals}
 \alias{plotPCA_Eigen}
 \alias{plotPCA_Var}
 \alias{plotPCA_Ind}
 \alias{plotPCA_Eigen_hc}
 \title{my_PCA}
 \usage{
-my_PCA_with_nipals(
+my_PCA(
   X,
   scale.unit = TRUE,
   ncp = min(12, nrow(X) - 1, ncol(X)),
@@ -26,32 +25,22 @@ my_PCA_with_nipals(
   col.w = NULL,
   graph = FALSE,
   axes = c(1, 2),
-  method = "FM",
+  approach = "FM",
   gramschmidt = TRUE
 )
 
 omXplore_pca_ui(id)
 
-omXplore_pca_server(
-  id,
-  obj = reactive({
-     NULL
- }),
-  i = reactive({
-     NULL
- })
-)
+omXplore_pca_server(id, obj, i)
 
 omXplore_pca(obj, i)
 
-wrapper_pca(qdata, group, var.scaling = TRUE, ncp = NULL)
-
-wrapper_pca_with_nipals(
+wrapper_pca(
   qdata,
   group,
   var.scaling = TRUE,
   ncp = NULL,
-  method = "FM",
+  approach = "FM",
   gramschmidt = TRUE
 )
 
@@ -84,7 +73,7 @@ plotPCA_Eigen_hc(res.pca)
 
 \item{axes}{See \code{FactoMineR::PCA()}}
 
-\item{method}{a string corresponding to the package to use for PCA (if no \code{NA}, default is "FM" for FactoMineR)}
+\item{approach}{a string corresponding to the package to use for PCA (if no \code{NA}, default is "FM" for FactoMineR)}
 
 \item{gramschmidt}{A boolean indicating whether to use Gram-Schmidt orthogonalization or not.}
 
@@ -116,8 +105,6 @@ A shiny app
 
 The result of the function FactoMineR::PCA()
 
-The result of the function FactoMineR::PCA()
-
 A plot
 
 A plot
@@ -143,7 +130,7 @@ library
 \examples{
 data(vdata)
 obj <- vdata[[1]]
-res.pca <- my_PCA(SummarizedExperiment::assay(obj), method = "FM")
+res.pca <- my_PCA(SummarizedExperiment::assay(obj), approach = "FM")
 plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)
@@ -151,13 +138,16 @@ plotPCA_Ind(res.pca)
 
 \dontrun{
   data(vdata)
+  library(shiny)
   library(shinyWidgets)
   library(dplyr)
+  library(highcharter)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
-  SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
+  # SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
   omXplore_pca(vdata, 1)
+  shiny::runApp(omXplore_pca(vdata, 1))
 }
 
 
