@@ -26,6 +26,11 @@
 #' @name ds-pca
 #' 
 #' @importFrom SummarizedExperiment assay
+#' @import bs4Dash
+#' @import thematic
+#' @import waiter
+#' @import shinyBS
+#' @import shiny
 #'
 #' @examples
 #' \dontrun{
@@ -35,8 +40,7 @@
 #'   # Replace missing values for the example
 #'   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
 #'   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
-#'   SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
-#'   shiny::runApp(omXplore_pca(vdata, 1))
+#'   omXplore_pca(vdata, 1)
 #' }
 #' 
 #' 
@@ -306,14 +310,34 @@ omXplore_pca_server <- function(
 omXplore_pca <- function(obj, i) {
 
   stopifnot(inherits(obj, "MultiAssayExperiment"))
-  
-  ui <- omXplore_pca_ui("plot")
-  
-  server <- function(input, output, session) {
-    omXplore_pca_server("plot", 
-                        obj = reactive({obj}),
-                        i = reactive({i}))
-  }
-  app <- shinyApp(ui = ui, server = server)
-
+    
+    
+    
+    ui = dashboardPage(
+        preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
+        dark = FALSE,
+        help = FALSE,
+        fullscreen = TRUE,
+        scrollToTop = TRUE,
+        header = dashboardHeader(
+            disable = TRUE
+        ),
+        sidebar = dashboardSidebar(),
+        body = dashboardBody(
+            omXplore_pca_ui("plot")
+        ),
+        controlbar = dashboardControlbar(),
+        footer = dashboardFooter(),
+        title = "bs4Dash Showcase"
+    )
+    
+    
+    server = function(input, output, session) {
+        useAutoColor()
+        omXplore_pca_server("plot", 
+            obj = reactive({obj}),
+            i = reactive({i}))
+    }
+    
+    shiny::shinyApp(ui, server)
 }

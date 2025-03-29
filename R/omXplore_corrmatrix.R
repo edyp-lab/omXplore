@@ -32,6 +32,9 @@ NULL
 #' @importFrom stats cor
 #' @import tidyr
 #' @importFrom dplyr mutate left_join select
+#' @import bs4Dash
+#' @import thematic
+#' @import waiter
 #' 
 #' @rdname corrmatrix
 #' @export
@@ -41,12 +44,35 @@ omXplore_corrmatrix_ui <- function(id) {
     ns <- NS(id)
     tagList(
         shinyjs::useShinyjs(),
-        shinyjs::hidden(div(id = ns("badFormatMsg"), 
-          h3(globals()$bad_format_txt))),
-        uiOutput(ns("showValues_ui")),
-        uiOutput(ns("rate_ui")),
-        highcharter::highchartOutput(ns("plot"),
-            width = "600px", height = "500px")
+        
+        bs4Card(
+            title = "Correlation matrix", 
+            closable = FALSE, 
+            width = 6,
+            status = "info", 
+            icon = img(src='images/corrmatrix.png', width = 30),
+            solidHeader = TRUE, 
+            collapsible = TRUE,
+            collapsed = TRUE,
+            dropdownMenu = boxDropdown(
+                boxDropdownItem("Link to google", href = "https://www.google.com"),
+                boxDropdownItem("Item with inputId", id = "dropdown_item2"),
+                dropdownDivider(),
+                boxDropdownItem("item 3", href = "#", icon = icon("table-cells"))
+            ),
+            sidebar = boxSidebar(
+                startOpen = FALSE,
+                id = "mycardsidebar",
+                background = "#7f7f7f",
+                uiOutput(ns("showValues_ui")),
+                uiOutput(ns("rate_ui"))
+            ),
+            shinyjs::hidden(div(id = ns("badFormatMsg"), 
+                h3(globals()$bad_format_txt))),
+            highcharter::highchartOutput(ns("plot"),
+                width = "600px", height = "500px")
+        )
+        
     )
 }
 
@@ -235,13 +261,28 @@ omXplore_corrmatrix <- function(obj, i) {
   
   stopifnot(inherits(obj, "MultiAssayExperiment"))
   
-  ui <- omXplore_corrmatrix_ui("plot")
-
-  server <- function(input, output, session) {
-    omXplore_corrmatrix_server("plot", 
-      obj = reactive({obj}),
-      i = reactive({i}))
+  ui = dashboardPage(
+      preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
+      dark = NULL,
+      help = NULL,
+      header = dashboardHeader(disable = TRUE),
+      sidebar = dashboardSidebar(disable = TRUE),
+      body = dashboardBody(
+          
+          tags$script(HTML(
+              'document.getElementsByClassName("main-header navbar navbar-expand navbar-light navbar-white")[0].style.visibility = "hidden";'
+          )),
+          omXplore_corrmatrix_ui("plot")
+      )
+  )
+  
+  
+  server = function(input, output, session) {
+      useAutoColor()
+      omXplore_corrmatrix_server("plot", 
+          obj = reactive({obj}),
+          i = reactive({i}))
   }
-
-  app <- shinyApp(ui = ui, server = server)
+  
+  shiny::shinyApp(ui, server)
 }

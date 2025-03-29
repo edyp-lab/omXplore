@@ -157,7 +157,7 @@ plotPCA_Ind(res.pca)
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
   SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
-  shiny::runApp(omXplore_pca(vdata, 1))
+  omXplore_pca(vdata, 1)
 }
 
 

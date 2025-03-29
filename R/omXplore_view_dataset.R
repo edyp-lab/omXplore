@@ -73,6 +73,12 @@
 #' 
 #' 
 #' @return NA
+#' 
+#' @import bs4Dash
+#' @import thematic
+#' @import waiter
+#' @import shinyBS
+#' @import shiny
 #'
 NULL
 
@@ -80,14 +86,7 @@ NULL
 
 
 
-#'
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsModal
+
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @importFrom shinyjqui jqui_resizable
 #' 
@@ -437,17 +436,35 @@ view_dataset <- function(
   # if (!inherits(obj, "MultiAssayExperiment"))
   #   obj <- convert_to_mae(obj)
   # 
-  ui <- fluidPage(
-    view_dataset_ui("dataset")
+  
+  ui = dashboardPage(
+      preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
+      dark = FALSE,
+      help = FALSE,
+      fullscreen = TRUE,
+      scrollToTop = TRUE,
+      header = dashboardHeader(
+          disable = TRUE
+      ),
+      sidebar = dashboardSidebar(),
+      body = dashboardBody(
+          view_dataset_ui("dataset")
+      ),
+      controlbar = dashboardControlbar(),
+      footer = dashboardFooter(),
+      title = "bs4Dash Showcase"
   )
-
-  server <- function(input, output, session) {
-    view_dataset_server("dataset",
-      obj = reactive({obj}),
-      addons = addons,
-      useModal = useModal
-    )
+  
+  
+  server = function(input, output, session) {
+      useAutoColor()
+      view_dataset_server("dataset",
+          obj = reactive({obj}),
+          addons = addons,
+          useModal = useModal
+      )
   }
+  
+  shiny::shinyApp(ui, server)
 
-  app <- shinyApp(ui, server)
 }
