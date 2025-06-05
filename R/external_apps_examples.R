@@ -61,7 +61,7 @@ extFoo1_ui <- function(id) {
 #'
 extFoo1_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -71,10 +71,10 @@ extFoo1_server <- function(
     )
 
     observe({
-        req(obj())
-        obj.cond <- inherits(obj(), "MultiAssayExperiment")
+        req(dataIn())
+        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
@@ -102,7 +102,7 @@ extFoo1 <- function(obj, i) {
 
   server <- function(input, output, session) {
     extFoo1_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i})
       )
   }
@@ -149,7 +149,7 @@ extFoo2_ui <- function(id) {
 #'
 extFoo2_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -159,10 +159,10 @@ extFoo2_server <- function(
     )
 
     observe({
-        req(obj())
-        obj.cond <- inherits(obj(), "MultiAssayExperiment")
+        req(dataIn())
+        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
@@ -189,7 +189,7 @@ extFoo2 <- function(obj, i) {
 
   server <- function(input, output, session) {
     extFoo2_server("plot",  
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i})
       )
   }

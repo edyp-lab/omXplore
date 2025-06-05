@@ -98,7 +98,7 @@ omXplore_heatmap_ui <- function(id) {
 #'
 omXplore_heatmap_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -112,13 +112,13 @@ omXplore_heatmap_server <- function(
         # }
 
         shinyjs::toggle("badFormatMsg",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
         shinyjs::toggle("linkage",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
         shinyjs::toggle("distance",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
       },
       priority = 1000
@@ -130,8 +130,8 @@ omXplore_heatmap_server <- function(
     width <- paste0(width, "px")
 
     output$omXplore_PlotHeatmap <- renderUI({
-      req(obj())
-      if (nrow(assay(obj(), i())) > limitHeatmap) {
+      req(dataIn())
+      if (nrow(assay(dataIn(), i())) > limitHeatmap) {
         tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
       } else {
@@ -142,14 +142,14 @@ omXplore_heatmap_server <- function(
 
 
     output$heatmap_ui <- renderPlot({
-      req(obj())
+      req(dataIn())
       input$linkage
       input$distance
 
       withProgress(message = "Making plot", value = 100, {
         heatmapD(
-          qdata = assay(obj(), i()),
-          conds = get_group(obj()),
+          qdata = assay(dataIn(), i()),
+          conds = get_group(dataIn()),
           distance = input$distance,
           cluster = input$linkage
         )
@@ -175,7 +175,7 @@ omXplore_heatmap <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_heatmap_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i}))
   }
 

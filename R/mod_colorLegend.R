@@ -7,7 +7,7 @@
 #' @param presentTags A vector of `character()` which correspond to the tags.
 #' @param hide.white  A `boolean()` to indicate whether the white cells must be
 #' hidden or not.
-#' @param obj An instance of the class `SummarizedExperiment`.
+#' @param dataIn An instance of the class `SummarizedExperiment`.
 #'
 #' @name color-legend
 #' 

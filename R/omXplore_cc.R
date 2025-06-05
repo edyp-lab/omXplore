@@ -148,7 +148,7 @@ omXplore_cc_ui <- function(id) {
 #' @return A shiny app
 #'
 omXplore_cc_server <- function(id, 
-  obj = reactive({NULL}), 
+    dataIn = reactive({NULL}), 
   i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -161,12 +161,12 @@ omXplore_cc_server <- function(id,
 
 
 
-    observeEvent(obj(), ignoreInit = FALSE,{
-        obj.valid <- inherits(obj(), "MultiAssayExperiment")
-        cc.exists <- length(get_cc(obj()[[i()]])) > 0
+    observeEvent(dataIn(), ignoreInit = FALSE,{
+        obj.valid <- inherits(dataIn(), "MultiAssayExperiment")
+        cc.exists <- length(get_cc(dataIn()[[i()]])) > 0
 
         if (obj.valid && cc.exists) {
-          rv$data <- obj()[[i()]]
+          rv$data <- dataIn()[[i()]]
           rv$cc <- GetCCInfos(get_cc(rv$data))
         }
 
@@ -799,7 +799,7 @@ omXplore_cc <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_cc_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i}))
   }
 

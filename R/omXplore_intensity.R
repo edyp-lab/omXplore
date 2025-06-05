@@ -95,7 +95,7 @@ omXplore_intensity_ui <- function(id) {
 #'
 omXplore_intensity_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({1}),
     track.indices = reactive({NULL}),
     remoteReset = reactive({NULL}),
@@ -113,12 +113,12 @@ omXplore_intensity_server <- function(
       rv$data <- NULL
     })
 
-    observeEvent(obj(),{
+    observeEvent(dataIn(),{
       #browser()
-        stopifnot(inherits(obj(), "MultiAssayExperiment"))
+        stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
       req(i())
-          rv$data <- obj()[[i()]]
-          rv$conds <- get_group(obj())
+          rv$data <- dataIn()[[i()]]
+          rv$conds <- get_group(dataIn())
           
         #shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
         shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
@@ -203,7 +203,7 @@ omXplore_intensity <- function(
      
     observe({
     rv$indices <- plots_tracking_server("tracker",
-      obj = reactive({obj[[i]]}),
+        dataIn = reactive({obj[[i]]}),
       remoteReset = reactive({input$reset})
     )
     })
@@ -211,7 +211,7 @@ omXplore_intensity <- function(
 
     
     omXplore_intensity_server("iplot",
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i}),
       track.indices = reactive({rv$indices()$indices}),
       remoteReset = reactive({input$reset}),

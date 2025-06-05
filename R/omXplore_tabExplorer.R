@@ -105,7 +105,7 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @export
 omXplore_tabExplorer_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL}),
     digits = reactive({3})) {
   moduleServer(id, function(input, output, session) {
@@ -115,10 +115,10 @@ omXplore_tabExplorer_server <- function(
 
     observe(
       {
-        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        is.mae <- inherits(dataIn(), "MultiAssayExperiment")
         
         if (isTRUE(is.mae)){
-          rv$data <- obj()
+          rv$data <- dataIn()
 
           tags <- GetMetacellTags(
             get_metacell(rv$data[[i()]]),
@@ -375,7 +375,7 @@ omXplore_tabExplorer <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_tabExplorer_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i}))
   }
 

@@ -6,7 +6,7 @@
 #' @name plot-variance
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param dataIn An instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param conds A vector indicating the name of each sample.
 #' @param pal.name A `character(1)` which is the name of the palette from the
@@ -77,7 +77,7 @@ omXplore_variance_ui <- function(id) {
 #'
 omXplore_variance_server <- function(
     id,
-    obj,
+    dataIn,
     i,
     pal.name = NULL) {
   moduleServer(id, function(input, output, session) {
@@ -101,7 +101,7 @@ omXplore_variance_server <- function(
       req(rv$data)
       withProgress(message = "Making plot", value = 100, {
         varDist <- CVDist(obj = assay(rv$data, i()),
-          conds = get_group(obj()),
+          conds = get_group(dataIn()),
           pal.name)
       })
     })
@@ -229,7 +229,7 @@ omXplore_variance <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_variance_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       i = reactive({i})
       )
   }

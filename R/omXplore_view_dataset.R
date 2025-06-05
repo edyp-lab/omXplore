@@ -139,7 +139,7 @@ view_dataset_ui <- function(id) {
 #'
 view_dataset_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     addons = list(),
     useModal = TRUE,
     verbose = FALSE) {
@@ -211,12 +211,12 @@ view_dataset_server <- function(
         paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
     }
     
-    observeEvent(req(obj()), {
+    observeEvent(req(dataIn()), {
 
         #inherits_mae <- inherits(obj(), "MultiAssayExperiment")
         #if (!inherits_mae){
         tryCatch({
-          rv$data <- convert_to_mae(obj())
+          rv$data <- convert_to_mae(dataIn())
         },
           warning = function(w) {
             print(w)
@@ -459,7 +459,7 @@ view_dataset <- function(
   server = function(input, output, session) {
       useAutoColor()
       view_dataset_server("dataset",
-          obj = reactive({obj}),
+          dataIn = reactive({obj}),
           addons = addons,
           useModal = useModal
       )

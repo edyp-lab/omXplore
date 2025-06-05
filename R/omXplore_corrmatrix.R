@@ -98,19 +98,19 @@ omXplore_corrmatrix_ui <- function(id) {
 #'
 omXplore_corrmatrix_server <- function(
     id,
-    obj = reactive({ NULL}),
+    dataIn = reactive({ NULL}),
   i = reactive({NULL})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
     observe({
         shinyjs::toggle("badFormatMsg",
-            condition = !inherits(obj(), "MultiAssayExperiment")
+            condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
       }, priority = 1000)
 
     output$rate_ui <- renderUI({
-      req(inherits(obj(), "MultiAssayExperiment"))
+      req(inherits(dataIn(), "MultiAssayExperiment"))
         sliderInput(ns("rate"),
             "Tune to modify the color gradient",
             min = 0,
@@ -122,18 +122,18 @@ omXplore_corrmatrix_server <- function(
 
 
     output$showValues_ui <- renderUI({
-      req(inherits(obj(), "MultiAssayExperiment"))
+      req(inherits(dataIn(), "MultiAssayExperiment"))
       checkboxInput(ns("showLabels"), "Show labels",
         value = FALSE
       )
     })
 
     output$plot <- renderHighchart({
-      req(obj())
+      req(dataIn())
 
       withProgress(message = "Making plot", value = 100, {
         tmp <- corrMatrix(
-          data = assay(obj()[[i()]]),
+          data = assay(dataIn()[[i()]]),
           rate = input$rate,
           showValues = isTRUE(input$showLabels)
         )
@@ -280,7 +280,7 @@ omXplore_corrmatrix <- function(obj, i) {
   server = function(input, output, session) {
       useAutoColor()
       omXplore_corrmatrix_server("plot", 
-          obj = reactive({obj}),
+          dataIn = reactive({obj}),
           i = reactive({i}))
   }
   

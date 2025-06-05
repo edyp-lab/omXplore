@@ -13,7 +13,7 @@
 #' * `plotPCA_Ind()`
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `MultiAssayExperiment`.
+#' @param dataIn An instance of the class `MultiAssayExperiment`.
 #' @param i An integer which is the index of the assay in the param obj
 #' @param var.scaling The dimensions to plot
 #' @param ncp A `integer(1)` which represents the umber of dimensions kept in
@@ -99,7 +99,7 @@ omXplore_pca_ui <- function(id) {
 #'
 omXplore_pca_server <- function(
         id,
-    obj,
+    dataIn,
     i) {
     
     moduleServer(id, function(input, output, session) {
@@ -116,10 +116,10 @@ omXplore_pca_server <- function(
         
         
         observe({
-            is.mae <- inherits(obj(), "MultiAssayExperiment")
+            is.mae <- inherits(dataIn(), "MultiAssayExperiment")
             stopifnot(is.mae)
             
-            rv.pca$data <- SummarizedExperiment::assay(obj(), i())
+            rv.pca$data <- SummarizedExperiment::assay(dataIn(), i())
             
             shinyjs::toggle("badFormatMsg", condition = !is.mae)
         },
@@ -204,8 +204,8 @@ omXplore_pca_server <- function(
             req(rule1 || rule2)
             
             rv.pca$res.pca <- wrapper_pca(
-                qdata = assay(obj(), i()),
-                group = get_group(obj()),
+                qdata = assay(dataIn(), i()),
+                group = get_group(dataIn()),
                 var.scaling = rv.pca$PCA_varScale,
                 ncp = Compute_PCA_dim(),
                 approach = rv.pca$approach_PCA,
@@ -303,7 +303,7 @@ omXplore_pca <- function(obj, i) {
     
     server <- function(input, output, session) {
         omXplore_pca_server("plot", 
-            obj = reactive({obj}),
+            dataIn = reactive({obj}),
             i = reactive({i}))
     }
     shinyApp(ui = ui, server = server)
