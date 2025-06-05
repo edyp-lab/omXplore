@@ -3,6 +3,8 @@
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
 #' @import highcharter
 #' 
+#' @param obj xxxx
+#' 
 #' @rdname intensity-plots
 #' 
 #' @export

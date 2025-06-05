@@ -7,7 +7,7 @@
 #' @name external_app
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An object of instance `MultiAssayExperiment`
+#' @param dataIn An object of instance `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #'
 #'
@@ -95,14 +95,14 @@ extFoo1_server <- function(
 #' @rdname external_app
 #' @return A shiny app
 #'
-extFoo1 <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+extFoo1 <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- extFoo1_ui("plot")
 
   server <- function(input, output, session) {
     extFoo1_server("plot", 
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }
@@ -182,14 +182,14 @@ extFoo2_server <- function(
 #' @rdname external_app
 #' @return A shiny app
 #'
-extFoo2 <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+extFoo2 <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- extFoo2_ui("plot")
 
   server <- function(input, output, session) {
     extFoo2_server("plot",  
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }

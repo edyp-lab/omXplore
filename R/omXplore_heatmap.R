@@ -7,7 +7,7 @@
 #' more details, see `heatmap.2()`.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of a class `MultiAssayExperiment`.
+#' @param dataIn An instance of a class `MultiAssayExperiment`.
 #' @param i An integer which is the index of the assay in the param obj
 #' @param qdata A data.frame() of quantitative data.
 #' @param conds A vector indicating the name of each sample.
@@ -165,9 +165,9 @@ omXplore_heatmap_server <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_heatmap <- function(obj, i) {
+omXplore_heatmap <- function(dataIn, i) {
   
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     omXplore_heatmap_ui("plot")
@@ -175,7 +175,7 @@ omXplore_heatmap <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_heatmap_server("plot", 
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}))
   }
 

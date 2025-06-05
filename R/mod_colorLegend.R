@@ -136,9 +136,9 @@ colorLegend_server <- function(id,
 #' @rdname color-legend
 #' @return A shiny app
 #'
-colorLegend <- function(obj = SummarizedExperiment::SummarizedExperiment()) {
+colorLegend <- function(dataIn = SummarizedExperiment::SummarizedExperiment()) {
 
-  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  stopifnot(inherits(dataIn, 'SummarizedExperiment'))
   
   ui <- fluidPage(
     tagList(
@@ -150,8 +150,8 @@ colorLegend <- function(obj = SummarizedExperiment::SummarizedExperiment()) {
 
   server <- function(input, output, session) {
     tags <- GetMetacellTags(
-      get_metacell(obj),
-      level = get_type(obj),
+      get_metacell(dataIn),
+      level = get_type(dataIn),
       onlyPresent = TRUE
     )
 

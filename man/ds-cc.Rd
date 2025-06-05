@@ -11,7 +11,7 @@ omXplore_cc_ui(id)
 
 omXplore_cc_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -24,9 +24,9 @@ omXplore_cc(obj, i)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of \code{SummarizedExperiment} class}
-
 \item{i}{An integer which is the index of the assay in the param obj}
+
+\item{obj}{An instance of \code{SummarizedExperiment} class}
 }
 \value{
 A shiny module

@@ -1,7 +1,7 @@
 #' @title Displays different intensity plots.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj A instance of the class `MultiAssayExperiment`
+#' @param dataIn A instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param track.indices A vector of integers which are the indices of
 #' lines to track.
@@ -183,7 +183,7 @@ omXplore_intensity_server <- function(
 #' @return A shiny app
 #'
 omXplore_intensity <- function(
-    obj,
+        dataIn,
     i = NULL,
     withTracking = FALSE) {
   
@@ -203,7 +203,7 @@ omXplore_intensity <- function(
      
     observe({
     rv$indices <- plots_tracking_server("tracker",
-        dataIn = reactive({obj[[i]]}),
+        dataIn = reactive({dataIn[[i]]}),
       remoteReset = reactive({input$reset})
     )
     })
@@ -211,7 +211,7 @@ omXplore_intensity <- function(
 
     
     omXplore_intensity_server("iplot",
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}),
       track.indices = reactive({rv$indices()$indices}),
       remoteReset = reactive({input$reset}),

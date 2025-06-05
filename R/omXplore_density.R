@@ -2,7 +2,7 @@
 #' numeric matrix.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `SummarizedExperiment`
+#' @param dataIn An instance of the class `SummarizedExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param pal.name A `character(1)` which is the name of the palette from
 #' the package [RColorBrewer] from which the colors are taken. Default
@@ -215,15 +215,15 @@ densityPlot <- function(
 #' @rdname density-plot
 #' @return A shiny app
 #'
-omXplore_density <- function(obj, i) {
+omXplore_density <- function(dataIn, i) {
 
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- omXplore_density_ui("plot")
 
   server <- function(input, output, session) {
     omXplore_density_server("plot", 
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
     )
     

@@ -1,7 +1,7 @@
 #' @title Explore `MultiAssayExperiment` objects.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param dataIn An instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param digits An integer for the number of digits shown in the table
 #' 
@@ -370,12 +370,12 @@ output$design_ui <- DT::renderDataTable(server = TRUE, {
 #' @export
 #' @return A shiny app
 #'
-omXplore_tabExplorer <- function(obj, i) {
+omXplore_tabExplorer <- function(dataIn, i) {
   ui <- fluidPage(omXplore_tabExplorer_ui("plot"))
 
   server <- function(input, output, session) {
     omXplore_tabExplorer_server("plot", 
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}))
   }
 

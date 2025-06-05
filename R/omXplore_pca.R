@@ -295,15 +295,15 @@ omXplore_pca_server <- function(
 #' @rdname ds-pca
 #' @return A shiny app
 #'
-omXplore_pca <- function(obj, i) {
+omXplore_pca <- function(dataIn, i) {
     
-    stopifnot(inherits(obj, "MultiAssayExperiment"))
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
     
     ui <- omXplore_pca_ui("plot")
     
     server <- function(input, output, session) {
         omXplore_pca_server("plot", 
-            dataIn = reactive({obj}),
+            dataIn = reactive({dataIn}),
             i = reactive({i}))
     }
     shinyApp(ui = ui, server = server)
