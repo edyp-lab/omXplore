@@ -12,9 +12,9 @@ omXplore_variance_ui(id)
 
 omXplore_variance_server(id, dataIn, i, pal.name = NULL)
 
-CVDist(obj, conds, pal.name = NULL)
+CVDist(dataIn, conds, pal.name = NULL)
 
-omXplore_variance(obj, i)
+omXplore_variance(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
@@ -27,9 +27,9 @@ omXplore_variance(obj, i)
 the package \link{RColorBrewer} from which the colors are taken. Default
 value is 'Set1'.}
 
-\item{obj}{An matrix}
-
 \item{conds}{A vector indicating the name of each sample.}
+
+\item{obj}{An matrix}
 }
 \value{
 NA

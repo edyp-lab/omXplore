@@ -66,7 +66,7 @@
 #' \dontrun{
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   runApp(view_dataset(vdata, addons, useModal = FALSE))
+#'   shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
 #' }
@@ -387,7 +387,7 @@ view_dataset_server <- function(
           paste0(x, "_server"),
           list(
             id = paste0(x, "_large"),
-            obj = reactive({rv$data}),
+            dataIn = reactive({rv$data}),
             i = reactive({input$chooseDataset})
           )
         )

@@ -87,9 +87,9 @@ omXplore_variance_server <- function(
 
     observe(
       {
-        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        is.mae <- inherits(dataIn(), "MultiAssayExperiment")
         if(is.mae) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         }
 
         shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
@@ -139,14 +139,14 @@ omXplore_variance_server <- function(
 #' @return A plot
 #'
 CVDist <- function(
-    obj,
+        dataIn,
   conds,
     pal.name = NULL) {
-  stopifnot(inherits(obj, "matrix"))
+  stopifnot(inherits(dataIn, "matrix"))
 
 
   if (is.null(conds) || length(conds)==0) {
-    stop("obj contains no conds.")
+    stop("conds contains no conds.")
   }
 
   u_conds <- unique(conds)
@@ -181,7 +181,7 @@ CVDist <- function(
   for (i in seq_len(length(u_conds))) {
     if (length(which(conds == u_conds[i])) > 1) {
       t <- apply(
-        obj[, which(conds == u_conds[i])], 1,
+          dataIn[, which(conds == u_conds[i])], 1,
         function(x) {
           100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
         }
@@ -220,8 +220,8 @@ CVDist <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_variance <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+omXplore_variance <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     omXplore_variance_ui("plot")
@@ -229,7 +229,7 @@ omXplore_variance <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_variance_server("plot", 
-        dataIn = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }

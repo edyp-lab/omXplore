@@ -19,14 +19,14 @@ omXplore_cc_server(
  })
 )
 
-omXplore_cc(obj, i)
+omXplore_cc(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{i}{An integer which is the index of the assay in the param obj}
+\item{dataIn}{An instance of \code{SummarizedExperiment} class}
 
-\item{obj}{An instance of \code{SummarizedExperiment} class}
+\item{i}{An integer which is the index of the assay in the param obj}
 }
 \value{
 A shiny module
@@ -45,7 +45,7 @@ A shiny Module.
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_cc(vdata, 1)
+  shiny::runApp(omXplore_cc(vdata, 1))
 }
 
 }
