@@ -5,6 +5,8 @@
 #' @importFrom RColorBrewer brewer.pal
 #'
 #' @export
+#' 
+#' @param data xxxx
 #'
 #' @rdname intensity-plots
 #' @import vioplot

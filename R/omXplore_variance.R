@@ -6,7 +6,7 @@
 #' @name plot-variance
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param dataIn An instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param conds A vector indicating the name of each sample.
 #' @param pal.name A `character(1)` which is the name of the palette from the
@@ -77,7 +77,7 @@ omXplore_variance_ui <- function(id) {
 #'
 omXplore_variance_server <- function(
     id,
-    obj,
+    dataIn,
     i,
     pal.name = NULL) {
   moduleServer(id, function(input, output, session) {
@@ -87,9 +87,9 @@ omXplore_variance_server <- function(
 
     observe(
       {
-        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        is.mae <- inherits(dataIn(), "MultiAssayExperiment")
         if(is.mae) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         }
 
         shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
@@ -101,7 +101,7 @@ omXplore_variance_server <- function(
       req(rv$data)
       withProgress(message = "Making plot", value = 100, {
         varDist <- CVDist(obj = assay(rv$data, i()),
-          conds = get_group(obj()),
+          conds = get_group(dataIn()),
           pal.name)
       })
     })
@@ -139,14 +139,14 @@ omXplore_variance_server <- function(
 #' @return A plot
 #'
 CVDist <- function(
-    obj,
+        dataIn,
   conds,
     pal.name = NULL) {
-  stopifnot(inherits(obj, "matrix"))
+  stopifnot(inherits(dataIn, "matrix"))
 
 
   if (is.null(conds) || length(conds)==0) {
-    stop("obj contains no conds.")
+    stop("conds contains no conds.")
   }
 
   u_conds <- unique(conds)
@@ -181,7 +181,7 @@ CVDist <- function(
   for (i in seq_len(length(u_conds))) {
     if (length(which(conds == u_conds[i])) > 1) {
       t <- apply(
-        obj[, which(conds == u_conds[i])], 1,
+          dataIn[, which(conds == u_conds[i])], 1,
         function(x) {
           100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
         }
@@ -220,8 +220,8 @@ CVDist <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_variance <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+omXplore_variance <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     omXplore_variance_ui("plot")
@@ -229,7 +229,7 @@ omXplore_variance <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_variance_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }

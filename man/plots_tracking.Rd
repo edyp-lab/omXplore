@@ -10,7 +10,7 @@ plots_tracking_ui(id)
 
 plots_tracking_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   remoteReset = reactive({
@@ -26,12 +26,12 @@ plots_tracking(obj)
 \arguments{
 \item{id}{shiny id}
 
-\item{obj}{An instance of the class \code{MultiAssayExperiment}}
-
 \item{remoteReset}{A \code{boolean(1)} which indicates whether to show the 'Reset'
 button or not.}
 
 \item{is.enabled}{xxx}
+
+\item{obj}{An instance of the class \code{MultiAssayExperiment}}
 }
 \value{
 NA

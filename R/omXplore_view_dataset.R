@@ -44,7 +44,7 @@
 #'
 #' @param id A `character(1)` for the 'id' of the shiny module. It must be
 #' the same as for the '*_ui' function.
-#' @param obj An instance of the class `MultiAssayExperiment`.
+#' @param dataIn An instance of the class `MultiAssayExperiment`.
 #' @param addons A `list` to configure the other shiny apps to integrate.
 #' Each item correspond to one package:
 #' * the name of the slot is the name of the package
@@ -66,7 +66,7 @@
 #' \dontrun{
 #'   data(vdata)
 #'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   runApp(view_dataset(vdata, addons, useModal = FALSE))
+#'   shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
 #' }
@@ -139,7 +139,7 @@ view_dataset_ui <- function(id) {
 #'
 view_dataset_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     addons = list(),
     useModal = TRUE,
     verbose = FALSE) {
@@ -211,12 +211,12 @@ view_dataset_server <- function(
         paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
     }
     
-    observeEvent(req(obj()), {
+    observeEvent(req(dataIn()), {
 
         #inherits_mae <- inherits(obj(), "MultiAssayExperiment")
         #if (!inherits_mae){
         tryCatch({
-          rv$data <- convert_to_mae(obj())
+          rv$data <- convert_to_mae(dataIn())
         },
           warning = function(w) {
             print(w)
@@ -387,7 +387,7 @@ view_dataset_server <- function(
           paste0(x, "_server"),
           list(
             id = paste0(x, "_large"),
-            obj = reactive({rv$data}),
+            dataIn = reactive({rv$data}),
             i = reactive({input$chooseDataset})
           )
         )
@@ -417,6 +417,9 @@ view_dataset_server <- function(
 
 #' @export
 #' @rdname ds-view
+#' @param dataIn xx
+#' @param addons xxx
+#' @param useModal xxx description
 #'
 #' @return A shiny application which wraps the functions view_dataset_ui()
 #' and the view_dataset_server()
@@ -429,7 +432,7 @@ view_dataset_server <- function(
 #' }
 #'
 view_dataset <- function(
-    obj = NULL,
+        dataIn = NULL,
     addons = NULL,
   useModal = TRUE) {
   
@@ -459,7 +462,7 @@ view_dataset <- function(
   server = function(input, output, session) {
       useAutoColor()
       view_dataset_server("dataset",
-          obj = reactive({obj}),
+          dataIn = reactive({dataIn}),
           addons = addons,
           useModal = useModal
       )

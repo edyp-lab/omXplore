@@ -10,16 +10,16 @@
 \usage{
 omXplore_variance_ui(id)
 
-omXplore_variance_server(id, obj, i, pal.name = NULL)
+omXplore_variance_server(id, dataIn, i, pal.name = NULL)
 
-CVDist(obj, conds, pal.name = NULL)
+CVDist(dataIn, conds, pal.name = NULL)
 
-omXplore_variance(obj, i)
+omXplore_variance(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An matrix}
+\item{dataIn}{An instance of the class \code{MultiAssayExperiment}}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -28,6 +28,8 @@ the package \link{RColorBrewer} from which the colors are taken. Default
 value is 'Set1'.}
 
 \item{conds}{A vector indicating the name of each sample.}
+
+\item{obj}{An matrix}
 }
 \value{
 NA

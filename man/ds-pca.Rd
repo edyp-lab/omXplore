@@ -31,9 +31,9 @@ my_PCA(
 
 omXplore_pca_ui(id)
 
-omXplore_pca_server(id, obj, i)
+omXplore_pca_server(id, dataIn, i)
 
-omXplore_pca(obj, i)
+omXplore_pca(dataIn, i)
 
 wrapper_pca(
   qdata,
@@ -79,7 +79,7 @@ plotPCA_Eigen_hc(res.pca)
 
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of the class \code{MultiAssayExperiment}.}
+\item{dataIn}{An instance of the class \code{MultiAssayExperiment}.}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -139,15 +139,15 @@ plotPCA_Ind(res.pca)
 \dontrun{
   data(vdata)
   library(shiny)
+  library(QFeatures)
   library(shinyWidgets)
   library(dplyr)
   library(highcharter)
   # Replace missing values for the example
   sel <- is.na(SummarizedExperiment::assay(vdata, 1))
   SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
-  # SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
+  SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
   omXplore_pca(vdata, 1)
-  shiny::runApp(omXplore_pca(vdata, 1))
 }
 
 

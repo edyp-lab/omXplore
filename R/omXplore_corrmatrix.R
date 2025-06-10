@@ -4,7 +4,7 @@
 #' @name corrmatrix
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `SummarizedExperiment`
+#' @param dataIn An instance of the class `SummarizedExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param rate Default value is 0.9
 #' @param showValues Default is FALSE.
@@ -98,19 +98,19 @@ omXplore_corrmatrix_ui <- function(id) {
 #'
 omXplore_corrmatrix_server <- function(
     id,
-    obj = reactive({ NULL}),
+    dataIn = reactive({ NULL}),
   i = reactive({NULL})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
     observe({
         shinyjs::toggle("badFormatMsg",
-            condition = !inherits(obj(), "MultiAssayExperiment")
+            condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
       }, priority = 1000)
 
     output$rate_ui <- renderUI({
-      req(inherits(obj(), "MultiAssayExperiment"))
+      req(inherits(dataIn(), "MultiAssayExperiment"))
         sliderInput(ns("rate"),
             "Tune to modify the color gradient",
             min = 0,
@@ -122,18 +122,18 @@ omXplore_corrmatrix_server <- function(
 
 
     output$showValues_ui <- renderUI({
-      req(inherits(obj(), "MultiAssayExperiment"))
+      req(inherits(dataIn(), "MultiAssayExperiment"))
       checkboxInput(ns("showLabels"), "Show labels",
         value = FALSE
       )
     })
 
     output$plot <- renderHighchart({
-      req(obj())
+      req(dataIn())
 
       withProgress(message = "Making plot", value = 100, {
         tmp <- corrMatrix(
-          data = assay(obj()[[i()]]),
+          data = assay(dataIn()[[i()]]),
           rate = input$rate,
           showValues = isTRUE(input$showLabels)
         )
@@ -257,9 +257,9 @@ corrMatrix <- function(
 #' @rdname corrmatrix
 #' @return A shiny app
 #'
-omXplore_corrmatrix <- function(obj, i) {
+omXplore_corrmatrix <- function(dataIn, i) {
   
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui = dashboardPage(
       preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
@@ -280,7 +280,7 @@ omXplore_corrmatrix <- function(obj, i) {
   server = function(input, output, session) {
       useAutoColor()
       omXplore_corrmatrix_server("plot", 
-          obj = reactive({obj}),
+          dataIn = reactive({dataIn}),
           i = reactive({i}))
   }
   

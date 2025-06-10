@@ -13,7 +13,7 @@ omXplore_density_ui(id)
 
 omXplore_density_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -26,12 +26,12 @@ omXplore_density_server(
 
 densityPlot(data, conds = NULL, pal.name = NULL)
 
-omXplore_density(obj, i)
+omXplore_density(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of the class \code{SummarizedExperiment}}
+\item{dataIn}{An instance of the class \code{SummarizedExperiment}}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 

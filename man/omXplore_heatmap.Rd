@@ -14,7 +14,7 @@ omXplore_heatmap_ui(id)
 
 omXplore_heatmap_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -22,7 +22,7 @@ omXplore_heatmap_server(
  })
 )
 
-omXplore_heatmap(obj, i)
+omXplore_heatmap(dataIn, i)
 
 heatmapD(
   qdata,
@@ -59,7 +59,7 @@ heatmapForMissingValues(
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An instance of a class \code{MultiAssayExperiment}.}
+\item{dataIn}{An instance of a class \code{MultiAssayExperiment}.}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 

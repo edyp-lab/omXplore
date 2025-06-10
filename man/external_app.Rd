@@ -14,7 +14,7 @@ extFoo1_ui(id)
 
 extFoo1_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -22,13 +22,13 @@ extFoo1_server(
  })
 )
 
-extFoo1(obj, i)
+extFoo1(dataIn, i)
 
 extFoo2_ui(id)
 
 extFoo2_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -36,12 +36,12 @@ extFoo2_server(
  })
 )
 
-extFoo2(obj, i)
+extFoo2(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An object of instance \code{MultiAssayExperiment}}
+\item{dataIn}{An object of instance \code{MultiAssayExperiment}}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 }

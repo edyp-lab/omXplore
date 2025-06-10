@@ -131,7 +131,6 @@ formatDT_server <- function(id,
     observe({
       req(data())
       rv$data <- data()
-      print('In observe replaceData')
       DT::replaceData(proxy, rv$data, resetPaging = FALSE)
     })
 
