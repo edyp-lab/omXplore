@@ -33,14 +33,14 @@ omXplore_intensity_server(
 
 omXplore_intensity(dataIn, i = NULL, withTracking = FALSE)
 
-boxPlot(obj, conds, legend = NULL, pal = NULL, subset = NULL)
+boxPlot(dataIn, conds, legend = NULL, pal = NULL, subset = NULL)
 
 violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{dataIn}{A instance of the class \code{MultiAssayExperiment}}
+\item{dataIn}{xxxx}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -54,8 +54,6 @@ enabled or disabled. Default is TRUE}
 
 \item{withTracking}{A \code{boolean(1)} indicating whether the tracking option is
 activated or not.}
-
-\item{obj}{xxxx}
 
 \item{conds}{A vector indicating the name of each sample.}
 

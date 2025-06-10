@@ -135,7 +135,7 @@ omXplore_intensity_server <- function(
       req(input$choosePlot == "box")
       track.indices()
       boxPlot(
-        obj = rv$data,
+        dataIn = rv$data,
         conds = rv$conds,
         subset = track.indices()
       )
