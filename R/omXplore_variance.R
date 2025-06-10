@@ -100,7 +100,8 @@ omXplore_variance_server <- function(
     output$viewDistCV <- renderHighchart({
       req(rv$data)
       withProgress(message = "Making plot", value = 100, {
-        varDist <- CVDist(obj = assay(rv$data, i()),
+        varDist <- CVDist(
+            dataIn = assay(rv$data, i()),
           conds = get_group(dataIn()),
           pal.name)
       })
@@ -128,7 +129,7 @@ omXplore_variance_server <- function(
 #' 
 #' @export
 #'
-#' @param obj An matrix
+#' @param dataIn An matrix
 #' @param pal.name A `character(1)` which is the name of the palette from
 #' the package [RColorBrewer] from which the colors are taken. Default
 #' value is 'Set1'.

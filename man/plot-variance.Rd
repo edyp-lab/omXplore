@@ -19,7 +19,7 @@ omXplore_variance(dataIn, i)
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{dataIn}{An instance of the class \code{MultiAssayExperiment}}
+\item{dataIn}{An matrix}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -28,8 +28,6 @@ the package \link{RColorBrewer} from which the colors are taken. Default
 value is 'Set1'.}
 
 \item{conds}{A vector indicating the name of each sample.}
-
-\item{obj}{An matrix}
 }
 \value{
 NA
