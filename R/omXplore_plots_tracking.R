@@ -102,7 +102,7 @@ plots_tracking_server <- function(
     )
     
    
-    observeEvent(dataIn(), ignoreNULL = TRUE, {
+    observeEvent(req(dataIn()), ignoreNULL = TRUE, {
       
       stopifnot(inherits(dataIn(), 'SummarizedExperiment'))
           rv$dataIn <- dataIn()
