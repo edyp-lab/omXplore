@@ -44,7 +44,7 @@ A shiny module which plots the variance of samples
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_variance(vdata, 1)
+  shiny::runApp(omXplore_variance(vdata, 1))
 }
 
 }
