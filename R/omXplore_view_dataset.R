@@ -65,7 +65,7 @@
 #' @examples
 #' \dontrun{
 #'   data(vdata)
-#'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
+#'   addons <- list(omXplore = c("extFoo1", "extFoo2"), Prostar2 = c("infos_dataset"))
 #'   shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
@@ -79,6 +79,7 @@
 #' @import waiter
 #' @import shinyBS
 #' @import shiny
+#' @import highcharter
 #'
 NULL
 
@@ -240,6 +241,7 @@ view_dataset_server <- function(
           addModules(addons)
           
           rv$ll.mods <- listPlotModules()
+       
         }
       },
       priority = 1000

@@ -281,7 +281,7 @@ omXplore_pca_server <- function(
             n <- dim(y)[2] # If too big, take the number of conditions.
             
             if (n > nmax) {
-                n <- length(unique(get_group(obj())))
+                n <- length(unique(get_group(dataIn)))
             }
             
             ncp <- min(n, nmax)
