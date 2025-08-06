@@ -14,7 +14,7 @@ omXplore_intensity_ui(id)
 
 omXplore_intensity_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   i = reactive({
@@ -31,16 +31,16 @@ omXplore_intensity_server(
  })
 )
 
-omXplore_intensity(obj, i = NULL, withTracking = FALSE)
+omXplore_intensity(dataIn, i = NULL, withTracking = FALSE)
 
-boxPlot(obj, conds, legend = NULL, pal = NULL, subset = NULL)
+boxPlot(dataIn, conds, legend = NULL, pal = NULL, subset = NULL)
 
 violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{A instance of the class \code{MultiAssayExperiment}}
+\item{dataIn}{xxxx}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -65,7 +65,7 @@ to the number of unique conditions in the dataset.}
 \item{subset}{A \code{integer()} vector of index indicating the indices
 of rows in the dataset to highlight}
 
-\item{data}{A data.frame() of quantitaive data}
+\item{data}{xxxx}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from the
 package \link{RColorBrewer} from which the colors are taken. Default value

@@ -54,6 +54,7 @@ listPlotModules()
 #####################################################
 \dontrun{
 addons <- list(omXplore = c("extFoo1", "extFoo2"))
+addons <- list(Prostar2 = c("infos_dataset"))
 addModules(addons)
 }
 

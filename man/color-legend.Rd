@@ -20,7 +20,7 @@ colorLegend_server(
   hide.white = TRUE
 )
 
-colorLegend(obj = SummarizedExperiment::SummarizedExperiment())
+colorLegend(dataIn = SummarizedExperiment::SummarizedExperiment())
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
@@ -30,7 +30,7 @@ colorLegend(obj = SummarizedExperiment::SummarizedExperiment())
 \item{hide.white}{A \code{boolean()} to indicate whether the white cells must be
 hidden or not.}
 
-\item{obj}{An instance of the class \code{SummarizedExperiment}.}
+\item{dataIn}{An instance of the class \code{SummarizedExperiment}.}
 }
 \value{
 A vector

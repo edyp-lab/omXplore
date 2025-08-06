@@ -10,16 +10,16 @@
 \usage{
 omXplore_variance_ui(id)
 
-omXplore_variance_server(id, obj, i, pal.name = NULL)
+omXplore_variance_server(id, dataIn, i, pal.name = NULL)
 
-CVDist(obj, conds, pal.name = NULL)
+CVDist(dataIn, conds, pal.name = NULL)
 
-omXplore_variance(obj, i)
+omXplore_variance(dataIn, i)
 }
 \arguments{
 \item{id}{A \code{character(1)} which is the id of the shiny module.}
 
-\item{obj}{An matrix}
+\item{dataIn}{An matrix}
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
@@ -44,7 +44,7 @@ A shiny module which plots the variance of samples
 \examples{
 if (interactive()) {
   data(vdata)
-  omXplore_variance(vdata, 1)
+  shiny::runApp(omXplore_variance(vdata, 1))
 }
 
 }
