@@ -109,7 +109,7 @@ This will also install dependencies.
 It is also possible to install `omXplore` from Github:
 
     library(devtools)
-    install_github('prostarproteomics/omXplore')
+    install_github('edyp-lab/omXplore')
 
 Then, load the package into R environment:
 

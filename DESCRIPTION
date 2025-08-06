@@ -109,7 +109,7 @@ RoxygenNote: 7.3.2
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false
-URL: https://github.com/prostarproteomics/omXplore, https://prostarproteomics.github.io/omXplore/
-BugReports: https://github.com/prostarproteomics/omXplore/issues
+URL: https://github.com/edyp-lab/omXplore, https://edyp-lab.github.io/omXplore/
+BugReports: https://github.com/edyp-lab/omXplore/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

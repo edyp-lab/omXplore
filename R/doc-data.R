@@ -13,7 +13,7 @@
 #' @source
 #'
 #' `vdata` was built from the source code available in
-#' [`inst/scripts/build_datasets.R`](https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R)
+#' [`inst/scripts/build_datasets.R`](https://github.com/edyp-lab/omXplore/blob/main/inst/scripts/build_datasets.R)
 #' 
 #' 
 NULL
@@ -29,9 +29,9 @@ NULL
 #' @source
 #'
 #' `sub_R25` was built from the source code available in
-#' [`inst/scripts/build_datasets.R`](https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R)
+#' [`inst/scripts/build_datasets.R`](https://github.com/edyp-lab/omXplore/blob/main/inst/scripts/build_datasets.R)
 #'  
-#' The `DAPARdata` package: \url{https://github.com/prostarproteomics/DAPARdata}
+#' The `DAPARdata` package: \url{https://github.com/edyp-lab/DAPARdata}
 #'
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #'

@@ -8,9 +8,9 @@ An instance of the class \code{MultiAssayExperiment}
 }
 \source{
 \code{sub_R25} was built from the source code available in
-\href{https://github.com/prostarproteomics/omXplore/blob/main/inst/scripts/build_datasets.R}{\code{inst/scripts/build_datasets.R}}
+\href{https://github.com/edyp-lab/omXplore/blob/main/inst/scripts/build_datasets.R}{\code{inst/scripts/build_datasets.R}}
 
-The \code{DAPARdata} package: \url{https://github.com/prostarproteomics/DAPARdata}
+The \code{DAPARdata} package: \url{https://github.com/edyp-lab/DAPARdata}
 }
 \value{
 An enriched instance of the class \code{MultiAssayExperiment}

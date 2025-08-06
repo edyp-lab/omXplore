@@ -1,12 +1,12 @@
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R-CMD-check-bioc](https://github.com/prostarProteomics/omXplore/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/prostarProteomics/omXplore/actions?query=workflow%3AR-CMD-check-bioc)
-[![R-CMD-check](https://github.com/prostarproteomics/omXplore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/prostarproteomics/omXplore/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/prostarproteomics/omXplore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/prostarproteomics/omXplore/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check.yaml](https://github.com/prostarproteomics/omXplore/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/prostarproteomics/omXplore/actions/workflows/check-standard.yaml)
+[![R-CMD-check-bioc](https://github.com/edyp-lab/omXplore/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/edyp-lab/omXplore/actions?query=workflow%3AR-CMD-check-bioc)
+[![R-CMD-check](https://github.com/edyp-lab/omXplore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edyp-lab/omXplore/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/edyp-lab/omXplore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edyp-lab/omXplore/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check.yaml](https://github.com/edyp-lab/omXplore/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/edyp-lab/omXplore/actions/workflows/check-standard.yaml)
 
 
-[![codecov.io](https://codecov.io/github/prostarProteomics/omXplore/coverage.svg?branch=main)](https://codecov.io/github/prostarProteomics/omXplore?branch=main)
+[![codecov.io](https://codecov.io/github/edyp-lab/omXplore/coverage.svg?branch=main)](https://codecov.io/github/edyp-lab/omXplore?branch=main)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 <!-- badges: end -->
 
@@ -30,7 +30,7 @@ the GUI of `omXplore`.
 ### Getting started
 
 See the
-[omXplore introduction](https://prostarproteomics.github.io/omXplore/articles/omXplore.html)
+[omXplore introduction](https://edyp-lab.github.io/omXplore/articles/omXplore.html)
 to get started with the visualization of data.
 
 
@@ -61,7 +61,7 @@ It is also possible to install `omXplore` from Github:
 
 ```
 library(devtools)
-install_github('prostarproteomics/omXplore')
+install_github('edyp-lab/omXplore')
 
 ```
 
