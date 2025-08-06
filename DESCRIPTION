@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
@@ -32,7 +32,6 @@ Depends:
     R (>= 4.5.0), methods
 Imports:
     DT,
-    bs4Dash,
     shiny, 
     waiter,
     thematic,
