@@ -139,8 +139,6 @@ plotPCA_Ind(res.pca)
 \donttest{
   data(vdata)
   library(shiny)
-  library(QFeatures)
-  library(shinyWidgets)
   library(dplyr)
   library(highcharter)
   # Replace missing values for the example
