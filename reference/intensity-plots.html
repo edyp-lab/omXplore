@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">omXplore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.93</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
       </span>
     </div>
 
@@ -70,26 +70,26 @@
 <span></span>
 <span><span class="fu">omXplore_intensity_server</span><span class="op">(</span></span>
 <span>  <span class="va">id</span>,</span>
-<span>  obj <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  dataIn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  i <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="fl">1</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  track.indices <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  track.indices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  remoteReset <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  remoteReset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  is.enabled <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  is.enabled <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">TRUE</span></span>
 <span> <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">omXplore_intensity</span><span class="op">(</span><span class="va">obj</span>, i <span class="op">=</span> <span class="cn">NULL</span>, withTracking <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">omXplore_intensity</span><span class="op">(</span><span class="va">dataIn</span>, i <span class="op">=</span> <span class="cn">NULL</span>, withTracking <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boxPlot</span><span class="op">(</span><span class="va">obj</span>, <span class="va">conds</span>, legend <span class="op">=</span> <span class="cn">NULL</span>, pal <span class="op">=</span> <span class="cn">NULL</span>, subset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">boxPlot</span><span class="op">(</span><span class="va">dataIn</span>, <span class="va">conds</span>, legend <span class="op">=</span> <span class="cn">NULL</span>, pal <span class="op">=</span> <span class="cn">NULL</span>, subset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">violinPlot</span><span class="op">(</span><span class="va">data</span>, <span class="va">conds</span>, subset <span class="op">=</span> <span class="cn">NULL</span>, pal.name <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -102,8 +102,8 @@
 <dd><p>A <code>character(1)</code> which is the id of the shiny module.</p></dd>
 
 
-<dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
-<dd><p>A instance of the class <code>MultiAssayExperiment</code></p></dd>
+<dt id="arg-datain">dataIn<a class="anchor" aria-label="anchor" href="#arg-datain"></a></dt>
+<dd><p>xxxx</p></dd>
 
 
 <dt id="arg-i">i<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
@@ -148,7 +148,7 @@ of rows in the dataset to highlight</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data.frame() of quantitaive data</p></dd>
+<dd><p>xxxx</p></dd>
 
 
 <dt id="arg-pal-name">pal.name<a class="anchor" aria-label="anchor" href="#arg-pal-name"></a></dt>
@@ -198,7 +198,7 @@ is 'Set1'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">omXplore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.93</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
       </span>
     </div>
 
@@ -70,13 +70,13 @@
 <span></span>
 <span><span class="fu">plots_tracking_server</span><span class="op">(</span></span>
 <span>  <span class="va">id</span>,</span>
-<span>  obj <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  dataIn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  remoteReset <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  remoteReset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span><span class="op">)</span>,</span>
-<span>  is.enabled <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>  is.enabled <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="cn">TRUE</span></span>
 <span> <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -92,10 +92,6 @@
 <dd><p>shiny id</p></dd>
 
 
-<dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
-<dd><p>An instance of the class <code>MultiAssayExperiment</code></p></dd>
-
-
 <dt id="arg-remotereset">remoteReset<a class="anchor" aria-label="anchor" href="#arg-remotereset"></a></dt>
 <dd><p>A <code>boolean(1)</code> which indicates whether to show the 'Reset'
 button or not.</p></dd>
@@ -103,6 +99,10 @@ button or not.</p></dd>
 
 <dt id="arg-is-enabled">is.enabled<a class="anchor" aria-label="anchor" href="#arg-is-enabled"></a></dt>
 <dd><p>xxx</p></dd>
+
+
+<dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
+<dd><p>An instance of the class <code>MultiAssayExperiment</code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -133,7 +133,7 @@ button or not.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
