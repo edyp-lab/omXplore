@@ -21,5 +21,4 @@ styles with the functions of the package \code{DT}.
 \examples{
 NULL
 
-
 }

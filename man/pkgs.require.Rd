@@ -16,7 +16,7 @@ NA
 Checks if a package is available to load it
 }
 \examples{
-pkgs.require('omXplore')
+pkgs.require("omXplore")
 
 }
 \author{

@@ -128,6 +128,7 @@ library
 }
 }
 \examples{
+if (interactive()) {
 data(vdata)
 obj <- vdata[[1]]
 res.pca <- my_PCA(SummarizedExperiment::assay(obj), approach = "FM")
@@ -135,27 +136,29 @@ plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)
 plotPCA_Ind(res.pca)
-
-\donttest{
-  data(vdata)
-  library(shiny)
-  library(dplyr)
-  library(highcharter)
-  # Replace missing values for the example
-  sel <- is.na(SummarizedExperiment::assay(vdata, 1))
-  SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
-  SummarizedExperiment::assay(vdata[[1]])[1,1] <- NA
-  omXplore_pca(vdata, 1)
 }
 
+if (interactive()) {
+data(vdata)
+library(shiny)
+library(dplyr)
+library(highcharter)
+# Replace missing values for the example
+sel <- is.na(SummarizedExperiment::assay(vdata, 1))
+SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
+SummarizedExperiment::assay(vdata[[1]])[1, 1] <- NA
+omXplore_pca(vdata, 1)
+}
 
+if (interactive()) {
 data(vdata)
 obj <- vdata[[1]]
-res.pca <- wrapper_pca(qdata=SummarizedExperiment::assay(obj), group=get_group(obj))
+res.pca <- wrapper_pca(qdata = SummarizedExperiment::assay(obj), group = get_group(obj))
 plotPCA_Eigen(res.pca)
 plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)
 plotPCA_Ind(res.pca)
+}
 
 }
 \author{

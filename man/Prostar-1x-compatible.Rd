@@ -28,6 +28,4 @@ Convert datasets exported by the package \code{Prostar}
 \examples{
 data(sub_R25)
 
-
-
 }

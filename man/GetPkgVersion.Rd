@@ -17,6 +17,6 @@ its version number.
 Gets the version number of a package
 }
 \examples{
-GetPkgVersion('omXplore')
+GetPkgVersion("omXplore")
 
 }

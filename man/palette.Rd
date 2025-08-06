@@ -40,7 +40,7 @@ package \link{RColorBrewer} to 'n' colors.
 The colors in the returned palette are always in the same order
 }
 \examples{
-
+if (interactive()) {
 #-----------------------------------------------
 # Builds a palette for a dataset with 3 conditions
 # of 3 samples each.
@@ -61,5 +61,6 @@ ExtendPalette(12)
 data(vdata)
 conds <- get_group(vdata)
 GetColorsForConditions(conds, ExtendPalette(2))
+}
 
 }

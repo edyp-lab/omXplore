@@ -8,15 +8,15 @@
 #'
 #' @keywords internal
 #'
-#' 
+#'
 #' @examples
 #' if (interactive()) {
-#'   data(vdata)
-#'   shiny::runApp(omXplore_cc(vdata, 1))
+#' data(vdata)
+#' shiny::runApp(omXplore_cc(vdata, 1))
 #' }
 #'
 #' @name ds-cc
-#' 
+#'
 #' @return A shiny module
 #'
 NULL
@@ -24,39 +24,42 @@ NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
-#' @importFrom SummarizedExperiment rowData colData assays 
+#' @importFrom SummarizedExperiment rowData colData assays
 #' @import shinyBS
 #' @rdname ds-cc
 #' @export
 #' @return A shiny plot
-#' 
+#'
 #' @return A shiny module
 #'
 omXplore_cc_ui <- function(id) {
-    ns <- NS(id)
-    tagList(
-        shinyjs::useShinyjs(),
-        shinyjs::hidden(
-          div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))
-        ),
-        shinyjs::hidden(
-            div(id = ns("noCCMsg"), h3("The dataset contains no CC."))
-        ),
-        shinyjs::hidden(
-            div(id = ns("mainUI"),
-                tabPanel(title = "", value = "graphTab",
-                    tabsetPanel(id = "graphsPanel",
-                      tabPanel(
+  ns <- NS(id)
+  tagList(
+    shinyjs::useShinyjs(),
+    shinyjs::hidden(
+      div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))
+    ),
+    shinyjs::hidden(
+      div(id = ns("noCCMsg"), h3("The dataset contains no CC."))
+    ),
+    shinyjs::hidden(
+      div(
+        id = ns("mainUI"),
+        tabPanel(
+          title = "", value = "graphTab",
+          tabsetPanel(
+            id = "graphsPanel",
+            tabPanel(
               "One-One Connected Components",
               tagList(
                 fluidRow(
@@ -130,17 +133,17 @@ omXplore_cc_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
-#' @importFrom SummarizedExperiment rowData colData assays 
+#' @importFrom SummarizedExperiment rowData colData assays
 #' @import shinyBS
 #' @import shinyjqui
 #' @rdname ds-cc
@@ -148,9 +151,14 @@ omXplore_cc_ui <- function(id) {
 #' @export
 #' @return A shiny app
 #'
-omXplore_cc_server <- function(id, 
-    dataIn = reactive({NULL}), 
-  i = reactive({NULL})) {
+omXplore_cc_server <- function(
+    id,
+    dataIn = reactive({
+      NULL
+    }),
+    i = reactive({
+      NULL
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -162,7 +170,9 @@ omXplore_cc_server <- function(id,
 
 
 
-    observeEvent(dataIn(), ignoreInit = FALSE,{
+    observeEvent(dataIn(),
+      ignoreInit = FALSE,
+      {
         obj.valid <- inherits(dataIn(), "MultiAssayExperiment")
         cc.exists <- length(get_cc(dataIn()[[i()]])) > 0
 
@@ -193,9 +203,15 @@ omXplore_cc_server <- function(id,
         specPepLabels = NULL,
         protLabels = NULL
       ),
-      OneOneDT_rows_selected = reactive({NULL}),
-      OneMultiDT_rows_selected = reactive({NULL}),
-      CCMultiMulti_rows_selected = reactive({NULL})
+      OneOneDT_rows_selected = reactive({
+        NULL
+      }),
+      OneMultiDT_rows_selected = reactive({
+        NULL
+      }),
+      CCMultiMulti_rows_selected = reactive({
+        NULL
+      })
     )
 
 
@@ -247,15 +263,15 @@ omXplore_cc_server <- function(id,
     output$visNetCC <- visNetwork::renderVisNetwork({
       req(rvCC$selectedCC)
       input$pepInfo
-      
-      
+
+
       local <- as.list(rv$cc$Multi_Multi)
       # m <- local[[rvCC$selectedCC]]
 
       rvCC$selectedCCgraph <- buildGraph(
         cc = local[[rvCC$selectedCC]],
         meta = rowData(rv$data)
-        #metadata = NULL
+        # metadata = NULL
       )
 
       display.CC.visNet(rvCC$selectedCCgraph) %>%
@@ -281,8 +297,12 @@ omXplore_cc_server <- function(id,
 
       isolate({
         local <- rv$cc$Multi_Multi
-        n.prot <- unlist(lapply(local, function(x) {ncol(x)}))
-        n.pept <- unlist(lapply(local, function(x) {nrow(x)}))
+        n.prot <- unlist(lapply(local, function(x) {
+          ncol(x)
+        }))
+        n.pept <- unlist(lapply(local, function(x) {
+          nrow(x)
+        }))
         df <- tibble::tibble(
           x = jitter(n.pept),
           y = jitter(n.prot),
@@ -302,7 +322,7 @@ omXplore_cc_server <- function(id,
 
     GetDataFor_CCMultiMulti <- reactive({
       req(length(rv$cc$Multi_Multi) > 0)
-      
+
       ll <- rv$cc$Multi_Multi
 
       ll.pep <- cbind(
@@ -323,11 +343,15 @@ omXplore_cc_server <- function(id,
         )
       )
 
-    
+
       df <- cbind(
         id = seq(ll),
-        nProt = cbind(lapply(ll, function(x) {ncol(x)})),
-        nPep = cbind(lapply(ll, function(x) {nrow(x)})),
+        nProt = cbind(lapply(ll, function(x) {
+          ncol(x)
+        })),
+        nPep = cbind(lapply(ll, function(x) {
+          nrow(x)
+        })),
         proteins = ll.prot,
         peptides = ll.pep
       )
@@ -352,7 +376,9 @@ omXplore_cc_server <- function(id,
     # Show the DT data table ans gets the selected items from it
     output$CCMultiMulti_UI <- renderUI({
       rvCC$CCMultiMulti_rows_selected <- formatDT_server("CCMultiMulti",
-        data = reactive({GetDataFor_CCMultiMulti()})
+        data = reactive({
+          GetDataFor_CCMultiMulti()
+        })
       )
 
       formatDT_ui(ns("CCMultiMulti"))
@@ -458,7 +484,9 @@ omXplore_cc_server <- function(id,
       df <- data.frame(proteinId = unlist(.protLabels))
       colnames(df) <- c("Proteins Ids")
 
-      formatDT_server("CCDetailedProt", data = reactive({df}))
+      formatDT_server("CCDetailedProt", data = reactive({
+        df
+      }))
       formatDT_ui(ns("CCDetailedProt"))
     })
 
@@ -479,7 +507,7 @@ omXplore_cc_server <- function(id,
 
       qdata <- assay(rv$data)
       qdata <- convert2df(qdata[indices, ])
-      
+
       qmetacell <- get_metacell(rv$data)
       qmetacell <- convert2df(qmetacell[indices, ])
 
@@ -503,19 +531,24 @@ omXplore_cc_server <- function(id,
       ll <- GetDataFor_CCDetailedSharedPep_UI()
 
       dt_style <- NULL
-      
-      if (!is.null(ll$qmetacell)){
-        
-      dt_style <- list(
-        data = as.data.frame(ll$qmetacell),
-        colors = BuildColorStyles(get_type(rv$data))
-      )
+
+      if (!is.null(ll$qmetacell)) {
+        dt_style <- list(
+          data = as.data.frame(ll$qmetacell),
+          colors = BuildColorStyles(get_type(rv$data))
+        )
       }
 
       formatDT_server("CCDetailedSharedPep",
-        data = reactive({ll$qdata}),
-        data_nostyle = reactive({ll$data_nostyle}),
-        dt_style = reactive({dt_style})
+        data = reactive({
+          ll$qdata
+        }),
+        data_nostyle = reactive({
+          ll$data_nostyle
+        }),
+        dt_style = reactive({
+          dt_style
+        })
       )
 
       formatDT_ui(ns("CCDetailedSharedPep"))
@@ -530,7 +563,7 @@ omXplore_cc_server <- function(id,
       req(rvCC$detailedselectedNode$specPepLabels)
       qdata <- assay(rv$data)
       qmetacell <- get_metacell(rv$data)
-      
+
       pepLine <- rvCC$detailedselectedNode$specPepLabels
       indices <- unlist(lapply(pepLine, function(x) {
         which(rownames(qdata) == x)
@@ -558,18 +591,24 @@ omXplore_cc_server <- function(id,
       ll <- GetDataFor_CCDetailedSpecPep_UI()
 
       dt_style <- NULL
-      
-      if (!is.null(ll$qmetacell)){
-      dt_style <- list(
-        data = as.data.frame(ll$qmetacell),
-        colors = BuildColorStyles(get_type(rv$data))
-      )
+
+      if (!is.null(ll$qmetacell)) {
+        dt_style <- list(
+          data = as.data.frame(ll$qmetacell),
+          colors = BuildColorStyles(get_type(rv$data))
+        )
       }
 
       formatDT_server("CCDetailedSpecPep",
-        data = reactive({ll$qdata}),
-        data_nostyle = reactive({ll$data_nostyle}),
-        dt_style = reactive({dt_style})
+        data = reactive({
+          ll$qdata
+        }),
+        data_nostyle = reactive({
+          ll$data_nostyle
+        }),
+        dt_style = reactive({
+          dt_style
+        })
       )
 
       formatDT_ui(ns("CCDetailedSpecPep"))
@@ -583,8 +622,12 @@ omXplore_cc_server <- function(id,
       ll <- rv$cc$One_One
 
       df <- cbind(
-        cbind(lapply(ll, function(x) {colnames(x)})),
-        cbind(lapply(ll, function(x) {rownames(x)}))
+        cbind(lapply(ll, function(x) {
+          colnames(x)
+        })),
+        cbind(lapply(ll, function(x) {
+          rownames(x)
+        }))
       )
       colnames(df) <- c("proteins", "peptides")
       df
@@ -594,8 +637,12 @@ omXplore_cc_server <- function(id,
       # get_cc(rv$data)
       ll <- rv$cc$One_Multi
       df <- cbind(
-        proteins = cbind(lapply(ll, function(x) {colnames(x)})),
-        nPep = cbind(lapply(ll, function(x) {nrow(x)})),
+        proteins = cbind(lapply(ll, function(x) {
+          colnames(x)
+        })),
+        nPep = cbind(lapply(ll, function(x) {
+          nrow(x)
+        })),
         peptides = cbind(lapply(ll, function(x) {
           paste(rownames(x), collapse = ",")
         }))
@@ -613,9 +660,15 @@ omXplore_cc_server <- function(id,
 
       df <- cbind(
         id = seq(ll),
-        proteins = cbind(lapply(ll, function(x) {colnames(x)})),
-        nProt = cbind(lapply(ll, function(x) {ncol(x)})),
-        nPep = cbind(lapply(ll, function(x) {nrow(x)})),
+        proteins = cbind(lapply(ll, function(x) {
+          colnames(x)
+        })),
+        nProt = cbind(lapply(ll, function(x) {
+          ncol(x)
+        })),
+        nPep = cbind(lapply(ll, function(x) {
+          nrow(x)
+        })),
         peptides = cbind(lapply(ll, function(x) {
           paste(rownames(x), collapse = ",")
         }))
@@ -647,7 +700,9 @@ omXplore_cc_server <- function(id,
 
 
       rvCC$OneMultiDT_rows_selected <- formatDT_server("OneMultiDT",
-        data = reactive({df})
+        data = reactive({
+          df
+        })
       )
       formatDT_ui(ns("OneMultiDT"))
     })
@@ -685,17 +740,21 @@ omXplore_cc_server <- function(id,
       ll <- GetDataFor_OneMultiDTDetailed()
 
       dt_style <- NULL
-      
-      if (!is.null(ll$qmetacell)){
-      dt_style <- list(
-        data = as.data.frame(ll$qmetacell),
-        colors = BuildColorStyles(get_type(rv$data))
-      )
+
+      if (!is.null(ll$qmetacell)) {
+        dt_style <- list(
+          data = as.data.frame(ll$qmetacell),
+          colors = BuildColorStyles(get_type(rv$data))
+        )
       }
 
       formatDT_server("OneMultiDTDetailed",
-        data = reactive({ll$qdata}),
-        dt_style = reactive({dt_style})
+        data = reactive({
+          ll$qdata
+        }),
+        dt_style = reactive({
+          dt_style
+        })
       )
 
       formatDT_ui(ns("OneMultiDTDetailed"))
@@ -722,7 +781,9 @@ omXplore_cc_server <- function(id,
       df <- BuildOne2OneTab()
       colnames(df) <- c("Proteins Ids", "Peptides Ids")
       rvCC$OneOneDT_rows_selected <- formatDT_server("OneOneDT",
-        data = reactive({df})
+        data = reactive({
+          df
+        })
       )
 
       formatDT_ui(ns("OneOneDT"))
@@ -741,7 +802,7 @@ omXplore_cc_server <- function(id,
       indices <- unlist(lapply(pepLine, function(x) {
         which(rownames(qdata) == x)
       }))
-      
+
       qdata <- qdata[indices, ]
       qmetacell <- get_metacell(rv$data)[indices, ]
 
@@ -750,8 +811,8 @@ omXplore_cc_server <- function(id,
         qmetacell = convert2df(qmetacell)
       )
     })
-    
-    
+
+
 
     convert2df <- function(obj) {
       if (is.vector(obj)) {
@@ -760,8 +821,8 @@ omXplore_cc_server <- function(id,
         obj
       }
     }
-    
-    
+
+
     output$OneOneDTDetailed_UI <- renderUI({
       # req(rv$isValid)
       req(rvCC$OneOneDT_rows_selected())
@@ -769,18 +830,22 @@ omXplore_cc_server <- function(id,
       ll <- GetDataFor_OneOneDTDetailed()
 
       dt_style <- NULL
-      
-      if (!is.null(ll$qmetacell)){
+
+      if (!is.null(ll$qmetacell)) {
         dt_style <- list(
           data = as.data.frame(ll$qmetacell),
           colors = BuildColorStyles(get_type(rv$data))
         )
       }
 
-      
+
       formatDT_server("OneOneDTDetailed",
-        data = reactive({ll$qdata}),
-        dt_style = reactive({dt_style})
+        data = reactive({
+          ll$qdata
+        }),
+        dt_style = reactive({
+          dt_style
+        })
       )
 
       formatDT_ui(ns("OneOneDTDetailed"))
@@ -799,9 +864,14 @@ omXplore_cc <- function(dataIn, i) {
   ui <- omXplore_cc_ui("plot")
 
   server <- function(input, output, session) {
-    omXplore_cc_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i}))
+    omXplore_cc_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui = ui, server = server)

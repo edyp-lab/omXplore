@@ -112,11 +112,10 @@ assay data in an instance of \code{SummarizedExperiment}. For
 more details, see \code{heatmap.2()}.
 }
 \examples{
-if(interactive()){
-  data(vdata)
-  omXplore_heatmap(vdata, 1)
+if (interactive()) {
+data(vdata)
+omXplore_heatmap(vdata, 1)
 }
-
 
 }
 \author{

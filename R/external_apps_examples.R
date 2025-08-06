@@ -1,7 +1,7 @@
 #' @title External module example
 #'
 #' @description
-#' Example for an external shiny module, well structured to be run within a 
+#' Example for an external shiny module, well structured to be run within a
 #' workflow for `MagellanNTK`
 #'
 #' @name external_app
@@ -11,25 +11,18 @@
 #' @param i An integer which is the index of the assay in the param obj
 #'
 #'
-#' @examples
-#' \donttest{
-#'   data(vdata)
-#'   app1 <- extFoo1(vdata, 1)
-#'   app2 <- extFoo2(vdata, 1)
-#'   shiny::runApp(app1)
-#'   shiny::runApp(app2)
-#' }
-#' 
+#' @example examples/external_apps_examples.R
+#'
 #' @return NA
 #'
 NULL
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @rdname external_app
@@ -40,19 +33,21 @@ extFoo1_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    shinyjs::hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     plotOutput(ns("plot"))
   )
 }
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @rdname external_app
@@ -61,8 +56,12 @@ extFoo1_ui <- function(id) {
 #'
 extFoo1_server <- function(
     id,
-    dataIn = reactive({NULL}),
-    i = reactive({NULL})) {
+    dataIn = reactive({
+      NULL
+    }),
+    i = reactive({
+      NULL
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -70,7 +69,8 @@ extFoo1_server <- function(
       data = NULL
     )
 
-    observe({
+    observe(
+      {
         req(dataIn())
         obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
@@ -78,7 +78,8 @@ extFoo1_server <- function(
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
-      },  priority = 1000
+      },
+      priority = 1000
     )
 
     output$plot <- renderPlot({
@@ -97,14 +98,18 @@ extFoo1_server <- function(
 #'
 extFoo1 <- function(dataIn, i) {
   stopifnot(inherits(dataIn, "MultiAssayExperiment"))
-  
+
   ui <- extFoo1_ui("plot")
 
   server <- function(input, output, session) {
-    extFoo1_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i})
-      )
+    extFoo1_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui = ui, server = server)
@@ -113,11 +118,11 @@ extFoo1 <- function(dataIn, i) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @rdname external_app
@@ -128,19 +133,21 @@ extFoo2_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    shinyjs::hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     plotOutput(ns("plot"))
   )
 }
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @rdname external_app
@@ -149,8 +156,12 @@ extFoo2_ui <- function(id) {
 #'
 extFoo2_server <- function(
     id,
-    dataIn = reactive({NULL}),
-    i = reactive({NULL})) {
+    dataIn = reactive({
+      NULL
+    }),
+    i = reactive({
+      NULL
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -158,7 +169,8 @@ extFoo2_server <- function(
       data = NULL
     )
 
-    observe({
+    observe(
+      {
         req(dataIn())
         obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
@@ -166,7 +178,8 @@ extFoo2_server <- function(
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
-      }, priority = 1000
+      },
+      priority = 1000
     )
 
     output$plot <- renderPlot({
@@ -184,14 +197,18 @@ extFoo2_server <- function(
 #'
 extFoo2 <- function(dataIn, i) {
   stopifnot(inherits(dataIn, "MultiAssayExperiment"))
-  
+
   ui <- extFoo2_ui("plot")
 
   server <- function(input, output, session) {
-    extFoo2_server("plot",  
-        dataIn = reactive({dataIn}),
-      i = reactive({i})
-      )
+    extFoo2_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui = ui, server = server)

@@ -22,7 +22,7 @@
 #' @name palette
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #' #-----------------------------------------------
 #' # Builds a palette for a dataset with 3 conditions
 #' # of 3 samples each.
@@ -43,6 +43,7 @@
 #' data(vdata)
 #' conds <- get_group(vdata)
 #' GetColorsForConditions(conds, ExtendPalette(2))
+#' }
 #'
 NULL
 

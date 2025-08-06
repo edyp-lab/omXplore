@@ -1,0 +1,5 @@
+data(vdata)
+app1 <- extFoo1(vdata, 1)
+app2 <- extFoo2(vdata, 1)
+shiny::runApp(app1)
+shiny::runApp(app2)

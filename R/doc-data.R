@@ -1,8 +1,7 @@
-
 #' @title Feature example data
 #'
-#' @description 
-#'`vdata` is a small object for testing and
+#' @description
+#' `vdata` is a small object for testing and
 #' demonstration.
 #' @name vdata
 #' @docType data
@@ -14,23 +13,23 @@
 #'
 #' `vdata` was built from the source code available in
 #' [`inst/scripts/build_datasets.R`](https://github.com/edyp-lab/omXplore/blob/main/inst/scripts/build_datasets.R)
-#' 
-#' 
+#'
+#'
 NULL
 
 
 #' @title Feature example data
 #'
 #' @description
-#' `sub_R25` is a protein subset of the dataset 'Exp1_R25_pept' in the 
-#' package `DAPARdata`. 
+#' `sub_R25` is a protein subset of the dataset 'Exp1_R25_pept' in the
+#' package `DAPARdata`.
 #' @name sub_R25
 #' @format An instance of the class `MultiAssayExperiment`
 #' @source
 #'
 #' `sub_R25` was built from the source code available in
 #' [`inst/scripts/build_datasets.R`](https://github.com/edyp-lab/omXplore/blob/main/inst/scripts/build_datasets.R)
-#'  
+#'
 #' The `DAPARdata` package: \url{https://github.com/edyp-lab/DAPARdata}
 #'
 #' @return An enriched instance of the class `MultiAssayExperiment`

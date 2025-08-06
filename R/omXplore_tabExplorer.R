@@ -4,26 +4,26 @@
 #' @param dataIn An instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param digits An integer for the number of digits shown in the table
-#' 
+#'
 #' @name omXplore_tabExplorer
 #'
 #' @examples
-#' \donttest{
-#'   data(vdata)
-#'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
+#' if (interactive()) {
+#' data(vdata)
+#' shiny::runApp(omXplore_tabExplorer(vdata, 1))
 #' }
-#' 
+#'
 #' @return NA
 #'
 NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom DT DTOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
@@ -34,14 +34,13 @@ NULL
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
-#' 
-#' 
+#'
+#'
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
-#' 
+#'
 #' @examples
 #' NULL
-#' 
 #'
 #' @export
 #' @return NA
@@ -51,8 +50,10 @@ omXplore_tabExplorer_ui <- function(id) {
 
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    shinyjs::hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     shinyjs::hidden(div(id = ns("div_legend"), colorLegend_ui(ns("legend")))),
     shinyjs::hidden(
       div(
@@ -84,11 +85,11 @@ omXplore_tabExplorer_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom DT DTOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
@@ -100,8 +101,8 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @importFrom SummarizedExperiment rowData colData assays
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @import highcharter
-#' 
-#' 
+#'
+#'
 #' @return NA
 #'
 #' @rdname omXplore_tabExplorer
@@ -109,9 +110,15 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @export
 omXplore_tabExplorer_server <- function(
     id,
-    dataIn = reactive({NULL}),
-    i = reactive({NULL}),
-    digits = reactive({3})) {
+    dataIn = reactive({
+      NULL
+    }),
+    i = reactive({
+      NULL
+    }),
+    digits = reactive({
+      3
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -120,8 +127,8 @@ omXplore_tabExplorer_server <- function(
     observe(
       {
         is.mae <- inherits(dataIn(), "MultiAssayExperiment")
-        
-        if (isTRUE(is.mae)){
+
+        if (isTRUE(is.mae)) {
           rv$data <- dataIn()
 
           tags <- GetMetacellTags(
@@ -179,15 +186,16 @@ omXplore_tabExplorer_server <- function(
       req(rv$data)
 
       .row <- SummarizedExperiment::rowData(rv$data[[i()]])
-      
-      tryCatch({# remove columns that are instances of DataFrame
-      .row <- .row[, -match('adjacencyMatrix', colnames(.row))]
-      .row <- .row[, -match('metacell', colnames(.row))]
-      },
+
+      tryCatch(
+        { # remove columns that are instances of DataFrame
+          .row <- .row[, -match("adjacencyMatrix", colnames(.row))]
+          .row <- .row[, -match("metacell", colnames(.row))]
+        },
         warning = function(w) NULL,
         error = function(e) NULL
-        )
-      
+      )
+
       dat <- DT::datatable(as.data.frame(.row),
         rownames = TRUE,
         extensions = c("Scroller", "Buttons", "FixedColumns"),
@@ -234,24 +242,24 @@ omXplore_tabExplorer_server <- function(
       # .row <- rowData(rv$data[[i()]])
       # .colId <- get_colID(rv$data[[i()]])
       # .metacell <- get_metacell(rv$data[[i()]])
-      # 
-      # if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0) 
-      #   .keyId <- (.row)[, .colId] 
-      # else 
+      #
+      # if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0)
+      #   .keyId <- (.row)[, .colId]
+      # else
       #   .keyId <- rownames(assay(rv$data[[i()]]))
-      # 
-      # .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]), 
+      #
+      # .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]),
       #     digits = digits())
-      # 
-      # .qdata.exists <- (!is.null(.qdata) && 
-      #     ncol(.qdata) > 0) && 
+      #
+      # .qdata.exists <- (!is.null(.qdata) &&
+      #     ncol(.qdata) > 0) &&
       #   (nrow(.qdata) > 0)
-      # 
-      # .metacell.exists <- (!is.null(.metacell) && 
-      #     ncol(.metacell) > 0) && 
+      #
+      # .metacell.exists <- (!is.null(.metacell) &&
+      #     ncol(.metacell) > 0) &&
       #   (nrow(.metacell) > 0)
-      # 
-      # 
+      #
+      #
       #  #if (.qdata.exists){
       #    if(.metacell.exists)
       #      df <- cbind(keyId = .keyId, .qdata, .metacell)
@@ -261,7 +269,7 @@ omXplore_tabExplorer_server <- function(
 
       df <- Build_enriched_qdata(rv$data[[i()]])
       .metacell.exists <- !isTRUE(all.equal(rv$data[[i()]], df))
-      
+
       colors <- custom_metacell_colors()
 
       dt <- DT::datatable(as.data.frame(df),
@@ -276,30 +284,34 @@ omXplore_tabExplorer_server <- function(
           scroller = TRUE,
           ordering = FALSE,
           server = TRUE,
-          columnDefs = if (.metacell.exists){
+          columnDefs = if (.metacell.exists) {
             list(
               list(
-              targets = c(((2 + (ncol(df) - 1) / 2)):ncol(df)),
-              visible = FALSE
-            )) } else NULL
-          )
+                targets = c(((2 + (ncol(df) - 1) / 2)):ncol(df)),
+                visible = FALSE
+              )
+            )
+          } else {
+            NULL
+          }
         )
-      
-      if (.metacell.exists){
+      )
+
+      if (.metacell.exists) {
         dt <- dt %>%
-        DT::formatStyle(
-          colnames(df)[2:(1 + (ncol(df) - 1) / 2)],
-          colnames(df)[((2 + (ncol(df) - 1) / 2)):ncol(df)],
-          backgroundColor = DT::styleEqual(
-            names(colors),
-            unname(unlist(colors))
-          ),
-          backgroundSize = "98% 48%",
-          backgroundRepeat = "no-repeat",
-          backgroundPosition = "center"
-        )
+          DT::formatStyle(
+            colnames(df)[2:(1 + (ncol(df) - 1) / 2)],
+            colnames(df)[((2 + (ncol(df) - 1) / 2)):ncol(df)],
+            backgroundColor = DT::styleEqual(
+              names(colors),
+              unname(unlist(colors))
+            ),
+            backgroundSize = "98% 48%",
+            backgroundRepeat = "no-repeat",
+            backgroundPosition = "center"
+          )
       }
-      
+
       dt
     })
 
@@ -335,37 +347,36 @@ omXplore_tabExplorer_server <- function(
         )
     })
 
-output$design_ui <- DT::renderDataTable(server = TRUE, {
-  req(rv$data)
-  df <- get_design(rv$data)
-  
-  DT::datatable(as.data.frame(df),
-    extensions = c("Scroller"),
-    options = list(
-      initComplete = .initComplete(),
-      displayLength = 20,
-      deferRender = TRUE,
-      bLengthChange = FALSE,
-      scrollX = 200,
-      scrollY = 600,
-      scroller = TRUE,
-      ordering = FALSE,
-      server = TRUE
-    )
-  ) 
-    # DT::formatStyle(
-    #   colnames(df),
-    #   colnames(df),
-    #   backgroundColor = DT::styleEqual(
-    #     names(colors),
-    #     unname(unlist(colors))
-    #   ),
-    #   backgroundSize = "98% 48%",
-    #   backgroundRepeat = "no-repeat",
-    #   backgroundPosition = "center"
-    # )
-})
+    output$design_ui <- DT::renderDataTable(server = TRUE, {
+      req(rv$data)
+      df <- get_design(rv$data)
 
+      DT::datatable(as.data.frame(df),
+        extensions = c("Scroller"),
+        options = list(
+          initComplete = .initComplete(),
+          displayLength = 20,
+          deferRender = TRUE,
+          bLengthChange = FALSE,
+          scrollX = 200,
+          scrollY = 600,
+          scroller = TRUE,
+          ordering = FALSE,
+          server = TRUE
+        )
+      )
+      # DT::formatStyle(
+      #   colnames(df),
+      #   colnames(df),
+      #   backgroundColor = DT::styleEqual(
+      #     names(colors),
+      #     unname(unlist(colors))
+      #   ),
+      #   backgroundSize = "98% 48%",
+      #   backgroundRepeat = "no-repeat",
+      #   backgroundPosition = "center"
+      # )
+    })
   })
 }
 
@@ -378,9 +389,14 @@ omXplore_tabExplorer <- function(dataIn, i) {
   ui <- fluidPage(omXplore_tabExplorer_ui("plot"))
 
   server <- function(input, output, session) {
-    omXplore_tabExplorer_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i}))
+    omXplore_tabExplorer_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui = ui, server = server)

@@ -3,7 +3,7 @@
 #' @param cc A Connected Component (a list)
 #' @param meta A data.frame()
 #' @param g An instance of a graph
-#' @param layout A `character(1)` which i the layout used in visNetwork. 
+#' @param layout A `character(1)` which i the layout used in visNetwork.
 #' Default value is 'layout_with_fr'
 #' @param df A data.frame()
 #' @param clickFunction A JS function to determine the behaviour of a click
@@ -11,14 +11,10 @@
 #'
 #' @author Thomas Burger, Samuel Wieczorek
 #'
-#' @examples
-#' data(sub_R25)
-#' se <- sub_R25[[1]]
-#' g <- buildGraph(get_cc(se)[[1]])
-#' display.CC.visNet(g)
+#' @example examples/get_pep_prot_CC.R
 #'
 #' @name pep_prot_CC
-#' 
+#'
 #' @import highcharter
 #' @import visNetwork
 #'
@@ -31,17 +27,16 @@ NULL
 buildGraph <- function(
     cc = NULL,
     meta = NULL) {
-  
-  if(is.null(cc)){
-    message('cc is NULL. Abort...')
+  if (is.null(cc)) {
+    message("cc is NULL. Abort...")
     return(NULL)
   }
-  
+
   nb.prot <- ncol(cc)
   subX <- cc
-  #colnames(subX) <- colnames(cc)
+  # colnames(subX) <- colnames(cc)
   subX <- as.matrix(subX)
-  
+
   nb.pep <- nrow(cc)
   nb.pep.shared <- length(which(rowSums(subX) > 1))
   nb.pep.spec <- length(which(rowSums(subX) == 1))
@@ -52,18 +47,19 @@ buildGraph <- function(
   def.grp[which(rowSums(subX) == 1)] <- "spec.peptide"
 
   buildNodesInfos <- function(cc, meta, info.indice = 1) {
-    
     nodes_infos <- NULL
     if (!is.null(meta)) {
-      #nodes_infos <- rep("", nrow(cc)+ncol(cc))
+      # nodes_infos <- rep("", nrow(cc)+ncol(cc))
       nodes_infos <- vector()
       # We add infos only on peptides nodes
       for (i in seq(nrow(cc))) {
         ind <- which(rownames(meta) == rownames(cc)[i])
-        nodes_infos <- c(nodes_infos, 
+        nodes_infos <- c(
+          nodes_infos,
           paste0(
-          "<p>", colnames(meta)[info.indice], ":",
-            meta[ind, info.indice], "</p>")
+            "<p>", colnames(meta)[info.indice], ":",
+            meta[ind, info.indice], "</p>"
+          )
         )
       }
     }
@@ -80,9 +76,9 @@ buildGraph <- function(
 
 
   title <- buildNodesInfos(cc, meta)
-  #if (!is.null(title)) {
+  # if (!is.null(title)) {
   #  nodes <- cbind(nodes, title)
-  #}
+  # }
 
   edges <- data.frame(
     from = c(edge.list$row),
@@ -108,12 +104,11 @@ buildGraph <- function(
 display.CC.visNet <- function(
     g = NULL,
     layout = "layout_with_fr") {
-  
-  if(is.null(g)){
-    message('g is NULL. Abort...')
+  if (is.null(g)) {
+    message("g is NULL. Abort...")
     return(NULL)
   }
-  
+
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"
   col.shared <- "#0EA513"
@@ -202,31 +197,36 @@ plotCCJitter <- function(
 #' several (shared) peptides.
 #'
 #' @examples
+#' if (interactive()) {
 #' data(sub_R25)
 #' GetCCInfos(get_cc(sub_R25[[1]]))
-#'
+#' }
+#' 
 #' @export
 #' @rdname pep_prot_CC
 #'
 GetCCInfos <- function(cc) {
-  #stopifnot(inherits(cc, "list"))
+  # stopifnot(inherits(cc, "list"))
   cc.infos <- list(
     One_One = list(),
     One_Multi = list(),
     Multi_Multi = list()
   )
-  
-  
-  ll.prot <- lapply(cc, function(x) { ncol(x)})
-  ll.pept <- lapply(cc, function(x) {nrow(x) })
+
+
+  ll.prot <- lapply(cc, function(x) {
+    ncol(x)
+  })
+  ll.pept <- lapply(cc, function(x) {
+    nrow(x)
+  })
   ll.prot.one2one <- intersect(which(ll.prot == 1), which(ll.pept == 1))
   ll.prot.one2multi <- intersect(which(ll.prot == 1), which(ll.pept > 1))
   ll.prot.multi2any <- which(ll.prot > 1)
-  
+
   cc.infos[["One_One"]] <- cc[ll.prot.one2one]
   cc.infos[["One_Multi"]] <- cc[ll.prot.one2multi]
   cc.infos[["Multi_Multi"]] <- cc[ll.prot.multi2any]
-  
+
   cc.infos
 }
-

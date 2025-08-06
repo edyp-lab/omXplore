@@ -19,5 +19,4 @@ function \code{DT::styleEqual()}
 \examples{
 NULL
 
-
 }

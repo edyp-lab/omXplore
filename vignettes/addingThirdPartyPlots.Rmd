@@ -95,15 +95,17 @@ Thus, the following code **will not work**:
 ```{r, eval=FALSE}
 myFirstPlot <- function(obj, i) {
   ui <- function(id) {
-  ...
+    ...
   }
   server <- function(id, obj, i) {
-  moduleServer(id, 
-    function(input, output, session) {
-    ...
-  })
+    moduleServer(
+      id,
+      function(input, output, session) {
+        ...
+      }
+    )
   }
-  
+
   app <- shinyApp(ui = ui, server = server)
 }
 ```
@@ -117,10 +119,12 @@ myFirstPlot_ui <- function(id) {
 
 
 myFirstPlot_server <- function(id, obj, i) {
-  moduleServer(id, 
+  moduleServer(
+    id,
     function(input, output, session) {
-    ...
-  })
+      ...
+    }
+  )
 }
 
 myFirstPlot <- function(obj, i) {
@@ -143,7 +147,7 @@ The corresponding R code is the following:
 addons <- list(
   myPkgA = c("extFoo1", "extFoo2"),
   myPkgB = c("extFoo1")
-  )
+)
 view_dataset(myData, addons)
 ```
 

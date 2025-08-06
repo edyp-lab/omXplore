@@ -19,13 +19,7 @@ GetMetacellTags(metacells = NULL, level = NULL, onlyPresent = FALSE)
 \arguments{
 \item{level}{A string corresponding to the type of object}
 
-\item{node}{The name of the node for which one wants its parent
-
-#' @examples
-Parent('protein', 'Missing')
-Parent('protein', 'Missing POV')
-Parent('protein', c('Missing POV', 'Missing MEC'))
-Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
+\item{node}{The name of the node for which one wants its parent}
 
 \item{parent}{The name og the parent node}
 
@@ -109,9 +103,15 @@ Conversion from Maxquant datasets
 }
 
 \examples{
-
+if (interactive()) {
 metacell.def("protein")
 metacell.def("peptide")
+}
+
+Parent('protein', 'Missing')
+Parent('protein', 'Missing POV')
+Parent('protein', c('Missing POV', 'Missing MEC'))
+Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))
 
 Children("protein", "Missing")
 Children("protein", "Missing POV")

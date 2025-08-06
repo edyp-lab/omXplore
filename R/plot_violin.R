@@ -5,7 +5,7 @@
 #' @importFrom RColorBrewer brewer.pal
 #'
 #' @export
-#' 
+#'
 #' @param data xxxx
 #'
 #' @rdname intensity-plots
@@ -17,8 +17,9 @@ violinPlot <- function(
     conds,
     subset = NULL,
     pal.name = "Set1") {
-  if(!inherits(data, "matrix") || is.null(data))
+  if (!inherits(data, "matrix") || is.null(data)) {
     return(NULL)
+  }
 
   legend <- colnames(data)
 

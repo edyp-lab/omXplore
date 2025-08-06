@@ -10,12 +10,9 @@
 #' @param dataIn An instance of the class `SummarizedExperiment`.
 #'
 #' @name color-legend
-#' 
-#' 
-#' @examples
-#' data(vdata)
-#' shiny::runApp(colorLegend(vdata[[1]]))
-#' 
+#'
+#'
+#' @example examples/mod_colorLegend.R
 #'
 NULL
 
@@ -43,11 +40,11 @@ custom_metacell_colors <- function() {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @rdname color-legend
@@ -58,17 +55,17 @@ custom_metacell_colors <- function() {
 colorLegend_ui <- function(id) {
   ns <- NS(id)
 
-  uiOutput(ns('legend_UI'))
+  uiOutput(ns("legend_UI"))
 }
 
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @export
@@ -76,7 +73,9 @@ colorLegend_ui <- function(id) {
 #' @return NA
 #'
 colorLegend_server <- function(id,
-                               presentTags = reactive({NULL}),
+                               presentTags = reactive({
+                                 NULL
+                               }),
                                hide.white = TRUE) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -84,7 +83,7 @@ colorLegend_server <- function(id,
 
     output$legend_UI <- renderUI({
       req(presentTags)
-      
+
       shinyBS::bsCollapse(
         id = "collapseExample",
         open = "",
@@ -95,8 +94,8 @@ colorLegend_server <- function(id,
         )
       )
     })
-    
-    
+
+
     output$legend <- renderUI({
       req(presentTags)
       mc <- custom_metacell_colors()
@@ -135,9 +134,8 @@ colorLegend_server <- function(id,
 #' @return A shiny app
 #'
 colorLegend <- function(dataIn = SummarizedExperiment::SummarizedExperiment()) {
+  stopifnot(inherits(dataIn, "SummarizedExperiment"))
 
-  stopifnot(inherits(dataIn, 'SummarizedExperiment'))
-  
   ui <- fluidPage(
     tagList(
       colorLegend_ui("plot1"),

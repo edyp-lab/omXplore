@@ -32,21 +32,20 @@
 #'
 #'
 #' @examples
-#' if(interactive()){
-#'   data(vdata)
-#'   omXplore_heatmap(vdata, 1)
+#' if (interactive()) {
+#' data(vdata)
+#' omXplore_heatmap(vdata, 1)
 #' }
-#' 
-#' 
+#'
 NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @rdname omXplore_heatmap
@@ -57,8 +56,10 @@ omXplore_heatmap_ui <- function(id) {
   ns <- NS(id)
   tagList(
     useShinyjs(),
-    hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     hidden(div(
       style = "display:inline-block; vertical-align: middle;
                   padding-right: 20px;",
@@ -84,29 +85,34 @@ omXplore_heatmap_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' 
+#'
 #' @rdname omXplore_heatmap
 #' @export
 #' @return NA
 #'
 omXplore_heatmap_server <- function(
     id,
-    dataIn = reactive({NULL}),
-    i = reactive({NULL})) {
+    dataIn = reactive({
+      NULL
+    }),
+    i = reactive({
+      NULL
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    width = 900
-    #rv <- reactiveValues(data = NULL)
+    width <- 900
+    # rv <- reactiveValues(data = NULL)
 
-    observe({
+    observe(
+      {
         # if (inherits(obj(), "MultiAssayExperiment")) {
         #   rv$data <- obj()
         # }
@@ -166,17 +172,21 @@ omXplore_heatmap_server <- function(
 #' @return A shiny app
 #'
 omXplore_heatmap <- function(dataIn, i) {
-  
   stopifnot(inherits(dataIn, "MultiAssayExperiment"))
-  
+
   ui <- fluidPage(
     omXplore_heatmap_ui("plot")
   )
 
   server <- function(input, output, session) {
-    omXplore_heatmap_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i}))
+    omXplore_heatmap_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui = ui, server = server)

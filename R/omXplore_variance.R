@@ -13,11 +13,11 @@
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
 #'
-#' 
+#'
 #' @examples
 #' if (interactive()) {
-#'   data(vdata)
-#'   shiny::runApp(omXplore_variance(vdata, 1))
+#' data(vdata)
+#' shiny::runApp(omXplore_variance(vdata, 1))
 #' }
 #'
 NULL
@@ -25,19 +25,19 @@ NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
 #' @import highcharter
 #' @importFrom DT JS
 #' @importFrom stats var
-#' 
-#' 
+#'
+#'
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -46,8 +46,10 @@ omXplore_variance_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    shinyjs::hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     uiOutput(ns("helpTxt")),
     highcharter::highchartOutput(ns("viewDistCV"), width = 600, height = 600)
   )
@@ -57,20 +59,20 @@ omXplore_variance_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
 #' @import highcharter
 #' @importFrom DT JS
 #' @importFrom stats var
-#' 
-#' 
-#' 
+#'
+#'
+#'
 #' @rdname plot-variance
 #' @export
 #' @return NA
@@ -88,7 +90,7 @@ omXplore_variance_server <- function(
     observe(
       {
         is.mae <- inherits(dataIn(), "MultiAssayExperiment")
-        if(is.mae) {
+        if (is.mae) {
           rv$data <- dataIn()
         }
 
@@ -100,9 +102,11 @@ omXplore_variance_server <- function(
     output$viewDistCV <- renderHighchart({
       req(rv$data)
       withProgress(message = "Making plot", value = 100, {
-        varDist <- CVDist(dataIn = assay(rv$data, i()),
+        varDist <- CVDist(
+          dataIn = assay(rv$data, i()),
           conds = get_group(dataIn()),
-          pal.name)
+          pal.name
+        )
       })
     })
 
@@ -124,8 +128,8 @@ omXplore_variance_server <- function(
 
 #' @importFrom stats density var
 #' @import highcharter
-#' 
-#' 
+#'
+#'
 #' @export
 #'
 #' @param dataIn An matrix
@@ -138,14 +142,13 @@ omXplore_variance_server <- function(
 #'
 #' @return A plot
 #'
-CVDist <- function(
-        dataIn,
-  conds,
+CVDist <- function(dataIn,
+    conds,
     pal.name = NULL) {
   stopifnot(inherits(dataIn, "matrix"))
 
 
-  if (is.null(conds) || length(conds)==0) {
+  if (is.null(conds) || length(conds) == 0) {
     stop("conds contains no conds.")
   }
 
@@ -181,7 +184,7 @@ CVDist <- function(
   for (i in seq_len(length(u_conds))) {
     if (length(which(conds == u_conds[i])) > 1) {
       t <- apply(
-          dataIn[, which(conds == u_conds[i])], 1,
+        dataIn[, which(conds == u_conds[i])], 1,
         function(x) {
           100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
         }
@@ -222,16 +225,20 @@ CVDist <- function(
 #'
 omXplore_variance <- function(dataIn, i) {
   stopifnot(inherits(dataIn, "MultiAssayExperiment"))
-  
+
   ui <- fluidPage(
     omXplore_variance_ui("plot")
-    )
+  )
 
   server <- function(input, output, session) {
-    omXplore_variance_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i})
-      )
+    omXplore_variance_server("plot",
+      dataIn = reactive({
+        dataIn
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
 
   app <- shinyApp(ui, server)

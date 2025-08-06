@@ -44,8 +44,8 @@ A shiny Module.
 }
 \examples{
 if (interactive()) {
-  data(vdata)
-  shiny::runApp(omXplore_cc(vdata, 1))
+data(vdata)
+shiny::runApp(omXplore_cc(vdata, 1))
 }
 
 }

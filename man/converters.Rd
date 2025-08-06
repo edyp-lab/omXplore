@@ -125,13 +125,12 @@ An enriched instance of the class \code{MultiAssayExperiment}
 The resulting object is an instance of the  \code{MultiAssayExperiment} class.
 }
 \examples{
-if(interactive()){
 
 #-------------------------------------------
 # Conversion of a MultiAssayExperiment instance
 #-------------------------------------------
-data(miniACC, package = 'MultiAssayExperiment')
+data(miniACC, package = "MultiAssayExperiment")
 convert_to_mae(miniACC)
-}
+
 
 }

@@ -4,7 +4,7 @@
 #' #' @importFrom shiny NS tagList
 #' #' @importFrom DT renderDT DTOutput formatStyle %>% styleEqual datatable
 #' #' @importFrom shinyjs toggle hidden
-#' #' @importFrom SummarizedExperiment rowData colData assays 
+#' #' @importFrom SummarizedExperiment rowData colData assays
 #' #'
 #' #' @rdname connected-components
 #' #' @export
@@ -231,7 +231,7 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                              from = (.to / 2) + 1, 
+#'                              from = (.to / 2) + 1,
 #'                              to = .to),
 #'                             visible = FALSE
 #'                         )
@@ -352,7 +352,7 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                                        from = (.to / 2) + 1, 
+#'                                        from = (.to / 2) + 1,
 #'                                        to = .to),
 #'                             visible = FALSE
 #'                         )
@@ -638,7 +638,7 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                              from = (.to / 2) + 1, 
+#'                              from = (.to / 2) + 1,
 #'                                to = .to),
 #'                             visible = FALSE
 #'                         )
@@ -703,7 +703,7 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                                        from = (.to / 2) + 1, 
+#'                                        from = (.to / 2) + 1,
 #'                                        to = .to),
 #'                             visible = FALSE
 #'                         )

@@ -47,6 +47,4 @@ Shows a legend based on the tags in the package 'DaparToolshed'
 \examples{
 data(vdata)
 shiny::runApp(colorLegend(vdata[[1]]))
-
-
 }

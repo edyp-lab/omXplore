@@ -21,35 +21,35 @@
 #' * data : a data.frame
 #' * colors : a named vector
 #' @param filename A `character(1)` which is the default filename for download.
-#' @param selection A `character(1)` which indicates the type of selection. 
+#' @param selection A `character(1)` which indicates the type of selection.
 #' Default is 'single'.
 #'
 #' @name format_DT
-#' 
-#' 
+#'
+#'
 #' @examples
-#' \donttest{
-#'   data(vdata)
-#'   formatDT(vdata)
+#' if (interactive()) {
+#' data(vdata)
+#' formatDT(vdata)
 #' }
 #'
 #' @return NA
-#' 
+#'
 NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
 #' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS
 #' formatStyle styleEqual dataTableOutput
-#' 
+#'
 #' @rdname format_DT
 #' @return NA
 #' @export
@@ -71,11 +71,11 @@ formatDT_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
@@ -85,14 +85,21 @@ formatDT_ui <- function(id) {
 #' @return NA
 #' @export
 #'
-formatDT_server <- function(id,
-  data = reactive({NULL}),
-  data_nostyle = reactive({NULL}),
-  withDLBtns = FALSE,
-  showRownames = FALSE,
-  dt_style = reactive({NULL}),
-  filename = "Prostar_export",
-  selection = "single") {
+formatDT_server <- function(
+    id,
+    data = reactive({
+      NULL
+    }),
+    data_nostyle = reactive({
+      NULL
+    }),
+    withDLBtns = FALSE,
+    showRownames = FALSE,
+    dt_style = reactive({
+      NULL
+    }),
+    filename = "Prostar_export",
+    selection = "single") {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -108,20 +115,20 @@ formatDT_server <- function(id,
     checkValidity <- reactive({
       passed <- TRUE
 
-      #passed <- passed && !is.null(dt_style()$data)
+      # passed <- passed && !is.null(dt_style()$data)
 
       passed <- passed &&
         (inherits(data(), "data.frame") ||
           inherits(data(), "matrix"))
 
-      if(!is.null(dt_style())){
+      if (!is.null(dt_style())) {
         passed <- passed &&
-        (inherits(dt_style()$data, "data.frame") ||
-          inherits(dt_style()$data, "matrix")||
+          (inherits(dt_style()$data, "data.frame") ||
+            inherits(dt_style()$data, "matrix") ||
             inherits(dt_style()$data, "DataFrame"))
 
-      passed <- passed &&
-        nrow(data()) == nrow(dt_style()$data)
+        passed <- passed &&
+          nrow(data()) == nrow(dt_style()$data)
       }
 
       passed
@@ -142,7 +149,7 @@ formatDT_server <- function(id,
 
     prepareDataset <- reactive({
       req(rv$data)
-        df <- rv$data
+      df <- rv$data
 
       .data <- as.data.frame(dt_style()$data)
       if (!is.null(dt_style()) && checkValidity()) {
@@ -237,12 +244,14 @@ formatDT_server <- function(id,
 #'
 formatDT <- function(data) {
   stopifnot(inherits(data, "MultiAssayExperiment"))
-  
+
   ui <- formatDT_ui("table")
 
   server <- function(input, output, session) {
     formatDT_server("table",
-      data = reactive({data})
+      data = reactive({
+        data
+      })
     )
   }
 

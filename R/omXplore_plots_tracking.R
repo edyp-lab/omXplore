@@ -8,12 +8,12 @@
 #' button or not.
 #' @param is.enabled xxx
 #'
-#' 
+#'
 #' @examples
-#' \donttest{
-#'   data(vdata)
-#'   shiny::runApp(plots_tracking(vdata[[1]]))
-#'   }
+#' if (interactive()) {
+#' data(vdata)
+#' shiny::runApp(plots_tracking(vdata[[1]]))
+#' }
 #'
 #' @name plots_tracking
 #'
@@ -21,23 +21,22 @@ NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
-#' 
-#' 
+#'
+#'
 #' @rdname plots_tracking
 #' @export
 #' @return NA
-#' 
+#'
 #' @examples
 #' NULL
-#' 
 #'
 plots_tracking_ui <- function(id) {
   ns <- NS(id)
@@ -51,16 +50,16 @@ plots_tracking_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
-#' 
-#' 
+#'
+#'
 #' @rdname plots_tracking
 #'
 #' @export
@@ -69,59 +68,66 @@ plots_tracking_ui <- function(id) {
 #'
 plots_tracking_server <- function(
     id,
-    dataIn = reactive({NULL}),
-    remoteReset = reactive({NULL}),
-    is.enabled = reactive({TRUE})
-  ) {
-  
+    dataIn = reactive({
+      NULL
+    }),
+    remoteReset = reactive({
+      NULL
+    }),
+    is.enabled = reactive({
+      TRUE
+    })) {
   widgets.default.values <- list(
     typeSelect = "None",
     listSelect = NULL,
     randSelect = NULL,
-    colSelect = 'None'
+    colSelect = "None"
   )
-  
+
   # rv.custom.default.values <- list(
   #   #indices = NULL
   # )
-  
+
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    
+
     rv.widgets <- reactiveValues(
       typeSelect = widgets.default.values$typeSelect,
       listSelect = widgets.default.values$listSelect,
       randSelect = widgets.default.values$randSelect,
       colSelect = widgets.default.values$colSelect
     )
-    
+
     rv <- reactiveValues(
       dataIn = NULL
     )
-    
+
     dataOut <- reactiveValues(
       trigger = NULL,
       indices = NULL
     )
-    
-   
-    observeEvent(req(dataIn()), ignoreNULL = TRUE, {
-      
-      stopifnot(inherits(dataIn(), 'SummarizedExperiment'))
-          rv$dataIn <- dataIn()
-          #dataOut$trigger <- as.numeric(Sys.time())
-          #dataOut$indices <- NULL
-      }, priority = 1000)
+
+
+    observeEvent(req(dataIn()),
+      ignoreNULL = TRUE,
+      {
+        stopifnot(inherits(dataIn(), "SummarizedExperiment"))
+        rv$dataIn <- dataIn()
+        # dataOut$trigger <- as.numeric(Sys.time())
+        # dataOut$indices <- NULL
+      },
+      priority = 1000
+    )
 
 
     observeEvent(remoteReset(), ignoreNULL = TRUE, ignoreInit = TRUE, {
-      print('omXplore : in observeEvent(remoteReset()')
-      
-      lapply(names(rv.widgets), function(x){
+      print("omXplore : in observeEvent(remoteReset()")
+
+      lapply(names(rv.widgets), function(x) {
         rv.widgets[[x]] <- widgets.default.values[[x]]
       })
-      
+
       rv$dataIn <- dataIn()
       updateSelectInput(session, "typeSelect", selected = widgets.default.values$typeSelect)
       updateSelectInput(session, ns("listSelect"), selected = widgets.default.values$listSelect)
@@ -131,119 +137,133 @@ plots_tracking_server <- function(
 
       dataOut$trigger <- as.numeric(Sys.time())
       dataOut$indices <- NULL
-      
     })
-    
 
-    
+
+
     Get_LogicalCols_in_Dataset <- reactive({
       req(rv$dataIn)
       .row <- SummarizedExperiment::rowData(rv$dataIn)
-      logical.cols <- lapply(colnames(.row),
-        function(x) is.logical(.row[, x]))
-      
+      logical.cols <- lapply(
+        colnames(.row),
+        function(x) is.logical(.row[, x])
+      )
+
       logical.cols <- which(unlist(logical.cols))
       logical.cols
     })
-    
+
     output$typeSelect_UI <- renderUI({
       req(rv$dataIn)
       rv.widgets$typeSelect
-      .choices <- c("None" = "None", 
-        "List" = "List", 
-        "Random" = "Random")
-      
-      if (length(Get_LogicalCols_in_Dataset()) > 0)
+      .choices <- c(
+        "None" = "None",
+        "List" = "List",
+        "Random" = "Random"
+      )
+
+      if (length(Get_LogicalCols_in_Dataset()) > 0) {
         .choices <- c(.choices, "Column" = "Column")
-      
-      selectInput(ns("typeSelect"), 
+      }
+
+      selectInput(ns("typeSelect"),
         "Type of selection",
         choices = .choices,
         selected = rv.widgets$typeSelect,
-        width = "130px")
+        width = "130px"
+      )
     })
-    
-    observeEvent(input$typeSelect, {rv.widgets$typeSelect <- input$typeSelect})
-    observeEvent(input$listSelect, {rv.widgets$listSelect <- input$listSelect})
-    observeEvent(input$randSelect, {rv.widgets$randSelect <- input$randSelect})
-    observeEvent(input$colSelect, {rv.widgets$colSelect <- input$colSelect})
-    
-   
-  output$listSelect_UI <- renderUI({
-    req(rv$dataIn)
-    req(rv.widgets$typeSelect == "List")
-    
-    .row <- SummarizedExperiment::rowData(rv$dataIn)
-    
-    .choices <- seq(nrow(.row))
-    .colID <- get_colID(rv$dataIn)
-    if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
-      .choices <- .row[, .colID]
-    }
-    
-    selectInput(ns("listSelect"),
-      label = "Select protein",
-      choices = .choices, # use server side option
-      width = "400px",
-      selected = rv.widgets$listSelect,
-      multiple = TRUE
-      #options = list(maxOptions = 10000)
-    )
-  })
-  
-  output$colSelect_UI <- renderUI({
-    req(rv$dataIn)
-    req(rv.widgets$typeSelect == "Column")
-    req(length(Get_LogicalCols_in_Dataset()) > 0)
-    
-    selectInput(ns("colSelect"),
-      "Column of rowData",
-      choices = setNames(nm = c("None", colnames(rowData(rv$dataIn)))),
-      selected = rv.widgets$colSelect
-    )
-  })
-  
-  
-  output$randSelect_UI <- renderUI({
-    req(rv.widgets$typeSelect == "Random")
-    
-    textInput(ns("randSelect"),
-      "Random",
-      value = rv.widgets$randSelect,
-      width = ("120px")
-    )
-  })
-  
-  
-  
+
+    observeEvent(input$typeSelect, {
+      rv.widgets$typeSelect <- input$typeSelect
+    })
+    observeEvent(input$listSelect, {
+      rv.widgets$listSelect <- input$listSelect
+    })
+    observeEvent(input$randSelect, {
+      rv.widgets$randSelect <- input$randSelect
+    })
+    observeEvent(input$colSelect, {
+      rv.widgets$colSelect <- input$colSelect
+    })
+
+
+    output$listSelect_UI <- renderUI({
+      req(rv$dataIn)
+      req(rv.widgets$typeSelect == "List")
+
+      .row <- SummarizedExperiment::rowData(rv$dataIn)
+
+      .choices <- seq(nrow(.row))
+      .colID <- get_colID(rv$dataIn)
+      if (!is.null(.colID) && .colID != "" && length(.colID) > 0) {
+        .choices <- .row[, .colID]
+      }
+
+      selectInput(ns("listSelect"),
+        label = "Select protein",
+        choices = .choices, # use server side option
+        width = "400px",
+        selected = rv.widgets$listSelect,
+        multiple = TRUE
+        # options = list(maxOptions = 10000)
+      )
+    })
+
+    output$colSelect_UI <- renderUI({
+      req(rv$dataIn)
+      req(rv.widgets$typeSelect == "Column")
+      req(length(Get_LogicalCols_in_Dataset()) > 0)
+
+      selectInput(ns("colSelect"),
+        "Column of rowData",
+        choices = setNames(nm = c("None", colnames(rowData(rv$dataIn)))),
+        selected = rv.widgets$colSelect
+      )
+    })
+
+
+    output$randSelect_UI <- renderUI({
+      req(rv.widgets$typeSelect == "Random")
+
+      textInput(ns("randSelect"),
+        "Random",
+        value = rv.widgets$randSelect,
+        width = ("120px")
+      )
+    })
+
+
+
     observeEvent(req(rv.widgets$listSelect), ignoreNULL = TRUE, {
-req(rv$dataIn)
+      req(rv$dataIn)
       .row <- SummarizedExperiment::rowData(rv$dataIn)
       .id <- get_colID(rv$dataIn)
       dataOut$trigger <- as.numeric(Sys.time())
-      if(is.null(.id))
+      if (is.null(.id)) {
         dataOut$indices <- rv.widgets$listSelect
-      else
+      } else {
         dataOut$indices <- match(rv.widgets$listSelect, .row[, .id])
+      }
     })
 
 
     observeEvent(req(rv.widgets$randSelect), ignoreNULL = TRUE, {
       req(rv$dataIn)
-      
-        cond <- is.null(rv.widgets$randSelect)
-        cond <- cond || rv.widgets$randSelect == ""
-        cond <- cond || (as.numeric(rv.widgets$randSelect) < 0)
-        cond <- cond || (as.numeric(rv.widgets$randSelect) > nrow(rv$dataIn))
-        if (!cond) {
-          .row <- SummarizedExperiment::rowData(rv$dataIn)
-          dataOut$trigger <- as.numeric(Sys.time())
+
+      cond <- is.null(rv.widgets$randSelect)
+      cond <- cond || rv.widgets$randSelect == ""
+      cond <- cond || (as.numeric(rv.widgets$randSelect) < 0)
+      cond <- cond || (as.numeric(rv.widgets$randSelect) > nrow(rv$dataIn))
+      if (!cond) {
+        .row <- SummarizedExperiment::rowData(rv$dataIn)
+        dataOut$trigger <- as.numeric(Sys.time())
         dataOut$indices <- sample(seq_len(nrow(.row)),
           as.numeric(rv.widgets$randSelect),
           replace = FALSE
         )
-        }
-      })
+      }
+    })
 
 
 
@@ -257,7 +277,9 @@ req(rv$dataIn)
     })
 
 
-    return(reactive({dataOut}))
+    return(reactive({
+      dataOut
+    }))
   })
 }
 
@@ -270,19 +292,23 @@ req(rv$dataIn)
 #'
 plots_tracking <- function(obj) {
   stopifnot(inherits(obj, "SummarizedExperiment"))
-  
+
   ui <- fluidPage(
-    actionButton('reset', 'Reset'),
-      plots_tracking_ui("tracker1")
+    actionButton("reset", "Reset"),
+    plots_tracking_ui("tracker1")
   )
 
   server <- function(input, output, session) {
     indices <- plots_tracking_server(
-      id = "tracker1", 
-        dataIn = reactive({obj}),
-      remoteReset = reactive({input$reset})
+      id = "tracker1",
+      dataIn = reactive({
+        obj
+      }),
+      remoteReset = reactive({
+        input$reset
+      })
     )
-    
+
     observeEvent(req(indices()$indices), {
       print(indices()$indices)
     })

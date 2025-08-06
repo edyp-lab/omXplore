@@ -9,21 +9,22 @@
 #' @param rate Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
-#' 
-#' 
+#'
+#'
 #' @examples
 #' if (interactive()) {
-#'   data(vdata)
-#'   omXplore_corrmatrix(vdata, 1)
+#' data(vdata)
+#' omXplore_corrmatrix(vdata, 1)
 #' }
-#'
+#' 
+#' 
 NULL
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
@@ -32,7 +33,7 @@ NULL
 #' @importFrom stats cor
 #' @import tidyr
 #' @importFrom dplyr mutate left_join select
-#' 
+#'
 #' @rdname corrmatrix
 #' @export
 #' @return NA
@@ -41,22 +42,25 @@ omXplore_corrmatrix_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
+    shinyjs::hidden(div(
+      id = ns("badFormatMsg"),
+      h3(globals()$bad_format_txt)
+    )),
     uiOutput(ns("showValues_ui")),
     uiOutput(ns("rate_ui")),
     highcharter::highchartOutput(ns("plot"),
-      width = "600px", height = "500px")
+      width = "600px", height = "500px"
+    )
   )
 }
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
@@ -65,24 +69,31 @@ omXplore_corrmatrix_ui <- function(id) {
 #' @importFrom stats cor
 #' @import tidyr
 #' @importFrom dplyr mutate left_join select
-#' 
+#'
 #' @rdname corrmatrix
 #' @export
 #' @return NA
 #'
 omXplore_corrmatrix_server <- function(
     id,
-  obj = reactive({ NULL}),
-  i = reactive({1})) {
+    obj = reactive({
+      NULL
+    }),
+    i = reactive({
+      1
+    })) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
-    observe({
-      shinyjs::toggle("badFormatMsg",
-        condition = !inherits(obj(), "MultiAssayExperiment")
-      )
-    }, priority = 1000)
-    
+
+    observe(
+      {
+        shinyjs::toggle("badFormatMsg",
+          condition = !inherits(obj(), "MultiAssayExperiment")
+        )
+      },
+      priority = 1000
+    )
+
     output$rate_ui <- renderUI({
       req(inherits(obj(), "MultiAssayExperiment"))
       sliderInput(ns("rate"),
@@ -93,18 +104,18 @@ omXplore_corrmatrix_server <- function(
         step = 0.01
       )
     })
-    
-    
+
+
     output$showValues_ui <- renderUI({
       req(inherits(obj(), "MultiAssayExperiment"))
       checkboxInput(ns("showLabels"), "Show labels",
         value = FALSE
       )
     })
-    
+
     output$plot <- renderHighchart({
       req(obj())
-      
+
       withProgress(message = "Making plot", value = 100, {
         tmp <- corrMatrix(
           data = assay(obj()[[i()]]),
@@ -112,7 +123,7 @@ omXplore_corrmatrix_server <- function(
           showValues = isTRUE(input$showLabels)
         )
       })
-      
+
       tmp
     })
   })
@@ -132,7 +143,7 @@ omXplore_corrmatrix_server <- function(
 #' correlation plot.
 #'
 #' @export
-#' 
+#'
 #' @importFrom tibble as_tibble tibble
 #' @importFrom dplyr mutate left_join select
 #' @importFrom tidyr gather
@@ -148,23 +159,21 @@ omXplore_corrmatrix_server <- function(
 #'
 corrMatrix <- function(
     data,
-  rate = 0.5,
-  showValues = FALSE) {
-  
-  
+    rate = 0.5,
+    showValues = FALSE) {
   stopifnot(inherits(data, "matrix"))
-  
+
   res <- cor(data, use = "pairwise.complete.obs")
-  
+
   df <- tibble::as_tibble(res)
   colnames(df) <- colnames(data)
-  
+
   is.num <- sapply(df, is.numeric)
   df[is.num] <- lapply(df[is.num], round, 2)
   dist <- NULL
-  
+
   x <- y <- names(df)
-  
+
   df <- tibble::as_tibble(cbind(x = y, df)) %>%
     tidyr::gather(y, dist, -x) %>%
     dplyr::mutate(
@@ -185,11 +194,11 @@ corrMatrix <- function(
       ),
       by = "y"
     )
-  
+
   ds <- df %>%
     dplyr::select("xid", "yid", "dist") %>%
     highcharter::list_parse2()
-  
+
   fntltp <- DT::JS("function(){
                   return this.series.xAxis.categories[this.point.x] + ' ~ ' +
                   this.series.yAxis.categories[this.point.y] + ': <b>' +
@@ -200,8 +209,8 @@ corrMatrix <- function(
     list(0.5, "#F8F5F5"),
     list(1, "#2E86C1")
   )
-  
-  
+
+
   highcharter::highchart() %>%
     customChart(chartType = "heatmap") %>%
     hc_xAxis(categories = y, title = NULL) %>%
@@ -232,16 +241,20 @@ corrMatrix <- function(
 #' @return A shiny app
 #'
 omXplore_corrmatrix <- function(obj, i) {
-  
   stopifnot(inherits(obj, "MultiAssayExperiment"))
-  
+
   ui <- omXplore_corrmatrix_ui("plot")
-  
+
   server <- function(input, output, session) {
-    omXplore_corrmatrix_server("plot", 
-      obj = reactive({obj}),
-      i = reactive({i}))
+    omXplore_corrmatrix_server("plot",
+      obj = reactive({
+        obj
+      }),
+      i = reactive({
+        i
+      })
+    )
   }
-  
+
   app <- shinyApp(ui = ui, server = server)
 }

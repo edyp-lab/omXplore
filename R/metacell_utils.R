@@ -66,10 +66,11 @@
 #' @name q_metadata
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #' metacell.def("protein")
 #' metacell.def("peptide")
-#'
+#' }
+#' 
 NULL
 
 
@@ -175,11 +176,11 @@ metacell.def <- function(level) {
 
 
 #' @title Parent name of a node
-#' @param level The type of dataset (currently, the available values are 
+#' @param level The type of dataset (currently, the available values are
 #' 'peptide' and 'protein')
 #' @param node The name of the node for which one wants its parent
 #'
-#' #' @examples
+#' @examples
 #' Parent('protein', 'Missing')
 #' Parent('protein', 'Missing POV')
 #' Parent('protein', c('Missing POV', 'Missing MEC'))
@@ -258,20 +259,19 @@ GetMetacellTags <- function(
     metacells = NULL,
     level = NULL,
     onlyPresent = FALSE) {
-  
   ll <- NULL
-  
-  
-  if(is.null(metacells) || !inherits(metacells, 'data.frame')){
+
+
+  if (is.null(metacells) || !inherits(metacells, "data.frame")) {
     return(invisible(NULL))
   }
-    
+
 
   if (is.null(level) && onlyPresent == TRUE) {
     stop("level must be defined if 'onlyPresent' equals to FALSE")
     return(invisible(NULL))
-    }
-  
+  }
+
   if (onlyPresent) {
     # Compute unique tags
     tmp <- lapply(colnames(metacells), function(x) unique(metacells[, x]))

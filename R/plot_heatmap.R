@@ -1,5 +1,3 @@
-
-
 #' @rdname omXplore_heatmap
 #' @export
 #' @return A heatmap
@@ -11,11 +9,10 @@
 #'
 heatmapD <- function(
     qdata,
-  conds,
+    conds,
     distance = "euclidean",
     cluster = "complete",
     dendro = FALSE) {
-
   .data <- matrix(qdata,
     ncol = ncol(qdata),
     byrow = FALSE,
@@ -80,7 +77,7 @@ heatmapD <- function(
 #' @export
 #'
 #' @importFrom grDevices heat.colors
-#' @importFrom graphics par layout image title mtext 
+#' @importFrom graphics par layout image title mtext
 #' strheight strwidth axis text plot.new
 #'
 #' @rdname omXplore_heatmap
