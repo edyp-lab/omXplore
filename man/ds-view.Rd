@@ -11,7 +11,7 @@ view_dataset_ui(id)
 
 view_dataset_server(
   id,
-  dataIn = reactive({
+  obj = reactive({
      NULL
  }),
   addons = list(),
@@ -19,17 +19,28 @@ view_dataset_server(
   verbose = FALSE
 )
 
-view_dataset(dataIn = NULL, addons = NULL, useModal = TRUE)
+view_dataset(obj = NULL, addons = NULL, useModal = TRUE)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
 the same as for the '*_ui' function.}
 
-\item{dataIn}{xx}
+\item{obj}{An instance of the class \code{MultiAssayExperiment}.}
 
-\item{addons}{xxx}
+\item{addons}{A \code{list} to configure the other shiny apps to integrate.
+Each item correspond to one package:
+\itemize{
+\item the name of the slot is the name of the package
+\item the content of the slot is a vector composed of the generic name of the
+shiny app. Each of the apps listed here must be an exported app of the
+package.
+For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
+means that the package called "testPkg" must provide the four functions:
+foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
+}}
 
-\item{useModal}{xxx description}
+\item{useModal}{A \code{boolean(1)} that indicates whether to open plot modules
+in a modal window or not. Default is TRUE.}
 
 \item{verbose}{A boolean for verbose mode. Default is FALSE.}
 }
@@ -61,7 +72,7 @@ The CV is calculated for each condition present in the dataset
 
 The function \code{\link[=heatmapD]{heatmapD()}}
 
-The function \verb{[]} is inspired from the function 'heatmap.2'
+The function [] is inspired from the function 'heatmap.2'
 that displays a numeric matrix. For more information, please refer to the
 help of the heatmap.2 function.
 }
@@ -77,15 +88,13 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 }
 
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   data(vdata)
-  addons <- list(omXplore = c("extFoo1", "extFoo2"), Prostar2 = c("infos_dataset"))
-  shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
+  addons <- list(omXplore = c("extFoo1", "extFoo2"))
+  runApp(view_dataset(vdata, addons))
   
   shiny::runApp(view_dataset(vdata))
-}
-
-
+\dontshow{\}) # examplesIf}
 if (interactive()) {
   data(vdata)
   view_dataset(vdata)
