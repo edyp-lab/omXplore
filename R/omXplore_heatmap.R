@@ -7,7 +7,7 @@
 #' more details, see `heatmap.2()`.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of a class `MultiAssayExperiment`.
+#' @param dataIn An instance of a class `MultiAssayExperiment`.
 #' @param i An integer which is the index of the assay in the param obj
 #' @param qdata A data.frame() of quantitative data.
 #' @param conds A vector indicating the name of each sample.
@@ -98,7 +98,7 @@ omXplore_heatmap_ui <- function(id) {
 #'
 omXplore_heatmap_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -112,13 +112,13 @@ omXplore_heatmap_server <- function(
         # }
 
         shinyjs::toggle("badFormatMsg",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
         shinyjs::toggle("linkage",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
         shinyjs::toggle("distance",
-          condition = !inherits(obj(), "MultiAssayExperiment")
+          condition = !inherits(dataIn(), "MultiAssayExperiment")
         )
       },
       priority = 1000
@@ -130,8 +130,8 @@ omXplore_heatmap_server <- function(
     width <- paste0(width, "px")
 
     output$omXplore_PlotHeatmap <- renderUI({
-      req(obj())
-      if (nrow(assay(obj(), i())) > limitHeatmap) {
+      req(dataIn())
+      if (nrow(assay(dataIn(), i())) > limitHeatmap) {
         tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
       } else {
@@ -142,14 +142,14 @@ omXplore_heatmap_server <- function(
 
 
     output$heatmap_ui <- renderPlot({
-      req(obj())
+      req(dataIn())
       input$linkage
       input$distance
 
       withProgress(message = "Making plot", value = 100, {
         heatmapD(
-          qdata = assay(obj(), i()),
-          conds = get_group(obj()),
+          qdata = assay(dataIn(), i()),
+          conds = get_group(dataIn()),
           distance = input$distance,
           cluster = input$linkage
         )
@@ -165,9 +165,9 @@ omXplore_heatmap_server <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_heatmap <- function(obj, i) {
+omXplore_heatmap <- function(dataIn, i) {
   
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- fluidPage(
     omXplore_heatmap_ui("plot")
@@ -175,7 +175,7 @@ omXplore_heatmap <- function(obj, i) {
 
   server <- function(input, output, session) {
     omXplore_heatmap_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}))
   }
 

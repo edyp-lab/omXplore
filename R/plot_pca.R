@@ -14,13 +14,14 @@
 #' @examples
 #' data(vdata)
 #' obj <- vdata[[1]]
-#' res.pca <- wrapper_pca(SummarizedExperiment::assay(obj), get_group(obj))
+#' res.pca <- wrapper_pca(qdata=SummarizedExperiment::assay(obj), group=get_group(obj))
 #' plotPCA_Eigen(res.pca)
 #' plotPCA_Var(res.pca)
 #' plotPCA_Eigen_hc(res.pca)
 #' plotPCA_Ind(res.pca)
 #'
 NULL
+
 
 
 
@@ -34,7 +35,7 @@ wrapper_pca <- function(
     group,
     var.scaling = TRUE,
     ncp = NULL,
-    method = NULL,
+    approach = "FM",
     gramschmidt = TRUE) {
   
   
@@ -48,7 +49,7 @@ wrapper_pca <- function(
   if (is.null(var.scaling)) {
     var.scaling <- TRUE
   }
-  
+
   res.pca <- NULL
   
   # if (length(which(is.na(obj@qdata))) > 0) {
@@ -65,12 +66,13 @@ wrapper_pca <- function(
     ncp <- min(n, nmax)
   }
   
+
   res.pca <- my_PCA(X = qdata,
-                    scale.unit = var.scaling,
-                    ncp = ncp,
-                    graph = FALSE,
-                    method = method,
-                    gramschmidt = gramschmidt
+      scale.unit = var.scaling,
+      ncp = ncp,
+      graph = FALSE,
+      approach = approach,
+      gramschmidt = gramschmidt
   )
   
   return(res.pca)
@@ -120,7 +122,6 @@ plotPCA_Eigen <- function(res.pca) {
                                type = "line",
                                color = "darkblue",
                                name = "Cumulative % of variances",
-                               marker = "diamond",
                                color = "#FF7900",
                                yAxis = 0
     ) %>%
@@ -220,7 +221,7 @@ plotPCA_Eigen_hc <- function(res.pca) {
       type = "line",
       color = "darkblue",
       name = "Cumulative % of variances",
-      marker = "diamond",
+      #marker = "diamond",
       color = "#FF7900",
       yAxis = 0
     ) %>%

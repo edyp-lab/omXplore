@@ -44,7 +44,7 @@
 #'
 #' @param id A `character(1)` for the 'id' of the shiny module. It must be
 #' the same as for the '*_ui' function.
-#' @param obj An instance of the class `MultiAssayExperiment`.
+#' @param dataIn An instance of the class `MultiAssayExperiment`.
 #' @param addons A `list` to configure the other shiny apps to integrate.
 #' Each item correspond to one package:
 #' * the name of the slot is the name of the package
@@ -65,14 +65,20 @@
 #' @examples
 #' \dontrun{
 #'   data(vdata)
-#'   addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'   runApp(view_dataset(vdata, addons))
+#'   addons <- list(omXplore = c("extFoo1", "extFoo2"), Prostar2 = c("infos_dataset"))
+#'   shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
 #'   
 #'   shiny::runApp(view_dataset(vdata))
 #' }
 #' 
 #' 
 #' @return NA
+#' 
+#' @import thematic
+#' @import waiter
+#' @import shinyBS
+#' @import shiny
+#' @import highcharter
 #'
 NULL
 
@@ -80,14 +86,7 @@ NULL
 
 
 
-#'
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsModal
+
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @importFrom shinyjqui jqui_resizable
 #' 
@@ -140,7 +139,7 @@ view_dataset_ui <- function(id) {
 #'
 view_dataset_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     addons = list(),
     useModal = TRUE,
     verbose = FALSE) {
@@ -212,12 +211,12 @@ view_dataset_server <- function(
         paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
     }
     
-    observeEvent(req(obj()), {
+    observeEvent(req(dataIn()), {
 
         #inherits_mae <- inherits(obj(), "MultiAssayExperiment")
         #if (!inherits_mae){
         tryCatch({
-          rv$data <- convert_to_mae(obj())
+          rv$data <- convert_to_mae(dataIn())
         },
           warning = function(w) {
             print(w)
@@ -241,6 +240,7 @@ view_dataset_server <- function(
           addModules(addons)
           
           rv$ll.mods <- listPlotModules()
+       
         }
       },
       priority = 1000
@@ -359,6 +359,7 @@ view_dataset_server <- function(
       })
         
       } else {
+        
         lapply(rv$ll.mods, function(x) {
           actionButton(ns(x),
             label = tagList(
@@ -382,11 +383,12 @@ view_dataset_server <- function(
       req(rv$data)
 
       for (x in rv$ll.mods) {
+         
         do.call(
           paste0(x, "_server"),
           list(
             id = paste0(x, "_large"),
-            obj = reactive({rv$data}),
+            dataIn = reactive({rv$data}),
             i = reactive({input$chooseDataset})
           )
         )
@@ -416,6 +418,9 @@ view_dataset_server <- function(
 
 #' @export
 #' @rdname ds-view
+#' @param dataIn xx
+#' @param addons xxx
+#' @param useModal xxx description
 #'
 #' @return A shiny application which wraps the functions view_dataset_ui()
 #' and the view_dataset_server()
@@ -428,24 +433,42 @@ view_dataset_server <- function(
 #' }
 #'
 view_dataset <- function(
-    obj = NULL,
+        dataIn = NULL,
     addons = NULL,
   useModal = TRUE) {
   
   # if (!inherits(obj, "MultiAssayExperiment"))
   #   obj <- convert_to_mae(obj)
   # 
-  ui <- fluidPage(
-    view_dataset_ui("dataset")
+  
+  ui = dashboardPage(
+      preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
+      dark = FALSE,
+      help = FALSE,
+      fullscreen = TRUE,
+      scrollToTop = TRUE,
+      header = dashboardHeader(
+          disable = TRUE
+      ),
+      sidebar = dashboardSidebar(),
+      body = dashboardBody(
+          view_dataset_ui("dataset")
+      ),
+      controlbar = dashboardControlbar(),
+      footer = dashboardFooter(),
+      title = "bs4Dash Showcase"
   )
-
-  server <- function(input, output, session) {
-    view_dataset_server("dataset",
-      obj = reactive({obj}),
-      addons = addons,
-      useModal = useModal
-    )
+  
+  
+  server = function(input, output, session) {
+      useAutoColor()
+      view_dataset_server("dataset",
+          dataIn = reactive({dataIn}),
+          addons = addons,
+          useModal = useModal
+      )
   }
+  
+  shiny::shinyApp(ui, server)
 
-  app <- shinyApp(ui, server)
 }

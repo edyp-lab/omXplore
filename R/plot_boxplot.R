@@ -3,11 +3,13 @@
 #' @author Samuel Wieczorek, Anais Courtier, Enora Fremy
 #' @import highcharter
 #' 
+#' @param dataIn xxxx
+#' 
 #' @rdname intensity-plots
 #' 
 #' @export
 boxPlot <- function(
-    obj,
+        dataIn,
   conds,
   legend = NULL,
   pal = NULL,
@@ -15,14 +17,14 @@ boxPlot <- function(
   pkgs.require(c('stats', "grDevices", "RColorBrewer"))
   
 
-  if (is.null(obj)) {
+  if (is.null(dataIn)) {
     warning("The dataset is NULL and cannot be shown")
     return(NULL)
-  } else if (nrow(obj) == 0) {
+  } else if (nrow(dataIn) == 0) {
     warning("The dataset is empty and cannot be shown")
     return(NULL)
   } else {
-    qData <- SummarizedExperiment::assay(obj)
+    qData <- SummarizedExperiment::assay(dataIn)
   }
   
   
@@ -60,7 +62,7 @@ boxPlot <- function(
     }
   }
   
-  keyId <- MultiAssayExperiment::metadata(obj)$proteinId
+  keyId <- MultiAssayExperiment::metadata(dataIn)$proteinId
   
   # if (!is.null(subset)) {
   #   if (is.null(keyId) || missing(keyId)) {
@@ -239,7 +241,7 @@ boxPlot <- function(
           data = dfSubset,
           color = pal[n],
           dashStyle = "shortdot",
-          name = SummarizedExperiment::rowData(obj)[i, keyId],
+          name = SummarizedExperiment::rowData(dataIn)[i, keyId],
           tooltip = list(enabled = TRUE,
             headerFormat = "",
             pointFormat = "{point.series.name} : {point.y: .2f} ")

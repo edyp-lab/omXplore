@@ -1,7 +1,7 @@
 #' @title Displays different intensity plots.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj A instance of the class `MultiAssayExperiment`
+#' @param dataIn A instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param track.indices A vector of integers which are the indices of
 #' lines to track.
@@ -95,7 +95,7 @@ omXplore_intensity_ui <- function(id) {
 #'
 omXplore_intensity_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({1}),
     track.indices = reactive({NULL}),
     remoteReset = reactive({NULL}),
@@ -113,12 +113,12 @@ omXplore_intensity_server <- function(
       rv$data <- NULL
     })
 
-    observeEvent(obj(),{
+    observeEvent(dataIn(),{
       #browser()
-        stopifnot(inherits(obj(), "MultiAssayExperiment"))
+        stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
       req(i())
-          rv$data <- obj()[[i()]]
-          rv$conds <- get_group(obj())
+          rv$data <- dataIn()[[i()]]
+          rv$conds <- get_group(dataIn())
           
         #shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
         shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
@@ -135,7 +135,7 @@ omXplore_intensity_server <- function(
       req(input$choosePlot == "box")
       track.indices()
       boxPlot(
-        obj = rv$data,
+        dataIn = rv$data,
         conds = rv$conds,
         subset = track.indices()
       )
@@ -183,7 +183,7 @@ omXplore_intensity_server <- function(
 #' @return A shiny app
 #'
 omXplore_intensity <- function(
-    obj,
+        dataIn,
     i = NULL,
     withTracking = FALSE) {
   
@@ -203,7 +203,7 @@ omXplore_intensity <- function(
      
     observe({
     rv$indices <- plots_tracking_server("tracker",
-      obj = reactive({obj[[i]]}),
+        dataIn = reactive({dataIn[[i]]}),
       remoteReset = reactive({input$reset})
     )
     })
@@ -211,7 +211,7 @@ omXplore_intensity <- function(
 
     
     omXplore_intensity_server("iplot",
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}),
       track.indices = reactive({rv$indices()$indices}),
       remoteReset = reactive({input$reset}),

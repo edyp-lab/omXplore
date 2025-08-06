@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 0.99.93
+Version: 1.2.1
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
@@ -29,10 +29,13 @@ Description: This package contains a collection of functions (written as
    interface of the package omXplore.
 License: Artistic-2.0
 Depends:
-    R (>= 4.4.0), methods
+    R (>= 4.5.0), methods
 Imports:
     DT,
+    bs4Dash,
     shiny, 
+    waiter,
+    thematic,
     MSnbase,
     PSMatch,
     SummarizedExperiment,
@@ -55,7 +58,8 @@ Imports:
     dendextend,
     dplyr,
     factoextra,
-    tidyr
+    tidyr,
+    nipals
 Suggests: 
     knitr,
     rmarkdown,
@@ -72,6 +76,7 @@ biocViews:
     QualityControl
 NeedsCompilation: no
 Collate:
+    'mod_explore_graphs.R'
     'Infos_adjacencyMatrix.R'
     'Prostar_1x.R'
     'convert_to_mae.R'
@@ -81,7 +86,6 @@ Collate:
     'mae_accessors.R'
     'metacell_utils.R'
     'mod_colorLegend.R'
-    'mod_explore_graphs.R'
     'modules.R'
     'omXplore_cc.R'
     'omXplore_corrmatrix.R'

@@ -1,5 +1,6 @@
 #' @title my_PCA 
 #' @importFrom stats na.omit
+#' @import nipals
 #'
 #' @description Process a PCA, using nipals or FactoMineR, on a quantitative dataset.
 #'
@@ -13,7 +14,7 @@
 #' @param col.w See `FactoMineR::PCA()`
 #' @param graph See `FactoMineR::PCA()`
 #' @param axes See `FactoMineR::PCA()`
-#' @param method a string corresponding to the package to use for PCA (if no `NA`, default is "FM" for FactoMineR)
+#' @param approach a string corresponding to the package to use for PCA (if no `NA`, default is "FM" for FactoMineR)
 #' @param gramschmidt A boolean indicating whether to use Gram-Schmidt orthogonalization or not.
 #'
 #' @return `res.pca` a `"PCA"  "list"` object
@@ -25,16 +26,31 @@
 #' @examples
 #' data(vdata)
 #' obj <- vdata[[1]]
-#' res.pca <- my_PCA(SummarizedExperiment::assay(obj), method = "FM")
+#' res.pca <- my_PCA(SummarizedExperiment::assay(obj), approach = "FM")
 #' plotPCA_Eigen(res.pca)
 #' plotPCA_Var(res.pca)
 #' plotPCA_Eigen_hc(res.pca)
 #' plotPCA_Ind(res.pca)
 #'
-my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind.sup = NULL,
-                    quanti.sup = NULL, quali.sup = NULL, row.w = NULL, col.w = NULL,
-                    graph = FALSE, axes = c(1, 2), method = "FM", gramschmidt = TRUE) 
-{
+my_PCA <- function (X, 
+    scale.unit = TRUE,
+    ncp = min(12, nrow(X)-1, ncol(X)),
+    ind.sup = NULL,
+    quanti.sup = NULL,
+    quali.sup = NULL,
+    row.w = NULL,
+    col.w = NULL,
+    graph = FALSE,
+    axes = c(1, 2),
+    approach = "FM",
+    gramschmidt = TRUE) {
+    
+    # print(paste0('approach = ', approach))
+    # print(paste0('scale.unit = ', scale.unit))
+    # print(paste0('gramschmidt = ', gramschmidt))
+    # print(paste0('axes = ', axes))
+    
+    
   moy.ptab <- function(V, poids) {
     as.vector(crossprod(poids/sum(poids), as.matrix(V)))
   }
@@ -67,11 +83,9 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
     return(X)
   }
   
-  print(method)
-  
   X <- as.data.frame(supp_lignes_na(X))
-  
-  if (method == "NIPALS")
+
+  if (approach == "NIPALS")
     X.init <- X
   
   is.quali <- which(!unlist(lapply(X, is.numeric)))
@@ -97,8 +111,8 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
   if (!is.null(quanti.sup) & !is.numeric(quanti.sup)) 
     quanti.sup <- which(colnames(X) %in% quanti.sup)
   if (any(is.na(X))){
-    if (method == "FM"){
-      warning("Missing values are imputed by the mean of the variable: you should use the imputePCA function of the missMDA package. An other option is using : method = 'NIPALS'")
+    if (approach == "FM"){
+      warning("Missing values are imputed by the mean of the variable: you should use the imputePCA function of the missMDA package. An other option is using : approach = 'NIPALS'")
     }
     if (is.null(quali.sup)) 
       X[is.na(X)] <- matrix(colMeans(X, na.rm = TRUE), 
@@ -107,11 +121,11 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
                                                                 j], is.na(X[, j]), mean(X[, j], na.rm = TRUE))
   }
   else
-    method <- "FM" # Si aucune valeur manquante, on force l'utilisation de FactoMineR
+    approach <- "FM" # Si aucune valeur manquante, on force l'utilisation de FactoMineR
   
-  if (method == "FM")
+  if (approach == "FM")
     Xtot <- X
-  else if (method == "NIPALS")
+  else if (approach == "NIPALS")
     Xtot <- X.init
   
   if (!is.null(quali.sup)) 
@@ -154,13 +168,13 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
                    ecart.type = ecart.type, X = Xtot, row.w.init = row.w.init, 
                    call = match.call())
   
-  if (method == "FM"){
+  if (approach == "FM"){
     tmp <- FactoMineR::svd.triplet(X, row.w = row.w, col.w = col.w, ncp = ncp)
     eig <- tmp$vs^2
     V <- tmp$V
     U <- tmp$U
   }
-  else if (method == "NIPALS"){
+  else if (approach == "NIPALS"){
     res.nipals <- nipals::nipals(X.init, gramschmidt = gramschmidt, ncomp = ncp)
     eig <- res.nipals$R2 * length(res.nipals$R2)
     V <- res.nipals$loadings
@@ -199,9 +213,9 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
   res.ind <- list(coord = coord.ind[, 1:ncp, drop = FALSE], 
                   cos2 = cos2.ind[, 1:ncp, drop = FALSE], contrib = contrib.ind[, 
                                                                                 1:ncp, drop = FALSE] * 100, dist = sqrt(dist2))
-  if (method == "FM")
+  if (approach == "FM")
     res <- list(eig = vp, var = res.var, ind = res.ind, svd = tmp)
-  else if (method == "NIPALS")
+  else if (approach == "NIPALS")
     res <- list(eig = vp, var = res.var, ind = res.ind)
   
   if (!is.null(ind.sup)) {
@@ -324,7 +338,7 @@ my_PCA <- function (X, scale.unit = TRUE, ncp = min(12, nrow(X)-1, ncol(X)), ind
     print(FactoMineR::plot.PCA(res, choix = "var", axes = axes, shadowtext = TRUE, 
                                new.plot = TRUE))
   }
-  #print(method)
+
   return(res)
 }
 

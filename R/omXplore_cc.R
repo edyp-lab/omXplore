@@ -3,7 +3,7 @@
 #' @description  A shiny Module.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of `SummarizedExperiment` class
+#' @param dataIn An instance of `SummarizedExperiment` class
 #' @param i An integer which is the index of the assay in the param obj
 #'
 #' @keywords internal
@@ -12,7 +12,7 @@
 #' @examples
 #' if (interactive()) {
 #'   data(vdata)
-#'   omXplore_cc(vdata, 1)
+#'   shiny::runApp(omXplore_cc(vdata, 1))
 #' }
 #'
 #' @name ds-cc
@@ -142,13 +142,14 @@ omXplore_cc_ui <- function(id) {
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
 #' @importFrom SummarizedExperiment rowData colData assays 
 #' @import shinyBS
+#' @import shinyjqui
 #' @rdname ds-cc
 #'
 #' @export
 #' @return A shiny app
 #'
 omXplore_cc_server <- function(id, 
-  obj = reactive({NULL}), 
+    dataIn = reactive({NULL}), 
   i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -161,12 +162,12 @@ omXplore_cc_server <- function(id,
 
 
 
-    observeEvent(obj(), ignoreInit = FALSE,{
-        obj.valid <- inherits(obj(), "MultiAssayExperiment")
-        cc.exists <- length(get_cc(obj()[[i()]])) > 0
+    observeEvent(dataIn(), ignoreInit = FALSE,{
+        obj.valid <- inherits(dataIn(), "MultiAssayExperiment")
+        cc.exists <- length(get_cc(dataIn()[[i()]])) > 0
 
         if (obj.valid && cc.exists) {
-          rv$data <- obj()[[i()]]
+          rv$data <- dataIn()[[i()]]
           rv$cc <- GetCCInfos(get_cc(rv$data))
         }
 
@@ -289,7 +290,7 @@ omXplore_cc_server <- function(id,
         )
         colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 
-        clickFun <- JS(paste0(
+        clickFun <- shinyjqui::JS(paste0(
           "function(event) {Shiny.onInputChange('",
           ns("eventPointClicked"), "', [this.index]+'_'+ [this.series.name]);}"
         ))
@@ -794,12 +795,12 @@ omXplore_cc_server <- function(id,
 #' @export
 #' @return A shiny app
 #'
-omXplore_cc <- function(obj, i) {
+omXplore_cc <- function(dataIn, i) {
   ui <- omXplore_cc_ui("plot")
 
   server <- function(input, output, session) {
     omXplore_cc_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}))
   }
 

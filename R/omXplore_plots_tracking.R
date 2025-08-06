@@ -65,7 +65,7 @@ plots_tracking_ui <- function(id) {
 #'
 plots_tracking_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     remoteReset = reactive({NULL}),
     is.enabled = reactive({TRUE})
   ) {
@@ -102,10 +102,10 @@ plots_tracking_server <- function(
     )
     
    
-    observeEvent(obj(), ignoreNULL = TRUE, {
+    observeEvent(req(dataIn()), ignoreNULL = TRUE, {
       
-      stopifnot(inherits(obj(), 'SummarizedExperiment'))
-          rv$dataIn <- obj()
+      stopifnot(inherits(dataIn(), 'SummarizedExperiment'))
+          rv$dataIn <- dataIn()
           #dataOut$trigger <- as.numeric(Sys.time())
           #dataOut$indices <- NULL
       }, priority = 1000)
@@ -118,7 +118,7 @@ plots_tracking_server <- function(
         rv.widgets[[x]] <- widgets.default.values[[x]]
       })
       
-      rv$dataIn <- obj()
+      rv$dataIn <- dataIn()
       updateSelectInput(session, "typeSelect", selected = widgets.default.values$typeSelect)
       updateSelectInput(session, ns("listSelect"), selected = widgets.default.values$listSelect)
       updateTextInput(session, ns("randSelect"), value = widgets.default.values$randSelect)
@@ -275,7 +275,7 @@ plots_tracking <- function(obj) {
   server <- function(input, output, session) {
     indices <- plots_tracking_server(
       id = "tracker1", 
-      obj = reactive({obj}),
+        dataIn = reactive({obj}),
       remoteReset = reactive({input$reset})
     )
     

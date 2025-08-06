@@ -1,7 +1,7 @@
 #' @title Explore `MultiAssayExperiment` objects.
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `MultiAssayExperiment`
+#' @param dataIn An instance of the class `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #' @param digits An integer for the number of digits shown in the table
 #' 
@@ -105,7 +105,7 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @export
 omXplore_tabExplorer_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL}),
     digits = reactive({3})) {
   moduleServer(id, function(input, output, session) {
@@ -115,10 +115,10 @@ omXplore_tabExplorer_server <- function(
 
     observe(
       {
-        is.mae <- inherits(obj(), "MultiAssayExperiment")
+        is.mae <- inherits(dataIn(), "MultiAssayExperiment")
         
         if (isTRUE(is.mae)){
-          rv$data <- obj()
+          rv$data <- dataIn()
 
           tags <- GetMetacellTags(
             get_metacell(rv$data[[i()]]),
@@ -370,12 +370,12 @@ output$design_ui <- DT::renderDataTable(server = TRUE, {
 #' @export
 #' @return A shiny app
 #'
-omXplore_tabExplorer <- function(obj, i) {
+omXplore_tabExplorer <- function(dataIn, i) {
   ui <- fluidPage(omXplore_tabExplorer_ui("plot"))
 
   server <- function(input, output, session) {
     omXplore_tabExplorer_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i}))
   }
 

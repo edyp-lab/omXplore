@@ -7,7 +7,7 @@
 #' @name external_app
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An object of instance `MultiAssayExperiment`
+#' @param dataIn An object of instance `MultiAssayExperiment`
 #' @param i An integer which is the index of the assay in the param obj
 #'
 #'
@@ -61,7 +61,7 @@ extFoo1_ui <- function(id) {
 #'
 extFoo1_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -71,10 +71,10 @@ extFoo1_server <- function(
     )
 
     observe({
-        req(obj())
-        obj.cond <- inherits(obj(), "MultiAssayExperiment")
+        req(dataIn())
+        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
@@ -95,14 +95,14 @@ extFoo1_server <- function(
 #' @rdname external_app
 #' @return A shiny app
 #'
-extFoo1 <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+extFoo1 <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- extFoo1_ui("plot")
 
   server <- function(input, output, session) {
     extFoo1_server("plot", 
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }
@@ -149,7 +149,7 @@ extFoo2_ui <- function(id) {
 #'
 extFoo2_server <- function(
     id,
-    obj = reactive({NULL}),
+    dataIn = reactive({NULL}),
     i = reactive({NULL})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -159,10 +159,10 @@ extFoo2_server <- function(
     )
 
     observe({
-        req(obj())
-        obj.cond <- inherits(obj(), "MultiAssayExperiment")
+        req(dataIn())
+        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
         if (obj.cond) {
-          rv$data <- obj()
+          rv$data <- dataIn()
         } else {
           shinyjs::toggle("badFormatMsg", condition = !obj.cond)
         }
@@ -182,14 +182,14 @@ extFoo2_server <- function(
 #' @rdname external_app
 #' @return A shiny app
 #'
-extFoo2 <- function(obj, i) {
-  stopifnot(inherits(obj, "MultiAssayExperiment"))
+extFoo2 <- function(dataIn, i) {
+  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
   
   ui <- extFoo2_ui("plot")
 
   server <- function(input, output, session) {
     extFoo2_server("plot",  
-      obj = reactive({obj}),
+        dataIn = reactive({dataIn}),
       i = reactive({i})
       )
   }
