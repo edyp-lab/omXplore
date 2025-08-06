@@ -33,8 +33,6 @@ Depends:
 Imports:
     DT,
     shiny, 
-    waiter,
-    thematic,
     MSnbase,
     PSMatch,
     SummarizedExperiment,

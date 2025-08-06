@@ -11,7 +11,13 @@
 #' @param i An integer which is the index of the assay in the param obj
 #'
 #'
-#' @example examples/external_apps_examples.R
+#' @examples
+#' if(interactive()){
+#' data(vdata)
+#' app1 <- extFoo1(vdata, 1)
+#' app2 <- extFoo2(vdata, 1)
+#' shiny::runApp(app1)
+#' shiny::runApp(app2)}
 #'
 #' @return NA
 #'
