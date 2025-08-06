@@ -29,11 +29,12 @@ Description: This package contains a collection of functions (written as
    interface of the package omXplore.
 License: Artistic-2.0
 Depends:
-    R (>= 4.4.0), methods
+    R (>= 4.5.0), methods
 Imports:
     DT,
+        bs4Dash,
     shiny, 
-    bs4Dash,
+
     waiter,
     thematic,
     MSnbase,

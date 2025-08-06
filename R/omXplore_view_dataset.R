@@ -74,7 +74,6 @@
 #' 
 #' @return NA
 #' 
-#' @import bs4Dash
 #' @import thematic
 #' @import waiter
 #' @import shinyBS
