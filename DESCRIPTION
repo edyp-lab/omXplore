@@ -32,9 +32,8 @@ Depends:
     R (>= 4.5.0), methods
 Imports:
     DT,
-        bs4Dash,
+    bs4Dash,
     shiny, 
-
     waiter,
     thematic,
     MSnbase,
