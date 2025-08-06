@@ -13,10 +13,8 @@
 #' 
 #' 
 #' @examples
-#' \dontrun{
 #' data(vdata)
 #' shiny::runApp(colorLegend(vdata[[1]]))
-#' }
 #' 
 #'
 NULL

@@ -112,7 +112,7 @@ assay data in an instance of \code{SummarizedExperiment}. For
 more details, see \code{heatmap.2()}.
 }
 \examples{
-\dontrun{
+if(interactive()){
   data(vdata)
   omXplore_heatmap(vdata, 1)
 }

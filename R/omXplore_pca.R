@@ -29,7 +29,7 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   library(shiny)
 #'   library(QFeatures)

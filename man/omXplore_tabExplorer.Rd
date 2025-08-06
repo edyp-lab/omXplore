@@ -45,9 +45,12 @@ A shiny app
 Explore \code{MultiAssayExperiment} objects.
 }
 \examples{
-\dontrun{
+\donttest{
   data(vdata)
   shiny::runApp(omXplore_tabExplorer(vdata, 1))
 }
+
+NULL
+
 
 }

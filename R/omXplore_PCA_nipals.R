@@ -227,8 +227,8 @@ my_PCA <- function (X,
     coord.ind.sup <- crossprod(t(coord.ind.sup), tmp$V)
     dist2 <- rowSums(t(t(X.ind.sup^2) * col.w))
     cos2.ind.sup <- coord.ind.sup^2/dist2
-    coord.ind.sup <- coord.ind.sup[, 1:ncp, drop = F]
-    cos2.ind.sup <- cos2.ind.sup[, 1:ncp, drop = F]
+    coord.ind.sup <- coord.ind.sup[, 1:ncp, drop = FALSE]
+    cos2.ind.sup <- cos2.ind.sup[, 1:ncp, drop = FALSE]
     colnames(coord.ind.sup) <- colnames(cos2.ind.sup) <- paste("Dim", 
                                                                c(1:ncp), sep = ".")
     rownames(coord.ind.sup) <- rownames(cos2.ind.sup) <- names(dist2) <- rownames(X.ind.sup)

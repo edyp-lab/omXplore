@@ -15,7 +15,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_density(vdata, 1))
 #'}
@@ -131,7 +131,7 @@ omXplore_density_server <- function(
 #' @return A plot
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(vdata)
 #' qdata <- SummarizedExperiment::assay(vdata[[1]])
 #' conds <- get_group(vdata)

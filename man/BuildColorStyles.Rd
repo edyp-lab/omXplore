@@ -16,3 +16,8 @@ A list
 This function builds a list which is used for styling DT tables with the
 function \code{DT::styleEqual()}
 }
+\examples{
+NULL
+
+
+}

@@ -28,7 +28,7 @@
 #' 
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   formatDT(vdata)
 #' }

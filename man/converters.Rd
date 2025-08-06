@@ -125,7 +125,7 @@ An enriched instance of the class \code{MultiAssayExperiment}
 The resulting object is an instance of the  \code{MultiAssayExperiment} class.
 }
 \examples{
-\dontrun{
+if(interactive()){
 
 #-------------------------------------------
 # Conversion of a MultiAssayExperiment instance

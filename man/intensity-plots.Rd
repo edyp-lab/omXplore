@@ -86,7 +86,7 @@ A violin plot
 Displays different intensity plots.
 }
 \examples{
-\dontrun{
+\donttest{
   data(vdata)
   shiny::runApp(omXplore_intensity(vdata, 1))
   

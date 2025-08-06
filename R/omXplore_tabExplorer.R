@@ -8,7 +8,7 @@
 #' @name omXplore_tabExplorer
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   shiny::runApp(omXplore_tabExplorer(vdata, 1))
 #' }
@@ -38,6 +38,10 @@ NULL
 #' 
 #' @rdname omXplore_tabExplorer
 #' @import shinyBS
+#' 
+#' @examples
+#' NULL
+#' 
 #'
 #' @export
 #' @return NA

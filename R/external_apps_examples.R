@@ -12,7 +12,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   app1 <- extFoo1(vdata, 1)
 #'   app2 <- extFoo2(vdata, 1)

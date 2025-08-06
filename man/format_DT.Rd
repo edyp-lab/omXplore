@@ -70,7 +70,7 @@ If any style is given, then the dataset must be well configured (I.e. it
 must contain the correct columns )
 }
 \examples{
-\dontrun{
+\donttest{
   data(vdata)
   formatDT(vdata)
 }

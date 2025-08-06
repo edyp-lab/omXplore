@@ -57,13 +57,13 @@ Displays a correlation matrix of the quantitative data of a
 numeric matrix.
 }
 \examples{
-\dontrun{
+\donttest{
   data(vdata)
   shiny::runApp(omXplore_density(vdata, 1))
 }
 
 
-\dontrun{
+\donttest{
 data(vdata)
 qdata <- SummarizedExperiment::assay(vdata[[1]])
 conds <- get_group(vdata)

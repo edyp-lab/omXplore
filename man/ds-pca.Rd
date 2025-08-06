@@ -136,7 +136,7 @@ plotPCA_Var(res.pca)
 plotPCA_Eigen_hc(res.pca)
 plotPCA_Ind(res.pca)
 
-\dontrun{
+\donttest{
   data(vdata)
   library(shiny)
   library(QFeatures)

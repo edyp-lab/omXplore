@@ -10,7 +10,7 @@
 #'
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   data(vdata)
 #'   shiny::runApp(plots_tracking(vdata[[1]]))
 #'   }
@@ -34,6 +34,10 @@ NULL
 #' @rdname plots_tracking
 #' @export
 #' @return NA
+#' 
+#' @examples
+#' NULL
+#' 
 #'
 plots_tracking_ui <- function(id) {
   ns <- NS(id)

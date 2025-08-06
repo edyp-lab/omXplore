@@ -15,7 +15,7 @@
 #' @return An enriched instance of the class `MultiAssayExperiment`
 #' 
 #' @examples
-#' \dontrun{
+#' if(interactive()){
 #' 
 #' #-------------------------------------------
 #' # Conversion of a MultiAssayExperiment instance

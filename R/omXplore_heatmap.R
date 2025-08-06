@@ -32,7 +32,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' if(interactive()){
 #'   data(vdata)
 #'   omXplore_heatmap(vdata, 1)
 #' }

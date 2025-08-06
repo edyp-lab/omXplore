@@ -154,7 +154,7 @@ customExportMenu <- function(hc, fname) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(highcharter)
 #'   hc <- highchart()
 #'   hc_chart(hc, type = "line")
@@ -163,6 +163,9 @@ customExportMenu <- function(hc, fname) {
 #'   }
 #'
 #' @export
+#' @examples
+#' NULL
+#' 
 #'
 #' @import highcharter
 #'
@@ -259,6 +262,9 @@ FormatDataForDT <- function(
 #' @export
 #'
 #' @return A list
+#' @examples
+#' NULL
+#' 
 #'
 BuildColorStyles <- function(type) {
   mc <- metacell.def(type)
@@ -281,6 +287,10 @@ BuildColorStyles <- function(type) {
 #'
 #' @return A data.frame with new colums corresponding to the cell metadata 
 #' (if exists)
+#' 
+#' @examples
+#' NULL
+#' 
 #'
 Build_enriched_qdata <- function(obj){
   

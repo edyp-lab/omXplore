@@ -18,3 +18,8 @@ If the cell metadata exists in the object of class \code{SummarizedExperiment},
 then these information are added to the quantitative data so as to use
 styles with the functions of the package \code{DT}.
 }
+\examples{
+NULL
+
+
+}
