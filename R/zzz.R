@@ -1,10 +1,10 @@
 .onLoad <- function(libname, pkgname) {
-  shiny::addResourcePath(
-    prefix = "images",
-    directoryPath = system.file("images", package = "omXplore")
-  )
+    shiny::addResourcePath(
+        prefix = "images",
+        directoryPath = system.file("images", package = "omXplore")
+    )
 }
 
 .onUnload <- function(libname, pkgname) {
-  shiny::removeResourcePath("images")
+    shiny::removeResourcePath("images")
 }

@@ -12,12 +12,13 @@
 #'
 #'
 #' @examples
-#' if(interactive()){
-#' data(vdata)
-#' app1 <- extFoo1(vdata, 1)
-#' app2 <- extFoo2(vdata, 1)
-#' shiny::runApp(app1)
-#' shiny::runApp(app2)}
+#' if (interactive()) {
+#'     data(vdata)
+#'     app1 <- extFoo1(vdata, 1)
+#'     app2 <- extFoo2(vdata, 1)
+#'     shiny::runApp(app1)
+#'     shiny::runApp(app2)
+#' }
 #'
 #' @return NA
 #'
@@ -36,15 +37,15 @@ NULL
 #' @return NA
 #'
 extFoo1_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    shinyjs::useShinyjs(),
-    shinyjs::hidden(div(
-      id = ns("badFormatMsg"),
-      h3(globals()$bad_format_txt)
-    )),
-    plotOutput(ns("plot"))
-  )
+    ns <- NS(id)
+    tagList(
+        shinyjs::useShinyjs(),
+        shinyjs::hidden(div(
+            id = ns("badFormatMsg"),
+            h3(globals()$bad_format_txt)
+        )),
+        plotOutput(ns("plot"))
+    )
 }
 
 
@@ -61,38 +62,38 @@ extFoo1_ui <- function(id) {
 #' @return NA
 #'
 extFoo1_server <- function(
-    id,
-    dataIn = reactive({
-      NULL
-    }),
-    i = reactive({
-      NULL
-    })) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        dataIn = reactive({
+            NULL
+        }),
+        i = reactive({
+            NULL
+        })) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    rv <- reactiveValues(
-      data = NULL
-    )
+        rv <- reactiveValues(
+            data = NULL
+        )
 
-    observe(
-      {
-        req(dataIn())
-        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
-        if (obj.cond) {
-          rv$data <- dataIn()
-        } else {
-          shinyjs::toggle("badFormatMsg", condition = !obj.cond)
-        }
-      },
-      priority = 1000
-    )
+        observe(
+            {
+                req(dataIn())
+                obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
+                if (obj.cond) {
+                    rv$data <- dataIn()
+                } else {
+                    shinyjs::toggle("badFormatMsg", condition = !obj.cond)
+                }
+            },
+            priority = 1000
+        )
 
-    output$plot <- renderPlot({
-      req(rv$data)
-      hist(assay(rv$data[[i()]]))
+        output$plot <- renderPlot({
+            req(rv$data)
+            hist(assay(rv$data[[i()]]))
+        })
     })
-  })
 }
 
 
@@ -103,22 +104,22 @@ extFoo1_server <- function(
 #' @return A shiny app
 #'
 extFoo1 <- function(dataIn, i) {
-  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
 
-  ui <- extFoo1_ui("plot")
+    ui <- extFoo1_ui("plot")
 
-  server <- function(input, output, session) {
-    extFoo1_server("plot",
-      dataIn = reactive({
-        dataIn
-      }),
-      i = reactive({
-        i
-      })
-    )
-  }
+    server <- function(input, output, session) {
+        extFoo1_server("plot",
+            dataIn = reactive({
+                dataIn
+            }),
+            i = reactive({
+                i
+            })
+        )
+    }
 
-  app <- shinyApp(ui = ui, server = server)
+    app <- shinyApp(ui = ui, server = server)
 }
 
 
@@ -136,15 +137,15 @@ extFoo1 <- function(dataIn, i) {
 #' @return NA
 #'
 extFoo2_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    shinyjs::useShinyjs(),
-    shinyjs::hidden(div(
-      id = ns("badFormatMsg"),
-      h3(globals()$bad_format_txt)
-    )),
-    plotOutput(ns("plot"))
-  )
+    ns <- NS(id)
+    tagList(
+        shinyjs::useShinyjs(),
+        shinyjs::hidden(div(
+            id = ns("badFormatMsg"),
+            h3(globals()$bad_format_txt)
+        )),
+        plotOutput(ns("plot"))
+    )
 }
 
 
@@ -161,38 +162,38 @@ extFoo2_ui <- function(id) {
 #' @return NA
 #'
 extFoo2_server <- function(
-    id,
-    dataIn = reactive({
-      NULL
-    }),
-    i = reactive({
-      NULL
-    })) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        dataIn = reactive({
+            NULL
+        }),
+        i = reactive({
+            NULL
+        })) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    rv <- reactiveValues(
-      data = NULL
-    )
+        rv <- reactiveValues(
+            data = NULL
+        )
 
-    observe(
-      {
-        req(dataIn())
-        obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
-        if (obj.cond) {
-          rv$data <- dataIn()
-        } else {
-          shinyjs::toggle("badFormatMsg", condition = !obj.cond)
-        }
-      },
-      priority = 1000
-    )
+        observe(
+            {
+                req(dataIn())
+                obj.cond <- inherits(dataIn(), "MultiAssayExperiment")
+                if (obj.cond) {
+                    rv$data <- dataIn()
+                } else {
+                    shinyjs::toggle("badFormatMsg", condition = !obj.cond)
+                }
+            },
+            priority = 1000
+        )
 
-    output$plot <- renderPlot({
-      req(rv$data)
-      plot(assay(rv$data[[i()]]))
+        output$plot <- renderPlot({
+            req(rv$data)
+            plot(assay(rv$data[[i()]]))
+        })
     })
-  })
 }
 
 
@@ -202,20 +203,20 @@ extFoo2_server <- function(
 #' @return A shiny app
 #'
 extFoo2 <- function(dataIn, i) {
-  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
 
-  ui <- extFoo2_ui("plot")
+    ui <- extFoo2_ui("plot")
 
-  server <- function(input, output, session) {
-    extFoo2_server("plot",
-      dataIn = reactive({
-        dataIn
-      }),
-      i = reactive({
-        i
-      })
-    )
-  }
+    server <- function(input, output, session) {
+        extFoo2_server("plot",
+            dataIn = reactive({
+                dataIn
+            }),
+            i = reactive({
+                i
+            })
+        )
+    }
 
-  app <- shinyApp(ui = ui, server = server)
+    app <- shinyApp(ui = ui, server = server)
 }

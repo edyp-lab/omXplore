@@ -33,8 +33,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#' data(vdata)
-#' omXplore_heatmap(vdata, 1)
+#'     data(vdata)
+#'     omXplore_heatmap(vdata, 1)
 #' }
 #'
 NULL
@@ -53,34 +53,34 @@ NULL
 #' @return NA
 #'
 omXplore_heatmap_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    useShinyjs(),
-    hidden(div(
-      id = ns("badFormatMsg"),
-      h3(globals()$bad_format_txt)
-    )),
-    hidden(div(
-      style = "display:inline-block; vertical-align: middle;
+    ns <- NS(id)
+    tagList(
+        useShinyjs(),
+        hidden(div(
+            id = ns("badFormatMsg"),
+            h3(globals()$bad_format_txt)
+        )),
+        hidden(div(
+            style = "display:inline-block; vertical-align: middle;
                   padding-right: 20px;",
-      selectInput(ns("distance"), "Distance",
-        choices = setNames(nm = c("euclidean", "manhattan")),
-        selected = "euclidean",
-        width = "150px"
-      )
-    )),
-    hidden(div(
-      style = "display:inline-block; vertical-align: middle;
+            selectInput(ns("distance"), "Distance",
+                choices = setNames(nm = c("euclidean", "manhattan")),
+                selected = "euclidean",
+                width = "150px"
+            )
+        )),
+        hidden(div(
+            style = "display:inline-block; vertical-align: middle;
                  padding-right: 20px;",
-      selectInput(ns("linkage"), "Linkage",
-        choices = setNames(nm = c("complete", "ward.D", "average")),
-        selected = "complete",
-        width = "150px"
-      )
-    )),
-    tags$hr(),
-    uiOutput(ns("omXplore_PlotHeatmap"))
-  )
+            selectInput(ns("linkage"), "Linkage",
+                choices = setNames(nm = c("complete", "ward.D", "average")),
+                selected = "complete",
+                width = "150px"
+            )
+        )),
+        tags$hr(),
+        uiOutput(ns("omXplore_PlotHeatmap"))
+    )
 }
 
 
@@ -98,70 +98,70 @@ omXplore_heatmap_ui <- function(id) {
 #' @return NA
 #'
 omXplore_heatmap_server <- function(
-    id,
-    dataIn = reactive({
-      NULL
-    }),
-    i = reactive({
-      NULL
-    })) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        dataIn = reactive({
+            NULL
+        }),
+        i = reactive({
+            NULL
+        })) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    width <- 900
-    # rv <- reactiveValues(data = NULL)
+        width <- 900
+        # rv <- reactiveValues(data = NULL)
 
-    observe(
-      {
-        # if (inherits(obj(), "MultiAssayExperiment")) {
-        #   rv$data <- obj()
-        # }
+        observe(
+            {
+                # if (inherits(obj(), "MultiAssayExperiment")) {
+                #   rv$data <- obj()
+                # }
 
-        shinyjs::toggle("badFormatMsg",
-          condition = !inherits(dataIn(), "MultiAssayExperiment")
+                shinyjs::toggle("badFormatMsg",
+                    condition = !inherits(dataIn(), "MultiAssayExperiment")
+                )
+                shinyjs::toggle("linkage",
+                    condition = !inherits(dataIn(), "MultiAssayExperiment")
+                )
+                shinyjs::toggle("distance",
+                    condition = !inherits(dataIn(), "MultiAssayExperiment")
+                )
+            },
+            priority = 1000
         )
-        shinyjs::toggle("linkage",
-          condition = !inherits(dataIn(), "MultiAssayExperiment")
-        )
-        shinyjs::toggle("distance",
-          condition = !inherits(dataIn(), "MultiAssayExperiment")
-        )
-      },
-      priority = 1000
-    )
 
 
-    limitHeatmap <- 20000
-    height <- paste0(2 * width / 3, "px")
-    width <- paste0(width, "px")
+        limitHeatmap <- 20000
+        height <- paste0(2 * width / 3, "px")
+        width <- paste0(width, "px")
 
-    output$omXplore_PlotHeatmap <- renderUI({
-      req(dataIn())
-      if (nrow(assay(dataIn(), i())) > limitHeatmap) {
-        tags$p("The dataset is too large to compute the heatmap
+        output$omXplore_PlotHeatmap <- renderUI({
+            req(dataIn())
+            if (nrow(assay(dataIn(), i())) > limitHeatmap) {
+                tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
-      } else {
-        plotOutput(ns("heatmap_ui"), width = width, height = height)
-      }
+            } else {
+                plotOutput(ns("heatmap_ui"), width = width, height = height)
+            }
+        })
+
+
+
+        output$heatmap_ui <- renderPlot({
+            req(dataIn())
+            input$linkage
+            input$distance
+
+            withProgress(message = "Making plot", value = 100, {
+                heatmapD(
+                    qdata = assay(dataIn(), i()),
+                    conds = get_group(dataIn()),
+                    distance = input$distance,
+                    cluster = input$linkage
+                )
+            })
+        })
     })
-
-
-
-    output$heatmap_ui <- renderPlot({
-      req(dataIn())
-      input$linkage
-      input$distance
-
-      withProgress(message = "Making plot", value = 100, {
-        heatmapD(
-          qdata = assay(dataIn(), i()),
-          conds = get_group(dataIn()),
-          distance = input$distance,
-          cluster = input$linkage
-        )
-      })
-    })
-  })
 }
 
 
@@ -172,22 +172,22 @@ omXplore_heatmap_server <- function(
 #' @return A shiny app
 #'
 omXplore_heatmap <- function(dataIn, i) {
-  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
 
-  ui <- fluidPage(
-    omXplore_heatmap_ui("plot")
-  )
-
-  server <- function(input, output, session) {
-    omXplore_heatmap_server("plot",
-      dataIn = reactive({
-        dataIn
-      }),
-      i = reactive({
-        i
-      })
+    ui <- fluidPage(
+        omXplore_heatmap_ui("plot")
     )
-  }
 
-  app <- shinyApp(ui = ui, server = server)
+    server <- function(input, output, session) {
+        omXplore_heatmap_server("plot",
+            dataIn = reactive({
+                dataIn
+            }),
+            i = reactive({
+                i
+            })
+        )
+    }
+
+    app <- shinyApp(ui = ui, server = server)
 }

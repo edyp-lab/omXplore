@@ -26,15 +26,15 @@
 #'
 #' @examples
 #' if (interactive()) {
-#' data(vdata)
-#' shiny::runApp(omXplore_intensity(vdata, 1))
+#'     data(vdata)
+#'     shiny::runApp(omXplore_intensity(vdata, 1))
 #'
-#' data(sub_R25)
-#' conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
-#' pal <- ExtendPalette(length(unique(conds)))
-#' boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
+#'     data(sub_R25)
+#'     conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
+#'     pal <- ExtendPalette(length(unique(conds)))
+#'     boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 #'
-#' shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+#'     shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
 #' }
 #'
 NULL
@@ -59,17 +59,17 @@ NULL
 #' @return NA
 #'
 omXplore_intensity_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    shinyjs::useShinyjs(),
-    # shinyjs::hidden(div(id = ns("badFormatMsg"),
-    # h3(globals()$bad_format_txt))),
-    radioButtons(ns("choosePlot"), "",
-      choices = setNames(nm = c("violin", "box"))
-    ),
-    highchartOutput(ns("box")),
-    shinyjs::hidden(imageOutput(ns("violin")))
-  )
+    ns <- NS(id)
+    tagList(
+        shinyjs::useShinyjs(),
+        # shinyjs::hidden(div(id = ns("badFormatMsg"),
+        # h3(globals()$bad_format_txt))),
+        radioButtons(ns("choosePlot"), "",
+            choices = setNames(nm = c("violin", "box"))
+        ),
+        highchartOutput(ns("box")),
+        shinyjs::hidden(imageOutput(ns("violin")))
+    )
 }
 
 
@@ -94,97 +94,97 @@ omXplore_intensity_ui <- function(id) {
 #' @return NA
 #'
 omXplore_intensity_server <- function(
-    id,
-    dataIn = reactive({
-      NULL
-    }),
-    i = reactive({
-      1
-    }),
-    track.indices = reactive({
-      NULL
-    }),
-    remoteReset = reactive({
-      NULL
-    }),
-    is.enabled = reactive({
-      TRUE
-    })) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        dataIn = reactive({
+            NULL
+        }),
+        i = reactive({
+            1
+        }),
+        track.indices = reactive({
+            NULL
+        }),
+        remoteReset = reactive({
+            NULL
+        }),
+        is.enabled = reactive({
+            TRUE
+        })) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    rv <- reactiveValues(
-      data = NULL,
-      conds = NULL
-    )
-
-    observeEvent(remoteReset(), {
-      updateSelectInput(session, "choosePlot", selected = "violin")
-      rv$data <- NULL
-    })
-
-    observeEvent(dataIn(), {
-      # browser()
-      stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
-      req(i())
-      rv$data <- dataIn()[[i()]]
-      rv$conds <- get_group(dataIn())
-
-      # shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
-      shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
-    })
-
-
-    observeEvent(input$choosePlot, {
-      shinyjs::toggle("violin", condition = input$choosePlot == "violin")
-      shinyjs::toggle("box", condition = input$choosePlot == "box")
-    })
-
-    output$box <- renderHighchart({
-      req(rv$data)
-      req(input$choosePlot == "box")
-      track.indices()
-      boxPlot(
-        dataIn = rv$data,
-        conds = rv$conds,
-        subset = track.indices()
-      )
-
-      # })
-    })
-
-    output$violin <- renderImage(
-      {
-        req(rv$data)
-        req(rv$conds)
-        req(input$choosePlot == "violin")
-        track.indices()
-
-        # A temp file to save the output. It will be deleted after
-        # renderImage sends it, because deleteFile=TRUE.
-        outfile <- tempfile(fileext = ".png")
-        # Generate a png
-        withProgress(message = "Making plot", value = 100, {
-          png(outfile)
-          pattern <- paste0("test", ".violinplot")
-          tmp <- violinPlot(
-            data = as.matrix(SummarizedExperiment::assay(rv$data)),
-            conds = rv$conds,
-            subset = track.indices()
-          )
-          # future(createPNGFromWidget(tmp,pattern))
-          dev.off()
-        })
-        tmp
-        # Return a list
-        list(
-          src = outfile,
-          alt = "This is alternate text"
+        rv <- reactiveValues(
+            data = NULL,
+            conds = NULL
         )
-      },
-      deleteFile = TRUE
-    )
-  })
+
+        observeEvent(remoteReset(), {
+            updateSelectInput(session, "choosePlot", selected = "violin")
+            rv$data <- NULL
+        })
+
+        observeEvent(dataIn(), {
+            # browser()
+            stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
+            req(i())
+            rv$data <- dataIn()[[i()]]
+            rv$conds <- get_group(dataIn())
+
+            # shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))
+            shinyjs::toggle("choosePlot", condition = !is.null(rv$data))
+        })
+
+
+        observeEvent(input$choosePlot, {
+            shinyjs::toggle("violin", condition = input$choosePlot == "violin")
+            shinyjs::toggle("box", condition = input$choosePlot == "box")
+        })
+
+        output$box <- renderHighchart({
+            req(rv$data)
+            req(input$choosePlot == "box")
+            track.indices()
+            boxPlot(
+                dataIn = rv$data,
+                conds = rv$conds,
+                subset = track.indices()
+            )
+
+            # })
+        })
+
+        output$violin <- renderImage(
+            {
+                req(rv$data)
+                req(rv$conds)
+                req(input$choosePlot == "violin")
+                track.indices()
+
+                # A temp file to save the output. It will be deleted after
+                # renderImage sends it, because deleteFile=TRUE.
+                outfile <- tempfile(fileext = ".png")
+                # Generate a png
+                withProgress(message = "Making plot", value = 100, {
+                    png(outfile)
+                    pattern <- paste0("test", ".violinplot")
+                    tmp <- violinPlot(
+                        data = as.matrix(SummarizedExperiment::assay(rv$data)),
+                        conds = rv$conds,
+                        subset = track.indices()
+                    )
+                    # future(createPNGFromWidget(tmp,pattern))
+                    dev.off()
+                })
+                tmp
+                # Return a list
+                list(
+                    src = outfile,
+                    alt = "This is alternate text"
+                )
+            },
+            deleteFile = TRUE
+        )
+    })
 }
 
 
@@ -193,56 +193,57 @@ omXplore_intensity_server <- function(
 #' @export
 #' @return A shiny app
 #'
-omXplore_intensity <- function(dataIn,
-    i = NULL,
-    withTracking = FALSE) {
-  ui <- fluidPage(
-    tagList(
-      actionButton("reset", "Reset"),
-      plots_tracking_ui("tracker"),
-      omXplore_intensity_ui("iplot")
-    )
-  )
-
-  server <- function(input, output, session) {
-    rv <- reactiveValues(
-      indices = reactive({
-        NULL
-      })
+omXplore_intensity <- function(
+        dataIn,
+        i = NULL,
+        withTracking = FALSE) {
+    ui <- fluidPage(
+        tagList(
+            actionButton("reset", "Reset"),
+            plots_tracking_ui("tracker"),
+            omXplore_intensity_ui("iplot")
+        )
     )
 
-    observe({
-      rv$indices <- plots_tracking_server("tracker",
-        dataIn = reactive({
-          dataIn[[i]]
-        }),
-        remoteReset = reactive({
-          input$reset
+    server <- function(input, output, session) {
+        rv <- reactiveValues(
+            indices = reactive({
+                NULL
+            })
+        )
+
+        observe({
+            rv$indices <- plots_tracking_server("tracker",
+                dataIn = reactive({
+                    dataIn[[i]]
+                }),
+                remoteReset = reactive({
+                    input$reset
+                })
+            )
         })
-      )
-    })
 
 
 
-    omXplore_intensity_server("iplot",
-      dataIn = reactive({
-        dataIn
-      }),
-      i = reactive({
-        i
-      }),
-      track.indices = reactive({
-        rv$indices()$indices
-      }),
-      remoteReset = reactive({
-        input$reset
-      }),
-      is.enabled = reactive({
-        TRUE
-      })
-    )
-  }
+        omXplore_intensity_server("iplot",
+            dataIn = reactive({
+                dataIn
+            }),
+            i = reactive({
+                i
+            }),
+            track.indices = reactive({
+                rv$indices()$indices
+            }),
+            remoteReset = reactive({
+                input$reset
+            }),
+            is.enabled = reactive({
+                TRUE
+            })
+        )
+    }
 
 
-  app <- shinyApp(ui = ui, server = server)
+    app <- shinyApp(ui = ui, server = server)
 }

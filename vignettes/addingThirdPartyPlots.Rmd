@@ -65,9 +65,9 @@ the source code for this plot function should look as follows:
 
 ```{r, eval=FALSE}
 myFirstPlot <- function(obj, i) {
-  ui <- myFirstPlot_ui(id)
-  server <- myFirstPlot_server(id, obj, i)
-  app <- shinyApp(ui = ui, server = server)
+    ui <- myFirstPlot_ui(id)
+    server <- myFirstPlot_server(id, obj, i)
+    app <- shinyApp(ui = ui, server = server)
 }
 ```
 
@@ -94,19 +94,19 @@ Thus, the following code **will not work**:
 
 ```{r, eval=FALSE}
 myFirstPlot <- function(obj, i) {
-  ui <- function(id) {
-    ...
-  }
-  server <- function(id, obj, i) {
-    moduleServer(
-      id,
-      function(input, output, session) {
+    ui <- function(id) {
         ...
-      }
-    )
-  }
+    }
+    server <- function(id, obj, i) {
+        moduleServer(
+            id,
+            function(input, output, session) {
+                ...
+            }
+        )
+    }
 
-  app <- shinyApp(ui = ui, server = server)
+    app <- shinyApp(ui = ui, server = server)
 }
 ```
 
@@ -114,23 +114,23 @@ myFirstPlot <- function(obj, i) {
 A functional code is as follows:
 ```{r, eval=FALSE}
 myFirstPlot_ui <- function(id) {
-  ...
+    ...
 }
 
 
 myFirstPlot_server <- function(id, obj, i) {
-  moduleServer(
-    id,
-    function(input, output, session) {
-      ...
-    }
-  )
+    moduleServer(
+        id,
+        function(input, output, session) {
+            ...
+        }
+    )
 }
 
 myFirstPlot <- function(obj, i) {
-  ui <- myFirstPlot_ui(id)
-  server <- myFirstPlot_server(id, obj, i)
-  app <- shinyApp(ui = ui, server = server)
+    ui <- myFirstPlot_ui(id)
+    server <- myFirstPlot_server(id, obj, i)
+    app <- shinyApp(ui = ui, server = server)
 }
 ```
 
@@ -145,8 +145,8 @@ The corresponding R code is the following:
 
 ```{r eval = FALSE}
 addons <- list(
-  myPkgA = c("extFoo1", "extFoo2"),
-  myPkgB = c("extFoo1")
+    myPkgA = c("extFoo1", "extFoo2"),
+    myPkgB = c("extFoo1")
 )
 view_dataset(myData, addons)
 ```
@@ -188,9 +188,9 @@ However, there are two important modifications:
 
 ```{r, eval=FALSE}
 omXplore_mySecondPlot <- function(obj, i) {
-  ui <- omXplore_mySecondPlot_ui(id)
-  server <- omXplore_mySecondPlot_server(id, obj, i)
-  app <- shinyApp(ui = ui, server = server)
+    ui <- omXplore_mySecondPlot_ui(id)
+    server <- omXplore_mySecondPlot_server(id, obj, i)
+    app <- shinyApp(ui = ui, server = server)
 }
 ```
 

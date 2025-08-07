@@ -29,8 +29,8 @@
 #'
 #' @examples
 #' if (interactive()) {
-#' data(vdata)
-#' formatDT(vdata)
+#'     data(vdata)
+#'     formatDT(vdata)
 #' }
 #'
 #' @return NA
@@ -55,17 +55,17 @@ NULL
 #' @export
 #'
 formatDT_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    shinyjs::useShinyjs(),
-    # shinyjs::hidden(div(id = ns("dl_div"), dl_ui(ns("DL_btns")))),
-    fluidRow(
-      column(
-        width = 12,
-        DT::dataTableOutput(ns("StaticDataTable"))
-      )
+    ns <- NS(id)
+    tagList(
+        shinyjs::useShinyjs(),
+        # shinyjs::hidden(div(id = ns("dl_div"), dl_ui(ns("DL_btns")))),
+        fluidRow(
+            column(
+                width = 12,
+                DT::dataTableOutput(ns("StaticDataTable"))
+            )
+        )
     )
-  )
 }
 
 
@@ -86,153 +86,153 @@ formatDT_ui <- function(id) {
 #' @export
 #'
 formatDT_server <- function(
-    id,
-    data = reactive({
-      NULL
-    }),
-    data_nostyle = reactive({
-      NULL
-    }),
-    withDLBtns = FALSE,
-    showRownames = FALSE,
-    dt_style = reactive({
-      NULL
-    }),
-    filename = "Prostar_export",
-    selection = "single") {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        data = reactive({
+            NULL
+        }),
+        data_nostyle = reactive({
+            NULL
+        }),
+        withDLBtns = FALSE,
+        showRownames = FALSE,
+        dt_style = reactive({
+            NULL
+        }),
+        filename = "Prostar_export",
+        selection = "single") {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    proxy <- DT::dataTableProxy(ns("StaticDataTable"), session)
+        proxy <- DT::dataTableProxy(ns("StaticDataTable"), session)
 
-    rv <- reactiveValues(
-      data = NULL,
-      tgt2hide = NULL,
-      dataOUt = NULL
-    )
-
-
-    checkValidity <- reactive({
-      passed <- TRUE
-
-      # passed <- passed && !is.null(dt_style()$data)
-
-      passed <- passed &&
-        (inherits(data(), "data.frame") ||
-          inherits(data(), "matrix"))
-
-      if (!is.null(dt_style())) {
-        passed <- passed &&
-          (inherits(dt_style()$data, "data.frame") ||
-            inherits(dt_style()$data, "matrix") ||
-            inherits(dt_style()$data, "DataFrame"))
-
-        passed <- passed &&
-          nrow(data()) == nrow(dt_style()$data)
-      }
-
-      passed
-    })
-
-
-    observe({
-      req(data())
-      rv$data <- data()
-      DT::replaceData(proxy, rv$data, resetPaging = FALSE)
-    })
-
-    observeEvent(input$StaticDataTable_rows_selected, {
-      rv$dataOut <- input$StaticDataTable_rows_selected
-    })
-
-
-
-    prepareDataset <- reactive({
-      req(rv$data)
-      df <- rv$data
-
-      .data <- as.data.frame(dt_style()$data)
-      if (!is.null(dt_style()) && checkValidity()) {
-        df <- cbind(df, .data)
-        rv$tgt2hide <- ncol(rv$data) - 1 + seq(ncol(.data))
-      }
-
-      if (!is.null(data_nostyle())) {
-        df <- cbind(df, data_nostyle())
-      }
-
-      df
-    })
-
-
-    output$StaticDataTable <- DT::renderDataTable(server = TRUE, {
-      req(length(rv$data) > 0)
-      .jscode <- DT::JS("$.fn.dataTable.render.ellipsis( 30 )")
-
-      dt <- DT::datatable(
-        prepareDataset(),
-        escape = FALSE,
-        selection = selection,
-        rownames = showRownames,
-        plugins = "ellipsis",
-        options = list(
-          initComplete = initComplete(),
-          dom = "Bt",
-          autoWidth = TRUE,
-          columnDefs = if (is.null(dt_style())) {
-            list(list(
-              targets = "_all",
-              className = "dt-center",
-              render = .jscode
-            ))
-          } else {
-            list(
-              list(
-                targets = "_all",
-                className = "dt-center",
-                render = .jscode
-              ),
-              list(
-                targets = rv$tgt2hide,
-                visible = FALSE,
-                className = "dt-center",
-                render = .jscode
-              )
-            )
-          }
+        rv <- reactiveValues(
+            data = NULL,
+            tgt2hide = NULL,
+            dataOUt = NULL
         )
-      )
 
 
-      if (!is.null(dt_style())) {
-        dt <- dt %>%
-          DT::formatStyle(
-            columns = colnames(data()),
-            valueColumns = colnames(dt_style()$data),
-            backgroundColor = DT::styleEqual(
-              names(dt_style()$colors),
-              unique(dt_style()$colors)
+        checkValidity <- reactive({
+            passed <- TRUE
+
+            # passed <- passed && !is.null(dt_style()$data)
+
+            passed <- passed &&
+                (inherits(data(), "data.frame") ||
+                    inherits(data(), "matrix"))
+
+            if (!is.null(dt_style())) {
+                passed <- passed &&
+                    (inherits(dt_style()$data, "data.frame") ||
+                        inherits(dt_style()$data, "matrix") ||
+                        inherits(dt_style()$data, "DataFrame"))
+
+                passed <- passed &&
+                    nrow(data()) == nrow(dt_style()$data)
+            }
+
+            passed
+        })
+
+
+        observe({
+            req(data())
+            rv$data <- data()
+            DT::replaceData(proxy, rv$data, resetPaging = FALSE)
+        })
+
+        observeEvent(input$StaticDataTable_rows_selected, {
+            rv$dataOut <- input$StaticDataTable_rows_selected
+        })
+
+
+
+        prepareDataset <- reactive({
+            req(rv$data)
+            df <- rv$data
+
+            .data <- as.data.frame(dt_style()$data)
+            if (!is.null(dt_style()) && checkValidity()) {
+                df <- cbind(df, .data)
+                rv$tgt2hide <- ncol(rv$data) - 1 + seq(ncol(.data))
+            }
+
+            if (!is.null(data_nostyle())) {
+                df <- cbind(df, data_nostyle())
+            }
+
+            df
+        })
+
+
+        output$StaticDataTable <- DT::renderDataTable(server = TRUE, {
+            req(length(rv$data) > 0)
+            .jscode <- DT::JS("$.fn.dataTable.render.ellipsis( 30 )")
+
+            dt <- DT::datatable(
+                prepareDataset(),
+                escape = FALSE,
+                selection = selection,
+                rownames = showRownames,
+                plugins = "ellipsis",
+                options = list(
+                    initComplete = initComplete(),
+                    dom = "Bt",
+                    autoWidth = TRUE,
+                    columnDefs = if (is.null(dt_style())) {
+                        list(list(
+                            targets = "_all",
+                            className = "dt-center",
+                            render = .jscode
+                        ))
+                    } else {
+                        list(
+                            list(
+                                targets = "_all",
+                                className = "dt-center",
+                                render = .jscode
+                            ),
+                            list(
+                                targets = rv$tgt2hide,
+                                visible = FALSE,
+                                className = "dt-center",
+                                render = .jscode
+                            )
+                        )
+                    }
+                )
             )
-          )
-      }
 
-      dt
+
+            if (!is.null(dt_style())) {
+                dt <- dt %>%
+                    DT::formatStyle(
+                        columns = colnames(data()),
+                        valueColumns = colnames(dt_style()$data),
+                        backgroundColor = DT::styleEqual(
+                            names(dt_style()$colors),
+                            unique(dt_style()$colors)
+                        )
+                    )
+            }
+
+            dt
+        })
+
+        initComplete <- function() {
+            return(htmlwidgets::JS(
+                "function(settings, json) {",
+                "$(this.api().table().header()).css({'background-color': 'darkgrey',",
+                "'color': 'black'});",
+                "}"
+            ))
+        }
+
+
+        return(reactive({
+            rv$dataOut
+        }))
     })
-
-    initComplete <- function() {
-      return(htmlwidgets::JS(
-        "function(settings, json) {",
-        "$(this.api().table().header()).css({'background-color': 'darkgrey',",
-        "'color': 'black'});",
-        "}"
-      ))
-    }
-
-
-    return(reactive({
-      rv$dataOut
-    }))
-  })
 }
 
 
@@ -243,17 +243,17 @@ formatDT_server <- function(
 #' @return NA
 #'
 formatDT <- function(data) {
-  stopifnot(inherits(data, "MultiAssayExperiment"))
+    stopifnot(inherits(data, "MultiAssayExperiment"))
 
-  ui <- formatDT_ui("table")
+    ui <- formatDT_ui("table")
 
-  server <- function(input, output, session) {
-    formatDT_server("table",
-      data = reactive({
-        data
-      })
-    )
-  }
+    server <- function(input, output, session) {
+        formatDT_server("table",
+            data = reactive({
+                data
+            })
+        )
+    }
 
-  app <- shinyApp(ui, server)
+    app <- shinyApp(ui, server)
 }
