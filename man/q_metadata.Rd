@@ -104,14 +104,14 @@ Conversion from Maxquant datasets
 
 \examples{
 if (interactive()) {
-metacell.def("protein")
-metacell.def("peptide")
+    metacell.def("protein")
+    metacell.def("peptide")
 }
 
-Parent('protein', 'Missing')
-Parent('protein', 'Missing POV')
-Parent('protein', c('Missing POV', 'Missing MEC'))
-Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))
+Parent("protein", "Missing")
+Parent("protein", "Missing POV")
+Parent("protein", c("Missing POV", "Missing MEC"))
+Parent("protein", c("Missing", "Missing POV", "Missing MEC"))
 
 Children("protein", "Missing")
 Children("protein", "Missing POV")

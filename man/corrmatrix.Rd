@@ -55,9 +55,8 @@ numeric matrix.
 }
 \examples{
 if (interactive()) {
-data(vdata)
-omXplore_corrmatrix(vdata, 1)
+    data(vdata)
+    omXplore_corrmatrix(vdata, 1)
 }
-
 
 }

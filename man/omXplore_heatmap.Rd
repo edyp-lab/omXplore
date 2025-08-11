@@ -113,8 +113,8 @@ more details, see \code{heatmap.2()}.
 }
 \examples{
 if (interactive()) {
-data(vdata)
-omXplore_heatmap(vdata, 1)
+    data(vdata)
+    omXplore_heatmap(vdata, 1)
 }
 
 }

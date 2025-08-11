@@ -71,8 +71,8 @@ must contain the correct columns )
 }
 \examples{
 if (interactive()) {
-data(vdata)
-formatDT(vdata)
+    data(vdata)
+    formatDT(vdata)
 }
 
 }

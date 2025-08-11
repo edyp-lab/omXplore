@@ -45,8 +45,8 @@ This shiny module provides a tool to select
 }
 \examples{
 if (interactive()) {
-data(vdata)
-shiny::runApp(plots_tracking(vdata[[1]]))
+    data(vdata)
+    shiny::runApp(plots_tracking(vdata[[1]]))
 }
 
 NULL

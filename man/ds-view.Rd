@@ -89,16 +89,16 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 
 \examples{
 if (interactive()) {
-data(vdata)
-addons <- list(omXplore = c("extFoo1", "extFoo2"))
-runApp(view_dataset(vdata, addons))
+    data(vdata)
+    addons <- list(omXplore = c("extFoo1", "extFoo2"))
+    runApp(view_dataset(vdata, addons))
 
-shiny::runApp(view_dataset(vdata))
+    shiny::runApp(view_dataset(vdata))
 }
 
 if (interactive()) {
-data(vdata)
-view_dataset(vdata)
+    data(vdata)
+    view_dataset(vdata)
 }
 
 }

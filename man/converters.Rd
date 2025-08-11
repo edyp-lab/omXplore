@@ -132,5 +132,4 @@ The resulting object is an instance of the  \code{MultiAssayExperiment} class.
 data(miniACC, package = "MultiAssayExperiment")
 convert_to_mae(miniACC)
 
-
 }

@@ -87,15 +87,15 @@ Displays different intensity plots.
 }
 \examples{
 if (interactive()) {
-data(vdata)
-shiny::runApp(omXplore_intensity(vdata, 1))
+    data(vdata)
+    shiny::runApp(omXplore_intensity(vdata, 1))
 
-data(sub_R25)
-conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
-pal <- ExtendPalette(length(unique(conds)))
-boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
+    data(sub_R25)
+    conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
+    pal <- ExtendPalette(length(unique(conds)))
+    boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 
-shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+    shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
 }
 
 }

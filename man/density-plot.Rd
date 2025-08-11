@@ -58,15 +58,15 @@ numeric matrix.
 }
 \examples{
 if (interactive()) {
-data(vdata)
-shiny::runApp(omXplore_density(vdata, 1))
+    data(vdata)
+    shiny::runApp(omXplore_density(vdata, 1))
 }
 
 if (interactive()) {
-data(vdata)
-qdata <- SummarizedExperiment::assay(vdata[[1]])
-conds <- get_group(vdata)
-densityPlot(qdata, conds)
+    data(vdata)
+    qdata <- SummarizedExperiment::assay(vdata[[1]])
+    conds <- get_group(vdata)
+    densityPlot(qdata, conds)
 }
 
 }

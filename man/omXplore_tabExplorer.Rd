@@ -46,8 +46,8 @@ Explore \code{MultiAssayExperiment} objects.
 }
 \examples{
 if (interactive()) {
-data(vdata)
-shiny::runApp(omXplore_tabExplorer(vdata, 1))
+    data(vdata)
+    shiny::runApp(omXplore_tabExplorer(vdata, 1))
 }
 
 NULL

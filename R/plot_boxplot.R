@@ -13,7 +13,7 @@ boxPlot <- function(
         legend = NULL,
         pal = NULL,
         subset = NULL) {
-    pkgs.require(c("stats", "grDevices", "RColorBrewer"))
+    pkgs.require2(c("stats", "grDevices", "RColorBrewer", "highcharter"))
 
 
     if (is.null(dataIn)) {
@@ -26,8 +26,6 @@ boxPlot <- function(
         qData <- SummarizedExperiment::assay(dataIn)
     }
 
-
-    pkgs.require("highcharter")
 
     if (missing(conds)) {
         stop("'conds' is missing.")
