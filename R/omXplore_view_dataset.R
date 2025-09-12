@@ -44,7 +44,7 @@
 #'
 #' @param id A `character(1)` for the 'id' of the shiny module. It must be
 #' the same as for the '*_ui' function.
-#' @param obj An instance of the class `MultiAssayExperiment`.
+#' @param dataIn An instance of the class `MultiAssayExperiment`.
 #' @param addons A `list` to configure the other shiny apps to integrate.
 #' Each item correspond to one package:
 #' * the name of the slot is the name of the package
@@ -68,7 +68,7 @@
 #'     addons <- list(omXplore = c("extFoo1", "extFoo2"))
 #'     runApp(view_dataset(vdata, addons))
 #'
-#'     shiny::runApp(view_dataset(vdata))
+#'     omXplore::view_dataset(vdata)
 #' }
 #'
 #' @return NA
@@ -142,15 +142,14 @@ view_dataset_ui <- function(id) {
 #'
 view_dataset_server <- function(
         id,
-        obj = reactive({
-            NULL
-        }),
+        dataIn = reactive({NULL}),
         addons = list(),
-        useModal = TRUE,
+        useModal = FALSE,
         verbose = FALSE) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
+        require(shinyBS)
         width <- 40
         height <- 40
 
@@ -214,13 +213,13 @@ view_dataset_server <- function(
             }
         }
 
-        observeEvent(req(obj()),
+        observeEvent(req(dataIn()),
             {
-                # inherits_mae <- inherits(obj(), "MultiAssayExperiment")
+                # inherits_mae <- inherits(dataIn(), "MultiAssayExperiment")
                 # if (!inherits_mae){
                 tryCatch(
                     {
-                        rv$data <- convert_to_mae(obj())
+                        rv$data <- convert_to_mae(dataIn())
                     },
                     warning = function(w) {
                         print(w)
@@ -234,7 +233,7 @@ view_dataset_server <- function(
                     }
                 )
                 # } else {
-                #   rv$data <- obj()
+                #   rv$data <- dataIn()
                 # }
 
                 if (!is.null(rv$data)) {
@@ -325,18 +324,52 @@ view_dataset_server <- function(
         #   })
 
 
+        
+        observe({
+            req(input$chooseDataset)
+            req(rv$ll.mods)
+            req(rv$data)
+            
+            for (x in rv$ll.mods) {
+                do.call(
+                    paste0(x, "_server"),
+                    list(
+                        id = paste0(x, "_large"),
+                        dataIn = reactive({rv$data}),
+                        i = reactive({input$chooseDataset})
+                    )
+                )
+            }
+        })
+        
+        
 
         output$Show_ui <- renderUI({
-            req(rv$ll.mods)
 
+            req(rv$ll.mods)
             if (useModal) {
                 # wellPanel(style = "height: 120px; overflow-y: scroll;",
                 lapply(rv$ll.mods, function(x) {
                     shinyjqui::jqui_resizable(
                         paste0("#", ns(paste0("window_", x)), " .modal-content")
                     )
-
                     tagList(
+                        shinyBS::bsModal(
+                            id = ns(paste0("window_", x)),
+                            title = x,
+                            trigger = ns(x),
+                            footer = NULL,
+                            tagList(
+                                do.call(
+                                paste0(x, "_ui"),
+                                list(id = ns(paste0(x, "_large")))
+                            )
+                            )
+                            # Here, we could put the global function that calls shinyApp with
+                            # the module but it takes a longer time to display than if the
+                            # server is already launched elsewhere
+                            # do.call(x, list(dataIn = rv$current.se))
+                        ),
                         actionButton(
                             ns(x),
                             label = tagList(
@@ -346,20 +379,6 @@ view_dataset_server <- function(
                             style = "padding: 5px; border: none;
               background-size: cover; background-position: center;
             background-color: white;"
-                        ),
-                        shinyBS::bsModal(ns(paste0("window_", x)),
-                            title = x,
-                            trigger = ns(x),
-                            footer = NULL,
-                            do.call(
-                                paste0(x, "_ui"),
-                                list(id = ns(paste0(x, "_large")))
-                            )
-
-                            # Here, we could put the global function that calls shinyApp with
-                            # the module but it takes a longer time to display than if the
-                            # server is lrleady launched elsewhere
-                            # do.call(x, list(obj = rv$current.se))
                         )
                     )
                 })
@@ -380,27 +399,6 @@ view_dataset_server <- function(
         })
 
 
-
-        observe({
-            req(input$chooseDataset)
-            req(rv$ll.mods)
-            req(rv$data)
-
-            for (x in rv$ll.mods) {
-                do.call(
-                    paste0(x, "_server"),
-                    list(
-                        id = paste0(x, "_large"),
-                        obj = reactive({
-                            rv$data
-                        }),
-                        i = reactive({
-                            input$chooseDataset
-                        })
-                    )
-                )
-            }
-        })
 
 
 
@@ -437,25 +435,23 @@ view_dataset_server <- function(
 #' }
 #'
 view_dataset <- function(
-        obj = NULL,
+        dataIn = NULL,
         addons = NULL,
-        useModal = TRUE) {
-    # if (!inherits(obj, "MultiAssayExperiment"))
-    #   obj <- convert_to_mae(obj)
+        useModal = FALSE) {
+    # if (!inherits(dataIn, "MultiAssayExperiment"))
+    #   dataIn <- convert_to_mae(dataIn)
     #
     ui <- fluidPage(
-        view_dataset_ui("dataset")
+        omXplore::view_dataset_ui("dataset")
     )
 
     server <- function(input, output, session) {
-        view_dataset_server("dataset",
-            obj = reactive({
-                obj
-            }),
+        omXplore::view_dataset_server("dataset",
+            dataIn = reactive({dataIn}),
             addons = addons,
             useModal = useModal
         )
     }
 
-    app <- shinyApp(ui, server)
+    app <- shiny::runApp(shinyApp(ui, server))
 }

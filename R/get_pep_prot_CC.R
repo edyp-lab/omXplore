@@ -119,24 +119,24 @@ display.CC.visNet <- function(
     col.spec <- "#5CA3F7"
     col.shared <- "#0EA513"
 
-    visNetwork::visNetwork(g$nodes, g$edges, width = "100%", height = "100%") %>%
-        visNetwork::visNodes(shape = "dot") %>% # square for all nodes
+    visNetwork::visNetwork(g$nodes, g$edges, width = "100%", height = "100%") |>
+        visNetwork::visNodes(shape = "dot") |> # square for all nodes
         visNetwork::visGroups(
             groupname = "spec.peptide",
             color = col.spec
-        ) %>% # darkblue for group "A"
+        ) |> # darkblue for group "A"
         visNetwork::visGroups(
             groupname = "shared.peptide",
             color = col.shared
-        ) %>% # darkblue for group "A"
+        ) |> # darkblue for group "A"
         visNetwork::visGroups(
             groupname = "protein",
             color = col.prot, shape = "dot"
-        ) %>%
-        visNetwork::visOptions(highlightNearest = FALSE) %>%
+        ) |>
+        visNetwork::visOptions(highlightNearest = FALSE) |>
         # visLegend()
-        # visPhysics(stabilization = FALSE)%>%
-        visNetwork::visEdges(color = "#A9A9A9", width = 2) %>%
+        # visPhysics(stabilization = FALSE)|>
+        visNetwork::visEdges(color = "#A9A9A9", width = 2) |>
         visNetwork::visIgraphLayout(layout)
 }
 
@@ -171,22 +171,22 @@ plotCCJitter <- function(
     # }
     # }
 
-    highcharter::highchart() %>%
-        highcharter::hc_add_series(data = df, type = "scatter") %>%
-        customChart(zoomType = "xy", chartType = "scatter") %>%
-        highcharter::hc_legend(enabled = FALSE) %>%
-        highcharter::hc_yAxis(title = list(text = "Nb of proteins")) %>%
-        highcharter::hc_xAxis(title = list(text = "Nb of peptides")) %>%
+    highcharter::highchart() |>
+        highcharter::hc_add_series(data = df, type = "scatter") |>
+        customChart(zoomType = "xy", chartType = "scatter") |>
+        highcharter::hc_legend(enabled = FALSE) |>
+        highcharter::hc_yAxis(title = list(text = "Nb of proteins")) |>
+        highcharter::hc_xAxis(title = list(text = "Nb of peptides")) |>
         highcharter::hc_tooltip(
             enabled = FALSE,
             headerFormat = "",
             pointFormat = txt_tooltip
-        ) %>%
+        ) |>
         highcharter::hc_plotOptions(series = list(
             animation = list(duration = 100),
             cursor = "pointer",
             point = list(events = list(click = clickFunction))
-        )) %>%
+        )) |>
         customExportMenu(fname = "plotCC")
 }
 

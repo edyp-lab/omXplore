@@ -205,7 +205,7 @@ formatDT_server <- function(
 
 
             if (!is.null(dt_style())) {
-                dt <- dt %>%
+                dt <- dt |>
                     DT::formatStyle(
                         columns = colnames(data()),
                         valueColumns = colnames(dt_style()$data),

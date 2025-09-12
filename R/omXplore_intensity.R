@@ -124,7 +124,7 @@ omXplore_intensity_server <- function(
         })
 
         observeEvent(dataIn(), {
-            # browser()
+
             stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
             req(i())
             rv$data <- dataIn()[[i()]]

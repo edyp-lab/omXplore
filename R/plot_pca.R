@@ -91,7 +91,7 @@ wrapper_pca <- function(
 plotPCA_Eigen <- function(res.pca) {
     stopifnot(!is.null(res.pca))
 
-    hc <- highcharter::highchart() %>%
+    hc <- highcharter::highchart() |>
         highcharter::hc_yAxis_multiples(
             list(
                 title = list(text = "% of variances"),
@@ -109,23 +109,23 @@ plotPCA_Eigen <- function(res.pca) {
                 opposite = TRUE,
                 labels = list(format = "{value}%")
             )
-        ) %>%
+        ) |>
         highcharter::hc_xAxis(
             title = "Principal Components",
             categories = rownames(res.pca$eig)
-        ) %>%
+        ) |>
         highcharter::hc_add_series(data.frame(y = res.pca$eig[, 2]),
             type = "column",
             name = "% of variances",
             yAxis = 0
-        ) %>%
+        ) |>
         highcharter::hc_add_series(data.frame(y = res.pca$eig[, 3]),
             type = "line",
             color = "darkblue",
             name = "Cumulative % of variances",
             color = "#FF7900",
             yAxis = 0
-        ) %>%
+        ) |>
         highcharter::hc_legend(enabled = TRUE)
 
     hc
@@ -189,7 +189,7 @@ plotPCA_Eigen_hc <- function(res.pca) {
     if (is.null(res.pca)) {
         return(NULL)
     }
-    hc <- highchart() %>%
+    hc <- highchart() |>
         hc_yAxis_multiples(
             list(
                 title = list(text = "% of variances"),
@@ -206,17 +206,17 @@ plotPCA_Eigen_hc <- function(res.pca) {
                 opposite = TRUE,
                 labels = list(format = "{value}%")
             )
-        ) %>%
+        ) |>
         hc_xAxis(
             title = "Principal Components",
             categories = rownames(res.pca$eig)
-        ) %>%
+        ) |>
         hc_add_series(
             data.frame(y = res.pca$eig[, 2]),
             type = "column",
             name = "% of variances",
             yAxis = 0
-        ) %>%
+        ) |>
         hc_add_series(
             data.frame(y = res.pca$eig[, 3]),
             type = "line",
@@ -225,6 +225,6 @@ plotPCA_Eigen_hc <- function(res.pca) {
             # marker = "diamond",
             color = "#FF7900",
             yAxis = 0
-        ) %>%
+        ) |>
         hc_legend(enabled = TRUE)
 }

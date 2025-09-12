@@ -4,8 +4,8 @@
 #' @name corrmatrix
 #'
 #' @param id A `character(1)` which is the id of the shiny module.
-#' @param obj An instance of the class `SummarizedExperiment`
-#' @param i An integer which is the index of the assay in the param obj
+#' @param dataIn An instance of the class `SummarizedExperiment`
+#' @param i An integer which is the index of the assay in the param dataIn
 #' @param rate Default value is 0.9
 #' @param showValues Default is FALSE.
 #'
@@ -31,7 +31,7 @@ NULL
 #' @importFrom tibble tibble as_tibble
 #' @importFrom stats cor
 #' @import tidyr
-#' @importFrom dplyr mutate left_join select
+#' @importFrom dplyr mutate left_join select 
 #'
 #' @rdname corrmatrix
 #' @export
@@ -67,7 +67,8 @@ omXplore_corrmatrix_ui <- function(id) {
 #' @importFrom tibble tibble as_tibble
 #' @importFrom stats cor
 #' @import tidyr
-#' @importFrom dplyr mutate left_join select
+#' @importFrom dplyr mutate left_join select 
+#' @importFrom SummarizedExperiment assay
 #'
 #' @rdname corrmatrix
 #' @export
@@ -75,26 +76,22 @@ omXplore_corrmatrix_ui <- function(id) {
 #'
 omXplore_corrmatrix_server <- function(
         id,
-        obj = reactive({
-            NULL
-        }),
-        i = reactive({
-            1
-        })) {
+        dataIn = reactive({NULL}),
+        i = reactive({1})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
         observe(
             {
                 shinyjs::toggle("badFormatMsg",
-                    condition = !inherits(obj(), "MultiAssayExperiment")
+                    condition = !inherits(dataIn(), "MultiAssayExperiment")
                 )
             },
             priority = 1000
         )
 
         output$rate_ui <- renderUI({
-            req(inherits(obj(), "MultiAssayExperiment"))
+            req(inherits(dataIn(), "MultiAssayExperiment"))
             sliderInput(ns("rate"),
                 "Tune to modify the color gradient",
                 min = 0,
@@ -106,18 +103,18 @@ omXplore_corrmatrix_server <- function(
 
 
         output$showValues_ui <- renderUI({
-            req(inherits(obj(), "MultiAssayExperiment"))
+            req(inherits(dataIn(), "MultiAssayExperiment"))
             checkboxInput(ns("showLabels"), "Show labels",
                 value = FALSE
             )
         })
 
-        output$plot <- renderHighchart({
-            req(obj())
+        output$plot <- highcharter::renderHighchart({
+            req(dataIn())
 
             withProgress(message = "Making plot", value = 100, {
                 tmp <- corrMatrix(
-                    data = assay(obj()[[i()]]),
+                    data = SummarizedExperiment::assay(dataIn()[[i()]]),
                     rate = input$rate,
                     showValues = isTRUE(input$showLabels)
                 )
@@ -150,7 +147,6 @@ omXplore_corrmatrix_server <- function(
 #' @importFrom highcharter list_parse2 highchart hc_xAxis hc_yAxis
 #' hc_add_series hc_plotOptions hc_tooltip hc_legend hc_colorAxis
 #'
-#'
 #' @return A plot
 #'
 #' @rdname corrmatrix
@@ -162,6 +158,7 @@ corrMatrix <- function(
         showValues = FALSE) {
     stopifnot(inherits(data, "matrix"))
 
+    requireNamespace('dplyr')
     res <- cor(data, use = "pairwise.complete.obs")
 
     df <- tibble::as_tibble(res)
@@ -173,19 +170,20 @@ corrMatrix <- function(
 
     x <- y <- names(df)
 
-    df <- tibble::as_tibble(cbind(x = y, df)) %>%
-        tidyr::gather(y, dist, -x) %>%
+    df <- tibble::as_tibble(cbind(x = y, df)) |>
+    
+        tidyr::gather(y, dist, -x) |>
         dplyr::mutate(
             x = as.character(x),
             y = as.character(y)
-        ) %>%
+        ) |>
         dplyr::left_join(
             tibble::tibble(
                 x = y,
                 xid = seq(length(y)) - 1
             ),
             by = "x"
-        ) %>%
+        ) |>
         dplyr::left_join(
             tibble::tibble(
                 y = y,
@@ -194,8 +192,8 @@ corrMatrix <- function(
             by = "y"
         )
 
-    ds <- df %>%
-        dplyr::select("xid", "yid", "dist") %>%
+    ds <- df |>
+        dplyr::select("xid", "yid", "dist") |>
         highcharter::list_parse2()
 
     fntltp <- DT::JS("function(){
@@ -210,24 +208,24 @@ corrMatrix <- function(
     )
 
 
-    highcharter::highchart() %>%
-        customChart(chartType = "heatmap") %>%
-        hc_xAxis(categories = y, title = NULL) %>%
-        hc_yAxis(categories = y, title = NULL) %>%
-        hc_add_series(data = ds) %>%
-        hc_plotOptions(
+    highcharter::highchart() |>
+        customChart(chartType = "heatmap") |>
+        highcharter::hc_xAxis(categories = y, title = NULL) |>
+        highcharter::hc_yAxis(categories = y, title = NULL) |>
+        highcharter::hc_add_series(data = ds) |>
+        highcharter::hc_plotOptions(
             series = list(
                 boderWidth = 0,
                 dataConditions = list(enabled = TRUE),
                 dataLabels = list(enabled = showValues)
             )
-        ) %>%
-        hc_tooltip(formatter = fntltp) %>%
-        hc_legend(
+        ) |>
+        highcharter::hc_tooltip(formatter = fntltp) |>
+        highcharter::hc_legend(
             align = "right", layout = "vertical",
             verticalAlign = "middle"
-        ) %>%
-        hc_colorAxis(stops = cor_colr, min = rate, max = 1) %>%
+        ) |>
+        highcharter::hc_colorAxis(stops = cor_colr, min = rate, max = 1) |>
         customExportMenu(fname = "corrMatrix")
 }
 
@@ -239,15 +237,15 @@ corrMatrix <- function(
 #' @rdname corrmatrix
 #' @return A shiny app
 #'
-omXplore_corrmatrix <- function(obj, i) {
-    stopifnot(inherits(obj, "MultiAssayExperiment"))
+omXplore_corrmatrix <- function(dataIn, i) {
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
 
     ui <- omXplore_corrmatrix_ui("plot")
 
     server <- function(input, output, session) {
         omXplore_corrmatrix_server("plot",
-            obj = reactive({
-                obj
+            dataIn = reactive({
+                dataIn
             }),
             i = reactive({
                 i
@@ -255,5 +253,5 @@ omXplore_corrmatrix <- function(obj, i) {
         )
     }
 
-    app <- shinyApp(ui = ui, server = server)
+    app <- shiny::runApp(shinyApp(ui = ui, server = server))
 }

@@ -63,6 +63,7 @@ omXplore_density_ui <- function(id) {
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom highcharter highchartOutput renderHighchart
 #' @importFrom stats density
+#' @importFrom SummarizedExperiment assay
 #' @rdname density-plot
 #'
 #'
@@ -94,8 +95,7 @@ omXplore_density_server <- function(
                 # if (inherits(obj(), "SummarizedExperiment")) {
                 #   rv$data <- obj()
                 # }
-                # browser()
-                print(dataIn())
+
                 shinyjs::toggle("badFormatMsg",
                     condition = !inherits(dataIn(), "MultiAssayExperiment")
                 )
@@ -112,7 +112,7 @@ omXplore_density_server <- function(
             isolate({
                 withProgress(message = "Making plot", value = 100, {
                     tmp <- densityPlot(
-                        data = assay(dataIn(), i()),
+                        data = SummarizedExperiment::assay(dataIn(), i()),
                         conds = get_group(dataIn()),
                         pal.name = pal.name()
                     )
@@ -174,18 +174,18 @@ densityPlot <- function(
     }
 
 
-    h1 <- highcharter::highchart() %>%
-        hc_title(text = "Density plot") %>%
-        customChart(chartType = "spline", zoomType = "x") %>%
-        hc_legend(enabled = TRUE) %>%
-        hc_xAxis(title = list(text = "log(Intensity)")) %>%
-        hc_yAxis(title = list(text = "Density")) %>%
+    h1 <- highcharter::highchart() |>
+        hc_title(text = "Density plot") |>
+        customChart(chartType = "spline", zoomType = "x") |>
+        hc_legend(enabled = TRUE) |>
+        hc_xAxis(title = list(text = "log(Intensity)")) |>
+        hc_yAxis(title = list(text = "Density")) |>
         hc_tooltip(
             headerFormat = "",
             pointFormat = "<b> {series.name} </b>: {point.y} ",
             valueDecimals = 2
-        ) %>%
-        customExportMenu(fname = "densityplot") %>%
+        ) |>
+        customExportMenu(fname = "densityplot") |>
         hc_plotOptions(
             series = list(
                 animation = list(
@@ -196,7 +196,7 @@ densityPlot <- function(
                     enabled = FALSE
                 )
             )
-        ) %>%
+        ) |>
         hc_colors(myColors)
 
 
@@ -206,7 +206,7 @@ densityPlot <- function(
             y = stats::density(data[, i], na.rm = TRUE)$y
         )
 
-        h1 <- h1 %>%
+        h1 <- h1 |>
             hc_add_series(
                 data = list_parse(tmp),
                 name = colnames(data)[i]

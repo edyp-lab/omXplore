@@ -99,7 +99,7 @@ boxPlot <- function(
             }
             outliers
         })
-        hc %>%
+        hc |>
             hc_add_series(data = z, type = "scatter", ...)
     }
 
@@ -178,28 +178,28 @@ boxPlot <- function(
         })
 
 
-        hc <- highcharter::highchart() %>%
-            highcharter::hc_chart(type = "boxplot", inverted = FALSE) %>%
-            highcharter::hc_title(text = chart_title) %>%
-            highcharter::hc_legend(enabled = FALSE) %>%
+        hc <- highcharter::highchart() |>
+            highcharter::hc_chart(type = "boxplot", inverted = FALSE) |>
+            highcharter::hc_title(text = chart_title) |>
+            highcharter::hc_legend(enabled = FALSE) |>
             highcharter::hc_xAxis(
                 type = "category",
                 categories = box_names_to_use,
                 title = list(text = chart_x_axis_label)
-            ) %>%
-            highcharter::hc_yAxis(title = list(text = "Log (intensity)")) %>%
-            highcharter::hc_add_series_list(series2) %>%
+            ) |>
+            highcharter::hc_yAxis(title = list(text = "Log (intensity)")) |>
+            highcharter::hc_add_series_list(series2) |>
             hc_plotOptions(series = list(
                 marker = list(symbol = "circle"),
                 grouping = FALSE
-            )) %>%
-            highcharter::hc_colors(cols2) %>%
+            )) |>
+            highcharter::hc_colors(cols2) |>
             highcharter::hc_exporting(enabled = TRUE)
 
 
 
         if (show_outliers == TRUE) {
-            hc <- hc %>%
+            hc <- hc |>
                 hc_add_series_bwpout(
                     value = value,
                     by = by,
@@ -243,7 +243,7 @@ boxPlot <- function(
             )
 
 
-            hc <- hc %>%
+            hc <- hc |>
                 highcharter::hc_add_series(
                     type = "line",
                     data = dfSubset,

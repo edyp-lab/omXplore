@@ -170,7 +170,7 @@ omXplore_tabExplorer_server <- function(
         #       scrollY = 500,
         #       scroller = TRUE,
         #       columnDefs = list(list(width='60px',targets= "_all"))
-        #       )) %>%
+        #       )) |>
         #         DT::formatStyle(
         #           columns = colnames(data)[seq_len(2)],
         #           valueColumns = colnames(data)[2],
@@ -224,7 +224,7 @@ omXplore_tabExplorer_server <- function(
             )
 
             if ("Significant" %in% colnames(.row)) {
-                dat <- dat %>%
+                dat <- dat |>
                     DT::formatStyle(
                         columns = "Significant",
                         target = "row",
@@ -298,7 +298,7 @@ omXplore_tabExplorer_server <- function(
             )
 
             if (.metacell.exists) {
-                dt <- dt %>%
+                dt <- dt |>
                     DT::formatStyle(
                         colnames(df)[2:(1 + (ncol(df) - 1) / 2)],
                         colnames(df)[((2 + (ncol(df) - 1) / 2)):ncol(df)],
@@ -333,7 +333,7 @@ omXplore_tabExplorer_server <- function(
                     ordering = FALSE,
                     server = TRUE
                 )
-            ) %>%
+            ) |>
                 DT::formatStyle(
                     colnames(df),
                     colnames(df),

@@ -92,6 +92,7 @@ omXplore_heatmap_ui <- function(id) {
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment assay
 #'
 #' @rdname omXplore_heatmap
 #' @export
@@ -137,7 +138,7 @@ omXplore_heatmap_server <- function(
 
         output$omXplore_PlotHeatmap <- renderUI({
             req(dataIn())
-            if (nrow(assay(dataIn(), i())) > limitHeatmap) {
+            if (nrow(SummarizedExperiment::assay(dataIn(), i())) > limitHeatmap) {
                 tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
             } else {
@@ -154,7 +155,7 @@ omXplore_heatmap_server <- function(
 
             withProgress(message = "Making plot", value = 100, {
                 heatmapD(
-                    qdata = assay(dataIn(), i()),
+                    qdata = SummarizedExperiment::assay(dataIn(), i()),
                     conds = get_group(dataIn()),
                     distance = input$distance,
                     cluster = input$linkage

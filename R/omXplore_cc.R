@@ -143,7 +143,7 @@ omXplore_cc_ui <- function(id) {
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import highcharter
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
-#' @importFrom SummarizedExperiment rowData colData assays
+#' @importFrom SummarizedExperiment rowData colData assays assay
 #' @import shinyBS
 #' @import shinyjqui
 #' @rdname ds-cc
@@ -274,13 +274,13 @@ omXplore_cc_server <- function(
                 # metadata = NULL
             )
 
-            display.CC.visNet(rvCC$selectedCCgraph) %>%
+            display.CC.visNet(rvCC$selectedCCgraph) |>
                 visNetwork::visEvents(click = paste0(
                     "function(nodes){Shiny.onInputChange('",
                     ns("click"), "', nodes.nodes[0]);
                 Shiny.onInputChange('", ns("node_selected"),
                     "', nodes.nodes.length);;}"
-                )) %>%
+                )) |>
                 visNetwork::visOptions(highlightNearest = TRUE)
         })
 
@@ -502,10 +502,10 @@ omXplore_cc_server <- function(
             req(rvCC$detailedselectedNode$sharedPepLabels)
             pepLine <- rvCC$detailedselectedNode$sharedPepLabels
             indices <- unlist(lapply(pepLine, function(x) {
-                which(rownames(assay(rv$data)) == x)
+                which(rownames(SummarizedExperiment::assay(rv$data)) == x)
             }))
 
-            qdata <- assay(rv$data)
+            qdata <- SummarizedExperiment::assay(rv$data)
             qdata <- convert2df(qdata[indices, ])
 
             qmetacell <- get_metacell(rv$data)
@@ -561,7 +561,7 @@ omXplore_cc_server <- function(
             input$pepInfo
 
             req(rvCC$detailedselectedNode$specPepLabels)
-            qdata <- assay(rv$data)
+            qdata <- SummarizedExperiment::assay(rv$data)
             qmetacell <- get_metacell(rv$data)
 
             pepLine <- rvCC$detailedselectedNode$specPepLabels
@@ -718,7 +718,7 @@ omXplore_cc_server <- function(
                 BuildOne2MultiTab()[line, "peptides"]
             ), split = ","))
 
-            qdata <- assay(rv$data)
+            qdata <- SummarizedExperiment::assay(rv$data)
             indices <- unlist(lapply(pepLine, function(x) {
                 which(rownames(qdata) == x)
             }))
@@ -798,7 +798,7 @@ omXplore_cc_server <- function(
             line <- rvCC$OneOneDT_rows_selected()
             pepLine <- BuildOne2OneTab()[line, "peptides"]
 
-            qdata <- assay(rv$data)
+            qdata <- SummarizedExperiment::assay(rv$data)
             indices <- unlist(lapply(pepLine, function(x) {
                 which(rownames(qdata) == x)
             }))

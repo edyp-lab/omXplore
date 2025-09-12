@@ -68,7 +68,7 @@ of rows in the dataset to highlight}
 \item{data}{xxxx}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from the
-package \link{RColorBrewer} from which the colors are taken. Default value
+package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} from which the colors are taken. Default value
 is 'Set1'.}
 }
 \value{

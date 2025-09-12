@@ -57,6 +57,7 @@ extFoo1_ui <- function(id) {
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
+#' @importFrom SummarizedExperiment assay
 #' @rdname external_app
 #' @export
 #' @return NA
@@ -91,7 +92,7 @@ extFoo1_server <- function(
 
         output$plot <- renderPlot({
             req(rv$data)
-            hist(assay(rv$data[[i()]]))
+            hist(SummarizedExperiment::assay(rv$data[[i()]]))
         })
     })
 }
@@ -157,6 +158,7 @@ extFoo2_ui <- function(id) {
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
+#' @importFrom SummarizedExperiment assay
 #' @rdname external_app
 #' @export
 #' @return NA
@@ -191,7 +193,7 @@ extFoo2_server <- function(
 
         output$plot <- renderPlot({
             req(rv$data)
-            plot(assay(rv$data[[i()]]))
+            plot(SummarizedExperiment::assay(rv$data[[i()]]))
         })
     })
 }

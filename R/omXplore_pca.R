@@ -87,6 +87,7 @@ omXplore_pca_ui <- function(id) {
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom highcharter renderHighchart
 #' @importFrom shinyjs useShinyjs hidden toggle
+#' @importFrom SummarizedExperiment assay
 #'
 #' @rdname ds-pca
 #'
@@ -209,7 +210,7 @@ omXplore_pca_server <- function(
             req(rule1 || rule2)
 
             rv.pca$res.pca <- wrapper_pca(
-                qdata = assay(dataIn(), i()),
+                qdata = SummarizedExperiment::assay(dataIn(), i()),
                 group = get_group(dataIn()),
                 var.scaling = rv.pca$PCA_varScale,
                 ncp = Compute_PCA_dim(),

@@ -11,7 +11,7 @@ view_dataset_ui(id)
 
 view_dataset_server(
   id,
-  obj = reactive({
+  dataIn = reactive({
      NULL
  }),
   addons = list(),
@@ -19,13 +19,13 @@ view_dataset_server(
   verbose = FALSE
 )
 
-view_dataset(obj = NULL, addons = NULL, useModal = TRUE)
+view_dataset(dataIn = NULL, addons = NULL, useModal = TRUE)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
 the same as for the '*_ui' function.}
 
-\item{obj}{An instance of the class \code{MultiAssayExperiment}.}
+\item{dataIn}{An instance of the class \code{MultiAssayExperiment}.}
 
 \item{addons}{A \code{list} to configure the other shiny apps to integrate.
 Each item correspond to one package:
@@ -93,7 +93,7 @@ if (interactive()) {
     addons <- list(omXplore = c("extFoo1", "extFoo2"))
     runApp(view_dataset(vdata, addons))
 
-    shiny::runApp(view_dataset(vdata))
+    shiny::runApp(omXplore::view_dataset(vdata))
 }
 
 if (interactive()) {

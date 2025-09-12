@@ -174,7 +174,7 @@ customChart <- function(
         zoomType = "None",
         width = 0,
         height = 0) {
-    hc %>%
+    hc |>
         hc_chart(
             type = chartType,
             zoomType = zoomType,
@@ -216,6 +216,8 @@ customChart <- function(
 #' This function builds the skeleton of a dataset which can be used by the
 #' module formatDT. It creates additional columns to be used to style the table.
 #' to colors cells.
+#' 
+#' @importFrom SummarizedExperiment assay
 #'
 #' @param se An instance of the class `SummarizedExperiment`
 #' @param digits An 'integer(1)' to specify the number of digits to display
@@ -229,9 +231,9 @@ FormatDataForDT <- function(
         se,
         digits = 2) {
     stopifnot(inherits(se, "SummarizedExperiment"))
-    test.table <- as.data.frame(round(assay(se)))
+    test.table <- as.data.frame(round(SummarizedExperiment::assay(se)))
     if (!is.null(names(get_metacell(se)))) {
-        test.table <- cbind(round(assay(se), digits = digits), get_metacell(se))
+        test.table <- cbind(round(SummarizedExperiment::assay(se), digits = digits), get_metacell(se))
     } else {
         test.table <- cbind(
             test.table,
