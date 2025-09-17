@@ -64,9 +64,12 @@
 #'
 #' @examples
 #' if (interactive()) {
+#' library(shiny)
+#' library(shinyBS)
+#' library(omXplore)
 #'     data(vdata)
 #'     addons <- list(omXplore = c("extFoo1", "extFoo2"))
-#'     runApp(view_dataset(vdata, addons))
+#'     runApp(omXplore::view_dataset(vdata, addons))
 #'
 #'     omXplore::view_dataset(vdata)
 #' }
@@ -98,30 +101,15 @@ view_dataset_ui <- function(id) {
     ns <- NS(id)
     tagList(
         shinyjs::useShinyjs(),
-        fluidPage(
-            h3("View dataset"),
-            shinyjs::hidden(
-                div(id = ns("badFormatMsg"), p("Dataset in not in correct format."))
-            ),
-            fluidRow(
-                column(3, div(
-                    style = globals()$general_style,
-                    wellPanel(
-                        uiOutput(ns("chooseDataset_ui"))
-                    )
+         
+         fluidRow(
+             
+            column(3, uiOutput(ns("chooseDataset_ui"))),
+            column(9,
+                uiOutput(ns("ShowVignettesNoModal_ui"))
                 )),
-                column(
-                    9,
-                    div(
-                        style = globals()$general_style,
-                        uiOutput(ns("Show_ui")),
-                        uiOutput(ns("ShowVignettesNoModal_ui")),
-                        uiOutput(ns("ShowPlotsNoModal_ui"))
-                    )
-                )
+                uiOutput(ns("ShowPlotsNoModal_ui"))
             )
-        )
-    )
 }
 
 
@@ -144,7 +132,6 @@ view_dataset_server <- function(
         id,
         dataIn = reactive({NULL}),
         addons = list(),
-        useModal = FALSE,
         verbose = FALSE) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
@@ -157,14 +144,14 @@ view_dataset_server <- function(
             data = NULL,
             conds = NULL,
             current.se = NULL,
-            btns.history = NULL,
+            btns.history.old = NULL,
+            btns.history.new = NULL,
+            clicked = NULL,
             ll.mods = NULL
         )
 
 
-        is.addon <- function(x) {
-            (length(grep("addon_", x)) == 1)
-        }
+        is.addon <- function(x) {(length(grep("addon_", x)) == 1)  }
 
         Name2show <- function(x) {
             # indice for builtin module
@@ -204,14 +191,13 @@ view_dataset_server <- function(
             # package. This works for built-in plot modules. For external modules,
             # then load customized resource path
 
-            # img_path <- system.file("images", paste0(GetFuncName(x), ".png"),
-            # package = GetPackageName(x))
             if (!is.addon(x)) {
                 paste0("images/", GetFuncName(x), ".png")
             } else {
                 paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
             }
         }
+
 
         observeEvent(req(dataIn()),
             {
@@ -242,88 +228,13 @@ view_dataset_server <- function(
                     addModules(addons)
 
                     rv$ll.mods <- listPlotModules()
+                    rv$btns.history.old <- rep(0, length(rv$ll.mods))
                 }
             },
             priority = 1000
         )
 
-
-        observeEvent(GetVignettesBtns(), ignoreInit = TRUE, {
-            req(rv$ll.mods)
-            req(!isTRUE(useModal))
-
-            # Which vignette has been clicked
-            clicked <- which(rv$btns.history != GetVignettesBtns())
-
-            # Show the corresponding plot
-            shinyjs::show(paste0("div_", rv$ll.mods[clicked], "_large"))
-            shinyjs::runjs(paste0(
-                'document.getElementById("',
-                ns(rv$ll.mods[clicked]), '").style.backgroundColor = "lightgrey";'
-            ))
-
-
-            # hide the other ones
-            lapply(rv$ll.mods[-clicked], function(y) {
-                shinyjs::hide(paste0("div_", y, "_large"))
-                shinyjs::runjs(paste0(
-                    'document.getElementById("',
-                    ns(y), '").style.backgroundColor = "white";'
-                ))
-            })
-
-            rv$btns.history <- GetVignettesBtns()
-        })
-
-
-
-        GetVignettesBtns <- reactive({
-            req(rv$ll.mods)
-            req(!isTRUE(useModal))
-
-            unlist(lapply(rv$ll.mods, function(x) input[[x]]))
-        })
-
-
-
-        output$ShowPlotsNoModal_ui <- renderUI({
-            req(rv$ll.mods)
-            req(!isTRUE(useModal))
-
-            lapply(rv$ll.mods, function(x) {
-                shinyjs::hidden(
-                    div(
-                        id = ns(paste0("div_", x, "_large")),
-                        do.call(paste0(x, "_ui"), list(ns(paste0(x, "_large"))))
-                    )
-                )
-            })
-        })
-
-        # output$ShowVignettesNoModal_ui <- renderUI({
-        #   #req(rv$data)
-        #   print('In ShowVignettesNoModal_ui')
-        #
-        #   req(rv$ll.mods)
-        #   req(!isTRUE(useModal))
-        #
-        #
-        #   #wellPanel(style = "height: 120px; overflow-y: scroll;",
-        #   lapply(rv$ll.mods, function(x) {
-        #     actionButton(ns(x),
-        #       label = tagList(
-        #         p(Name2show(x)),
-        #         tags$img(src = FindImgSrc(x), height = "50px")
-        #         ),
-        #         style = "padding: 0px; border: none;
-        #       background-size: cover; background-position: center;
-        #       background-color: white;"
-        #       )
-        #     })
-        #   #)
-        #   })
-
-
+        
         
         observe({
             req(input$chooseDataset)
@@ -342,77 +253,72 @@ view_dataset_server <- function(
             }
         })
         
+
         
-
-        output$Show_ui <- renderUI({
-
+        
+        
+        # 
+        # output$test <- renderUI({
+        #     lapply(1:3, function(val) {
+        #         fluidRow(column(12,textOutput(session$ns(paste0("line_", val)))))
+        #     })
+        # })
+        
+        # observe({
+        #     lapply(1:3, function(val) {
+        #         output[[paste0("line_", val)]] <- renderText(paste("Line", val))
+        #     })
+        # })
+        
+        
+        output$ShowVignettesNoModal_ui <- renderUI({
             req(rv$ll.mods)
-            if (useModal) {
-                # wellPanel(style = "height: 120px; overflow-y: scroll;",
-                lapply(rv$ll.mods, function(x) {
-                    shinyjqui::jqui_resizable(
-                        paste0("#", ns(paste0("window_", x)), " .modal-content")
-                    )
-                    tagList(
-                        shinyBS::bsModal(
-                            id = ns(paste0("window_", x)),
-                            title = x,
-                            trigger = ns(x),
-                            footer = NULL,
-                            tagList(
-                                do.call(
-                                paste0(x, "_ui"),
-                                list(id = ns(paste0(x, "_large")))
-                            )
-                            )
-                            # Here, we could put the global function that calls shinyApp with
-                            # the module but it takes a longer time to display than if the
-                            # server is already launched elsewhere
-                            # do.call(x, list(dataIn = rv$current.se))
-                        ),
-                        actionButton(
-                            ns(x),
-                            label = tagList(
-                                p(Name2show(x)),
-                                tags$img(src = FindImgSrc(x), height = "50px")
-                            ),
-                            style = "padding: 5px; border: none;
-              background-size: cover; background-position: center;
-            background-color: white;"
-                        )
-                    )
-                })
-            } else {
-                lapply(rv$ll.mods, function(x) {
-                    actionButton(ns(x),
-                        label = tagList(
-                            p(Name2show(x)),
-                            tags$img(src = FindImgSrc(x), height = "50px")
-                        ),
-                        style = "padding: 0px; border: none;
+            print(rv$ll.mods)
+             lapply(rv$ll.mods, function(x) {
+                actionButton(ns(x),
+                    label = tagList(
+                        p(Name2show(x)),
+                        tags$img(src = FindImgSrc(x), height = "50px")
+                    ),
+                    style = "padding: 0px; border: none;
           background-size: cover; background-position: center;
           background-color: white;"
-                    )
-                })
-            }
-            # )
+                )
+            })
+
+        })
+        
+
+        # GetCliked <- reactive({
+        #     req(rv$ll.mods)
+        #     unlist(lapply(rv$ll.mods, function(x) input[[x]]))
+        # })
+        
+        observeEvent(unlist(lapply(rv$ll.mods, function(x) input[[x]])), {
+            new <- unlist(lapply(rv$ll.mods, function(x) input[[x]]))
+            rv$clicked <- which(new != rv$btns.history.new)
+            rv$btns.history.new <- new
         })
 
+        output$ShowPlotsNoModal_ui <- renderUI({
+            req(rv$ll.mods)
+            req(rv$clicked > 0)
+            mod2show <- rv$ll.mods[rv$clicked]
+            do.call(paste0(mod2show, "_ui"), list(ns(paste0(mod2show, "_large"))))
 
-
+})
 
 
         output$chooseDataset_ui <- renderUI({
             req(rv$data)
 
-            if (length(rv$data) == 0) {
-                choices <- list(" " = character(0))
-            } else {
-                choices <- names(rv$data)
-            }
+            .choices <- if (length(rv$data) == 0) 
+                list(" " = character(0))
+                    else
+                names(rv$data)
 
             radioButtons(ns("chooseDataset"), "Dataset",
-                choices = choices,
+                choices = .choices,
                 selected = names(rv$data)[length(rv$data)],
                 width = 200
             )
@@ -436,8 +342,7 @@ view_dataset_server <- function(
 #'
 view_dataset <- function(
         dataIn = NULL,
-        addons = NULL,
-        useModal = FALSE) {
+        addons = NULL) {
     # if (!inherits(dataIn, "MultiAssayExperiment"))
     #   dataIn <- convert_to_mae(dataIn)
     #
@@ -448,8 +353,7 @@ view_dataset <- function(
     server <- function(input, output, session) {
         omXplore::view_dataset_server("dataset",
             dataIn = reactive({dataIn}),
-            addons = addons,
-            useModal = useModal
+            addons = addons
         )
     }
 

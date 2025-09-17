@@ -54,31 +54,28 @@ omXplore_tabExplorer_ui <- function(id) {
             id = ns("badFormatMsg"),
             h3(globals()$bad_format_txt)
         )),
-        shinyjs::hidden(div(id = ns("div_legend"), colorLegend_ui(ns("legend")))),
-        shinyjs::hidden(
-            div(
-                id = ns("div_infos"),
-                shinyBS::bsCollapse(
-                    id = "infos", open = "", multiple = TRUE,
-                    shinyBS::bsCollapsePanel("Assays",
-                        DT::DTOutput(ns("qdata_ui")),
-                        style = "info"
-                    ),
-                    shinyBS::bsCollapsePanel("Row data",
-                        DT::DTOutput(ns("metadata_ui")),
-                        style = "info"
-                    ),
-                    shinyBS::bsCollapsePanel("Metacell",
-                        DT::DTOutput(ns("qMetacell_ui")),
-                        style = "info"
-                    ),
-                    shinyBS::bsCollapsePanel("Design",
-                        DT::DTOutput(ns("design_ui")),
-                        style = "info"
-                    )
-                )
+        div(id = ns("div_legend"), colorLegend_ui(ns("legend"))),
+        
+        tabsetPanel(
+            id = "tabcard",
+            tabPanel(
+                title = "Assays",
+                DT::DTOutput(ns("qdata_ui"))
+            ),
+            tabPanel(
+                title = "Row data",
+                DT::DTOutput(ns("metadata_ui"))
+            ),
+            tabPanel(
+                title = "Metacell",
+                DT::DTOutput(ns("qMetacell_ui"))
             )
-        )
+        #     tabPanel(
+        #         title = "Design",
+        #         DT::DTOutput(ns("design_ui"))
+        #     )
+         )
+        
     )
 }
 
@@ -110,15 +107,9 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @export
 omXplore_tabExplorer_server <- function(
         id,
-        dataIn = reactive({
-            NULL
-        }),
-        i = reactive({
-            NULL
-        }),
-        digits = reactive({
-            3
-        })) {
+        dataIn = reactive({NULL}),
+        i = reactive({NULL}),
+        digits = reactive({3})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
@@ -137,7 +128,7 @@ omXplore_tabExplorer_server <- function(
                         onlyPresent = TRUE
                     )
 
-                    colorLegend_server("legend", tags)
+                    colorLegend_server("legend", reactive({tags}))
                 }
 
                 shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
@@ -390,12 +381,8 @@ omXplore_tabExplorer <- function(dataIn, i) {
 
     server <- function(input, output, session) {
         omXplore_tabExplorer_server("plot",
-            dataIn = reactive({
-                dataIn
-            }),
-            i = reactive({
-                i
-            })
+            dataIn = reactive({dataIn}),
+            i = reactive({i})
         )
     }
 

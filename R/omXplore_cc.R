@@ -49,10 +49,8 @@ omXplore_cc_ui <- function(id) {
         shinyjs::hidden(
             div(id = ns("badFormatMsg"), h3(globals()$bad_format_txt))
         ),
-        shinyjs::hidden(
-            div(id = ns("noCCMsg"), h3("The dataset contains no CC."))
-        ),
-        shinyjs::hidden(
+        uiOutput(ns('containsCC')),
+        #shinyjs::hidden(
             div(
                 id = ns("mainUI"),
                 tabPanel(
@@ -126,7 +124,7 @@ omXplore_cc_ui <- function(id) {
                     )
                 )
             )
-        )
+        #)
     )
 }
 
@@ -165,31 +163,34 @@ omXplore_cc_server <- function(
         rv <- reactiveValues(
             data = NULL,
             cc = list(),
-            isValid = FALSE
+            isValid = FALSE,
+            obj.valid = FALSE,
+            cc.exists = FALSE
         )
 
 
 
-        observeEvent(dataIn(),
-            ignoreInit = FALSE,
-            {
-                obj.valid <- inherits(dataIn(), "MultiAssayExperiment")
-                cc.exists <- length(get_cc(dataIn()[[i()]])) > 0
+        observeEvent(dataIn(), ignoreInit = FALSE, {
+            rv$obj.valid <- inherits(dataIn(), "MultiAssayExperiment")
+            rv$cc.exists <- length(get_cc(dataIn()[[i()]])) > 0
 
-                if (obj.valid && cc.exists) {
+                if (rv$obj.valid && rv$cc.exists) {
                     rv$data <- dataIn()[[i()]]
                     rv$cc <- GetCCInfos(get_cc(rv$data))
                 }
-
-                shinyjs::toggle("mainUI", condition = obj.valid && cc.exists)
-                shinyjs::toggle("noCCMsg", condition = obj.valid && !cc.exists)
-                shinyjs::toggle("badFormatMsg", condition = !obj.valid)
             },
             priority = 1000
         )
 
 
 
+        
+        output$containsCC <- renderUI({
+            req(!isTRUE(rv$cc.exists))
+            h3("The dataset contains no CC.")
+        })
+        
+        
         rvCC <- reactiveValues(
             ## selected CC in global CC list (tab or plot)
             selectedCC = NULL,
@@ -227,6 +228,7 @@ omXplore_cc_server <- function(
 
 
         output$pepInfo_ui <- renderUI({
+            req(rv$data)
             selectInput(ns("pepInfo"), "Peptide Info",
                 choices = colnames(rowData(rv$data)),
                 multiple = TRUE

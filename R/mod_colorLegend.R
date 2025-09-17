@@ -59,7 +59,7 @@ custom_metacell_colors <- function() {
 colorLegend_ui <- function(id) {
     ns <- NS(id)
 
-    uiOutput(ns("legend_UI"))
+    uiOutput(ns('test'))
 }
 
 
@@ -77,54 +77,45 @@ colorLegend_ui <- function(id) {
 #' @return NA
 #'
 colorLegend_server <- function(id,
-    presentTags = reactive({
-        NULL
-    }),
+    presentTags = reactive({NULL}),
     hide.white = TRUE) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-
-        output$legend_UI <- renderUI({
-            req(presentTags)
-
-            shinyBS::bsCollapse(
-                id = "collapseExample",
-                open = "",
-                shinyBS::bsCollapsePanel(
+        
+        
+        output$test <- renderUI({
+            req(presentTags())
+            mc <- custom_metacell_colors()
+            
+            bsCollapse(id = "collapseExample",
+                #open = "Other",
+                bsCollapsePanel(
                     title = "Legend of colors",
-                    uiOutput(ns("legend")),
+                    tagList(
+                        lapply(presentTags(), function(x) {
+                            .cond <- mc[[x]] != "white" ||
+                                (mc[[x]] == "white" && !isTRUE(hide.white))
+                            if (.cond) {
+                                tagList(
+                                    tags$div(
+                                        class = "color-box",
+                                        style = paste0("display:inline-block; vertical-align: middle;
+                    width:20px; height:20px; border:1px solid #000;
+                                 background-color: ", mc[[x]], ";"),
+                                    ),
+                                    tags$p(style = paste0("display:inline-block;
+                                      vertical-align: middle;"), x),
+                                    br()
+                                )
+                            }
+                        })
+                    ),
                     style = ""
                 )
             )
         })
 
-
-        output$legend <- renderUI({
-            req(presentTags)
-            mc <- custom_metacell_colors()
-
-
-            tagList(
-                lapply(presentTags, function(x) {
-                    .cond <- mc[[x]] != "white" ||
-                        (mc[[x]] == "white" && !isTRUE(hide.white))
-                    if (.cond) {
-                        tagList(
-                            tags$div(
-                                class = "color-box",
-                                style = paste0("display:inline-block; vertical-align: middle;
-                    width:20px; height:20px; border:1px solid #000;
-                                 background-color: ", mc[[x]], ";"),
-                            ),
-                            tags$p(style = paste0("display:inline-block;
-                                      vertical-align: middle;"), x),
-                            br()
-                        )
-                    }
-                })
-            )
-        })
     })
 }
 
@@ -155,14 +146,15 @@ colorLegend <- function(dataIn = SummarizedExperiment::SummarizedExperiment()) {
             onlyPresent = TRUE
         )
 
+        print(tags)
         # Use the default color palette
-        colorLegend_server("plot1", tags)
+        colorLegend_server("plot1", presentTags = reactive({tags}))
 
         # Use of a user-defined color palette
-        colorLegend_server("plot2", tags)
+        colorLegend_server("plot2", presentTags = reactive({tags}))
 
         # Use of a  palette
-        colorLegend_server("plot3", tags)
+        colorLegend_server("plot3", presentTags = reactive({tags}))
     }
 
     app <- shinyApp(ui, server)
