@@ -15,11 +15,10 @@ view_dataset_server(
      NULL
  }),
   addons = list(),
-  useModal = TRUE,
   verbose = FALSE
 )
 
-view_dataset(dataIn = NULL, addons = NULL, useModal = TRUE)
+view_dataset(dataIn = NULL, addons = NULL)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
@@ -38,9 +37,6 @@ For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 means that the package called "testPkg" must provide the four functions:
 foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
 }}
-
-\item{useModal}{A \code{boolean(1)} that indicates whether to open plot modules
-in a modal window or not. Default is TRUE.}
 
 \item{verbose}{A boolean for verbose mode. Default is FALSE.}
 }
@@ -89,11 +85,14 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 
 \examples{
 if (interactive()) {
+library(shiny)
+library(shinyBS)
+library(omXplore)
     data(vdata)
     addons <- list(omXplore = c("extFoo1", "extFoo2"))
-    runApp(view_dataset(vdata, addons))
+    runApp(omXplore::view_dataset(vdata, addons))
 
-    shiny::runApp(omXplore::view_dataset(vdata))
+    omXplore::view_dataset(vdata)
 }
 
 if (interactive()) {

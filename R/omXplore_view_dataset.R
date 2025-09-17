@@ -54,8 +54,6 @@
 #' For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
 #' means that the package called "testPkg" must provide the four functions:
 #' foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
-#' @param useModal A `boolean(1)` that indicates whether to open plot modules
-#' in a modal window or not. Default is TRUE.
 #' @param verbose A boolean for verbose mode. Default is FALSE.
 #'
 #'
