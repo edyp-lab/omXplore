@@ -86,7 +86,6 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 \examples{
 if (interactive()) {
 library(shiny)
-library(shinyBS)
 library(omXplore)
     data(vdata)
     addons <- list(omXplore = c("extFoo1", "extFoo2"))

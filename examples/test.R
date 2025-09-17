@@ -1,6 +1,5 @@
 library(shiny)
 library(shinyjs)
-library(shinyBS)
 library(bs4Dash)
 library(omXplore)
 library(visNetwork)

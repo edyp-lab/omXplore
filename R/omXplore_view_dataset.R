@@ -63,7 +63,6 @@
 #' @examples
 #' if (interactive()) {
 #' library(shiny)
-#' library(shinyBS)
 #' library(omXplore)
 #'     data(vdata)
 #'     addons <- list(omXplore = c("extFoo1", "extFoo2"))
@@ -87,7 +86,6 @@ NULL
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsModal
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @importFrom shinyjqui jqui_resizable
 #'
@@ -118,7 +116,6 @@ view_dataset_ui <- function(id) {
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsModal
 #' @importFrom shinyjs useShinyjs hidden toggle show hide
 #' @importFrom shinyjqui jqui_resizable
 #'

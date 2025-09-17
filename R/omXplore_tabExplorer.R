@@ -33,11 +33,9 @@ NULL
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
-#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #'
 #'
 #' @rdname omXplore_tabExplorer
-#' @import shinyBS
 #'
 #' @examples
 #' NULL
@@ -96,7 +94,6 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
-#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @import highcharter
 #'
 #'

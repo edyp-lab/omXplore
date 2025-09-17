@@ -35,7 +35,6 @@ NULL
 #' @import highcharter
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
 #' @importFrom SummarizedExperiment rowData colData assays
-#' @import shinyBS
 #' @rdname ds-cc
 #' @export
 #' @return A shiny plot
@@ -142,7 +141,6 @@ omXplore_cc_ui <- function(id) {
 #' @import highcharter
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
 #' @importFrom SummarizedExperiment rowData colData assays assay
-#' @import shinyBS
 #' @import shinyjqui
 #' @rdname ds-cc
 #'
