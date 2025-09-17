@@ -131,7 +131,6 @@ view_dataset_server <- function(
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        require(shinyBS)
         width <- 40
         height <- 40
 
