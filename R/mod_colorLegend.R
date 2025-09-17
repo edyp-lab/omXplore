@@ -50,7 +50,6 @@ custom_metacell_colors <- function() {
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @rdname color-legend
 #' @export
 #'
@@ -88,9 +87,9 @@ colorLegend_server <- function(id,
             req(presentTags())
             mc <- custom_metacell_colors()
             
-            bsCollapse(id = "collapseExample",
+            shinyBS::bsCollapse(id = "collapseExample",
                 #open = "Other",
-                bsCollapsePanel(
+                shinyBS::bsCollapsePanel(
                     title = "Legend of colors",
                     tagList(
                         lapply(presentTags(), function(x) {
