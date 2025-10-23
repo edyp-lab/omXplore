@@ -36,7 +36,7 @@ omXplore_density(dataIn, i)
 \item{i}{An integer which is the index of the assay in the param obj}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from
-the package \link{RColorBrewer} from which the colors are taken. Default
+the package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} from which the colors are taken. Default
 value is 'Set1'.}
 
 \item{data}{A data.frame() of quantitative data}
@@ -57,17 +57,16 @@ Displays a correlation matrix of the quantitative data of a
 numeric matrix.
 }
 \examples{
-\dontrun{
-  data(vdata)
-  shiny::runApp(omXplore_density(vdata, 1))
+if (interactive()) {
+    data(vdata)
+    shiny::runApp(omXplore_density(vdata, 1))
 }
 
-
-\dontrun{
-data(vdata)
-qdata <- SummarizedExperiment::assay(vdata[[1]])
-conds <- get_group(vdata)
-densityPlot(qdata, conds)
+if (interactive()) {
+    data(vdata)
+    qdata <- SummarizedExperiment::assay(vdata[[1]])
+    conds <- get_group(vdata)
+    densityPlot(qdata, conds)
 }
 
 }

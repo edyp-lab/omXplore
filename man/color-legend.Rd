@@ -45,10 +45,9 @@ A shiny app
 Shows a legend based on the tags in the package 'DaparToolshed'
 }
 \examples{
-\dontrun{
-data(vdata)
-shiny::runApp(colorLegend(vdata[[1]]))
+if (interactive()) {
+    data(vdata)
+    shiny::runApp(colorLegend(vdata[[1]]))
 }
-
 
 }

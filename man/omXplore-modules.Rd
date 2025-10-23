@@ -52,9 +52,7 @@ listPlotModules()
 #####################################################
 # Integration of a module in the package 'mypackage'
 #####################################################
-\dontrun{
 addons <- list(omXplore = c("extFoo1", "extFoo2"))
 addModules(addons)
-}
 
 }

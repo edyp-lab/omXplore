@@ -18,7 +18,7 @@ GetColorsForConditions(conds, pal = NULL)
 the number of samples in the dataset.}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from the
-package \link{RColorBrewer} from which the colors are taken. Default value
+package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} from which the colors are taken. Default value
 is 'Set1'.}
 
 \item{n}{The number of desired colors in the palette}
@@ -36,30 +36,31 @@ A vector
 \description{
 Builds a vector of \verb{#conditions} colors for a set of samples. One color is
 given for a given condition. This function extends a base palette from the
-package \link{RColorBrewer} to 'n' colors.
+package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} to 'n' colors.
 The colors in the returned palette are always in the same order
 }
 \examples{
+if (interactive()) {
+    #-----------------------------------------------
+    # Builds a palette for a dataset with 3 conditions
+    # of 3 samples each.
+    #------------------------------------------------
 
-#-----------------------------------------------
-# Builds a palette for a dataset with 3 conditions
-# of 3 samples each.
-#------------------------------------------------
-
-conds <- c(rep("A", 3), rep("B", 3), rep("C", 3))
-SampleColors(conds)
-SampleColors(conds, "Dark2")
-
-
-#-----------------------------------------------
-# Extend the default palette to 12 colors
-#-----------------------------------------------
-
-ExtendPalette(12)
+    conds <- c(rep("A", 3), rep("B", 3), rep("C", 3))
+    SampleColors(conds)
+    SampleColors(conds, "Dark2")
 
 
-data(vdata)
-conds <- get_group(vdata)
-GetColorsForConditions(conds, ExtendPalette(2))
+    #-----------------------------------------------
+    # Extend the default palette to 12 colors
+    #-----------------------------------------------
+
+    ExtendPalette(12)
+
+
+    data(vdata)
+    conds <- get_group(vdata)
+    GetColorsForConditions(conds, ExtendPalette(2))
+}
 
 }

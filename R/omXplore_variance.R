@@ -13,11 +13,11 @@
 #' package `RColorBrewer` from which the colors are taken.
 #' Default value is 'Set1'.
 #'
-#' 
+#'
 #' @examples
 #' if (interactive()) {
-#'   data(vdata)
-#'   omXplore_variance(vdata, 1)
+#'     data(vdata)
+#'     shiny::runApp(omXplore_variance(vdata, 1))
 #' }
 #'
 NULL
@@ -25,99 +25,103 @@ NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
 #' @import highcharter
 #' @importFrom DT JS
 #' @importFrom stats var
-#' 
-#' 
+#'
+#'
 #' @rdname plot-variance
 #' @export
 #' @return NA
 #'
 omXplore_variance_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
-    shinyjs::useShinyjs(),
-    shinyjs::hidden(div(id = ns("badFormatMsg"), 
-      h3(globals()$bad_format_txt))),
-    uiOutput(ns("helpTxt")),
-    highcharter::highchartOutput(ns("viewDistCV"), width = 600, height = 600)
-  )
+    ns <- NS(id)
+    tagList(
+        shinyjs::useShinyjs(),
+        shinyjs::hidden(div(
+            id = ns("badFormatMsg"),
+            h3(globals()$bad_format_txt)
+        )),
+        uiOutput(ns("helpTxt")),
+        highcharter::highchartOutput(ns("viewDistCV"), width = 600, height = 600)
+    )
 }
 
 
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
 #' @import highcharter
 #' @importFrom DT JS
 #' @importFrom stats var
-#' 
-#' 
-#' 
+#' @importFrom SummarizedExperiment assay
+#'
+#'
+#'
 #' @rdname plot-variance
 #' @export
 #' @return NA
 #'
 omXplore_variance_server <- function(
-    id,
-    dataIn,
-    i,
-    pal.name = NULL) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+        id,
+        dataIn,
+        i,
+        pal.name = NULL) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-    rv <- reactiveValues(data = NULL)
+        rv <- reactiveValues(data = NULL)
 
-    observe(
-      {
-        is.mae <- inherits(dataIn(), "MultiAssayExperiment")
-        if(is.mae) {
-          rv$data <- dataIn()
-        }
+        observe(
+            {
+                is.mae <- inherits(dataIn(), "MultiAssayExperiment")
+                if (is.mae) {
+                    rv$data <- dataIn()
+                }
 
-        shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
-      },
-      priority = 1000
-    )
+                shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
+            },
+            priority = 1000
+        )
 
-    output$viewDistCV <- renderHighchart({
-      req(rv$data)
-      withProgress(message = "Making plot", value = 100, {
-        varDist <- CVDist(
-            dataIn = assay(rv$data, i()),
-          conds = get_group(dataIn()),
-          pal.name)
-      })
-    })
+        output$viewDistCV <- renderHighchart({
+            req(rv$data)
+            withProgress(message = "Making plot", value = 100, {
+                varDist <- CVDist(
+                    dataIn = SummarizedExperiment::assay(rv$data, i()),
+                    conds = get_group(dataIn()),
+                    pal.name
+                )
+            })
+        })
 
-    output$helpTxt <- renderUI({
-      req(rv$data)
-      tagList(
-        helpText("Display the condition-wise distributions of the
+        output$helpTxt <- renderUI({
+            req(rv$data)
+            tagList(
+                helpText("Display the condition-wise distributions of the
           log-intensity CV (Coefficient of Variation) of the
                    protein/peptides."),
-        helpText("For better visualization, it is possible to zoom in by
+                helpText("For better visualization, it is possible to zoom in by
             click-and-drag.")
-      )
+            )
+        })
     })
-  })
 }
 
 
@@ -125,8 +129,8 @@ omXplore_variance_server <- function(
 
 #' @importFrom stats density var
 #' @import highcharter
-#' 
-#' 
+#'
+#'
 #' @export
 #'
 #' @param dataIn An matrix
@@ -141,77 +145,77 @@ omXplore_variance_server <- function(
 #'
 CVDist <- function(
         dataIn,
-  conds,
-    pal.name = NULL) {
-  stopifnot(inherits(dataIn, "matrix"))
+        conds,
+        pal.name = NULL) {
+    stopifnot(inherits(dataIn, "matrix"))
 
 
-  if (is.null(conds) || length(conds)==0) {
-    stop("conds contains no conds.")
-  }
-
-  u_conds <- unique(conds)
-  myColors <- SampleColors(u_conds)
-
-  h1 <- highcharter::highchart() %>%
-    customChart(chartType = "spline", zoomType = "x") %>%
-    highcharter::hc_colors(myColors) %>%
-    highcharter::hc_legend(
-      enabled = TRUE,
-      categories = u_conds
-    ) %>%
-    highcharter::hc_xAxis(title = list(text = "CV(log(Intensity))")) %>%
-    highcharter::hc_yAxis(title = list(text = "Density")) %>%
-    highcharter::hc_tooltip(
-      headerFormat = "",
-      pointFormat = "<b>{series.name}</b>: {point.y} ",
-      valueDecimals = 2
-    ) %>%
-    customExportMenu(fname = "logIntensity") %>%
-    highcharter::hc_plotOptions(
-      series = list(
-        connectNulls = TRUE,
-        marker = list(
-          enabled = FALSE
-        )
-      )
-    )
-
-  minX <- maxX <- 0
-  maxY <- 0
-  for (i in seq_len(length(u_conds))) {
-    if (length(which(conds == u_conds[i])) > 1) {
-      t <- apply(
-          dataIn[, which(conds == u_conds[i])], 1,
-        function(x) {
-          100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
-        }
-      )
-      tmp <- data.frame(
-        x = stats::density(t, na.rm = TRUE)$x,
-        y = stats::density(t, na.rm = TRUE)$y
-      )
-
-      ymaxY <- max(maxY, tmp$y)
-      xmaxY <- tmp$x[which(tmp$y == max(tmp$y))]
-      minX <- min(minX, tmp$x)
-      maxX <- max(maxX, 10 * (xmaxY - minX))
-
-      h1 <- h1 %>% hc_add_series(data = tmp, name = u_conds[i])
+    if (is.null(conds) || length(conds) == 0) {
+        stop("conds contains no conds.")
     }
-  }
 
-  h1 <- h1 %>%
-    hc_chart(
-      events = list(
-        load = DT::JS(paste0("function(){
+    u_conds <- unique(conds)
+    myColors <- SampleColors(u_conds)
+
+    h1 <- highcharter::highchart() |>
+        customChart(chartType = "spline", zoomType = "x") |>
+        highcharter::hc_colors(myColors) |>
+        highcharter::hc_legend(
+            enabled = TRUE,
+            categories = u_conds
+        ) |>
+        highcharter::hc_xAxis(title = list(text = "CV(log(Intensity))")) |>
+        highcharter::hc_yAxis(title = list(text = "Density")) |>
+        highcharter::hc_tooltip(
+            headerFormat = "",
+            pointFormat = "<b>{series.name}</b>: {point.y} ",
+            valueDecimals = 2
+        ) |>
+        customExportMenu(fname = "logIntensity") |>
+        highcharter::hc_plotOptions(
+            series = list(
+                connectNulls = TRUE,
+                marker = list(
+                    enabled = FALSE
+                )
+            )
+        )
+
+    minX <- maxX <- 0
+    maxY <- 0
+    for (i in seq_len(length(u_conds))) {
+        if (length(which(conds == u_conds[i])) > 1) {
+            t <- apply(
+                dataIn[, which(conds == u_conds[i])], 1,
+                function(x) {
+                    100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+                }
+            )
+            tmp <- data.frame(
+                x = stats::density(t, na.rm = TRUE)$x,
+                y = stats::density(t, na.rm = TRUE)$y
+            )
+
+            ymaxY <- max(maxY, tmp$y)
+            xmaxY <- tmp$x[which(tmp$y == max(tmp$y))]
+            minX <- min(minX, tmp$x)
+            maxX <- max(maxX, 10 * (xmaxY - minX))
+
+            h1 <- h1 |> hc_add_series(data = tmp, name = u_conds[i])
+        }
+    }
+
+    h1 <- h1 |>
+        hc_chart(
+            events = list(
+                load = DT::JS(paste0("function(){
                          var chart = this;
                          this.xAxis[0].setExtremes(", minX, ",", maxX, ");
                          this.showResetZoom();}"))
-      )
-    )
+            )
+        )
 
-  return(h1)
+    return(h1)
 }
 
 
@@ -222,18 +226,22 @@ CVDist <- function(
 #' @return A shiny app
 #'
 omXplore_variance <- function(dataIn, i) {
-  stopifnot(inherits(dataIn, "MultiAssayExperiment"))
-  
-  ui <- fluidPage(
-    omXplore_variance_ui("plot")
+    stopifnot(inherits(dataIn, "MultiAssayExperiment"))
+
+    ui <- fluidPage(
+        omXplore_variance_ui("plot")
     )
 
-  server <- function(input, output, session) {
-    omXplore_variance_server("plot", 
-        dataIn = reactive({dataIn}),
-      i = reactive({i})
-      )
-  }
+    server <- function(input, output, session) {
+        omXplore_variance_server("plot",
+            dataIn = reactive({
+                dataIn
+            }),
+            i = reactive({
+                i
+            })
+        )
+    }
 
-  app <- shinyApp(ui, server)
+    app <- shinyApp(ui, server)
 }

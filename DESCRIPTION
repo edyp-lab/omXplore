@@ -1,7 +1,7 @@
 Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
-Version: 1.3.0
+Version: 1.3.1
 Authors@R: 
   c(person(given = "Samuel", 
       family = "Wieczorek",
@@ -29,13 +29,10 @@ Description: This package contains a collection of functions (written as
    interface of the package omXplore.
 License: Artistic-2.0
 Depends:
-    R (>= 4.4.0), methods
+    R (>= 4.5.0), methods
 Imports:
     DT,
     shiny, 
-    bs4Dash,
-    waiter,
-    thematic,
     MSnbase,
     PSMatch,
     SummarizedExperiment,
@@ -106,11 +103,11 @@ Collate:
     'plot_violin.R'
     'utils.R'
     'zzz.R'
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false
-URL: https://github.com/prostarproteomics/omXplore, https://prostarproteomics.github.io/omXplore/
-BugReports: https://github.com/prostarproteomics/omXplore/issues
+URL: https://github.com/edyp-lab/omXplore, https://edyp-lab.github.io/omXplore/
+BugReports: https://github.com/edyp-lab/omXplore/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

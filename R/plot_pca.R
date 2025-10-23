@@ -6,19 +6,21 @@
 #' @param group A vector with the name of samples
 #' @param var.scaling A boolean indicating whether to scale the data or not
 #' @param ncp See `FactoMineR::PCA()`
-#' @param chosen.axes See the parameter 'axes' of the function 
+#' @param chosen.axes See the parameter 'axes' of the function
 #' `factoextra::fviz_pca_var()`
 #'
 #' @name ds-pca
 #'
 #' @examples
-#' data(vdata)
-#' obj <- vdata[[1]]
-#' res.pca <- wrapper_pca(qdata=SummarizedExperiment::assay(obj), group=get_group(obj))
-#' plotPCA_Eigen(res.pca)
-#' plotPCA_Var(res.pca)
-#' plotPCA_Eigen_hc(res.pca)
-#' plotPCA_Ind(res.pca)
+#' if (interactive()) {
+#'     data(vdata)
+#'     obj <- vdata[[1]]
+#'     res.pca <- wrapper_pca(qdata = SummarizedExperiment::assay(obj), group = get_group(obj))
+#'     plotPCA_Eigen(res.pca)
+#'     plotPCA_Var(res.pca)
+#'     plotPCA_Eigen_hc(res.pca)
+#'     plotPCA_Ind(res.pca)
+#' }
 #'
 NULL
 
@@ -31,51 +33,50 @@ NULL
 #' @import FactoMineR
 #'
 wrapper_pca <- function(
-    qdata,
-    group,
-    var.scaling = TRUE,
-    ncp = NULL,
-    approach = "FM",
-    gramschmidt = TRUE) {
-  
-  
-  if (missing(qdata)) {
-    stop("'qdata' is missing.")
-  }
-  
-  stopifnot(inherits(qdata, "matrix"))
-  
-  
-  if (is.null(var.scaling)) {
-    var.scaling <- TRUE
-  }
-
-  res.pca <- NULL
-  
-  # if (length(which(is.na(obj@qdata))) > 0) {
-  if (is.null(ncp)) {
-    nmax <- 12
-    y <- qdata
-    nprot <- dim(y)[1]
-    n <- dim(y)[2] # If too big, take the number of conditions.
-    
-    if (n > nmax) {
-      n <- length(unique(group))
+        qdata,
+        group,
+        var.scaling = TRUE,
+        ncp = NULL,
+        approach = "FM",
+        gramschmidt = TRUE) {
+    if (missing(qdata)) {
+        stop("'qdata' is missing.")
     }
-    
-    ncp <- min(n, nmax)
-  }
-  
 
-  res.pca <- my_PCA(X = qdata,
-      scale.unit = var.scaling,
-      ncp = ncp,
-      graph = FALSE,
-      approach = approach,
-      gramschmidt = gramschmidt
-  )
-  
-  return(res.pca)
+    stopifnot(inherits(qdata, "matrix"))
+
+
+    if (is.null(var.scaling)) {
+        var.scaling <- TRUE
+    }
+
+    res.pca <- NULL
+
+    # if (length(which(is.na(obj@qdata))) > 0) {
+    if (is.null(ncp)) {
+        nmax <- 12
+        y <- qdata
+        nprot <- dim(y)[1]
+        n <- dim(y)[2] # If too big, take the number of conditions.
+
+        if (n > nmax) {
+            n <- length(unique(group))
+        }
+
+        ncp <- min(n, nmax)
+    }
+
+
+    res.pca <- my_PCA(
+        X = qdata,
+        scale.unit = var.scaling,
+        ncp = ncp,
+        graph = FALSE,
+        approach = approach,
+        gramschmidt = gramschmidt
+    )
+
+    return(res.pca)
 }
 
 
@@ -88,46 +89,46 @@ wrapper_pca <- function(
 #' @return A plot
 #'
 plotPCA_Eigen <- function(res.pca) {
-  stopifnot(!is.null(res.pca))
-  
-  hc <- highcharter::highchart() %>%
-    highcharter::hc_yAxis_multiples(
-      list(
-        title = list(text = "% of variances"),
-        lineWidth = 0,
-        labels = list(format = "{value}%"),
-        max = 100
-      ),
-      list(
-        title = list(text = "Cumulative % of variances"),
-        opposite = FALSE,
-        max = 100
-      ),
-      list(
-        title = list(text = "Eigen values"),
-        opposite = TRUE,
-        labels = list(format = "{value}%")
-      )
-    ) %>%
-    highcharter::hc_xAxis(
-      title = "Principal Components",
-      categories = rownames(res.pca$eig)
-    ) %>%
-    highcharter::hc_add_series(data.frame(y = res.pca$eig[, 2]),
-                               type = "column",
-                               name = "% of variances",
-                               yAxis = 0
-    ) %>%
-    highcharter::hc_add_series(data.frame(y = res.pca$eig[, 3]),
-                               type = "line",
-                               color = "darkblue",
-                               name = "Cumulative % of variances",
-                               color = "#FF7900",
-                               yAxis = 0
-    ) %>%
-    highcharter::hc_legend(enabled = TRUE)
-  
-  hc
+    stopifnot(!is.null(res.pca))
+
+    hc <- highcharter::highchart() |>
+        highcharter::hc_yAxis_multiples(
+            list(
+                title = list(text = "% of variances"),
+                lineWidth = 0,
+                labels = list(format = "{value}%"),
+                max = 100
+            ),
+            list(
+                title = list(text = "Cumulative % of variances"),
+                opposite = FALSE,
+                max = 100
+            ),
+            list(
+                title = list(text = "Eigen values"),
+                opposite = TRUE,
+                labels = list(format = "{value}%")
+            )
+        ) |>
+        highcharter::hc_xAxis(
+            title = "Principal Components",
+            categories = rownames(res.pca$eig)
+        ) |>
+        highcharter::hc_add_series(data.frame(y = res.pca$eig[, 2]),
+            type = "column",
+            name = "% of variances",
+            yAxis = 0
+        ) |>
+        highcharter::hc_add_series(data.frame(y = res.pca$eig[, 3]),
+            type = "line",
+            color = "darkblue",
+            name = "Cumulative % of variances",
+            color = "#FF7900",
+            yAxis = 0
+        ) |>
+        highcharter::hc_legend(enabled = TRUE)
+
+    hc
 }
 
 
@@ -141,19 +142,19 @@ plotPCA_Eigen <- function(res.pca) {
 #' @import factoextra
 #'
 plotPCA_Var <- function(res.pca, chosen.axes = c(1, 2)) {
-  # plot.PCA(res.pca, choix="var", axes = chosen.axes,
-  # title="Sample factor map (PCA)")
-  # Colorer en fonction du cos2: qualite de representation
-  if (is.null(res.pca)) {
-    return(NULL)
-  }
-  factoextra::fviz_pca_var(
-    res.pca,
-    axes = chosen.axes,
-    col.var = "cos2",
-    gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-    repel = TRUE # Evite le chevauchement de texte
-  )
+    # plot.PCA(res.pca, choix="var", axes = chosen.axes,
+    # title="Sample factor map (PCA)")
+    # Colorer en fonction du cos2: qualite de representation
+    if (is.null(res.pca)) {
+        return(NULL)
+    }
+    factoextra::fviz_pca_var(
+        res.pca,
+        axes = chosen.axes,
+        col.var = "cos2",
+        gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+        repel = TRUE # Evite le chevauchement de texte
+    )
 }
 
 
@@ -165,14 +166,14 @@ plotPCA_Var <- function(res.pca, chosen.axes = c(1, 2)) {
 #' @import factoextra
 #'
 plotPCA_Ind <- function(res.pca, chosen.axes = c(1, 2)) {
-  if (is.null(res.pca)) {
-    return(NULL)
-  }
-  
-  factoextra::fviz_pca_ind(res.pca,
-                           axes = chosen.axes,
-                           geom = "point"
-  )
+    if (is.null(res.pca)) {
+        return(NULL)
+    }
+
+    factoextra::fviz_pca_ind(res.pca,
+        axes = chosen.axes,
+        geom = "point"
+    )
 }
 
 
@@ -185,45 +186,45 @@ plotPCA_Ind <- function(res.pca, chosen.axes = c(1, 2)) {
 #' @export
 #'
 plotPCA_Eigen_hc <- function(res.pca) {
-  if (is.null(res.pca)) {
-    return(NULL)
-  }
-  hc <- highchart() %>%
-    hc_yAxis_multiples(
-      list(
-        title = list(text = "% of variances"),
-        lineWidth = 0,
-        labels = list(format = "{value}%"), max = 100
-      ),
-      list(
-        title = list(text = "Cumulative % of variances"),
-        opposite = FALSE,
-        max = 100
-      ),
-      list(
-        title = list(text = "Eigen values"),
-        opposite = TRUE,
-        labels = list(format = "{value}%")
-      )
-    ) %>%
-    hc_xAxis(
-      title = "Principal Components",
-      categories = rownames(res.pca$eig)
-    ) %>%
-    hc_add_series(
-      data.frame(y = res.pca$eig[, 2]),
-      type = "column",
-      name = "% of variances",
-      yAxis = 0
-    ) %>%
-    hc_add_series(
-      data.frame(y = res.pca$eig[, 3]),
-      type = "line",
-      color = "darkblue",
-      name = "Cumulative % of variances",
-      #marker = "diamond",
-      color = "#FF7900",
-      yAxis = 0
-    ) %>%
-    hc_legend(enabled = TRUE)
+    if (is.null(res.pca)) {
+        return(NULL)
+    }
+    hc <- highchart() |>
+        hc_yAxis_multiples(
+            list(
+                title = list(text = "% of variances"),
+                lineWidth = 0,
+                labels = list(format = "{value}%"), max = 100
+            ),
+            list(
+                title = list(text = "Cumulative % of variances"),
+                opposite = FALSE,
+                max = 100
+            ),
+            list(
+                title = list(text = "Eigen values"),
+                opposite = TRUE,
+                labels = list(format = "{value}%")
+            )
+        ) |>
+        hc_xAxis(
+            title = "Principal Components",
+            categories = rownames(res.pca$eig)
+        ) |>
+        hc_add_series(
+            data.frame(y = res.pca$eig[, 2]),
+            type = "column",
+            name = "% of variances",
+            yAxis = 0
+        ) |>
+        hc_add_series(
+            data.frame(y = res.pca$eig[, 3]),
+            type = "line",
+            color = "darkblue",
+            name = "Cumulative % of variances",
+            # marker = "diamond",
+            color = "#FF7900",
+            yAxis = 0
+        ) |>
+        hc_legend(enabled = TRUE)
 }

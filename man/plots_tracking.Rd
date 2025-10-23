@@ -44,10 +44,12 @@ A shiny app
 This shiny module provides a tool to select
 }
 \examples{
-\dontrun{
-  data(vdata)
-  shiny::runApp(plots_tracking(vdata[[1]]))
-  }
+if (interactive()) {
+    data(vdata)
+    shiny::runApp(plots_tracking(vdata[[1]]))
+}
+
+NULL
 
 }
 \keyword{internal}

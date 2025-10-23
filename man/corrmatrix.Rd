@@ -17,7 +17,7 @@ omXplore_corrmatrix_server(
      NULL
  }),
   i = reactive({
-     NULL
+     1
  })
 )
 
@@ -30,7 +30,7 @@ omXplore_corrmatrix(dataIn, i)
 
 \item{dataIn}{An instance of the class \code{SummarizedExperiment}}
 
-\item{i}{An integer which is the index of the assay in the param obj}
+\item{i}{An integer which is the index of the assay in the param dataIn}
 
 \item{data}{An object of class 'matrix'}
 
@@ -55,8 +55,8 @@ numeric matrix.
 }
 \examples{
 if (interactive()) {
-  data(vdata)
-  omXplore_corrmatrix(vdata, 1)
+    data(vdata)
+    omXplore_corrmatrix(vdata, 1)
 }
 
 }

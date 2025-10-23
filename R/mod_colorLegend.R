@@ -10,14 +10,13 @@
 #' @param dataIn An instance of the class `SummarizedExperiment`.
 #'
 #' @name color-legend
-#' 
-#' 
+#'
+#'
 #' @examples
-#' \dontrun{
-#' data(vdata)
-#' shiny::runApp(colorLegend(vdata[[1]]))
+#' if (interactive()) {
+#'     data(vdata)
+#'     shiny::runApp(colorLegend(vdata[[1]]))
 #' }
-#' 
 #'
 NULL
 
@@ -28,49 +27,48 @@ NULL
 #' @return A vector
 #'
 custom_metacell_colors <- function() {
-  list(
-    "Any" = "white",
-    "Missing" = "#CF8205",
-    "Missing POV" = "#E5A947",
-    "Missing MEC" = "#F1CA8A",
-    "Quantified" = "#0A31D0",
-    "Quant. by recovery" = "#B9C4F2",
-    "Quant. by direct id" = "#6178D9",
-    "Combined tags" = "#1E8E05",
-    "Imputed" = "#A40C0C",
-    "Imputed POV" = "#E34343",
-    "Imputed MEC" = "#F59898"
-  )
+    list(
+        "Any" = "white",
+        "Missing" = "#CF8205",
+        "Missing POV" = "#E5A947",
+        "Missing MEC" = "#F1CA8A",
+        "Quantified" = "#0A31D0",
+        "Quant. by recovery" = "#B9C4F2",
+        "Quant. by direct id" = "#6178D9",
+        "Combined tags" = "#1E8E05",
+        "Imputed" = "#A40C0C",
+        "Imputed POV" = "#E34343",
+        "Imputed MEC" = "#F59898"
+    )
 }
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @rdname color-legend
 #' @export
 #'
 #' @return NA
 #'
 colorLegend_ui <- function(id) {
-  ns <- NS(id)
+    ns <- NS(id)
 
-  uiOutput(ns('legend_UI'))
+    uiOutput(ns('test'))
 }
 
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow 
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent 
+#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
+#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput 
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel 
+#' numericInput observe plotOutput renderImage renderPlot selectizeInput
+#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyBS bsCollapsePanel bsCollapse
 #' @export
@@ -78,53 +76,46 @@ colorLegend_ui <- function(id) {
 #' @return NA
 #'
 colorLegend_server <- function(id,
-                               presentTags = reactive({NULL}),
-                               hide.white = TRUE) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
+    presentTags = reactive({NULL}),
+    hide.white = TRUE) {
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
 
-
-    output$legend_UI <- renderUI({
-      req(presentTags)
-      
-      shinyBS::bsCollapse(
-        id = "collapseExample",
-        open = "",
-        shinyBS::bsCollapsePanel(
-          title = "Legend of colors",
-          uiOutput(ns("legend")),
-          style = ""
-        )
-      )
-    })
-    
-    
-    output$legend <- renderUI({
-      req(presentTags)
-      mc <- custom_metacell_colors()
-
-
-      tagList(
-        lapply(presentTags, function(x) {
-          .cond <- mc[[x]] != "white" ||
-            (mc[[x]] == "white" && !isTRUE(hide.white))
-          if (.cond) {
-            tagList(
-              tags$div(
-                class = "color-box",
-                style = paste0("display:inline-block; vertical-align: middle;
+        
+        
+        output$test <- renderUI({
+            req(presentTags())
+            mc <- custom_metacell_colors()
+            
+            shinyBS::bsCollapse(id = "collapseExample",
+                #open = "Other",
+                shinyBS::bsCollapsePanel(
+                    title = "Legend of colors",
+                    tagList(
+                        lapply(presentTags(), function(x) {
+                            .cond <- mc[[x]] != "white" ||
+                                (mc[[x]] == "white" && !isTRUE(hide.white))
+                            if (.cond) {
+                                tagList(
+                                    tags$div(
+                                        class = "color-box",
+                                        style = paste0("display:inline-block; vertical-align: middle;
                     width:20px; height:20px; border:1px solid #000;
                                  background-color: ", mc[[x]], ";"),
-              ),
-              tags$p(style = paste0("display:inline-block;
+                                    ),
+                                    tags$p(style = paste0("display:inline-block;
                                       vertical-align: middle;"), x),
-              br()
+                                    br()
+                                )
+                            }
+                        })
+                    ),
+                    style = ""
+                )
             )
-          }
         })
-      )
+
     })
-  })
 }
 
 
@@ -137,33 +128,33 @@ colorLegend_server <- function(id,
 #' @return A shiny app
 #'
 colorLegend <- function(dataIn = SummarizedExperiment::SummarizedExperiment()) {
+    stopifnot(inherits(dataIn, "SummarizedExperiment"))
 
-  stopifnot(inherits(dataIn, 'SummarizedExperiment'))
-  
-  ui <- fluidPage(
-    tagList(
-      colorLegend_ui("plot1"),
-      colorLegend_ui("plot2"),
-      colorLegend_ui("plot3")
-    )
-  )
-
-  server <- function(input, output, session) {
-    tags <- GetMetacellTags(
-      get_metacell(dataIn),
-      level = get_type(dataIn),
-      onlyPresent = TRUE
+    ui <- fluidPage(
+        tagList(
+            colorLegend_ui("plot1"),
+            colorLegend_ui("plot2"),
+            colorLegend_ui("plot3")
+        )
     )
 
-    # Use the default color palette
-    colorLegend_server("plot1", tags)
+    server <- function(input, output, session) {
+        tags <- GetMetacellTags(
+            get_metacell(dataIn),
+            level = get_type(dataIn),
+            onlyPresent = TRUE
+        )
 
-    # Use of a user-defined color palette
-    colorLegend_server("plot2", tags)
+        print(tags)
+        # Use the default color palette
+        colorLegend_server("plot1", presentTags = reactive({tags}))
 
-    # Use of a  palette
-    colorLegend_server("plot3", tags)
-  }
+        # Use of a user-defined color palette
+        colorLegend_server("plot2", presentTags = reactive({tags}))
 
-  app <- shinyApp(ui, server)
+        # Use of a  palette
+        colorLegend_server("plot3", presentTags = reactive({tags}))
+    }
+
+    app <- shinyApp(ui, server)
 }

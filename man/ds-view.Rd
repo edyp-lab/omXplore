@@ -15,21 +15,28 @@ view_dataset_server(
      NULL
  }),
   addons = list(),
-  useModal = TRUE,
   verbose = FALSE
 )
 
-view_dataset(dataIn = NULL, addons = NULL, useModal = TRUE)
+view_dataset(dataIn = NULL, addons = NULL)
 }
 \arguments{
 \item{id}{A \code{character(1)} for the 'id' of the shiny module. It must be
 the same as for the '*_ui' function.}
 
-\item{dataIn}{xx}
+\item{dataIn}{An instance of the class \code{MultiAssayExperiment}.}
 
-\item{addons}{xxx}
-
-\item{useModal}{xxx description}
+\item{addons}{A \code{list} to configure the other shiny apps to integrate.
+Each item correspond to one package:
+\itemize{
+\item the name of the slot is the name of the package
+\item the content of the slot is a vector composed of the generic name of the
+shiny app. Each of the apps listed here must be an exported app of the
+package.
+For example, given the value addons = list(testPkg = c('foo', 'foo2')). That
+means that the package called "testPkg" must provide the four functions:
+foo1_ui(), foo1_server() and foo2_ui(), foo2_server())
+}}
 
 \item{verbose}{A boolean for verbose mode. Default is FALSE.}
 }
@@ -61,7 +68,7 @@ The CV is calculated for each condition present in the dataset
 
 The function \code{\link[=heatmapD]{heatmapD()}}
 
-The function \verb{[]} is inspired from the function 'heatmap.2'
+The function [] is inspired from the function 'heatmap.2'
 that displays a numeric matrix. For more information, please refer to the
 help of the heatmap.2 function.
 }
@@ -77,18 +84,19 @@ number of missing values (NA) per lines (ie proteins) and per conditions,
 }
 
 \examples{
-\dontrun{
-  data(vdata)
-  addons <- list(omXplore = c("extFoo1", "extFoo2"))
-  shiny::runApp(view_dataset(vdata, addons, useModal = FALSE))
-  
-  shiny::runApp(view_dataset(vdata))
+if (interactive()) {
+library(shiny)
+library(omXplore)
+    data(vdata)
+    addons <- list(omXplore = c("extFoo1", "extFoo2"))
+    runApp(omXplore::view_dataset(vdata, addons))
+
+    omXplore::view_dataset(vdata)
 }
 
-
 if (interactive()) {
-  data(vdata)
-  view_dataset(vdata)
+    data(vdata)
+    view_dataset(vdata)
 }
 
 }

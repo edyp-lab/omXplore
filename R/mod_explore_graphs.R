@@ -2,9 +2,9 @@
 #' #' @param id A `character(1)` which is the id of the shiny module.
 #' #'
 #' #' @importFrom shiny NS tagList
-#' #' @importFrom DT renderDT DTOutput formatStyle %>% styleEqual datatable
+#' #' @importFrom DT renderDT DTOutput formatStyle styleEqual datatable
 #' #' @importFrom shinyjs toggle hidden
-#' #' @importFrom SummarizedExperiment rowData colData assays 
+#' #' @importFrom SummarizedExperiment rowData colData assays
 #' #'
 #' #' @rdname connected-components
 #' #' @export
@@ -231,13 +231,13 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                              from = (.to / 2) + 1, 
+#'                              from = (.to / 2) + 1,
 #'                              to = .to),
 #'                             visible = FALSE
 #'                         )
 #'                     )
 #'                 )
-#'             ) %>%
+#'             ) |>
 #'                 DT::formatStyle(
 #'                     colnames(data)[seq_len(.to / 2)],
 #'                     colnames(data)[seq.int(from = (.to / 2) + 1, to = .to)],
@@ -352,13 +352,13 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                                        from = (.to / 2) + 1, 
+#'                                        from = (.to / 2) + 1,
 #'                                        to = .to),
 #'                             visible = FALSE
 #'                         )
 #'                     )
 #'                 )
-#'             ) %>%
+#'             ) %|>
 #'                 DT::formatStyle(
 #'                     colnames(data)[seq_len(.to / 2)],
 #'                     colnames(data)[seq.int(from = (.to / 2) + 1, to = .to)],
@@ -508,7 +508,7 @@
 #'                 Shiny.onInputChange('", ns("click"), "', nodes.nodes[0]);
 #'                 Shiny.onInputChange('",
 #'                 ns("node_selected"), "', nodes.nodes.length);
-#'                 ;}")) %>%
+#'                 ;}")) |>
 #'                 visNetwork::visOptions(highlightNearest = TRUE)
 #'         })
 #'
@@ -638,13 +638,13 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                              from = (.to / 2) + 1, 
+#'                              from = (.to / 2) + 1,
 #'                                to = .to),
 #'                             visible = FALSE
 #'                         )
 #'                     )
 #'                 )
-#'             ) %>%
+#'             ) |>
 #'                 DT::formatStyle(
 #'                     colnames(data)[seq_len(.to / 2)],
 #'                     colnames(data)[seq.int(from = (.to / 2) + 1, to = .to)],
@@ -703,13 +703,13 @@
 #'                     columnDefs = list(
 #'                         list(
 #'                             targets = seq.int(
-#'                                        from = (.to / 2) + 1, 
+#'                                        from = (.to / 2) + 1,
 #'                                        to = .to),
 #'                             visible = FALSE
 #'                         )
 #'                     )
 #'                 )
-#'             ) %>%
+#'             ) |>
 #'                 DT::formatStyle(
 #'                     colnames(data)[seq_len(.to / 2)],
 #'                     colnames(data)[seq.int(from = (.to / 2) + 1, to = .to)],

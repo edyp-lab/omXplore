@@ -113,26 +113,26 @@
 #'   tab <- table(t)
 #'   conds <- names(tab)
 #'
-#'   h1 <-  highchart() %>%
-#'     customChart(chartType = "column") %>%
+#'   h1 <-  highchart() |>
+#'     customChart(chartType = "column") |>
 #'     hc_title(text = paste0("Distribution of ",
 #'                            type,
-#'                            " peptides w.r.t. proteins")) %>%
+#'                            " peptides w.r.t. proteins")) |>
 #'     hc_add_series(data = tab,
 #'                   type = "column",
-#'                   colorByPoint = TRUE) %>%
-#'     hc_colors('orange') %>%
+#'                   colorByPoint = TRUE) |>
+#'     hc_colors('orange') |>
 #'     hc_plotOptions( column = list(stacking = "normal"),
-#'                     animation = list(duration = 100)) %>%
-#'     hc_legend(enabled = FALSE) %>%
+#'                     animation = list(duration = 100)) |>
+#'     hc_legend(enabled = FALSE) |>
 #'     hc_xAxis(categories = conds,
 #'              title = list(
 #'                text = "Number of peptides")
-#'              ) %>%
+#'              ) |>
 #'     hc_yAxis(categories = conds,
 #'              title = list(text = "Number of proteins")
-#'              ) %>%
-#'     customExportMenu(fname = "HistoMatAdj") %>%
+#'              ) |>
+#'     customExportMenu(fname = "HistoMatAdj") |>
 #'     hc_tooltip(headerFormat = '',
 #'                pointFormat = "{point.y}")
 #'

@@ -94,7 +94,6 @@ Functions used to access the additional plots in the instances
 of the class \code{MultiAssayExperiment}.
 }
 \examples{
-
 ## -----------------------------------
 ## Accessing slots from a MSnSet dataset
 ## -----------------------------------
