@@ -187,7 +187,8 @@ view_dataset_server <- function(
             # By default, search image from the images directory of the omXplore
             # package. This works for built-in plot modules. For external modules,
             # then load customized resource path
-        paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
+
+            paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
         }
 
 
