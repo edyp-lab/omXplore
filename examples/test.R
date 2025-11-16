@@ -15,6 +15,7 @@ library(tibble)
         header = bs4Dash::dashboardHeader(),
         sidebar = bs4Dash::dashboardSidebar(),
         body = bs4Dash::dashboardBody(
+            useShinyjs(),
             omXplore::view_dataset_ui("eda1")
         )
     )
