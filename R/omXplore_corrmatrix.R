@@ -226,7 +226,19 @@ corrMatrix <- function(
             verticalAlign = "middle"
         ) |>
         highcharter::hc_colorAxis(stops = cor_colr, min = rate, max = 1) |>
-        customExportMenu(fname = "corrMatrix")
+         highcharter::hc_exporting(
+        enabled = TRUE,
+        filename = 'corrMatrix',
+        buttons = list(
+            contextButton = list(
+                menuItems = list(
+                    "downloadPNG",
+                    "downloadSVG",
+                    "downloadPDF"
+                )
+            )
+        )
+    )
 }
 
 

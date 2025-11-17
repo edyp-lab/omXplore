@@ -187,7 +187,19 @@ plotCCJitter <- function(
             cursor = "pointer",
             point = list(events = list(click = clickFunction))
         )) |>
-        customExportMenu(fname = "plotCC")
+        highcharter::hc_exporting(
+            enabled = TRUE,
+            filename = 'plotCC',
+            buttons = list(
+                contextButton = list(
+                    menuItems = list(
+                        "downloadPNG",
+                        "downloadSVG",
+                        "downloadPDF"
+                    )
+                )
+            )
+        )
 }
 
 

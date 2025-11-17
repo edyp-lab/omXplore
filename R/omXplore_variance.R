@@ -171,7 +171,19 @@ CVDist <- function(
             pointFormat = "<b>{series.name}</b>: {point.y} ",
             valueDecimals = 2
         ) |>
-        customExportMenu(fname = "logIntensity") |>
+        highcharter::hc_exporting(
+            enabled = TRUE,
+            filename = 'logIntensity',
+            buttons = list(
+                contextButton = list(
+                    menuItems = list(
+                        "downloadPNG",
+                        "downloadSVG",
+                        "downloadPDF"
+                    )
+                )
+            )
+        ) |>
         highcharter::hc_plotOptions(
             series = list(
                 connectNulls = TRUE,

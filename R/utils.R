@@ -104,42 +104,6 @@ GetPkgVersion <- function(pkg) {
 
 
 
-#' #' @title Customised contextual menu of highcharts plots
-#'
-#' @param hc A highcharter object
-#' @param fname The filename under which the plot has to be saved
-#'
-#' @return A contextual menu for highcharts plots
-#'
-#' @author Samuel Wieczorek
-#'
-#' @rdname customExportMenu_HC
-#'
-#' @examples
-#' NULL
-#'
-#' @export
-#' @import highcharter
-#'
-customExportMenu <- function(hc, fname) {
-    highcharter::hc_exporting(hc,
-        enabled = TRUE,
-        filename = fname,
-        buttons = list(
-            contextButton = list(
-                menuItems = list(
-                    "downloadPNG",
-                    "downloadSVG",
-                    "downloadPDF"
-                )
-            )
-        )
-    )
-    hc
-}
-
-
-
 
 #' @title Customised resetZoom Button of highcharts plots
 #'

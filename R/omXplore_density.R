@@ -185,7 +185,19 @@ densityPlot <- function(
             pointFormat = "<b> {series.name} </b>: {point.y} ",
             valueDecimals = 2
         ) |>
-        customExportMenu(fname = "densityplot") |>
+        highcharter::hc_exporting(
+            enabled = TRUE,
+            filename = 'densityplot',
+            buttons = list(
+                contextButton = list(
+                    menuItems = list(
+                        "downloadPNG",
+                        "downloadSVG",
+                        "downloadPDF"
+                    )
+                )
+            )
+        ) |>
         hc_plotOptions(
             series = list(
                 animation = list(

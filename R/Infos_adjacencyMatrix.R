@@ -132,7 +132,19 @@
 #'     hc_yAxis(categories = conds,
 #'              title = list(text = "Number of proteins")
 #'              ) |>
-#'     customExportMenu(fname = "HistoMatAdj") |>
+#'     highcharter::hc_exporting(
+#'enabled = TRUE,
+#'filename = 'fname',
+#'buttons = list(
+#'    contextButton = list(
+#'        menuItems = list(
+#'            "downloadPNG",
+#'            "downloadSVG",
+#'            "downloadPDF"
+#'        )
+#'    )
+#')
+#') |>
 #'     hc_tooltip(headerFormat = '',
 #'                pointFormat = "{point.y}")
 #'
