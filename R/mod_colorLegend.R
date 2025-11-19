@@ -28,7 +28,7 @@ NULL
 #'
 custom_metacell_colors <- function() {
     list(
-        "Any" = "white",
+        "Any" = "#FFFFFF",
         "Missing" = "#CF8205",
         "Missing POV" = "#E5A947",
         "Missing MEC" = "#F1CA8A",
