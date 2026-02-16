@@ -3,10 +3,13 @@ Type: Package
 Title: Vizualization tools for 'omics' datasets with R
 Version: 1.4.2
 Authors@R: 
-  c(person(given = "Samuel", 
+  c(person("omXplore Package Maintainer",
+    email = "prostar-proteomics@cea.fr",
+    role = c("cre")),
+person(given = "Samuel", 
       family = "Wieczorek",
       email = "samuel.wieczorek@cea.fr", 
-      role = c("aut","cre"),
+      role = c("aut"),
       comment = c(ORCID="0000-0002-5016-1203")),
   person(given = "Thomas", 
       family ="Burger",
