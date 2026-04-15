@@ -94,7 +94,7 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
-#' @import highcharter
+#' @import plotly
 #'
 #'
 #' @return NA

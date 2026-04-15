@@ -1,4 +1,4 @@
-#' @title Bar plot of missing values per lines using highcharter.
+#' @title Bar plot of missing values per lines using plotly.
 #'
 #' @description
 #'
@@ -6,7 +6,7 @@
 #' number of missing values (NA) per lines (ie proteins).
 #'
 #' * `wrapper_pca()`
-#' * `plotPCA_Eigen_hc()`: plots the eigen values of PCA with the highcharts
+#' * `plotPCA_Eigen_hc()`: plots the eigen values of PCA with the plotly
 #'    library
 #' * `plotPCA_Eigen()`: plots the eigen values of PCA
 #' * `plotPCA_Var()`
@@ -33,7 +33,7 @@
 #'     data(vdata)
 #'     library(shiny)
 #'     library(dplyr)
-#'     library(highcharter)
+#'     library(plotly)
 #'     # Replace missing values for the example
 #'     sel <- is.na(SummarizedExperiment::assay(vdata, 1))
 #'     SummarizedExperiment::assay(vdata[[1]])[sel] <- 0
@@ -53,7 +53,7 @@ NULL
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom highcharter renderHighchart
+#' @importFrom plotly renderPlotly
 #' @importFrom shinyjs useShinyjs hidden toggle
 #'
 #' @rdname ds-pca
@@ -85,7 +85,7 @@ omXplore_pca_ui <- function(id) {
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom highcharter renderHighchart
+#' @importFrom plotly renderPlotly
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment assay
 #'
@@ -145,7 +145,7 @@ omXplore_pca_server <- function(
 
         output$pcaOptions <- renderUI({
             req(rv.pca$data)
-            print(length(rv.pca$data))
+            #print(length(rv.pca$data))
             # req(length(which(is.na(rv.pca$data))) == 0)
             tagList(
                 tags$div(
@@ -231,7 +231,7 @@ omXplore_pca_server <- function(
                 plotOutput(ns("pcaPlotVar")),
                 plotOutput(ns("pcaPlotInd")),
                 formatDT_ui(ns("PCAvarCoord")),
-                highcharter::highchartOutput(ns("pcaPlotEigen"))
+                plotly::plotlyOutput(ns("pcaPlotEigen"))
             )
         })
 
@@ -270,7 +270,7 @@ omXplore_pca_server <- function(
         })
 
 
-        output$pcaPlotEigen <- highcharter::renderHighchart({
+        output$pcaPlotEigen <- plotly::renderPlotly({
             req(rv.pca$res.pca)
 
             withProgress(message = "Making plot", value = 100, {

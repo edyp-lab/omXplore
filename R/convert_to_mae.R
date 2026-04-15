@@ -80,9 +80,9 @@ MSnSet_to_mae <- function(obj) {
                 row.names = colnames(MSnbase::exprs(obj))
             )
 
-
+            og <- MSnSet_to_se(obj)
             mae <- MultiAssayExperiment::MultiAssayExperiment(
-                experiments = MultiAssayExperiment::ExperimentList(original = MSnSet_to_se(obj)),
+                experiments = MultiAssayExperiment::ExperimentList(original = og),
                 colData = .colData,
                 metadata = list(other = list())
             )
@@ -90,11 +90,11 @@ MSnSet_to_mae <- function(obj) {
             MAE_Compatibility_with_Prostar_1x(obj, mae)
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NULL
         },
         error = function(e) {
-            print(e)
+            message(e)
             NULL
         }
     )
@@ -123,11 +123,11 @@ matrix_to_mae <- function(obj) {
             )
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NULL
         },
         error = function(e) {
-            print(e)
+            message(e)
             NULL
         }
     )
@@ -146,11 +146,11 @@ df_to_mae <- function(obj) {
             matrix_to_mae(as.matrix(obj))
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NULL
         },
         error = function(e) {
-            print(e)
+            message(e)
             NULL
         }
     )
@@ -524,11 +524,11 @@ MSnSet_to_se <- function(obj) {
             obj@experimentData@other$proteinId
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NA
         },
         error = function(e) {
-            print(e)
+            message(e)
             NA
         }
     )
@@ -539,11 +539,11 @@ MSnSet_to_se <- function(obj) {
             obj@experimentData@other$keyId
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NA
         },
         error = function(e) {
-            print(e)
+            message(e)
             NA
         }
     )
@@ -555,11 +555,11 @@ MSnSet_to_se <- function(obj) {
             obj@experimentData@other$typeOfData
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NA
         },
         error = function(e) {
-            print(e)
+            message(e)
             NA
         }
     )
@@ -570,11 +570,11 @@ MSnSet_to_se <- function(obj) {
             obj@experimentData@other$Prostar_Version
         },
         warning = function(w) {
-            print(w)
+            message(w)
             NA
         },
         error = function(e) {
-            print(e)
+            message(e)
             NA
         }
     )

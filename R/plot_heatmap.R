@@ -77,7 +77,7 @@ heatmapD <- function(
 #' @export
 #'
 #' @importFrom grDevices heat.colors
-#' @importFrom graphics par layout image title mtext
+#' @importFrom graphics par image title mtext
 #' strheight strwidth axis text plot.new
 #'
 #' @rdname omXplore_heatmap
@@ -287,7 +287,6 @@ mv.heatmap <- function(
 #' @rdname omXplore_heatmap
 #' @export
 #' @return A heatmap
-#' @import graphics
 #' @import grDevices
 #'
 heatmapForMissingValues <- function(

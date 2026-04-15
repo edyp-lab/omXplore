@@ -30,7 +30,7 @@ NULL
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom highcharter highchartOutput renderHighchart
+#' @importFrom plotly plotlyOutput renderPlotly
 #' @importFrom stats density
 #' @rdname density-plot
 #' @export
@@ -45,7 +45,7 @@ omXplore_density_ui <- function(id) {
                 id = ns("badFormatMsg"),
                 h3(globals()$bad_format_txt)
             )),
-            highcharter::highchartOutput(ns("plot_ui"))
+            plotly::plotlyOutput(ns("plot_ui"))
         )
     )
 }
@@ -61,7 +61,7 @@ omXplore_density_ui <- function(id) {
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
-#' @importFrom highcharter highchartOutput renderHighchart
+#' @importFrom plotly plotlyOutput renderPlotly
 #' @importFrom stats density
 #' @importFrom SummarizedExperiment assay
 #' @rdname density-plot
@@ -104,7 +104,7 @@ omXplore_density_server <- function(
         )
 
 
-        output$plot_ui <- highcharter::renderHighchart({
+        output$plot_ui <- plotly::renderPlotly({
             req(dataIn())
             req(i())
 
@@ -129,8 +129,6 @@ omXplore_density_server <- function(
 
 
 
-#' @importFrom highcharter list_parse highchart hc_xAxis hc_yAxis
-#' hc_add_series hc_plotOptions hc_tooltip hc_legend hc_colorAxis
 #' @importFrom stats density
 #'
 #'
@@ -156,7 +154,7 @@ densityPlot <- function(
         stop("'data' is missing.")
     }
 
-    print("data......")
+    #print("data......")
     # print(head(data))
     # if (missing(conds)) {
     #   stop("'conds' is missing.")
@@ -174,46 +172,42 @@ densityPlot <- function(
     }
 
 
-    h1 <- highcharter::highchart() |>
-        hc_title(text = "Density plot") |>
-        customChart(chartType = "spline", zoomType = "x") |>
-        hc_legend(enabled = TRUE) |>
-        hc_xAxis(title = list(text = "log(Intensity)")) |>
-        hc_yAxis(title = list(text = "Density")) |>
-        hc_tooltip(
-            headerFormat = "",
-            pointFormat = "<b> {series.name} </b>: {point.y} ",
-            valueDecimals = 2
-        ) |>
-        customExportMenu(fname = "densityplot") |>
-        hc_plotOptions(
-            series = list(
-                animation = list(
-                    duration = 100
-                ),
-                connectNulls = TRUE,
-                marker = list(
-                    enabled = FALSE
+    p <- plotly::plot_ly()
+    
+    for (i in seq_len(ncol(data))) {
+        
+        dens <- stats::density(data[, i], na.rm = TRUE)
+        
+        p <- p |>
+            plotly::add_trace(
+                x = dens$x,
+                y = dens$y,
+                type = "scatter",
+                mode = "lines",
+                name = legend[i],
+                line = list(color = myColors[i]),
+                hovertemplate = paste0(
+                    "<b>", legend[i], "</b>: %{y:.2f}<extra></extra>"
                 )
             )
-        ) |>
-        hc_colors(myColors)
-
-
-    for (i in seq_len(ncol(data))) {
-        tmp <- data.frame(
-            x = stats::density(data[, i], na.rm = TRUE)$x,
-            y = stats::density(data[, i], na.rm = TRUE)$y
-        )
-
-        h1 <- h1 |>
-            hc_add_series(
-                data = list_parse(tmp),
-                name = colnames(data)[i]
-            )
     }
-
-    h1
+    
+    p <- p |>
+        plotly::layout(
+            title = "Density plot",
+            xaxis = list(title = "log(Intensity)"),
+            yaxis = list(title = "Density"),
+            margin = list(t = 60, b = 60),
+            legend = list(
+                orientation = "h",
+                x = 0,
+                y = -0.15,
+                xanchor = "left",
+                yanchor = "top"
+            )
+        )
+    
+    return(p)
 }
 
 

@@ -33,7 +33,7 @@ NULL
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
-#' @import highcharter
+#' @import plotly
 #' @importFrom DT JS
 #' @importFrom stats var
 #'
@@ -51,7 +51,7 @@ omXplore_variance_ui <- function(id) {
             h3(globals()$bad_format_txt)
         )),
         uiOutput(ns("helpTxt")),
-        highcharter::highchartOutput(ns("viewDistCV"), width = 600, height = 600)
+        plotly::plotlyOutput(ns("viewDistCV"), width = 600, height = 600)
     )
 }
 
@@ -67,7 +67,7 @@ omXplore_variance_ui <- function(id) {
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom RColorBrewer brewer.pal
-#' @import highcharter
+#' @import plotly
 #' @importFrom DT JS
 #' @importFrom stats var
 #' @importFrom SummarizedExperiment assay
@@ -100,7 +100,7 @@ omXplore_variance_server <- function(
             priority = 1000
         )
 
-        output$viewDistCV <- renderHighchart({
+        output$viewDistCV <- renderPlotly({
             req(rv$data)
             withProgress(message = "Making plot", value = 100, {
                 varDist <- CVDist(
@@ -128,7 +128,7 @@ omXplore_variance_server <- function(
 
 
 #' @importFrom stats density var
-#' @import highcharter
+#' @import plotly
 #'
 #'
 #' @export
@@ -156,66 +156,75 @@ CVDist <- function(
 
     u_conds <- unique(conds)
     myColors <- SampleColors(u_conds)
+    n <- length(u_conds)
 
-    h1 <- highcharter::highchart() |>
-        customChart(chartType = "spline", zoomType = "x") |>
-        highcharter::hc_colors(myColors) |>
-        highcharter::hc_legend(
-            enabled = TRUE,
-            categories = u_conds
-        ) |>
-        highcharter::hc_xAxis(title = list(text = "CV(log(Intensity))")) |>
-        highcharter::hc_yAxis(title = list(text = "Density")) |>
-        highcharter::hc_tooltip(
-            headerFormat = "",
-            pointFormat = "<b>{series.name}</b>: {point.y} ",
-            valueDecimals = 2
-        ) |>
-        customExportMenu(fname = "logIntensity") |>
-        highcharter::hc_plotOptions(
-            series = list(
-                connectNulls = TRUE,
-                marker = list(
-                    enabled = FALSE
-                )
-            )
-        )
-
-    minX <- maxX <- 0
-    maxY <- 0
-    for (i in seq_len(length(u_conds))) {
-        if (length(which(conds == u_conds[i])) > 1) {
+    p <- plotly::plot_ly()
+    
+    minX <- Inf
+    maxX <- -Inf
+    
+    for (i in seq_len(n)) {
+        
+        idx <- which(conds == u_conds[i])
+        
+        if (length(idx) > 1) {
             t <- apply(
-                dataIn[, which(conds == u_conds[i])], 1,
+                dataIn[, idx, drop = FALSE], 1,
                 function(x) {
-                    100 * stats::var(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+                    m <- mean(x, na.rm = TRUE)
+                    if (is.na(m) || m == 0) return(NA)
+                    100 * stats::var(x, na.rm = TRUE) / m
                 }
             )
-            tmp <- data.frame(
-                x = stats::density(t, na.rm = TRUE)$x,
-                y = stats::density(t, na.rm = TRUE)$y
-            )
-
-            ymaxY <- max(maxY, tmp$y)
-            xmaxY <- tmp$x[which(tmp$y == max(tmp$y))]
-            minX <- min(minX, tmp$x)
-            maxX <- max(maxX, 10 * (xmaxY - minX))
-
-            h1 <- h1 |> hc_add_series(data = tmp, name = u_conds[i])
+            
+            t <- t[!is.na(t)]
+            
+            if (length(t) > 1) {
+                dens <- stats::density(t)
+                
+                minX <- min(minX, dens$x)
+                xmaxY <- dens$x[which.max(dens$y)]
+                maxX <- max(maxX, 10 * (xmaxY - minX))
+                
+                p <- p |>
+                    plotly::add_trace(
+                        x = dens$x,
+                        y = dens$y,
+                        type = "scatter",
+                        mode = "lines",
+                        name = u_conds[i],
+                        line = list(color = myColors[i]),
+                        hovertemplate = paste0(
+                            "<b>", u_conds[i], "</b>: %{y:.2f}<extra></extra>"
+                        )
+                    )
+            }
         }
     }
-
-    h1 <- h1 |>
-        hc_chart(
-            events = list(
-                load = DT::JS(paste0("function(){
-                         var chart = this;
-                         this.xAxis[0].setExtremes(", minX, ",", maxX, ");
-                         this.showResetZoom();}"))
+    
+    if (!is.finite(minX) || !is.finite(maxX)) {
+        minX <- NULL
+        maxX <- NULL
+    }
+    
+    p <- p |>
+        plotly::layout(
+            xaxis = list(
+                title = "CV(log(Intensity))",
+                range = if (!is.null(minX)) c(minX, maxX) else NULL, 
+                zeroline = FALSE
+            ),
+            yaxis = list(title = "Density"),
+            legend = list(
+                orientation = "h",
+                x = 0,
+                y = -0.15,
+                xanchor = "left",
+                yanchor = "top"
             )
         )
-
-    return(h1)
+    
+    return(p)
 }
 
 

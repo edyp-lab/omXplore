@@ -32,7 +32,7 @@ NULL
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
 #' @importFrom SummarizedExperiment rowData colData assays
 #' @rdname ds-cc
@@ -106,7 +106,7 @@ omXplore_cc_ui <- function(id) {
                                 ),
                                 fluidRow(
                                     column(width = 6, tagList(
-                                        highcharter::highchartOutput(ns("jiji")),
+                                        plotly::plotlyOutput(ns("jiji")),
                                         # uiOutput(ns("CCMultiMulti_DL_btns_ui")),
                                         shinyjs::hidden(uiOutput(ns("CCMultiMulti_UI")))
                                     )),
@@ -138,7 +138,7 @@ omXplore_cc_ui <- function(id) {
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom visNetwork renderVisNetwork visEvents visNetworkOutput
 #' @importFrom SummarizedExperiment rowData colData assays assay
 #' @import shinyjqui
@@ -292,7 +292,7 @@ omXplore_cc_server <- function(
 
 
         # Plots Multi_Multi CC
-        output$jiji <- highcharter::renderHighchart({
+        output$jiji <- plotly::renderPlotly({
             # tooltip <- 'Sequence'
 
             isolate({
@@ -309,12 +309,8 @@ omXplore_cc_server <- function(
                     index = seq(local)
                 )
                 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
-
-                clickFun <- shinyjqui::JS(paste0(
-                    "function(event) {Shiny.onInputChange('",
-                    ns("eventPointClicked"), "', [this.index]+'_'+ [this.series.name]);}"
-                ))
-                plotCC <- plotCCJitter(df, clickFunction = clickFun)
+                
+                plotCC <- plotCCJitter(df)
             })
             plotCC
         })

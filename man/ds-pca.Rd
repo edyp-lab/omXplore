@@ -120,7 +120,7 @@ This method plots a bar plot which represents the distribution of the
 number of missing values (NA) per lines (ie proteins).
 \itemize{
 \item \code{wrapper_pca()}
-\item \code{plotPCA_Eigen_hc()}: plots the eigen values of PCA with the highcharts
+\item \code{plotPCA_Eigen_hc()}: plots the eigen values of PCA with the plotly
 library
 \item \code{plotPCA_Eigen()}: plots the eigen values of PCA
 \item \code{plotPCA_Var()}
@@ -142,7 +142,7 @@ if (interactive()) {
     data(vdata)
     library(shiny)
     library(dplyr)
-    library(highcharter)
+    library(plotly)
     # Replace missing values for the example
     sel <- is.na(SummarizedExperiment::assay(vdata, 1))
     SummarizedExperiment::assay(vdata[[1]])[sel] <- 0

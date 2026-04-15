@@ -26,7 +26,7 @@ NULL
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom DT JS
 #' @importFrom tibble tibble as_tibble
 #' @importFrom stats cor
@@ -47,7 +47,7 @@ omXplore_corrmatrix_ui <- function(id) {
         )),
         uiOutput(ns("showValues_ui")),
         uiOutput(ns("rate_ui")),
-        highcharter::highchartOutput(ns("plot"),
+        plotly::plotlyOutput(ns("plot"),
             width = "600px", height = "500px"
         )
     )
@@ -62,7 +62,7 @@ omXplore_corrmatrix_ui <- function(id) {
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom DT JS
 #' @importFrom tibble tibble as_tibble
 #' @importFrom stats cor
@@ -109,7 +109,7 @@ omXplore_corrmatrix_server <- function(
             )
         })
 
-        output$plot <- highcharter::renderHighchart({
+        output$plot <- plotly::renderPlotly({
             req(dataIn())
 
             withProgress(message = "Making plot", value = 100, {
@@ -140,12 +140,7 @@ omXplore_corrmatrix_server <- function(
 #'
 #' @export
 #'
-#' @importFrom tibble as_tibble tibble
-#' @importFrom dplyr mutate left_join select
-#' @importFrom tidyr gather
 #' @importFrom stats cor
-#' @importFrom highcharter list_parse2 highchart hc_xAxis hc_yAxis
-#' hc_add_series hc_plotOptions hc_tooltip hc_legend hc_colorAxis
 #'
 #' @return A plot
 #'
@@ -158,75 +153,42 @@ corrMatrix <- function(
         showValues = FALSE) {
     stopifnot(inherits(data, "matrix"))
 
-    requireNamespace('dplyr')
-    res <- cor(data, use = "pairwise.complete.obs")
-
-    df <- tibble::as_tibble(res)
-    colnames(df) <- colnames(data)
-
-    is.num <- sapply(df, is.numeric)
-    df[is.num] <- lapply(df[is.num], round, 2)
-    dist <- NULL
-
-    x <- y <- names(df)
-
-    df <- tibble::as_tibble(cbind(x = y, df)) |>
+    df <- cor(data, use = "pairwise.complete.obs")
     
-        tidyr::gather(y, dist, -x) |>
-        dplyr::mutate(
-            x = as.character(x),
-            y = as.character(y)
-        ) |>
-        dplyr::left_join(
-            tibble::tibble(
-                x = y,
-                xid = seq(length(y)) - 1
-            ),
-            by = "x"
-        ) |>
-        dplyr::left_join(
-            tibble::tibble(
-                y = y,
-                yid = seq(length(y)) - 1
-            ),
-            by = "y"
+    is.num <- vapply(df, is.numeric, FUN.VALUE = NA)
+    df[is.num] <- lapply(df[is.num], round, 2)
+    mat <- as.matrix(df)
+    labels <- colnames(mat)
+    
+    text_mat <- if (showValues) {
+        matrix(sprintf("%.2f", mat), nrow = nrow(mat))
+    } else {
+        NULL
+    }
+    
+    plotly::plot_ly(
+        x = labels,
+        y = labels,
+        z = mat,
+        type = "heatmap",
+        colorscale = list(
+            list(0, "#FF5733"),
+            list(0.5, "#F8F5F5"),
+            list(1, "#2E86C1")
+        ),
+        zmin = rate,
+        zmax = 1,
+        text = text_mat,
+        texttemplate = if (showValues) "%{text}" else NULL,
+        hovertemplate = paste(
+            "%{y} ~ %{x}: <b>%{z:.2f}</b><extra></extra>"
         )
-
-    ds <- df |>
-        dplyr::select("xid", "yid", "dist") |>
-        highcharter::list_parse2()
-
-    fntltp <- DT::JS("function(){
-                  return this.series.xAxis.categories[this.point.x] + ' ~ ' +
-                  this.series.yAxis.categories[this.point.y] + ': <b>' +
-                  Highcharts.numberFormat(this.point.value, 2)+'</b>';
-               ; }")
-    cor_colr <- list(
-        list(0, "#FF5733"),
-        list(0.5, "#F8F5F5"),
-        list(1, "#2E86C1")
-    )
-
-
-    highcharter::highchart() |>
-        customChart(chartType = "heatmap") |>
-        highcharter::hc_xAxis(categories = y, title = NULL) |>
-        highcharter::hc_yAxis(categories = y, title = NULL) |>
-        highcharter::hc_add_series(data = ds) |>
-        highcharter::hc_plotOptions(
-            series = list(
-                boderWidth = 0,
-                dataConditions = list(enabled = TRUE),
-                dataLabels = list(enabled = showValues)
-            )
-        ) |>
-        highcharter::hc_tooltip(formatter = fntltp) |>
-        highcharter::hc_legend(
-            align = "right", layout = "vertical",
-            verticalAlign = "middle"
-        ) |>
-        highcharter::hc_colorAxis(stops = cor_colr, min = rate, max = 1) |>
-        customExportMenu(fname = "corrMatrix")
+    ) |>
+        plotly::layout(
+            xaxis = list(title = "", side = "top"),
+            yaxis = list(title = ""),
+            margin = list(l = 100, r = 100)
+        )
 }
 
 

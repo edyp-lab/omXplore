@@ -6,7 +6,6 @@
 #' @param layout A `character(1)` which i the layout used in visNetwork.
 #' Default value is 'layout_with_fr'
 #' @param df A data.frame()
-#' @param clickFunction A JS function to determine the behaviour of a click
 #'
 #'
 #' @author Thomas Burger, Samuel Wieczorek
@@ -21,7 +20,7 @@
 #'
 #' @name pep_prot_CC
 #'
-#' @import highcharter
+#' @import plotly
 #' @import visNetwork
 #'
 NULL
@@ -145,17 +144,11 @@ display.CC.visNet <- function(
 #' @return A plot
 #'
 #' @export
-#' @import highcharter
+#' @import plotly
 #' @rdname pep_prot_CC
 #'
 plotCCJitter <- function(
-        df,
-        clickFunction = NULL) {
-    if (is.null(clickFunction)) {
-        clickFunction <-
-            JS("function(event){Shiny.onInputChange('eventPointClicked',
-          [this.index]+'_'+ [this.series.name]);}")
-    }
+        df) {
 
     # i_tooltip <- which(startsWith(colnames(df), "tooltip"))
     txt_tooltip <- NULL
@@ -171,23 +164,24 @@ plotCCJitter <- function(
     # }
     # }
 
-    highcharter::highchart() |>
-        highcharter::hc_add_series(data = df, type = "scatter") |>
-        customChart(zoomType = "xy", chartType = "scatter") |>
-        highcharter::hc_legend(enabled = FALSE) |>
-        highcharter::hc_yAxis(title = list(text = "Nb of proteins")) |>
-        highcharter::hc_xAxis(title = list(text = "Nb of peptides")) |>
-        highcharter::hc_tooltip(
-            enabled = FALSE,
-            headerFormat = "",
-            pointFormat = txt_tooltip
-        ) |>
-        highcharter::hc_plotOptions(series = list(
-            animation = list(duration = 100),
-            cursor = "pointer",
-            point = list(events = list(click = clickFunction))
-        )) |>
-        customExportMenu(fname = "plotCC")
+    p <- plot_ly(
+        data = df,
+        x = ~x,
+        y = ~y,
+        type = "scatter",
+        mode = "markers",
+        text = txt_tooltip,
+        hoverinfo = "text",
+        showlegend = FALSE
+    ) |>
+        plotly::layout(
+            xaxis = list(title = "Nb of peptides ic CC"),
+            yaxis = list(title = "Nb of proteins ic CC"),
+            hovermode = "closest",
+            margin = list(b = 60) 
+        )
+    
+    return(p)
 }
 
 

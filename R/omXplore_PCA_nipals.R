@@ -78,7 +78,7 @@ my_PCA <- function(
             sum(is.na(l)) == length(l)
         }
         ll <- c()
-        for (i in 1:nrow(X)) {
+        for (i in seq_len(nrow(X))) {
             if (is.empty(X[i, ])) {
                 ll <- c(ll, i)
             }
@@ -105,13 +105,13 @@ my_PCA <- function(
             X[, is.quali, drop = FALSE],
             levels
         ))
-        if (sum(duplicated(niveau)) > 0 | any(niveau %in% (1:nrow(X)))) {
-            for (j in 1:ncol(X[, is.quali, drop = FALSE])) {
+        if (sum(duplicated(niveau)) > 0 | any(niveau %in% seq_len(nrow(X)))) {
+            for (j in seq_len(ncol(X[, is.quali, drop = FALSE]))) {
                 if ((sum(niveau %in% levels(X[, is.quali[j]])) !=
                     nlevels(X[, is.quali[j]])) | any(levels(X[
                     ,
                     is.quali[j]
-                ]) %in% (1:nrow(X)))) {
+                ]) %in% seq_len(nrow(X)))) {
                     levels(X[, is.quali[j]]) <- paste(attributes(X[,
                         is.quali,
                         drop = FALSE
@@ -139,7 +139,7 @@ my_PCA <- function(
                 ncol = ncol(X), nrow = nrow(X), byrow = TRUE
             )[is.na(X)]
         } else {
-            for (j in (1:ncol(X))[-quali.sup]) {
+            for (j in seq_len(ncol(X))[-quali.sup]) {
                 X[, j] <- replace(X[
                     ,
                     j
@@ -159,12 +159,10 @@ my_PCA <- function(
     if (!is.null(quali.sup)) {
         X <- X[, -quali.sup, drop = FALSE]
     }
-    auxi <- colnames(X)[!sapply(X, is.numeric)]
+    auxi <- colnames(X)[!vapply(X, is.numeric, logical(1))]
     if (length(auxi) > 0) {
-        stop(paste(
-            "\nThe following variables are not quantitative: ",
-            auxi
-        ))
+        txt <- paste("\nThe following variables are not quantitative: ", auxi)
+        stop(txt)
     }
     todelete <- c(quali.sup, quanti.sup)
     if (!is.null(todelete)) {
@@ -221,7 +219,7 @@ my_PCA <- function(
     }
 
     vp <- matrix(NA, length(eig), 3)
-    rownames(vp) <- paste("comp", 1:length(eig))
+    rownames(vp) <- paste("comp", seq_along(eig))
     colnames(vp) <- c(
         "eigenvalue", "percentage of variance",
         "cumulative percentage of variance"
@@ -233,7 +231,7 @@ my_PCA <- function(
         "percentage of variance"
     ])
 
-    eig <- eig[1:ncp]
+    eig <- eig[seq_len(ncp)]
     coord.ind <- t(t(as.matrix(U)) * sqrt(eig))
     coord.var <- t(t(as.matrix(V)) * sqrt(eig))
     contrib.var <- t(t(coord.var^2) / eig) * col.w
@@ -242,15 +240,15 @@ my_PCA <- function(
     cos2.var <- cor.var^2
     rownames(coord.var) <- rownames(cos2.var) <- rownames(cor.var) <- rownames(contrib.var) <- colnames(X)
     colnames(coord.var) <- colnames(cos2.var) <- colnames(cor.var) <- colnames(contrib.var) <- paste("Dim",
-        c(1:ncol(V)),
+        c(seq_len(ncol(V))),
         sep = "."
     )
     res.var <- list(
-        coord = coord.var[, 1:ncp, drop = FALSE],
-        cor = cor.var[, 1:ncp, drop = FALSE], cos2 = cos2.var[,
-            1:ncp,
+        coord = coord.var[, seq_len(ncp), drop = FALSE],
+        cor = cor.var[, seq_len(ncp), drop = FALSE], cos2 = cos2.var[,
+            seq_len(ncp),
             drop = FALSE
-        ], contrib = contrib.var[, 1:ncp,
+        ], contrib = contrib.var[, seq_len(ncp),
             drop = FALSE
         ] * 100
     )
@@ -259,13 +257,13 @@ my_PCA <- function(
     contrib.ind <- t(t(coord.ind^2 * row.w / sum(row.w)) / eig)
     rownames(coord.ind) <- rownames(cos2.ind) <- rownames(contrib.ind) <- names(dist2) <- rownames(X)
     colnames(coord.ind) <- colnames(cos2.ind) <- colnames(contrib.ind) <- paste("Dim",
-        c(1:ncol(U)),
+        c(seq_len(ncol(U))),
         sep = "."
     )
     res.ind <- list(
-        coord = coord.ind[, 1:ncp, drop = FALSE],
-        cos2 = cos2.ind[, 1:ncp, drop = FALSE], contrib = contrib.ind[,
-            1:ncp,
+        coord = coord.ind[, seq_len(ncp), drop = FALSE],
+        cos2 = cos2.ind[, seq_len(ncp), drop = FALSE], contrib = contrib.ind[,
+            seq_len(ncp),
             drop = FALSE
         ] * 100, dist = sqrt(dist2)
     )
@@ -285,10 +283,10 @@ my_PCA <- function(
         coord.ind.sup <- crossprod(t(coord.ind.sup), tmp$V)
         dist2 <- rowSums(t(t(X.ind.sup^2) * col.w))
         cos2.ind.sup <- coord.ind.sup^2 / dist2
-        coord.ind.sup <- coord.ind.sup[, 1:ncp, drop = FALSE]
-        cos2.ind.sup <- cos2.ind.sup[, 1:ncp, drop = FALSE]
+        coord.ind.sup <- coord.ind.sup[, seq_len(ncp), drop = FALSE]
+        cos2.ind.sup <- cos2.ind.sup[, seq_len(ncp), drop = FALSE]
         colnames(coord.ind.sup) <- colnames(cos2.ind.sup) <- paste("Dim",
-            c(1:ncp),
+            c(seq_len(ncp)),
             sep = "."
         )
         rownames(coord.ind.sup) <- rownames(cos2.ind.sup) <- names(dist2) <- rownames(X.ind.sup)
@@ -325,14 +323,14 @@ my_PCA <- function(
         cor.vcs <- coord.vcs / sqrt(dist2)
         cos2.vcs <- cor.vcs^2
         colnames(coord.vcs) <- colnames(cor.vcs) <- colnames(cos2.vcs) <- paste("Dim",
-            c(1:ncol(cor.vcs)),
+            c(seq_len(ncol(cor.vcs))),
             sep = "."
         )
         rownames(coord.vcs) <- rownames(cor.vcs) <- rownames(cos2.vcs) <- colnames(Xtot)[quanti.sup]
         res.quanti.sup <- list(
-            coord = coord.vcs[, 1:ncp, drop = FALSE],
-            cor = cor.vcs[, 1:ncp, drop = FALSE], cos2 = cos2.vcs[,
-                1:ncp,
+            coord = coord.vcs[, seq_len(ncp), drop = FALSE],
+            cor = cor.vcs[, seq_len(ncp), drop = FALSE], cos2 = cos2.vcs[,
+                seq_len(ncp),
                 drop = FALSE
             ]
         )
@@ -355,22 +353,22 @@ my_PCA <- function(
             eta2 <- as.matrix(sapply(X.quali.sup, fct.eta2, res$ind$coord,
                 weights = row.w
             ), ncol = ncp)
-            colnames(eta2) <- paste("Dim", 1:ncp)
+            colnames(eta2) <- paste("Dim", seq_len(ncp))
             rownames(eta2) <- colnames(X.quali.sup)
         }
-        for (i in 1:ncol(X.quali.sup)) {
+        for (i in seq_len(ncol(X.quali.sup))) {
             var <- as.factor(X.quali.sup[, i])
             n.mod <- nlevels(var)
             modalite <- c(modalite, n.mod)
             bary <- matrix(NA, n.mod, ncol(X))
-            for (j in 1:n.mod) {
+            for (j in seq_len(n.mod)) {
                 ind <- levels(var)[j]
                 bary[j, ] <- moy.ptab(data[which(var == ind), ], row.w[which(var == ind)])
                 nombre <- c(nombre, sum(row.w.init[which(var ==
                     ind)]))
             }
             colnames(bary) <- colnames(X)
-            if ((levels(var)[1] %in% (1:nrow(X))) | (levels(var)[1] %in%
+            if ((levels(var)[1] %in% seq_len(nrow(X))) | (levels(var)[1] %in%
                 c("y", "Y", "n", "N"))) {
                 row.names(bary) <- paste(colnames(X.quali.sup)[i],
                     as.character(levels(var)),
@@ -392,7 +390,7 @@ my_PCA <- function(
         dist2 <- rowSums(t(t(bary^2) * col.w))
         coord.barycentre <- t(t(bary) * col.w)
         coord.barycentre <- crossprod(t(coord.barycentre), tmp$V)
-        colnames(coord.barycentre) <- paste("Dim", 1:ncol(coord.barycentre),
+        colnames(coord.barycentre) <- paste("Dim", seq_len(ncol(coord.barycentre)),
             sep = "."
         )
         cos2.bary.sup <- coord.barycentre^2 / dist2
@@ -403,9 +401,9 @@ my_PCA <- function(
         } else {
             vtest <- vtest * sqrt(nombre)
         }
-        cos2.bary.sup <- cos2.bary.sup[, 1:ncp, drop = FALSE]
-        coord.barycentre <- coord.barycentre[, 1:ncp, drop = FALSE]
-        vtest <- vtest[, 1:ncp, drop = FALSE]
+        cos2.bary.sup <- cos2.bary.sup[, seq_len(ncp), drop = FALSE]
+        coord.barycentre <- coord.barycentre[, seq_len(ncp), drop = FALSE]
+        vtest <- vtest[, seq_len(ncp), drop = FALSE]
         dimnames(cos2.bary.sup) <- dimnames(vtest) <- dimnames(coord.barycentre)
         names(dist2) <- rownames(coord.barycentre)
         res.quali.sup <- list(
@@ -423,11 +421,11 @@ my_PCA <- function(
     res$call <- res.call
     class(res) <- c("PCA", "list")
     if (graph & (ncp > 1)) {
-        print(FactoMineR::plot.PCA(res, choix = "ind", axes = axes))
-        print(FactoMineR::plot.PCA(res,
+        FactoMineR::plot.PCA(res, choix = "ind", axes = axes)
+        FactoMineR::plot.PCA(res,
             choix = "var", axes = axes, shadowtext = TRUE,
             new.plot = TRUE
-        ))
+        )
     }
 
     return(res)

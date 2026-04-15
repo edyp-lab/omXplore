@@ -34,7 +34,8 @@ omXplore can handle MSnset and QFeatures files.
 pkgs.require2 <- function(ll.deps) {
     lapply(ll.deps, function(x) {
         if (!requireNamespace(x, quietly = TRUE)) {
-            stop(paste0("Please install ", x, ": BiocManager::install('", x, "')"))
+            txt <- paste0("Please install ", x, ": BiocManager::install('", x, "')")
+            stop(txt)
         }
     })
 }
@@ -102,96 +103,6 @@ GetPkgVersion <- function(pkg) {
 }
 
 
-
-
-#' #' @title Customised contextual menu of highcharts plots
-#'
-#' @param hc A highcharter object
-#' @param fname The filename under which the plot has to be saved
-#'
-#' @return A contextual menu for highcharts plots
-#'
-#' @author Samuel Wieczorek
-#'
-#' @rdname customExportMenu_HC
-#'
-#' @examples
-#' NULL
-#'
-#' @export
-#' @import highcharter
-#'
-customExportMenu <- function(hc, fname) {
-    highcharter::hc_exporting(hc,
-        enabled = TRUE,
-        filename = fname,
-        buttons = list(
-            contextButton = list(
-                menuItems = list(
-                    "downloadPNG",
-                    "downloadSVG",
-                    "downloadPDF"
-                )
-            )
-        )
-    )
-    hc
-}
-
-
-
-
-#' @title Customised resetZoom Button of highcharts plots
-#'
-#' @param hc A highcharter object
-#' @param chartType The type of the plot
-#' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
-#' @param width The width of the plot
-#' @param height The height of the plot
-#'
-#' @return A highchart plot
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' if (interactive()) {
-#'     library(highcharter)
-#'     hc <- highchart()
-#'     hc_chart(hc, type = "line")
-#'     hc_add_series(hc, data = c(29, 71, 40))
-#'     customChart(hc)
-#' }
-#'
-#' @export
-#' @examples
-#' NULL
-#'
-#' @import highcharter
-#'
-customChart <- function(
-        hc,
-        chartType = "scatter",
-        zoomType = "None",
-        width = 0,
-        height = 0) {
-    hc |>
-        hc_chart(
-            type = chartType,
-            zoomType = zoomType,
-            showAxes = TRUE,
-            width = width,
-            height = height,
-            resetZoomButton = list(
-                position = list(
-                    align = "left",
-                    verticalAlign = "top"
-                )
-            )
-        )
-}
-
-
-
 #' @noRd
 #' @export
 #' @return NA
@@ -226,6 +137,9 @@ customChart <- function(
 #' @return A data.frame
 #'
 #' @export
+#' 
+#' @examples
+#' NULL
 #'
 FormatDataForDT <- function(
         se,

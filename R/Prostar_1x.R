@@ -22,6 +22,7 @@ NULL
 #' @importFrom MSnbase exprs pData fData
 #' @importFrom MultiAssayExperiment DataFrame
 #' @importFrom SummarizedExperiment rowData
+#' @importFrom Biobase experimentData
 #'
 SE_Compatibility_with_Prostar_1.x <- function(obj, se) {
     stopifnot(inherits(obj, "MSnSet") && inherits(se, "SummarizedExperiment"))
@@ -38,11 +39,11 @@ SE_Compatibility_with_Prostar_1.x <- function(obj, se) {
             }
         },
         warning = function(w) {
-            print(w)
+            message(w)
             MultiAssayExperiment::DataFrame()
         },
         error = function(e) {
-            print(e)
+            message(e)
             MultiAssayExperiment::DataFrame()
         }
     )

@@ -92,7 +92,7 @@ extFoo1_server <- function(
 
         output$plot <- renderPlot({
             req(rv$data)
-            hist(SummarizedExperiment::assay(rv$data[[i()]]))
+            graphics::hist(SummarizedExperiment::assay(rv$data[[i()]]))
         })
     })
 }

@@ -20,7 +20,7 @@ editor_options:
     wrap: 72
 ---
 
-```{r style, echo = FALSE, results = 'asis'}
+```{r init, style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown()
 ```
 
@@ -63,7 +63,7 @@ Following Bioconductor's recommendations about [Running shiny
 apps](https://contributions.bioconductor.org/shiny.html#running-app),
 the source code for this plot function should look as follows:
 
-```{r, eval=FALSE}
+```{r plot1, eval=FALSE}
 myFirstPlot <- function(obj, i) {
     ui <- myFirstPlot_ui(id)
     server <- myFirstPlot_server(id, obj, i)
@@ -92,7 +92,7 @@ It is necessary that the functions \*_ui() and \*_server are defined outside the
 
 Thus, the following code **will not work**:
 
-```{r, eval=FALSE}
+```{r plot2, eval=FALSE}
 myFirstPlot <- function(obj, i) {
     ui <- function(id) {
         ...
@@ -112,7 +112,7 @@ myFirstPlot <- function(obj, i) {
 
 
 A functional code is as follows:
-```{r, eval=FALSE}
+```{r plot3, eval=FALSE}
 myFirstPlot_ui <- function(id) {
     ...
 }
@@ -143,7 +143,7 @@ As an example, the code below will add three external plots:
 
 The corresponding R code is the following:
 
-```{r eval = FALSE}
+```{r add, eval = FALSE}
 addons <- list(
     myPkgA = c("extFoo1", "extFoo2"),
     myPkgB = c("extFoo1")
@@ -186,7 +186,7 @@ However, there are two important modifications:
 
 -   so as to let `omXplore` find the plot function, it must already be loaded in the global R environment before running the app `view_dataset()`. Please note that in this case, there is to need to set the parameter "addons".
 
-```{r, eval=FALSE}
+```{r splot, eval=FALSE}
 omXplore_mySecondPlot <- function(obj, i) {
     ui <- omXplore_mySecondPlot_ui(id)
     server <- omXplore_mySecondPlot_server(id, obj, i)
@@ -198,6 +198,6 @@ omXplore_mySecondPlot <- function(obj, i) {
 
 ## Session information
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```

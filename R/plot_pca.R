@@ -83,7 +83,7 @@ wrapper_pca <- function(
 
 
 #' @export
-#' @import highcharter
+#' @import plotly
 #'
 #' @rdname ds-pca
 #' @return A plot
@@ -91,44 +91,42 @@ wrapper_pca <- function(
 plotPCA_Eigen <- function(res.pca) {
     stopifnot(!is.null(res.pca))
 
-    hc <- highcharter::highchart() |>
-        highcharter::hc_yAxis_multiples(
-            list(
-                title = list(text = "% of variances"),
-                lineWidth = 0,
-                labels = list(format = "{value}%"),
-                max = 100
-            ),
-            list(
-                title = list(text = "Cumulative % of variances"),
-                opposite = FALSE,
-                max = 100
-            ),
-            list(
-                title = list(text = "Eigen values"),
-                opposite = TRUE,
-                labels = list(format = "{value}%")
-            )
-        ) |>
-        highcharter::hc_xAxis(
-            title = "Principal Components",
-            categories = rownames(res.pca$eig)
-        ) |>
-        highcharter::hc_add_series(data.frame(y = res.pca$eig[, 2]),
-            type = "column",
+    df <- data.frame(
+        PC = rownames(res.pca$eig),
+        var = res.pca$eig[, 2],
+        cumvar = res.pca$eig[, 3],
+        eig = res.pca$eig[, 1]
+    )
+    
+    
+    p <- plotly::plot_ly(df, x = ~PC) |>
+        plotly::add_bars(
+            y = ~var,
             name = "% of variances",
-            yAxis = 0
+            marker = list(color = "rgba(100,150,200,0.8)")
         ) |>
-        highcharter::hc_add_series(data.frame(y = res.pca$eig[, 3]),
-            type = "line",
-            color = "darkblue",
+        plotly::add_lines(
+            y = ~cumvar,
+            mode = "lines+markers",
             name = "Cumulative % of variances",
-            color = "#FF7900",
-            yAxis = 0
+            line = list(color = "darkblue", width = 2),
+            marker = list(color = "darkblue", size = 6)
         ) |>
-        highcharter::hc_legend(enabled = TRUE)
-
-    hc
+        plotly::layout(
+            xaxis = list(title = "Principal Components"),
+            yaxis = list(
+                title = "% of variances",
+                range = c(0, 100),
+                ticksuffix = "%"),
+            margin = list(t = 30),
+            legend = list(
+                orientation = "h",
+                x = 0,
+                y = -0.15
+            )
+        )
+    
+    return(p)
 }
 
 
@@ -180,7 +178,7 @@ plotPCA_Ind <- function(res.pca, chosen.axes = c(1, 2)) {
 
 
 
-#' @import highcharter
+#' @import plotly
 #' @rdname ds-pca
 #' @return A plot
 #' @export
@@ -189,42 +187,41 @@ plotPCA_Eigen_hc <- function(res.pca) {
     if (is.null(res.pca)) {
         return(NULL)
     }
-    hc <- highchart() |>
-        hc_yAxis_multiples(
-            list(
-                title = list(text = "% of variances"),
-                lineWidth = 0,
-                labels = list(format = "{value}%"), max = 100
-            ),
-            list(
-                title = list(text = "Cumulative % of variances"),
-                opposite = FALSE,
-                max = 100
-            ),
-            list(
-                title = list(text = "Eigen values"),
-                opposite = TRUE,
-                labels = list(format = "{value}%")
-            )
-        ) |>
-        hc_xAxis(
-            title = "Principal Components",
-            categories = rownames(res.pca$eig)
-        ) |>
-        hc_add_series(
-            data.frame(y = res.pca$eig[, 2]),
-            type = "column",
+    
+    df <- data.frame(
+        PC = rownames(res.pca$eig),
+        var = res.pca$eig[, 2],
+        cumvar = res.pca$eig[, 3],
+        eig = res.pca$eig[, 1]
+    )
+    
+    
+    p <- plotly::plot_ly(df, x = ~PC) |>
+        plotly::add_bars(
+            y = ~var,
             name = "% of variances",
-            yAxis = 0
+            marker = list(color = "rgba(100,150,200,0.8)")
         ) |>
-        hc_add_series(
-            data.frame(y = res.pca$eig[, 3]),
-            type = "line",
-            color = "darkblue",
+        plotly::add_lines(
+            y = ~cumvar,
+            mode = "lines+markers",
             name = "Cumulative % of variances",
-            # marker = "diamond",
-            color = "#FF7900",
-            yAxis = 0
+            line = list(color = "darkblue", width = 2),
+            marker = list(color = "darkblue", size = 6)
         ) |>
-        hc_legend(enabled = TRUE)
+        plotly::layout(
+            xaxis = list(title = "Principal Components"),
+            yaxis = list(
+                title = "% of variances",
+                range = c(0, 100),
+                ticksuffix = "%"),
+            margin = list(t = 30),
+            legend = list(
+                orientation = "h",
+                x = 0,
+                y = -0.15
+            )
+        )
+    
+    return(p)
 }

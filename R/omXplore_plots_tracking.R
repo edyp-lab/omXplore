@@ -23,7 +23,7 @@ NULL
 
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
+#' renderUI req selectInput isolate uiOutput tagList fluidPage div p updateTextInput
 #' numericInput observe plotOutput renderImage renderPlot selectizeInput
 #' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
 #' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
@@ -116,7 +116,7 @@ plots_tracking_server <- function(
 
 
         observeEvent(remoteReset(), ignoreNULL = TRUE, ignoreInit = TRUE, {
-            print("omXplore : in observeEvent(remoteReset()")
+            #print("omXplore : in observeEvent(remoteReset()")
 
             lapply(names(rv.widgets), function(x) {
                 rv.widgets[[x]] <- widgets.default.values[[x]]
@@ -300,7 +300,7 @@ plots_tracking <- function(obj) {
         )
 
         observeEvent(req(indices()$indices), {
-            print(indices()$indices)
+            #print(indices()$indices)
         })
     }
 

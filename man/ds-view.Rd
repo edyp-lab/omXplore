@@ -5,7 +5,7 @@
 \alias{view_dataset_ui}
 \alias{view_dataset_server}
 \alias{view_dataset}
-\title{Bar plot of missing values per lines using \code{highcharter}.}
+\title{Bar plot of missing values per lines using \code{plotly}.}
 \usage{
 view_dataset_ui(id)
 

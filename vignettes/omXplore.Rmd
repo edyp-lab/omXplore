@@ -272,6 +272,6 @@ the plot is automatically updated with the data of the new dataset.
 
 # Session information
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```

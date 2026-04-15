@@ -12,7 +12,7 @@ buildGraph(cc = NULL, meta = NULL)
 
 display.CC.visNet(g = NULL, layout = "layout_with_fr")
 
-plotCCJitter(df, clickFunction = NULL)
+plotCCJitter(df)
 
 GetCCInfos(cc)
 }
@@ -27,8 +27,6 @@ GetCCInfos(cc)
 Default value is 'layout_with_fr'}
 
 \item{df}{A data.frame()}
-
-\item{clickFunction}{A JS function to determine the behaviour of a click}
 }
 \value{
 A list

@@ -68,7 +68,7 @@
 #'                             column(
 #'                                 width = 6,
 #'                                 tagList(
-#'                                   highcharter::highchartOutput(
+#'                                   plotly::plotlyOutput(
 #'                                   ns("graphicalView_ui")),
 #'                                   uiOutput(ns("CCMultiMulti_DL_btns_ui")),
 #'                                   dataTableOutput(ns("tabularView_ui"))
@@ -376,7 +376,7 @@
 #'         # "Multi-Any CC"
 #'         #----------------------------------------------------------------
 #'
-#'         output$graphicalView_ui <- renderHighchart({
+#'         output$graphicalView_ui <- renderPlotly({
 #'             req(input$searchCC == "graphical")
 #'             tooltip <- NULL
 #'             if (!is.null(input$pepInfo)) {
@@ -503,7 +503,7 @@
 #'                 X = QFeatures::adjacencyMatrix(se())
 #'             )
 #'
-#'             show.graph(rv.cc$selectedCCgraph) %>%
+#'             show.graph(rv.cc$selectedCCgraph) |>
 #'                 visNetwork::visEvents(click = paste0("function(nodes){
 #'                 Shiny.onInputChange('", ns("click"), "', nodes.nodes[0]);
 #'                 Shiny.onInputChange('",

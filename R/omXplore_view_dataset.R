@@ -1,4 +1,4 @@
-#' @title Bar plot of missing values per lines using `highcharter`.
+#' @title Bar plot of missing values per lines using `plotly`.
 #'
 #' @description
 #'
@@ -201,12 +201,12 @@ view_dataset_server <- function(
                         rv$data <- convert_to_mae(dataIn())
                     },
                     warning = function(w) {
-                        print(w)
+                        message(w)
                         rv$data <- NULL
                         shinyjs::toggle("badFormatMsg", condition = TRUE)
                     },
                     error = function(e) {
-                        print(e)
+                        message(e)
                         rv$data <- NULL
                         shinyjs::toggle("badFormatMsg", condition = TRUE)
                     }
@@ -266,19 +266,19 @@ view_dataset_server <- function(
         
         output$ShowVignettesNoModal_ui <- renderUI({
             req(rv$ll.mods)
-            print(rv$ll.mods)
-             lapply(rv$ll.mods, function(x) {
+            #print(rv$ll.mods)
+            lapply(rv$ll.mods, function(x) {
                 actionButton(ns(x),
-                    label = tagList(
-                        p(Name2show(x)),
-                        tags$img(src = FindImgSrc(x), height = "50px")
-                    ),
-                    style = "padding: 0px; border: none;
-          background-size: cover; background-position: center;
-          background-color: white;"
+                             label = tagList(
+                                 p(Name2show(x)),
+                                 tags$img(src = FindImgSrc(x), height = "50px")
+                             ),
+                             style = "padding: 0px; border: none;
+                    background-size: cover; background-position: center;
+                    background-color: white;"
                 )
             })
-
+            
         })
         
 

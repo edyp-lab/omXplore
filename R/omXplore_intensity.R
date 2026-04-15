@@ -45,7 +45,7 @@ NULL
 #'
 #' @importFrom grDevices png dev.off
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
@@ -67,7 +67,7 @@ omXplore_intensity_ui <- function(id) {
         radioButtons(ns("choosePlot"), "",
             choices = setNames(nm = c("violin", "box"))
         ),
-        highchartOutput(ns("box")),
+        plotlyOutput(ns("box")),
         shinyjs::hidden(imageOutput(ns("violin")))
     )
 }
@@ -78,7 +78,7 @@ omXplore_intensity_ui <- function(id) {
 #'
 #' @importFrom grDevices png dev.off
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @import highcharter
+#' @import plotly
 #' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
 #' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
 #' renderUI req selectInput isolate uiOutput tagList fluidPage div p
@@ -140,7 +140,7 @@ omXplore_intensity_server <- function(
             shinyjs::toggle("box", condition = input$choosePlot == "box")
         })
 
-        output$box <- renderHighchart({
+        output$box <- renderPlotly({
             req(rv$data)
             req(input$choosePlot == "box")
             track.indices()

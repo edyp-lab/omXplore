@@ -4,7 +4,7 @@ library(bs4Dash)
 library(omXplore)
 library(visNetwork)
 library(SummarizedExperiment)
-library(highcharter)
+library(plotly)
 library(tibble)
 
 
