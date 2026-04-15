@@ -18,6 +18,10 @@ Authors@R: c(person(given = "Samuel",
   person(given = "Cyril", 
     family = "Ariztegui",
     email = "cyril.ariztegui@cea.fr", 
+    role = c("ctb"),
+  person(given = "Manon", 
+    family = "Gaudin",
+    email = "manon.gaudin@cea.fr", 
     role = c("ctb"))
     )
 Description: This package contains a collection of functions (written as
