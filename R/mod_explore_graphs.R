@@ -11,7 +11,7 @@
 #' explore_graphs_ui <- function(id) {
 #'     ns <- NS(id)
 #'
-#'     pkgs.require('visNetwork')
+#'     pkgs.require2('visNetwork')
 #'
 #'     fluidPage(
 #'         tabPanel("Peptide-Protein Graph",
@@ -106,7 +106,7 @@
 #'                                       settings) {
 #'
 #'
-#'     pkgs.require('visNetwork')
+#'     pkgs.require2('visNetwork')
 #'
 #'     moduleServer(id, function(input, output, session) {
 #'         ns <- session$ns

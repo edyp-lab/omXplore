@@ -2,14 +2,10 @@ Package: omXplore
 Type: Package
 Title: Vizualization tools for 'omics' datasets with R
 Version: 1.5.1
-Authors@R: 
-  c(person("omXplore Package Maintainer",
-    email = "prostar-proteomics@cea.fr",
-    role = c("cre")),
-person(given = "Samuel", 
+Authors@R: c(person(given = "Samuel", 
       family = "Wieczorek",
       email = "samuel.wieczorek@cea.fr", 
-      role = c("aut"),
+      role = c("aut", "cre"),
       comment = c(ORCID="0000-0002-5016-1203")),
   person(given = "Thomas", 
       family ="Burger",
