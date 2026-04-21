@@ -69,7 +69,7 @@ scalable. It differs from similar R packages in two main points:
 # Features
 
 `omXplore` provides a graphical user interface using the `Shiny` and the
-`highcharter` packages for the following visualizations:
+`plotly` packages for the following visualizations:
 
 -   Connected Components of graph-type data (e.g. in proteomics
     datasets, graphs of peptide-protein relationship),
