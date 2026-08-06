@@ -125,7 +125,7 @@ listPlotModules <- function(location = "both") {
 
     requireNamespace('omXplore')
 
-    builtin <- ls("package:omXplore")
+    builtin <- ls(getNamespace("omXplore"))
     builtin <- builtin[grep("omXplore_", builtin)]
     builtin <- gsub("_server", "", builtin)
     builtin <- gsub("_ui", "", builtin)

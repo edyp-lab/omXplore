@@ -18,7 +18,7 @@ GetColorsForConditions(conds, pal = NULL)
 the number of samples in the dataset.}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from the
-package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} from which the colors are taken. Default value
+package \link[RColorBrewer:RColorBrewer]{RColorBrewer} from which the colors are taken. Default value
 is 'Set1'.}
 
 \item{n}{The number of desired colors in the palette}
@@ -36,7 +36,7 @@ A vector
 \description{
 Builds a vector of \verb{#conditions} colors for a set of samples. One color is
 given for a given condition. This function extends a base palette from the
-package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} to 'n' colors.
+package \link[RColorBrewer:RColorBrewer]{RColorBrewer} to 'n' colors.
 The colors in the returned palette are always in the same order
 }
 \examples{

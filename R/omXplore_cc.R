@@ -24,12 +24,7 @@ NULL
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @import shiny
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import plotly
@@ -130,12 +125,7 @@ omXplore_cc_ui <- function(id) {
 
 
 
-#' @importFrom shiny shinyApp reactive NS tagList tabsetPanel tabPanel fluidRow
-#' column uiOutput radioButtons reactive moduleServer reactiveValues observeEvent
-#' renderUI req selectInput isolate uiOutput tagList fluidPage div p
-#' numericInput observe plotOutput renderImage renderPlot selectizeInput
-#' sliderInput textInput updateSelectInput updateSelectizeInput wellPanel
-#' withProgress h3 br actionButton addResourcePath h4 helpText imageOutput
+#' @import shiny
 #' @importFrom tibble tibble
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @import plotly

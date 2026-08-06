@@ -20,6 +20,7 @@ omXplore_intensity_server(
   i = reactive({
      1
  }),
+  pal = NULL,
   track.indices = reactive({
      NULL
  }),
@@ -44,6 +45,9 @@ violinPlot(data, conds, subset = NULL, pal.name = "Set1")
 
 \item{i}{An integer which is the index of the assay in the param obj}
 
+\item{pal}{A basis palette for the boxes which length must be equal
+to the number of unique conditions in the dataset.}
+
 \item{track.indices}{A vector of integers which are the indices of
 lines to track.}
 
@@ -59,16 +63,13 @@ activated or not.}
 
 \item{legend}{A vector of the conditions (one condition per sample).}
 
-\item{pal}{A basis palette for the boxes which length must be equal
-to the number of unique conditions in the dataset.}
-
 \item{subset}{A \code{integer()} vector of index indicating the indices
 of rows in the dataset to highlight}
 
 \item{data}{xxxx}
 
 \item{pal.name}{A \code{character(1)} which is the name of the palette from the
-package \link[RColorBrewer:ColorBrewer]{RColorBrewer::RColorBrewer} from which the colors are taken. Default value
+package \link[RColorBrewer:RColorBrewer]{RColorBrewer} from which the colors are taken. Default value
 is 'Set1'.}
 }
 \value{
@@ -87,15 +88,15 @@ Displays different intensity plots.
 }
 \examples{
 if (interactive()) {
-    data(vdata)
-    shiny::runApp(omXplore_intensity(vdata, 1))
+  data(vdata)
+  shiny::runApp(omXplore_intensity(vdata, 1))
 
-    data(sub_R25)
-    conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
-    pal <- ExtendPalette(length(unique(conds)))
-    boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
+  data(sub_R25)
+  conds <- legend <- SummarizedExperiment::colData(sub_R25)$group
+  pal <- ExtendPalette(length(unique(conds)))
+  boxPlot(sub_R25[[1]], conds, legend, pal, seq_len(10))
 
-    shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
+  shiny::runApp(omXplore_intensity(sub_R25, 1, withTracking = TRUE))
 }
 
 }
