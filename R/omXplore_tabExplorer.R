@@ -22,7 +22,7 @@ NULL
 #' @import shiny
 #' @importFrom DT DTOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable DTOutput
+#' @importFrom DT renderDT datatable formatStyle styleEqual DTOutput
 #' @importFrom tibble as_tibble
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle
@@ -105,7 +105,7 @@ omXplore_tabExplorer_ui <- function(id) {
 #' @import shiny
 #' @importFrom DT DTOutput
 #' @importFrom shinyjs useShinyjs hidden toggle
-#' @importFrom DT renderDT datatable formatStyle styleEqual renderDataTable DTOutput
+#' @importFrom DT renderDT datatable formatStyle styleEqual DTOutput
 #' @importFrom tibble as_tibble
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle

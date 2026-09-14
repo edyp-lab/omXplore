@@ -42,7 +42,7 @@ NULL
 #' @import shiny
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS formatStyle styleEqual dataTableOutput
+#' @importFrom DT dataTableProxy replaceData datatable JS formatStyle styleEqual
 #'
 #' @rdname format_DT
 #' @return NA
@@ -68,7 +68,7 @@ formatDT_ui <- function(id) {
 #' @import shiny
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom htmlwidgets JS
-#' @importFrom DT dataTableProxy replaceData renderDataTable datatable JS formatStyle styleEqual dataTableOutput
+#' @importFrom DT dataTableProxy replaceData datatable JS formatStyle styleEqual
 #' @rdname format_DT
 #' @return NA
 #' @export
