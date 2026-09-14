@@ -89,7 +89,7 @@ colorLegend_server <- function(id,
                                                 tagList(
                                                     tags$div(
                                                         class = "color-box",
-                                                        style = paste0("display:inline-block; vertical-align: middle;
+                                                        style = paste0("display:inline-block; vertical-align: top;
                                                         width:20px; height:20px; border:1px solid #000;
                                                         background-color: ", mc[[x]], ";"),
                                                     ),

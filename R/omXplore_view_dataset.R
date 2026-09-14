@@ -23,7 +23,7 @@
 #' - Heatmap:
 #'
 #'
-#' The function [heatmapD()]
+#' The function `heatmapD()`
 #'
 #'
 #' The function [] is inspired from the function 'heatmap.2'
@@ -91,19 +91,13 @@ NULL
 view_dataset_ui <- function(id) {
     ns <- NS(id)
     tagList(
-        # 
-        # actionButton(inputId = "btn_test", label = "Click Me"),
-        # bsModal("modal_test", "Test Modal", "btn_test", size = "large",
-        #     uiOutput("test_ui")
-        # ),
-        # 
-        
-        fluidRow(
+        fluidRow(#style = "margin-bottom: 5px;",
             column(3, do.call(uiOutput, list(ns("chooseDataset_ui")))),
             column(9, uiOutput(ns("ShowVignettesNoModal_ui")))
-             ),
+        ),
+        tags$hr(),
         uiOutput(ns("ShowPlotsNoModal_ui"))
-            )
+    )
 }
 
 
@@ -123,10 +117,10 @@ view_dataset_server <- function(
         verbose = FALSE) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
-
+        
         width <- 40
         height <- 40
-
+        
         rv <- reactiveValues(
             data = NULL,
             conds = NULL,
@@ -134,12 +128,13 @@ view_dataset_server <- function(
             btns.history.old = NULL,
             btns.history.new = NULL,
             clicked = NULL,
-            ll.mods = NULL
+            ll.mods = NULL,
+            chooseDataset = 1
         )
-
-
+        
+        
         is.addon <- function(x) {(length(grep("addon_", x)) == 1)  }
-
+        
         Name2show <- function(x) {
             # indice for builtin module
             ind <- 2
@@ -147,10 +142,10 @@ view_dataset_server <- function(
             if (is.addon(x)) {
                 ind <- 3
             }
-
+            
             unlist(strsplit(x, split = "_"))[ind]
         }
-
+        
         GetPackageName <- function(x) {
             # indice for builtin module
             ind <- 1
@@ -158,10 +153,10 @@ view_dataset_server <- function(
             if (is.addon(x)) {
                 ind <- 2
             }
-
+            
             unlist(strsplit(x, split = "_"))[ind]
         }
-
+        
         GetFuncName <- function(x) {
             # indice for builtin module
             ind <- 2
@@ -169,54 +164,54 @@ view_dataset_server <- function(
             if (is.addon(x)) {
                 ind <- 3
             }
-
+            
             unlist(strsplit(x, split = "_"))[ind]
         }
-
+        
         FindImgSrc <- function(x) {
             # By default, search image from the images directory of the omXplore
             # package. This works for built-in plot modules. For external modules,
             # then load customized resource path
-
+            
             paste0(GetPackageName(x), "_images/", GetFuncName(x), ".png")
         }
-
-
+        
+        
         observeEvent(req(dataIn()),
-            {
-                # inherits_mae <- inherits(dataIn(), "MultiAssayExperiment")
-                # if (!inherits_mae){
-                tryCatch(
-                    {
-                        rv$data <- convert_to_mae(dataIn())
-                    },
-                    warning = function(w) {
-                        message(w)
-                        rv$data <- NULL
-                        shinyjs::toggle("badFormatMsg", condition = TRUE)
-                    },
-                    error = function(e) {
-                        message(e)
-                        rv$data <- NULL
-                        shinyjs::toggle("badFormatMsg", condition = TRUE)
-                    }
-                )
-                # } else {
-                #   rv$data <- dataIn()
-                # }
-
-                if (!is.null(rv$data)) {
-                    conds <- get_group(rv$data[1])
-                    # Load external modules
-                    addModules(addons)
-
-                    rv$ll.mods <- listPlotModules()
-                    rv$btns.history.old <- rep(0, length(rv$ll.mods))
-                }
-            },
-            priority = 1000
+                     {
+                         # inherits_mae <- inherits(dataIn(), "MultiAssayExperiment")
+                         # if (!inherits_mae){
+                         tryCatch(
+                             {
+                                 rv$data <- convert_to_mae(dataIn())
+                             },
+                             warning = function(w) {
+                                 message(w)
+                                 rv$data <- NULL
+                                 shinyjs::toggle("badFormatMsg", condition = TRUE)
+                             },
+                             error = function(e) {
+                                 message(e)
+                                 rv$data <- NULL
+                                 shinyjs::toggle("badFormatMsg", condition = TRUE)
+                             }
+                         )
+                         # } else {
+                         #   rv$data <- dataIn()
+                         # }
+                         
+                         if (!is.null(rv$data)) {
+                             conds <- get_group(rv$data[1])
+                             # Load external modules
+                             addModules(addons)
+                             
+                             rv$ll.mods <- listPlotModules()
+                             rv$btns.history.old <- rep(0, length(rv$ll.mods))
+                         }
+                     },
+                     priority = 1000
         )
-
+        
         
         
         observe({
@@ -236,7 +231,7 @@ view_dataset_server <- function(
             }
         })
         
-
+        
         
         
         
@@ -260,18 +255,18 @@ view_dataset_server <- function(
             lapply(rv$ll.mods, function(x) {
                 actionButton(ns(x),
                              label = tagList(
-                                 p(Name2show(x)),
+                                 p(style = "margin-bottom: -15px;",
+                                   Name2show(x)),
                                  tags$img(src = FindImgSrc(x), height = "50px")
                              ),
-                             style = "padding: 0px; border: none;
-                    background-size: cover; background-position: center;
-                    background-color: white;"
+                             style = "padding: 0px; background-size: cover; 
+                             background-position: center; background-color: white;"
                 )
             })
             
         })
         
-
+        
         # GetCliked <- reactive({
         #     req(rv$ll.mods)
         #     unlist(lapply(rv$ll.mods, function(x) input[[x]]))
@@ -282,31 +277,50 @@ view_dataset_server <- function(
             rv$clicked <- which(new != rv$btns.history.new)
             rv$btns.history.new <- new
         })
-
+        
         output$ShowPlotsNoModal_ui <- renderUI({
             req(rv$ll.mods)
             req(rv$clicked > 0)
             mod2show <- rv$ll.mods[rv$clicked]
+            req(length(mod2show) == 1)
             do.call(paste0(mod2show, "_ui"), list(ns(paste0(mod2show, "_large"))))
-
-})
-
-
+            
+        })
+        
+        
         output$chooseDataset_ui <- renderUI({
             req(rv$data)
-
-            .choices <- if (length(rv$data) == 0) 
-                list(" " = character(0))
-                    else
-                names(rv$data)
-
+            
+            if (length(rv$data) == 0) {
+                .choices <- list(" " = character(0))
+            } else {
+                .choices <- names(rv$data)
+            }
+            
             radioButtons(ns("chooseDataset"), "Dataset",
-                choices = .choices,
-                selected = names(rv$data)[length(rv$data)],
-                width = 200
+                         choices = .choices,
+                         selected = names(rv$data)[length(rv$data)],
+                         width = 200
             )
         })
         
+        # observeEvent({input$chooseDataset
+        #     rv$data}, {
+        #         
+        #         req(rv$data)
+        #         #             browser()
+        #         if (length(rv$data) == 0) {
+        #             .choices <- list(" " = character(0))
+        #         } else {
+        #             .choices <- names(rv$data)
+        #         }
+        #         
+        #         if (isTRUE(input$chooseDataset %in% .choices)){
+        #             rv$chooseDataset <- input$chooseDataset 
+        #         } else {
+        #             rv$chooseDataset <- names(rv$data)[1]
+        #         }
+        #     })
         
         #outputOptions(output, "chooseDataset", suspendWhenHidden = FALSE)
     })
@@ -335,13 +349,13 @@ view_dataset <- function(
     ui <- fluidPage(
         omXplore::view_dataset_ui("dataset")
     )
-
+    
     server <- function(input, output, session) {
         omXplore::view_dataset_server("dataset",
-            dataIn = reactive({dataIn}),
-            addons = addons
+                                      dataIn = reactive({dataIn}),
+                                      addons = addons
         )
     }
-
+    
     app <- shiny::runApp(shinyApp(ui, server))
 }

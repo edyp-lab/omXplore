@@ -70,17 +70,21 @@ omXplore_density_server <- function(id,
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # rv <- reactiveValues(
-    #   data = NULL
-    # )
+    rv <- reactiveValues(
+      data = NULL,
+      i = NULL
+    )
 
     observeEvent(dataIn(),
-      ignoreNULL = TRUE,
-      ignoreInit = TRUE,
       {
         # if (inherits(obj(), "SummarizedExperiment")) {
         #   rv$data <- obj()
         # }
+        if (i() %in% names(dataIn())){
+          rv$i <- i()
+        } else {
+          rv$i <- names(dataIn())[length(dataIn())]
+        }
 
         shinyjs::toggle("badFormatMsg",
           condition = !inherits(dataIn(), "MultiAssayExperiment")
@@ -92,13 +96,13 @@ omXplore_density_server <- function(id,
 
     output$plot_ui <- plotly::renderPlotly({
       req(dataIn())
-      req(i())
+      req(rv$i)
 
       tmp <- NULL
       isolate({
         withProgress(message = "Making plot", value = 100, {
           tmp <- densityPlot(
-            data = SummarizedExperiment::assay(dataIn(), i()),
+            data = SummarizedExperiment::assay(dataIn(), rv$i),
             conds = get_group(dataIn()),
             pal.name = pal.name()
           )

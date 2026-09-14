@@ -59,4 +59,7 @@ if (interactive()) {
     omXplore_corrmatrix(vdata, 1)
 }
 
+data(vdata)
+corrMatrix(vdata[[1]])
+
 }

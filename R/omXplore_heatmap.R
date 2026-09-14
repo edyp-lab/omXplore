@@ -9,22 +9,6 @@
 #' @param id A `character(1)` which is the id of the shiny module.
 #' @param dataIn An instance of a class `MultiAssayExperiment`.
 #' @param i An integer which is the index of the assay in the param obj
-#' @param qdata A data.frame() of quantitative data.
-#' @param conds A vector indicating the name of each sample.
-#' @param distance The distance used by the clustering algorithm to compute
-#' the dendrogram.
-#' @param cluster the clustering algorithm used to build the dendrogram.
-#' @param dendro A boolean to indicate fi the dendrogram has to be displayed
-#' @param x A `matrix` or `array` containing the quantitative data.
-#' @param col Colors used for the image. Defaults to heat colors (heat.colors).
-#' @param srtCol Angle of column conds, in degrees from horizontal
-#' @param labCol Character vectors with column conds to use.
-#' @param labRow Character vectors with row conds to use.
-#' @param key Logical indicating whether a color-key should be shown.
-#' @param key.title Main title of the color key. If set to NA no title will
-#' be plotted.
-#' @param main Main title; default to none.
-#' @param ylab y-axis title; default to none.
 #'
 #' @author Florence Combes, Samuel Wieczorek, Enora Fremy
 #'
@@ -73,7 +57,7 @@ omXplore_heatmap_ui <- function(id) {
                 width = "150px"
             )
         )),
-        tags$hr(),
+        #tags$hr(),
         uiOutput(ns("omXplore_PlotHeatmap"))
     )
 }
@@ -102,25 +86,35 @@ omXplore_heatmap_server <- function(
         width <- 900
         # rv <- reactiveValues(data = NULL)
 
-        observe(
-            {
-                # if (inherits(obj(), "MultiAssayExperiment")) {
-                #   rv$data <- obj()
-                # }
-
-                shinyjs::toggle("badFormatMsg",
-                    condition = !inherits(dataIn(), "MultiAssayExperiment")
-                )
-                shinyjs::toggle("linkage",
-                    condition = !inherits(dataIn(), "MultiAssayExperiment")
-                )
-                shinyjs::toggle("distance",
-                    condition = !inherits(dataIn(), "MultiAssayExperiment")
-                )
-            },
-            priority = 1000
+        rv <- reactiveValues(
+            data = NULL,
+            i = NULL
         )
-
+        
+        observeEvent(dataIn(),
+                      {
+             # if (inherits(obj(), "SummarizedExperiment")) {
+             #   rv$data <- obj()
+             # }
+             
+             shinyjs::toggle("badFormatMsg",
+                             condition = !inherits(dataIn(), "MultiAssayExperiment")
+             )
+             shinyjs::toggle("linkage",
+                             condition = !inherits(dataIn(), "MultiAssayExperiment")
+             )
+             shinyjs::toggle("distance",
+                             condition = !inherits(dataIn(), "MultiAssayExperiment")
+             )
+             
+             if (i() %in% names(dataIn())){
+                 rv$i <- i()
+             } else {
+                 rv$i <- names(dataIn())[length(dataIn())]
+             }
+         },
+         priority = 1000
+        )
 
         limitHeatmap <- 20000
         height <- paste0(2 * width / 3, "px")
@@ -128,15 +122,13 @@ omXplore_heatmap_server <- function(
 
         output$omXplore_PlotHeatmap <- renderUI({
             req(dataIn())
-            if (nrow(SummarizedExperiment::assay(dataIn(), i())) > limitHeatmap) {
+            if (nrow(SummarizedExperiment::assay(dataIn(), rv$i)) > limitHeatmap) {
                 tags$p("The dataset is too large to compute the heatmap
                        in a reasonable time.")
             } else {
                 plotOutput(ns("heatmap_ui"), width = width, height = height)
             }
         })
-
-
 
         output$heatmap_ui <- renderPlot({
             req(dataIn())
@@ -145,7 +137,7 @@ omXplore_heatmap_server <- function(
 
             withProgress(message = "Making plot", value = 100, {
                 heatmapD(
-                    qdata = SummarizedExperiment::assay(dataIn(), i()),
+                    qdata = SummarizedExperiment::assay(dataIn(), rv$i),
                     conds = get_group(dataIn()),
                     distance = input$distance,
                     cluster = input$linkage

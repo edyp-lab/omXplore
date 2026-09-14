@@ -62,36 +62,6 @@ heatmapForMissingValues(
 \item{dataIn}{An instance of a class \code{MultiAssayExperiment}.}
 
 \item{i}{An integer which is the index of the assay in the param obj}
-
-\item{qdata}{A data.frame() of quantitative data.}
-
-\item{conds}{A vector indicating the name of each sample.}
-
-\item{distance}{The distance used by the clustering algorithm to compute
-the dendrogram.}
-
-\item{cluster}{the clustering algorithm used to build the dendrogram.}
-
-\item{dendro}{A boolean to indicate fi the dendrogram has to be displayed}
-
-\item{x}{A \code{matrix} or \code{array} containing the quantitative data.}
-
-\item{col}{Colors used for the image. Defaults to heat colors (heat.colors).}
-
-\item{srtCol}{Angle of column conds, in degrees from horizontal}
-
-\item{labCol}{Character vectors with column conds to use.}
-
-\item{labRow}{Character vectors with row conds to use.}
-
-\item{key}{Logical indicating whether a color-key should be shown.}
-
-\item{key.title}{Main title of the color key. If set to NA no title will
-be plotted.}
-
-\item{main}{Main title; default to none.}
-
-\item{ylab}{y-axis title; default to none.}
 }
 \value{
 NA

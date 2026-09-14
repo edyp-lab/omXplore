@@ -47,54 +47,43 @@ my_PCA <- function(
         axes = c(1, 2),
         approach = "FM",
         gramschmidt = TRUE) {
-    # print(paste0('approach = ', approach))
-    # print(paste0('scale.unit = ', scale.unit))
-    # print(paste0('gramschmidt = ', gramschmidt))
-    # print(paste0('axes = ', axes))
-
-
+    
+    # Initialization
+    
     moy.ptab <- function(V, poids) {
-        as.vector(crossprod(poids / sum(poids), as.matrix(V)))
+        as.vector((poids / sum(poids)) %*% as.matrix(V))
     }
+    
     ec.tab <- function(V, poids) {
-        ecart.type <- sqrt(as.vector(crossprod(
-            poids / sum(poids),
-            as.matrix(V^2)
-        )))
+        ecart.type <- sqrt(as.vector((poids / sum(poids)) %*% as.matrix(V^2)))
         ecart.type[ecart.type <= 1e-16] <- 1
         return(ecart.type)
     }
+    
     fct.eta2 <- function(vec, x, weights) {
         VB <- function(xx) {
             return(sum((colSums((tt * xx) * weights)^2) / ni))
         }
         tt <- tab.disjonctif(vec)
         ni <- colSums(tt * weights)
+        
         unlist(lapply(as.data.frame(x), VB)) / colSums(x * x *
             weights)
     }
-    supp_lignes_na <- function(X) {
-        is.empty <- function(l) {
-            sum(is.na(l)) == length(l)
-        }
-        ll <- c()
-        for (i in seq_len(nrow(X))) {
-            if (is.empty(X[i, ])) {
-                ll <- c(ll, i)
-            }
-        }
-        if (length(ll > 0)) {
-            X <- X[-ll, ]
-        }
-        return(X)
+
+    # Remove empty lines 
+    emptyRows <- which(rowSums(is.na(X)) == ncol(X))
+    if (length(emptyRows) > 0) {
+        X <- X[-emptyRows, , drop = FALSE]
     }
+    X <- as.data.frame(X)
 
-    X <- as.data.frame(supp_lignes_na(X))
-
+    # Depending on approach
     if (approach == "NIPALS") {
         X.init <- X
     }
-
+    
+    # Handle qualitative data 
     is.quali <- which(!unlist(lapply(X, is.numeric)))
     if (length(is.quali) > 0) {
         X[, is.quali] <- lapply(
@@ -122,14 +111,18 @@ my_PCA <- function(
                 }
             }
         }
+      X <- droplevels(X)  
     }
-    X <- droplevels(X)
+    
+    # Make sure that supp variables are selected through indices
     if (!is.null(quali.sup) & !is.numeric(quali.sup)) {
         quali.sup <- which(colnames(X) %in% quali.sup)
     }
     if (!is.null(quanti.sup) & !is.numeric(quanti.sup)) {
         quanti.sup <- which(colnames(X) %in% quanti.sup)
     }
+    
+    # Handle missing values 
     if (any(is.na(X))) {
         if (approach == "FM") {
             warning("Missing values are imputed by the mean of the variable: you should use the imputePCA function of the missMDA package. An other option is using : approach = 'NIPALS'")
@@ -147,40 +140,56 @@ my_PCA <- function(
             }
         }
     } else {
-        approach <- "FM"
-    } # Si aucune valeur manquante, on force l'utilisation de FactoMineR
-
+        # If no missing value, use FactoMineR regardless of selected approach
+        approach <- "FM" 
+    } 
+    
+    # Depending on approach
     if (approach == "FM") {
         Xtot <- X
     } else if (approach == "NIPALS") {
         Xtot <- X.init
     }
 
+    # Si quali supp 
     if (!is.null(quali.sup)) {
         X <- X[, -quali.sup, drop = FALSE]
     }
+    
+    # Check if all column are quantitative 
     auxi <- colnames(X)[!vapply(X, is.numeric, logical(1))]
     if (length(auxi) > 0) {
-        txt <- paste("\nThe following variables are not quantitative: ", auxi)
+        txt <- paste0("\nThe following variables are not quantitative: ", auxi)
         stop(txt)
     }
+    
+    # Remove supp column for X
     todelete <- c(quali.sup, quanti.sup)
-    if (!is.null(todelete)) {
+    if (length(todelete) > 0) {
         X <- Xtot[, -todelete, drop = FALSE]
     }
+    
+    # Remove supp rows for X
     if (!is.null(ind.sup)) {
         X.ind.sup <- X[ind.sup, , drop = FALSE]
         X <- X[-ind.sup, , drop = FALSE]
     }
+    
+    
     ncp <- min(ncp, nrow(X) - 1, ncol(X))
+    
+    
+    if (is.null(col.w)) {
+        col.w <- rep(1, ncol(X))
+    }
+    
     if (is.null(row.w)) {
         row.w <- rep(1, nrow(X))
     }
     row.w.init <- row.w
     row.w <- row.w / sum(row.w)
-    if (is.null(col.w)) {
-        col.w <- rep(1, ncol(X))
-    }
+    
+    
     centre <- moy.ptab(X, row.w)
     data <- X
     X <- t(t(as.matrix(X)) - centre)
@@ -197,8 +206,7 @@ my_PCA <- function(
         ecart.type <- rep(1, length(centre))
     }
     dist2.ind <- rowSums(t(t(X^2) * col.w))
-    dist2.var <- as.vector(crossprod(rep(1, nrow(X)), as.matrix(X^2 *
-        row.w)))
+    dist2.var <- as.vector(rep(1, nrow(X)) %*% as.matrix(X^2 * row.w))
     res.call <- list(
         row.w = (row.w / sum(row.w)), col.w = col.w,
         scale.unit = scale.unit, ncp = ncp, centre = centre,
@@ -280,7 +288,7 @@ my_PCA <- function(
         X.ind.sup <- t(t(as.matrix(X.ind.sup)) - centre)
         X.ind.sup <- t(t(X.ind.sup) / ecart.type)
         coord.ind.sup <- t(t(X.ind.sup) * col.w)
-        coord.ind.sup <- crossprod(t(coord.ind.sup), tmp$V)
+        coord.ind.sup <- t(coord.ind.sup) %*% tmp$V
         dist2 <- rowSums(t(t(X.ind.sup^2) * col.w))
         cos2.ind.sup <- coord.ind.sup^2 / dist2
         coord.ind.sup <- coord.ind.sup[, seq_len(ncp), drop = FALSE]
@@ -313,13 +321,10 @@ my_PCA <- function(
             X.quanti.sup <- t(t(X.quanti.sup) / ecart.type.sup)
         }
         coord.vcs <- t(X.quanti.sup * row.w)
-        coord.vcs <- crossprod(t(coord.vcs), tmp$U)
+        coord.vcs <- t(coord.vcs) %*% tmp$U
         col.w.vcs <- rep(1, ncol(coord.vcs))
         cor.vcs <- matrix(NA, ncol(X.quanti.sup), ncol(tmp$U))
-        dist2 <- as.vector(crossprod(
-            rep(1, nrow(X.quanti.sup)),
-            as.matrix(X.quanti.sup^2 * row.w)
-        ))
+        dist2 <- as.vector(rep(1, nrow(X.quanti.sup)) %*% as.matrix(X.quanti.sup^2 * row.w))
         cor.vcs <- coord.vcs / sqrt(dist2)
         cos2.vcs <- cor.vcs^2
         colnames(coord.vcs) <- colnames(cor.vcs) <- colnames(cos2.vcs) <- paste("Dim",
@@ -389,7 +394,7 @@ my_PCA <- function(
         }
         dist2 <- rowSums(t(t(bary^2) * col.w))
         coord.barycentre <- t(t(bary) * col.w)
-        coord.barycentre <- crossprod(t(coord.barycentre), tmp$V)
+        coord.barycentre <- t(coord.barycentre) %*% tmp$V
         colnames(coord.barycentre) <- paste("Dim", seq_len(ncol(coord.barycentre)),
             sep = "."
         )

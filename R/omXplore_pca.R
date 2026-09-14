@@ -65,8 +65,7 @@ omXplore_pca_ui <- function(id) {
         )),
         uiOutput(ns("WarningNA_PCA")),
         uiOutput(ns("pcaOptions")),
-        shinyjs::hidden(checkboxInput(ns("gramschmidt_PCA"), "gramschmidt in Nipals", value = TRUE)),
-        shinyjs::hidden(checkboxInput(ns("PCA_varScale"), "VarScale in FactoMineR", value = TRUE)),
+        tags$hr(),
         uiOutput(ns("pcaPlots"))
     )
 }
@@ -99,21 +98,23 @@ omXplore_pca_server <- function(
             res.pca = NULL,
             PCA_varScale = TRUE,
             gramschmidt_PCA = TRUE,
-            approach_PCA = "FM"
+            approach_PCA = "FM",
+            i = NULL
         )
 
-
-        observe(
-            {
-                is.mae <- inherits(dataIn(), "MultiAssayExperiment")
-                stopifnot(is.mae)
-
-                rv.pca$data <- SummarizedExperiment::assay(dataIn(), i())
-
-                shinyjs::toggle("badFormatMsg", condition = !is.mae)
-            },
-            priority = 1000
-        )
+        observeEvent(dataIn(), {
+            is.mae <- inherits(dataIn(), "MultiAssayExperiment")
+            stopifnot(is.mae)
+            req(i())
+            if (i() %in% names(dataIn())){
+                rv.pca$i <- i()
+            } else {
+                rv.pca$i <- names(dataIn())[length(dataIn())]
+            }
+            
+            rv.pca$data <- SummarizedExperiment::assay(dataIn(), rv.pca$i)
+            shinyjs::toggle("badFormatMsg", condition = !is.mae)
+        })
 
         output$WarningNA_PCA <- renderUI({
             # req(rv.pca$data)
@@ -124,12 +125,28 @@ omXplore_pca_server <- function(
             if (rv.pca$approach_PCA == "FM") {
                 tagList(
                     tags$p(
-                        style = "color:red;font-size: 20px",
-                        "Warning: As your dataset contains missing values,
-            the PCA cannot be computed. Please impute them first or use Nipals."
+                        style = "color:red;font-size: 16px",
+                        "Warning: PCA cannot be computed with FactoMineR as your dataset contains missing values. 
+                        Please impute the them first or use NIPALS."
                     )
                 )
             }
+        })
+        
+        output$PCA_varScale_UI <- renderUI({
+            req(rv.pca$approach_PCA == "FM")
+            
+            checkboxInput(ns("PCA_varScale"), 
+                          "VarScale in FactoMineR", 
+                          value = TRUE)
+        })
+            
+        output$gramschmidt_PCA_UI <- renderUI({
+            req(rv.pca$approach_PCA == "NIPALS")
+            
+            checkboxInput(ns("gramschmidt_PCA"), 
+                          "gramschmidt in Nipals", 
+                          value = TRUE)
         })
 
 
@@ -138,10 +155,15 @@ omXplore_pca_server <- function(
             #print(length(rv.pca$data))
             # req(length(which(is.na(rv.pca$data))) == 0)
             tagList(
-                tags$div(
+                tags$div(style = "display: flex; gap: 8px;",
+                     tags$div(style = "white-space: nowrap; margin-right: 25px;",
+                         selectInput(ns("approach_PCA"),
+                                     label = "Approach used for PCA",
+                                     choices = c("FactoMineR" = "FM", "Nipals" = "NIPALS"),
+                                     width = "150px"
+                         )
+                     ),
                     tags$div(
-                        style = "display:inline-block;
-                             vertical-align: middle; padding-right: 20px;",
                         numericInput(ns("pca_axe1"), "Dimension 1",
                             min = 1,
                             max = Compute_PCA_dim(),
@@ -150,7 +172,6 @@ omXplore_pca_server <- function(
                         )
                     ),
                     tags$div(
-                        style = "display:inline-block; vertical-align: middle;",
                         numericInput(ns("pca_axe2"), "Dimension 2",
                             min = 1,
                             max = Compute_PCA_dim(),
@@ -158,12 +179,9 @@ omXplore_pca_server <- function(
                             width = "100px"
                         )
                     ),
-                    tags$div(
-                        selectInput(ns("approach_PCA"),
-                            label = "Approach used for PCA",
-                            choices = c("FactoMineR" = "FM", "Nipals" = "NIPALS"),
-                            width = "150px"
-                        )
+                    div(style = "margin-top: 10px; margin-left: 15px;",
+                        uiOutput(ns("PCA_varScale_UI")),
+                        uiOutput(ns("gramschmidt_PCA_UI"))
                     )
                 )
             )
@@ -172,26 +190,21 @@ omXplore_pca_server <- function(
         observeEvent(c(input$pca_axe1, input$pca_axe2), {
             rv.pca$PCA_axes <- c(input$pca_axe1, input$pca_axe2)
         })
-
         observeEvent(req(input$PCA_varScale), {
             rv.pca$PCA_varScale <- input$PCA_varScale
         })
-
         observeEvent(input$gramschmidt_PCA, {
             rv.pca$gramschmidt_PCA <- input$gramschmidt_PCA
         })
         observeEvent(req(input$approach_PCA), {
+            print("ava")
+            print(rv.pca$approach_PCA)
             rv.pca$approach_PCA <- input$approach_PCA
-
-            shinyjs::toggle("gramschmidt_PCA", condition = rv.pca$approach_PCA == "NIPALS")
+            print("apr")
+            print(rv.pca$approach_PCA)
         })
-
         observeEvent(input$PCA_varScale, {
             rv.pca$PCA_varScale <- input$PCA_varScale
-        })
-        observeEvent(req(input$approach_PCA), {
-            rv.pca$approach_PCA <- input$approach_PCA
-            shinyjs::toggle("PCA_varScale", condition = rv.pca$approach_PCA == "FM")
         })
 
         observe({
@@ -200,7 +213,7 @@ omXplore_pca_server <- function(
             req(rule1 || rule2)
 
             rv.pca$res.pca <- wrapper_pca(
-                qdata = SummarizedExperiment::assay(dataIn(), i()),
+                qdata = SummarizedExperiment::assay(dataIn(), rv.pca$i),
                 group = get_group(dataIn()),
                 var.scaling = rv.pca$PCA_varScale,
                 ncp = Compute_PCA_dim(),
@@ -220,7 +233,8 @@ omXplore_pca_server <- function(
             tagList(
                 plotOutput(ns("pcaPlotVar")),
                 plotOutput(ns("pcaPlotInd")),
-                formatDT_ui(ns("PCAvarCoord")),
+                div(style = "background-color: white;",
+                    formatDT_ui(ns("PCAvarCoord"))),
                 plotly::plotlyOutput(ns("pcaPlotEigen"))
             )
         })

@@ -113,7 +113,8 @@ omXplore_intensity_server <- function(id,
 
     rv <- reactiveValues(
       data = NULL,
-      conds = NULL
+      conds = NULL,
+      i = NULL
     )
 
     observeEvent(remoteReset(), {
@@ -124,7 +125,13 @@ omXplore_intensity_server <- function(id,
     observeEvent(dataIn(), {
       stopifnot(inherits(dataIn(), "MultiAssayExperiment"))
       req(i())
-      rv$data <- dataIn()[[i()]]
+      if (i() %in% names(dataIn())){
+          rv$i <- i()
+      } else {
+          rv$i <- names(dataIn())[length(dataIn())]
+      }
+      
+      rv$data <- dataIn()[[rv$i]]
       rv$conds <- get_group(dataIn())
 
       # shinyjs::toggle("badFormatMsg", condition = is.null(rv$data))

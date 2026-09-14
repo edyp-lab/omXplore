@@ -40,8 +40,10 @@ omXplore_corrmatrix_ui <- function(id) {
             id = ns("badFormatMsg"),
             h3(globals()$bad_format_txt)
         )),
-        uiOutput(ns("showValues_ui")),
-        uiOutput(ns("rate_ui")),
+        div(style = "display: flex; gap: 8px;",
+            uiOutput(ns("rate_ui")),
+            uiOutput(ns("showValues_ui"))),
+        tags$hr(),
         plotly::plotlyOutput(ns("plot"),
             width = "600px", height = "500px"
         )
@@ -70,14 +72,24 @@ omXplore_corrmatrix_server <- function(
         i = reactive({1})) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
-
-        observe(
-            {
-                shinyjs::toggle("badFormatMsg",
-                    condition = !inherits(dataIn(), "MultiAssayExperiment")
-                )
-            },
-            priority = 1000
+        
+        rv <- reactiveValues(
+            data = NULL,
+            i = NULL
+        )
+        
+        observeEvent(dataIn(), ignoreInit = FALSE, {
+            shinyjs::toggle("badFormatMsg",
+                            condition = !inherits(dataIn(), "MultiAssayExperiment")
+            )
+            
+            if (i() %in% names(dataIn())){
+                rv$i <- i()
+            } else {
+                rv$i <- names(dataIn())[length(dataIn())]
+            }
+        },
+        priority = 1000
         )
 
         output$rate_ui <- renderUI({
@@ -101,10 +113,11 @@ omXplore_corrmatrix_server <- function(
 
         output$plot <- plotly::renderPlotly({
             req(dataIn())
+            req(rv$i)
 
             withProgress(message = "Making plot", value = 100, {
                 tmp <- corrMatrix(
-                    data = SummarizedExperiment::assay(dataIn()[[i()]]),
+                    data = SummarizedExperiment::assay(dataIn()[[rv$i]]),
                     rate = input$rate,
                     showValues = isTRUE(input$showLabels)
                 )
@@ -128,56 +141,59 @@ omXplore_corrmatrix_server <- function(
 #' @param showValues A boolean which indicates whether to show values in the
 #' correlation plot.
 #'
-#' @export
+#' @return A plot
+#' 
+#' @examples
+#' data(vdata)
+#' corrMatrix(vdata[[1]])
 #'
 #' @importFrom stats cor
-#'
-#' @return A plot
-#'
+#' 
 #' @rdname corrmatrix
+#' 
+#' @export
 #'
-#'
-corrMatrix <- function(
-        data,
-        rate = 0.5,
-        showValues = FALSE) {
-    stopifnot(inherits(data, "matrix"))
-
-    df <- cor(data, use = "pairwise.complete.obs")
+corrMatrix <- function(data, 
+                       rate = 0.5, 
+                       showValues = FALSE) {
+    stopifnot(is.matrix(data))
     
-    is.num <- vapply(df, is.numeric, FUN.VALUE = NA)
-    df[is.num] <- lapply(df[is.num], round, 2)
-    mat <- as.matrix(df)
-    labels <- colnames(mat)
+    cor_mat <- cor(data, use = "pairwise.complete.obs")
+    vars <- colnames(cor_mat)
     
-    text_mat <- if (showValues) {
-        matrix(sprintf("%.2f", mat), nrow = nrow(mat))
-    } else {
-        NULL
-    }
-    
-    plotly::plot_ly(
-        x = labels,
-        y = labels,
-        z = mat,
+    p <- plotly::plot_ly(
+        x = vars,
+        y = vars,
+        z = cor_mat,
         type = "heatmap",
-        colorscale = list(
-            list(0, "#FF5733"),
-            list(0.5, "#F8F5F5"),
-            list(1, "#2E86C1")
-        ),
         zmin = rate,
         zmax = 1,
-        text = text_mat,
-        texttemplate = if (showValues) "%{text}" else NULL,
-        hovertemplate = paste(
-            "%{y} ~ %{x}: <b>%{z:.2f}</b><extra></extra>"
+        colorscale = list(
+            list(0, "#2E86C1"),
+            list(0.5, "#F8F5F5"),
+            list(1, "#FF5733")
+        ),
+        hovertemplate = paste0(
+            "%{x} ~ %{y}: <b>%{z:.2f}</b>",
+            "<extra></extra>"
         )
-    ) |>
+    )
+    
+    if (showValues) {
+        p <- p |> plotly::add_annotations(
+            x = rep(vars, each = length(vars)), 
+            y = rep(vars, times = length(vars)), 
+            text = sprintf( "<span style='color:white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;'>%.2f</span>", as.vector(t(cor_mat)) ), 
+            showarrow = FALSE, 
+            font = list(color = "white", 
+                        size = 12 ) 
+        )
+    }
+    
+    p |>
         plotly::layout(
-            xaxis = list(title = "", side = "top"),
-            yaxis = list(title = ""),
-            margin = list(l = 100, r = 100)
+            xaxis = list(title = NULL),
+            yaxis = list(title = NULL, autorange = "reversed")
         )
 }
 

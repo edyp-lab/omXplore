@@ -76,13 +76,19 @@ omXplore_variance_server <- function(
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        rv <- reactiveValues(data = NULL)
+        rv <- reactiveValues(data = NULL, i = NULL)
 
         observe(
             {
                 is.mae <- inherits(dataIn(), "MultiAssayExperiment")
                 if (is.mae) {
                     rv$data <- dataIn()
+                    
+                    if (i() %in% names(rv$data)){
+                        rv$i <- i()
+                    } else {
+                        rv$i <- names(rv$data)[length(rv$data)]
+                    } 
                 }
 
                 shinyjs::toggle("badFormatMsg", condition = !isTRUE(is.mae))
@@ -94,7 +100,7 @@ omXplore_variance_server <- function(
             req(rv$data)
             withProgress(message = "Making plot", value = 100, {
                 varDist <- CVDist(
-                    dataIn = SummarizedExperiment::assay(rv$data, i()),
+                    dataIn = SummarizedExperiment::assay(rv$data, rv$i),
                     conds = get_group(dataIn()),
                     pal.name
                 )

@@ -66,7 +66,7 @@ The CV is calculated for each condition present in the dataset
 \item Heatmap:
 }
 
-The function \code{\link[=heatmapD]{heatmapD()}}
+The function \code{heatmapD()}
 
 The function [] is inspired from the function 'heatmap.2'
 that displays a numeric matrix. For more information, please refer to the

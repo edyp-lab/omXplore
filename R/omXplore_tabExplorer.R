@@ -27,6 +27,7 @@ NULL
 #' @importFrom stats setNames
 #' @importFrom shinyjs useShinyjs hidden toggle
 #' @importFrom SummarizedExperiment rowData colData assays
+#' @importFrom shinyWidgets radioGroupButtons
 #'
 #'
 #' @rdname omXplore_tabExplorer
@@ -39,39 +40,66 @@ NULL
 #'
 omXplore_tabExplorer_ui <- function(id) {
     ns <- NS(id)
-
+    
     tagList(
         shinyjs::useShinyjs(),
+        tags$head(
+            tags$style(
+                HTML("
+                .custom-radio-group .btn.active {
+                    font-weight: bold;
+                    background-color: #c0c0c0; 
+                    color: black;
+                }
+                .custom-radio-group .btn {
+                    background-color: #f0f0f0; 
+                    color: black;
+                }
+                .custom-radio-group{
+                    margin-bottom: -50px;
+                    z-index: 1;
+                    position: absolute;
+                }")
+            )
+        ),
+        
         shinyjs::hidden(div(
             id = ns("badFormatMsg"),
             h3(globals()$bad_format_txt)
         )),
         div(id = ns("div_legend"), colorLegend_ui(ns("legend"))),
-        
-        tabsetPanel(
-            id = "tabcard",
-            tabPanel(
-                title = "Assays",
-                DT::DTOutput(ns("qdata_ui"))
+       
+        fluidPage(
+            div(class = "custom-radio-group",
+                shinyWidgets::radioGroupButtons(
+                    inputId = ns("tab_controller"),
+                    choices = c("Assays", "Row data", "Metacell"),
+                    selected = "Assays"
+                )
             ),
-            tabPanel(
-                title = "Row data",
-                DT::DTOutput(ns("metadata_ui"))
-            ),
-            tabPanel(
-                title = "Metacell",
-                DT::DTOutput(ns("qMetacell_ui"))
+            
+            tabsetPanel(
+                id = ns("hidden_tabs"),
+                type = "hidden",  # Hide the default tabs
+                tabPanel(
+                    title = "Assays",
+                    value = "Assays",
+                    DT::DTOutput(ns("qdata_ui"))
+                ),
+                tabPanel(
+                    title = "Row data",
+                    value = "Row data",
+                    DT::DTOutput(ns("metadata_ui"))
+                ),
+                tabPanel(
+                    title = "Metacell",
+                    value = "Metacell",
+                    DT::DTOutput(ns("qMetacell_ui"))
+                )
             )
-        #     tabPanel(
-        #         title = "Design",
-        #         DT::DTOutput(ns("design_ui"))
-        #     )
-         )
-        
+        )
     )
 }
-
-
 
 
 #' @import shiny
@@ -98,7 +126,16 @@ omXplore_tabExplorer_server <- function(
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
-        rv <- reactiveValues(data = NULL)
+        rv <- reactiveValues(data = NULL,
+                             i = NULL)
+        
+        observeEvent(input$tab_controller, {
+            updateTabsetPanel(
+                session,
+                "hidden_tabs",
+                selected = input$tab_controller
+            )
+        })
 
         observe(
             {
@@ -106,10 +143,16 @@ omXplore_tabExplorer_server <- function(
 
                 if (isTRUE(is.mae)) {
                     rv$data <- dataIn()
+                    
+                    if (i() %in% names(rv$data)){
+                        rv$i <- i()
+                    } else {
+                        rv$i <- names(rv$data)[length(rv$data)]
+                    }
 
                     tags <- GetMetacellTags(
-                        get_metacell(rv$data[[i()]]),
-                        level = get_type(rv$data[[i()]]),
+                        get_metacell(rv$data[[rv$i]]),
+                        level = get_type(rv$data[[rv$i]]),
                         onlyPresent = TRUE
                     )
 
@@ -124,57 +167,16 @@ omXplore_tabExplorer_server <- function(
         )
 
 
-        #
-        #     output$viewDesign <- DT::renderDT({
-        #       req(rv$data)
-        #
-        #       data <- tibble::as_tibble(SummarizedExperiment::colData(se()))
-        #
-        #       pal <- unique(RColorBrewer::brewer.pal(8, "Dark2"))
-        #
-        #       dt <- DT::datatable(  data,
-        #       extensions = c('Scroller', 'Buttons'),
-        #       rownames=  FALSE,
-        #       options=list(initComplete = .initComplete(),
-        #       dom = 'Brtip',
-        #       pageLength=10,
-        #       orderClasses = TRUE,
-        #       autoWidth=TRUE,
-        #       deferRender = TRUE,
-        #       bLengthChange = FALSE,
-        #       scrollX = 200,
-        #       scrollY = 500,
-        #       scroller = TRUE,
-        #       columnDefs = list(list(width='60px',targets= "_all"))
-        #       )) |>
-        #         DT::formatStyle(
-        #           columns = colnames(data)[seq_len(2)],
-        #           valueColumns = colnames(data)[2],
-        #           backgroundColor = DT::styleEqual(
-        #           unique(data$Condition),
-        #           pal[seq_len(length(unique(data$Condition)))])
-        #         )
-        #
-        #     })
-
-
         output$metadata_ui <- DT::renderDT({
             req(rv$data)
 
-            .row <- SummarizedExperiment::rowData(rv$data[[i()]])
-
-            tryCatch(
-                { # remove columns that are instances of DataFrame
-                    .row <- .row[, -match("adjacencyMatrix", colnames(.row))]
-                    .row <- .row[, -match("metacell", colnames(.row))]
-                },
-                warning = function(w) NULL,
-                error = function(e) NULL
-            )
+            .row <- SummarizedExperiment::rowData(rv$data[[rv$i]])
+            cols_to_remove <- c("adjacencyMatrix", "qMetacell")
+            .row <- .row[, -grep(paste(cols_to_remove, collapse = "|"), colnames(.row))]
 
             dat <- DT::datatable(as.data.frame(.row),
                 rownames = TRUE,
-                extensions = c("Scroller", "Buttons", "FixedColumns"),
+                extensions = c("Scroller", "FixedColumns"),
                 options = list(
                     initComplete = .initComplete(),
                     dom = "Bfrtip",
@@ -215,16 +217,16 @@ omXplore_tabExplorer_server <- function(
         output$qdata_ui <- DT::renderDataTable(server = TRUE, {
             req(rv$data)
             # .keyId <- df <- NULL
-            # .row <- rowData(rv$data[[i()]])
-            # .colId <- get_colID(rv$data[[i()]])
-            # .metacell <- get_metacell(rv$data[[i()]])
+            # .row <- rowData(rv$data[[rv$i]])
+            # .colId <- get_colID(rv$data[[rv$i]])
+            # .metacell <- get_metacell(rv$data[[rv$i]])
             #
             # if (.colId != '' &&  ncol(.row) > 0 && nrow(.row) > 0)
             #   .keyId <- (.row)[, .colId]
             # else
-            #   .keyId <- rownames(assay(rv$data[[i()]]))
+            #   .keyId <- rownames(assay(rv$data[[rv$i]]))
             #
-            # .qdata <- round(SummarizedExperiment::assay(rv$data[[i()]]),
+            # .qdata <- round(SummarizedExperiment::assay(rv$data[[rv$i]]),
             #     digits = digits())
             #
             # .qdata.exists <- (!is.null(.qdata) &&
@@ -243,13 +245,13 @@ omXplore_tabExplorer_server <- function(
             #      df <- cbind(keyId = .keyId, .qdata)
             #  #}
 
-            df <- Build_enriched_qdata(rv$data[[i()]])
-            .metacell.exists <- !isTRUE(all.equal(rv$data[[i()]], df))
+            df <- Build_enriched_qdata(rv$data[[rv$i]])
+            .metacell.exists <- !isTRUE(all.equal(rv$data[[rv$i]], df))
 
             colors <- custom_metacell_colors()
 
             dt <- DT::datatable(as.data.frame(df),
-                extensions = c("Scroller"),
+                extensions = c("Scroller", "FixedColumns"),
                 options = list(
                     initComplete = .initComplete(),
                     displayLength = 20,
@@ -260,6 +262,9 @@ omXplore_tabExplorer_server <- function(
                     scroller = TRUE,
                     ordering = FALSE,
                     server = TRUE,
+                    fixedColumns = list(
+                        leftColumns = 1
+                    ),
                     columnDefs = if (.metacell.exists) {
                         list(
                             list(
@@ -293,11 +298,11 @@ omXplore_tabExplorer_server <- function(
 
         output$qMetacell_ui <- DT::renderDataTable(server = TRUE, {
             req(rv$data)
-            df <- get_metacell(rv$data[[i()]])
+            df <- get_metacell(rv$data[[rv$i]])
             colors <- custom_metacell_colors()
 
             DT::datatable(as.data.frame(df),
-                extensions = c("Scroller"),
+                extensions = c("Scroller", "FixedColumns"),
                 options = list(
                     initComplete = .initComplete(),
                     displayLength = 20,
@@ -307,6 +312,9 @@ omXplore_tabExplorer_server <- function(
                     scrollY = 600,
                     scroller = TRUE,
                     ordering = FALSE,
+                    fixedColumns = list(
+                        leftColumns = 1
+                    ),
                     server = TRUE
                 )
             ) |>
@@ -321,37 +329,6 @@ omXplore_tabExplorer_server <- function(
                     backgroundRepeat = "no-repeat",
                     backgroundPosition = "center"
                 )
-        })
-
-        output$design_ui <- DT::renderDataTable(server = TRUE, {
-            req(rv$data)
-            df <- get_design(rv$data)
-
-            DT::datatable(as.data.frame(df),
-                extensions = c("Scroller"),
-                options = list(
-                    initComplete = .initComplete(),
-                    displayLength = 20,
-                    deferRender = TRUE,
-                    bLengthChange = FALSE,
-                    scrollX = 200,
-                    scrollY = 600,
-                    scroller = TRUE,
-                    ordering = FALSE,
-                    server = TRUE
-                )
-            )
-            # DT::formatStyle(
-            #   colnames(df),
-            #   colnames(df),
-            #   backgroundColor = DT::styleEqual(
-            #     names(colors),
-            #     unname(unlist(colors))
-            #   ),
-            #   backgroundSize = "98% 48%",
-            #   backgroundRepeat = "no-repeat",
-            #   backgroundPosition = "center"
-            # )
         })
     })
 }
