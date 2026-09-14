@@ -145,7 +145,7 @@ omXplore_corrmatrix_server <- function(
 #' 
 #' @examples
 #' data(vdata)
-#' corrMatrix(vdata[[1]])
+#' corrMatrix(as.matrix(vdata[[1]]))
 #'
 #' @importFrom stats cor
 #' 

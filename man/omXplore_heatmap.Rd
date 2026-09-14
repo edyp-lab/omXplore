@@ -62,6 +62,32 @@ heatmapForMissingValues(
 \item{dataIn}{An instance of a class \code{MultiAssayExperiment}.}
 
 \item{i}{An integer which is the index of the assay in the param obj}
+
+\item{qdata}{Data}
+
+\item{conds}{A vector of conditions}
+
+\item{distance}{Distance to use}
+
+\item{dendro}{If the dendrogram should be shown}
+
+\item{x}{Data}
+
+\item{col}{Colors}
+
+\item{srtCol}{Sorting column}
+
+\item{labCol}{Column labels}
+
+\item{labRow}{Row labels}
+
+\item{key}{Key}
+
+\item{key.title}{Key title}
+
+\item{main}{Main}
+
+\item{ylab}{Y axis label}
 }
 \value{
 NA

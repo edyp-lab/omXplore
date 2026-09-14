@@ -1,6 +1,14 @@
 #' @rdname omXplore_heatmap
-#' @export
+#' 
+#' @param qdata Data
+#' @param conds A vector of conditions
+#' @param distance Distance to use
+#' @param dendro If the dendrogram should be shown 
+#' 
 #' @return A heatmap
+#' 
+#' @export
+#' 
 #' @importFrom stats hclust as.dendrogram
 #' @import dendextend
 #' @import gplots
@@ -74,13 +82,25 @@ heatmapD <- function(
     )
 }
 
+#' 
+#' @param x Data
+#' @param col Colors
+#' @param srtCol Sorting column
+#' @param labCol Column labels
+#' @param labRow Row labels
+#' @param key Key
+#' @param key.title Key title
+#' @param main Main
+#' @param ylab Y axis label
+#' 
+#' @return A heatmap
+#' 
 #' @export
 #'
 #' @importFrom grDevices heat.colors
 #' @importFrom graphics par image title mtext strheight strwidth axis text plot.new
 #'
 #' @rdname omXplore_heatmap
-#' @return A heatmap
 #'
 mv.heatmap <- function(
         x,
