@@ -60,6 +60,6 @@ if (interactive()) {
 }
 
 data(vdata)
-corrMatrix(as.matrix(vdata[[1]]))
+corrMatrix(vdata[[1]])
 
 }

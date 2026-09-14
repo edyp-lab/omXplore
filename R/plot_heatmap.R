@@ -2,7 +2,8 @@
 #' 
 #' @param qdata Data
 #' @param conds A vector of conditions
-#' @param distance Distance to use
+#' @param distance Distance type
+#' @param cluster Cluster type
 #' @param dendro If the dendrogram should be shown 
 #' 
 #' @return A heatmap

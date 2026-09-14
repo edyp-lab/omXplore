@@ -67,7 +67,9 @@ heatmapForMissingValues(
 
 \item{conds}{A vector of conditions}
 
-\item{distance}{Distance to use}
+\item{distance}{Distance type}
+
+\item{cluster}{Cluster type}
 
 \item{dendro}{If the dendrogram should be shown}
 
