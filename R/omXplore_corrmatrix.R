@@ -145,7 +145,7 @@ omXplore_corrmatrix_server <- function(
 #' 
 #' @examples
 #' data(vdata)
-#' corrMatrix(vdata[[1]])
+#' corrMatrix(SummarizedExperiment::assay(vdata[[1]]))
 #'
 #' @importFrom stats cor
 #' 
@@ -156,6 +156,8 @@ omXplore_corrmatrix_server <- function(
 corrMatrix <- function(data, 
                        rate = 0.5, 
                        showValues = FALSE) {
+    stopifnot(is.matrix(data))
+    
     cor_mat <- cor(data, use = "pairwise.complete.obs")
     vars <- colnames(cor_mat)
     

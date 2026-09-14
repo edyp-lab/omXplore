@@ -60,6 +60,6 @@ if (interactive()) {
 }
 
 data(vdata)
-corrMatrix(vdata[[1]])
+corrMatrix(SummarizedExperiment::assay(vdata[[1]]))
 
 }
